@@ -32,7 +32,7 @@ export default function FixedBottomNavigation() {
   }, [value, setMessages]);
 
   return (
-    <Box sx={{ pb: 7 }} ref={ref}>
+    <Box sx={{ pb: 7 ,marginTop: '68px'}} ref={ref}> 
       <CssBaseline />
       <List>
         {messages.map(({ primary, secondary, person }, index) => (
@@ -54,6 +54,7 @@ export default function FixedBottomNavigation() {
         >
           <BottomNavigationAction label="Recents" icon={<RestoreIcon />} />
           <BottomNavigationAction label="Favorites" icon={<FavoriteIcon />} />
+          <BottomNavigationAction label="Archive" icon={<ArchiveIcon />} />
           <BottomNavigationAction label="Archive" icon={<ArchiveIcon />} />
         </BottomNavigation>
       </Paper>

@@ -15,10 +15,10 @@ import SortIcon from '@mui/icons-material/Sort';
 
 export default function TemporaryDrawer() {
   const SquarePaper = styled(Paper)(({ theme }) => ({
-    
+
     padding: theme.spacing(2),
     ...theme.typography.body2,
-    
+
   }));
 
   const [open, setOpen] = React.useState(false);
@@ -58,7 +58,7 @@ export default function TemporaryDrawer() {
   );
 
   return (
-    <SquarePaper square  sx={{
+    <SquarePaper square sx={{
       backgroundColor: 'red',
       position: 'fixed',
       top: 0,
@@ -66,7 +66,7 @@ export default function TemporaryDrawer() {
       right: 0,
       zIndex: 1,
     }}>
-      <Button sx={{color:"white"}} onClick={toggleDrawer(true)}><SortIcon><svg viewBox="0 0 48 48"></svg></SortIcon></Button>
+      <Button sx={{ color: "white" }} onClick={toggleDrawer(true)}><SortIcon><svg viewBox="0 0 48 48"></svg></SortIcon></Button>
       <Drawer open={open} onClose={toggleDrawer(false)}>
         {DrawerList}
       </Drawer>

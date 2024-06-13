@@ -18,7 +18,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         <TemporaryDrawer/>
-        <FixedBottomNavigation/>
+        <FixedBottomNavigation  />
         
       </header>
     </div>
