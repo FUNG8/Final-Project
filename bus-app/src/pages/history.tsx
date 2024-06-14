@@ -10,13 +10,13 @@ import FixedBottomNavigation from '../components/bottomnavbar';
 
 
 
-export default function home() {
+export default function about() {
 
   return (
     <div className="App">
       <header className="App-header">
         <TemporaryDrawer/>
-        <p>home</p>
+        <p>about</p>
         <FixedBottomNavigation  />
         
       </header>

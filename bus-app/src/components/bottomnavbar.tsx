@@ -3,59 +3,75 @@ import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
-import RestoreIcon from '@mui/icons-material/Restore';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ArchiveIcon from '@mui/icons-material/Archive';
+import HomeIcon from '@mui/icons-material/Home';
+import HistoryIcon from '@mui/icons-material/History';
 import Paper from '@mui/material/Paper';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemText from '@mui/material/ListItemText';
 import Avatar from '@mui/material/Avatar';
+import { Link, useNavigate } from 'react-router-dom';
 
-// function refreshMessages(): MessageExample[] {
-//   const getRandomInt = (max: number) => Math.floor(Math.random() * Math.floor(max));
 
-//   return Array.from(new Array(50)).map(
-//     () => messageExamples[getRandomInt(messageExamples.length)],
-//   );
-// }
+function refreshMessages(): MessageExample[] {
+  const getRandomInt = (max: number) => Math.floor(Math.random() * Math.floor(max));
+
+  return Array.from(new Array(50)).map(
+    () => messageExamples[getRandomInt(messageExamples.length)],
+  );
+}
 
 export default function FixedBottomNavigation() {
   const [value, setValue] = React.useState(0);
+  const navigate = useNavigate();
   const ref = React.useRef<HTMLDivElement>(null);
-  // const [messages, setMessages] = React.useState(() => refreshMessages());
 
-  // React.useEffect(() => {
-  //   (ref.current as HTMLDivElement).ownerDocument.body.scrollTop = 0;
-  //   setMessages(refreshMessages());
-  // }, [value, setMessages]);
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    setValue(newValue);
+    switch (newValue) {
+      case 0:
+        navigate('/home');
+        break;
+      case 1:
+        navigate('/history');
+        break;
+      case 2:
+        navigate('/favourite');
+        break;
+      default:
+        break;
+    }
+  };
 
   return (
-    <Box sx={{ pb: 7 ,marginTop: '68px'}} ref={ref}> 
+    <Box sx={{ pb: 7, marginTop: '68px' }} ref={ref}>
       <CssBaseline />
-      {/* <List>
-        {messages.map(({ primary, secondary, person }, index) => (
-          <ListItemButton key={index + person}>
-            <ListItemAvatar>
-              <Avatar alt="Profile Picture" src={person} />
-            </ListItemAvatar>
-            <ListItemText primary={primary} secondary={secondary} />
-          </ListItemButton>
-        ))}
-      </List> */}
+
       <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
-        <BottomNavigation
-          showLabels
-          value={value}
-          onChange={(event, newValue) => {
-            setValue(newValue);
-          }}
-        >
-          <BottomNavigationAction label="Recents" icon={<RestoreIcon />} />
-          <BottomNavigationAction label="Favorites" icon={<FavoriteIcon />} />
-          <BottomNavigationAction label="Archive" icon={<ArchiveIcon />} />
-          <BottomNavigationAction label="Archive" icon={<ArchiveIcon />} />
+        <BottomNavigation showLabels value={value} onChange={handleChange}>
+          <BottomNavigationAction
+            component={Link}
+            to="/home"
+            label="Home"
+            icon={<HomeIcon />}
+          />
+
+          <BottomNavigationAction
+            component={Link}
+            to="/history"
+            label="History"
+            icon={<HistoryIcon />}
+          />
+
+          <BottomNavigationAction
+            component={Link}
+            to="/favourite"
+            label="Favourite"
+            icon={<FavoriteIcon />}
+          />
         </BottomNavigation>
       </Paper>
     </Box>
