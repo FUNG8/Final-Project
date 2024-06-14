@@ -13,28 +13,28 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemText from '@mui/material/ListItemText';
 import Avatar from '@mui/material/Avatar';
 
-function refreshMessages(): MessageExample[] {
-  const getRandomInt = (max: number) => Math.floor(Math.random() * Math.floor(max));
+// function refreshMessages(): MessageExample[] {
+//   const getRandomInt = (max: number) => Math.floor(Math.random() * Math.floor(max));
 
-  return Array.from(new Array(50)).map(
-    () => messageExamples[getRandomInt(messageExamples.length)],
-  );
-}
+//   return Array.from(new Array(50)).map(
+//     () => messageExamples[getRandomInt(messageExamples.length)],
+//   );
+// }
 
 export default function FixedBottomNavigation() {
   const [value, setValue] = React.useState(0);
   const ref = React.useRef<HTMLDivElement>(null);
-  const [messages, setMessages] = React.useState(() => refreshMessages());
+  // const [messages, setMessages] = React.useState(() => refreshMessages());
 
-  React.useEffect(() => {
-    (ref.current as HTMLDivElement).ownerDocument.body.scrollTop = 0;
-    setMessages(refreshMessages());
-  }, [value, setMessages]);
+  // React.useEffect(() => {
+  //   (ref.current as HTMLDivElement).ownerDocument.body.scrollTop = 0;
+  //   setMessages(refreshMessages());
+  // }, [value, setMessages]);
 
   return (
     <Box sx={{ pb: 7 ,marginTop: '68px'}} ref={ref}> 
       <CssBaseline />
-      <List>
+      {/* <List>
         {messages.map(({ primary, secondary, person }, index) => (
           <ListItemButton key={index + person}>
             <ListItemAvatar>
@@ -43,7 +43,7 @@ export default function FixedBottomNavigation() {
             <ListItemText primary={primary} secondary={secondary} />
           </ListItemButton>
         ))}
-      </List>
+      </List> */}
       <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
         <BottomNavigation
           showLabels
