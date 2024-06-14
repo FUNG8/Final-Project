@@ -12,8 +12,6 @@ import FixedBottomNavigation from '../components/bottomnavbar';
 
 export default function home() {
 
-
-
   return (
     <div className="App">
       <header className="App-header">
