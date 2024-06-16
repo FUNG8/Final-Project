@@ -7,8 +7,8 @@ const config: { [key: string]: Knex.Config } = {
     client: "postgresql",
     connection: {
       database: "finalpj",
-      user: "postgresql",
-      password: "postgresql"
+      user: "postgres",
+      password: "postgres"
     },
     pool: {
       min: 2,
@@ -23,8 +23,8 @@ const config: { [key: string]: Knex.Config } = {
     client: "postgresql",
     connection: {
       database: "finalpj",
-      user: "postgresql",
-      password: "postgresql"
+      user: "postgres",
+      password: "postgres"
     },
     pool: {
       min: 2,
@@ -39,8 +39,8 @@ const config: { [key: string]: Knex.Config } = {
     client: "postgresql",
     connection: {
       database: "finalpj",
-      user: "postgresql",
-      password: "postgresql"
+      user: "postgre",
+      password: "postgres"
     },
     pool: {
       min: 2,
