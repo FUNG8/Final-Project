@@ -3,105 +3,78 @@ import { Knex } from "knex";
 export async function up(knex: Knex): Promise<void> {
     await knex.schema.createTable('admin', (table) => {
         table.increments('id').primary();
-        table.string('username', 255).notNullable();
-        table.string('password', 255).notNullable();
-        // remove the unique constraint
-        // table.unique('username', 'admin_username_unique');
-    });
-
-    await knex.schema.createTable('medicine', (table) => {
-        table.bigInteger('id').primary();
-        table.string('name', 255).notNullable();
-        table.string('generic_drug', 255).notNullable();
-        table.integer('dosage').notNullable();
-        table.string('shape', 255).notNullable();
-        table.string('color', 255).notNullable();
-        table.timestamp('start_date').notNullable();
-        table.timestamp('end_date').notNullable();
-        table.text('remarks').notNullable();
-        table.timestamp('created_at').notNullable();
-        table.timestamp('updated_at').notNullable();
-    });
-
-    await knex.schema.createTable('diagnosis', (table) => {
-        table.bigInteger('id').primary();
-        table.string('name', 255).notNullable();
-        table.bigInteger('medicine_id').notNullable();
-        table.bigInteger('doctor_id').notNullable();
-        table.bigInteger('patient_id').notNullable();
-        table.timestamp('diagnosis_date').notNullable();
-        table.text('remarks').notNullable();
-        table.timestamp('updated_at').notNullable();
-        table.timestamp('created_at').notNullable();
-    });
-
-    await knex.schema.createTable('care_giver', (table) => {
-        table.bigInteger('id').primary();
-        table.string('name', 255).notNullable();
-        table.string('email', 255).notNullable();
-        table.string('phone_number', 255);
-        // remove the unique constraint
-        // table.unique('email', 'care_giver_email_unique');
-    }); 
-
-    await knex.schema.createTable('patient', (table) => {
-        table.bigInteger('id').primary();
-        table.string('name', 255).notNullable();
-        table.bigInteger('id_number').notNullable();
-        table.string('email', 255).notNullable();
-        table.string('phone_number', 255).notNullable();
-        table.bigInteger('diagnosis_id').notNullable();
-        table.bigInteger('care_giver_id').notNullable();
-        table.timestamp('updated_at').notNullable();
-        table.timestamp('created_at').notNullable();
-        // remove the unique constraint
-        // table.unique(['email'], 'patient_email_unique');
-    });
-
-    await knex.schema.createTable('notification', (table) => {
-        table.bigInteger('id').primary();
-        table.bigInteger('patient_id').notNullable();
-        table.bigInteger('medicine_id').notNullable();
-        table.bigInteger('care_giver_id').notNullable();
-        table.timestamp('reminder_period').notNullable();
-        table.timestamp('send_at').notNullable();
-        table.boolean('times_taken').notNullable();
-        table.timestamp('notify_care_giver').notNullable();
-    });
-
-    await knex.schema.createTable('doctor', (table) => {
-        table.bigInteger('id').primary();
-        table.string('name', 255).notNullable();
-        table.string('specialty', 255).notNullable();
-    });
-
-    await knex.schema.alterTable('notification', (table) => {
-        table.foreign('patient_id').references('patient.id');
-        table.foreign('care_giver_id').references('care_giver.id');
-    });
-
-    await knex.schema.alterTable('diagnosis', (table) => {
-        table.foreign('patient_id').references('patient.id');
-        table.foreign('medicine_id').references('medicine.id');
-        table.foreign('doctor_id').references('doctor.id');
-    });
-
-    await knex.schema.alterTable('patient', (table) => {
-        table.foreign('diagnosis_id').references('diagnosis.id');
-        table.foreign('care_giver_id').references('care_giver.id');
-    });
-
-    await knex.schema.alterTable('notification', (table) => {
-        table.foreign('medicine_id').references('medicine.id');
-    });
+        table.string('username');
+        table.string('password');
+      });
+      await knex.schema.createTable('patient', (table) => {
+        table.increments('id').primary();
+        table.string('name');
+        table.string('password');
+        table.string('id_number');
+        table.timestamp('birth_date');
+        table.string('phone_number');
+        table.integer('diagnosis_id');
+        table.string('emergency_name');
+        table.string('emergency_contact');
+        table.timestamp('updated_at');
+        table.timestamp('created_at');
+      });
+      await knex.schema.createTable('medicine', (table) => {
+        table.increments('id').primary();
+        table.string('name');
+        table.string('generic_drug');
+        table.text('description');
+        table.integer('dosage');
+        table.string('type');
+        table.string('shape');
+        table.string('color');
+        table.timestamp('created_at');
+        table.timestamp('updated_at');
+      });
+      await knex.schema.createTable('diagnosis', (table) => {
+        table.increments('id').primary();
+        table.string('name');
+        table.integer('doctor_id');
+        table.text('remarks');
+        table.timestamp('updated_at');
+        table.timestamp('created_at');
+      });
+      await knex.schema.createTable('doctor', (table) => {
+        table.increments('id').primary();
+        table.string('name');
+        table.string('specialty');
+      });
+      await knex.schema.createTable('drug_instruction', (table) => {
+        table.increments('id').primary();
+        table.integer('medicine_id');
+        table.integer('diagnosis_id');
+        table.integer('total_quantity');
+        table.string('method');
+        table.integer('taken_count_today');
+        table.integer('taken_count');
+        table.integer('period_day');
+        table.integer('period_hr');
+        table.integer('frequency_per_day');
+        table.integer('dosage_per_serving');
+        table.text('remarks');
+        table.integer('notification_id');
+      });
+      await knex.schema.createTable('notification', (table) => {
+        table.increments('id').primary();
+        table.integer('patient_id');
+        table.integer('medicine_id');
+        table.timestamp('send_at');
+        table.boolean('taken');
+        table.timestamp('taken_at');
+      });
 };
 
 export async function down(knex: Knex): Promise<void> {
-    await knex.schema.dropTableIfExists('notification');
-    await knex.schema.dropTableIfExists('patient');
-    await knex.schema.dropTableIfExists('care_giver');
-    await knex.schema.dropTableIfExists('diagnosis');
-    await knex.schema.dropTableIfExists('medicine');
-    await knex.schema.dropTableIfExists('doctor');
-    await knex.schema.dropTableIfExists('admin');
+    await knex.schema.dropTable('admin');
+    await knex.schema.dropTable('patient');
+    await knex.schema.dropTable('medicine');
+    await knex.schema.dropTable('diagnosis');
+    await knex.schema.dropTable('doctor');
+    await knex.schema.dropTable('drug_instruction');
+    await knex.schema.dropTable('notification');
 }
