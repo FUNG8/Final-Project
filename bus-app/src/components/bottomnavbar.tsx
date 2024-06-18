@@ -7,9 +7,11 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import HomeIcon from "@mui/icons-material/Home";
 import HistoryIcon from "@mui/icons-material/History";
 import Paper from "@mui/material/Paper";
-import { Link, useLocation } from "react-router-dom";
+import { Link, Navigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function FixedBottomNavigation() {
+  const navigate = useNavigate();
   const location = useLocation();
 
   const getPathValue = (path: string) => {
@@ -44,20 +46,17 @@ export default function FixedBottomNavigation() {
       >
         <BottomNavigation value={value} showLabels onChange={handleChange}>
           <BottomNavigationAction
-            component={Link}
-            to="/home"
+            onClick={()=>{navigate("/home");}}
             label="Home"
             icon={<HomeIcon />}
           />
           <BottomNavigationAction
-            component={Link}
-            to="/history"
+            onClick={()=>{navigate("/history");}}
             label="History"
             icon={<HistoryIcon />}
           />
           <BottomNavigationAction
-            component={Link}
-            to="/favourite"
+            onClick={()=>{navigate("/favourite");}}
             label="Favourite"
             icon={<FavoriteIcon />}
           />

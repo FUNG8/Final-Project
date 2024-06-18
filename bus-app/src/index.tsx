@@ -5,6 +5,11 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Palette } from '@mui/icons-material';
 import { createTheme } from '@mui/material';
+import { BrowserRouter } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+export const queryClient = new QueryClient()
+
 
 const theme = createTheme({
   palette:{
@@ -22,7 +27,10 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
+    <QueryClientProvider client={queryClient}>
     <App />
+    </QueryClientProvider>
+
   </React.StrictMode>
 );
 

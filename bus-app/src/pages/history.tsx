@@ -6,18 +6,12 @@ import { blue } from '@mui/material/colors';
 import styled from 'styled-components';
 import FixedBottomNavigation from '../components/bottomnavbar';
 
-
-
-
-
 export default function about() {
 
   return (
     <div className="App">
       <header className="App-header">
-        <TemporaryDrawer/>
         <p>about</p>
-        <FixedBottomNavigation  />
         
       </header>
     </div>

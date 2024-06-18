@@ -15,9 +15,7 @@ export default function home() {
   return (
     <div className="App">
       <header className="App-header">
-        <TemporaryDrawer/>
         <p>home</p>
-        <FixedBottomNavigation  />
         
       </header>
     </div>

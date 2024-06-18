@@ -14,12 +14,8 @@ export default function favourite() {
 
   return (
     <div className="App">
-      <header className="App-header">
-        <TemporaryDrawer/>
-        <p>favourite</p>
-        <FixedBottomNavigation  />
         
-      </header>
+        <p>favourite</p>        
     </div>
   );
 }
