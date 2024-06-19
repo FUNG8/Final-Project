@@ -14,3 +14,19 @@ interface Patient {
     updated_at: string;
     created_at: string;
   }
+
+  export function usePatientsInfo(){
+    const {isLoading, error, data, isFetching} = useQuery({
+        queryKey: ["PatientInfo"],
+        queryFn: async ()=> {
+            const res = await fetch(`${process.env.REACT_APP_API_SERVER}/patients/allPatients`)
+            const result = await res.json()
+            return result as Patient[]
+        }
+    })
+    if(isLoading || isFetching || error || !data){
+        return []
+    }
+
+    return data
+  }
