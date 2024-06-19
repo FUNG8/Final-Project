@@ -9,13 +9,14 @@ export function ListPatients() {
       <h2>Patients</h2>
       <table>
        
-        <tbody>
+        <tbody >
           {patients && patients.map((patient) => (
+
             <tr key={patient.id}>
               <td>{patient.id}</td>
               <td>{patient.register_id}</td>
               <td>{patient.name}</td>
-              <td>{patient.hkid_number}</td>
+              <td>{patient.hkid}</td>
               <td>{patient.birth_date}</td>
               <td>{patient.phone_number}</td>
               <td>{patient.diagnosis_id}</td>
@@ -24,6 +25,8 @@ export function ListPatients() {
               <td>{patient.updated_at}</td>
               <td>{patient.created_at}</td>
             </tr>
+
+
           ))}
         </tbody>
       </table>

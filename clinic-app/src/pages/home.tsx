@@ -19,9 +19,10 @@ export default function home() {
     <div className="App">
       <header className="App-header">
         <p>home</p>
-        <ListPatients/>
+        
         
       </header>
+      <ListPatients/>
     </div>
   );
 }

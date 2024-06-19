@@ -5,7 +5,7 @@ interface Patient {
     register_id: number;
     name: string;
     password: string;
-    hkid_number: string;
+    hkid: string;
     birth_date: string;
     phone_number: number;
     diagnosis_id: number;
