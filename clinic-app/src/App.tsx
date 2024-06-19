@@ -17,7 +17,6 @@ function App() {
 
   return (
     <div className="App">
-      <BrowserRouter>
       <TemporaryDrawer/> 
       
       <Routes>
@@ -28,7 +27,6 @@ function App() {
       </Routes>
       
       <FixedBottomNavigation/>
-      </BrowserRouter>
     </div>
   );
 }

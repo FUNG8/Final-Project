@@ -27,9 +27,15 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
+    {/* <Provider store={store}> */}
+    <BrowserRouter>
+
     <QueryClientProvider client={queryClient}>
     <App />
     </QueryClientProvider>
+    </BrowserRouter>
+
+    {/* </Provider> */}
 
   </React.StrictMode>
 );

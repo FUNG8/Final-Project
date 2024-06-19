@@ -1,157 +1,168 @@
 import { Knex } from "knex";
 
 export async function seed(knex: Knex): Promise<void> {
-    // Deletes ALL existing entries
-  await knex('notification').del();
-  await knex('drug_instruction').del();
-  await knex('diagnosis').del();
-  await knex('doctor').del();
-  await knex('medicine').del();
-  await knex('patient').del();
-  await knex('admin').del();
+  // Deletes ALL existing entries
+  await knex("notification").del();
+  await knex("drug_instruction").del();
+  await knex("patient").del();
+  await knex("diagnosis").del();
+  await knex("medicine").del();
+  await knex("drug_shape").del();
+  await knex("doctor").del();
 
   // Inserts seed entries
-  await knex('admin').insert([
-    { id: 1, username: 'admin', password: 'password' },
+  await knex("drug_shape").insert([
+    { id: 1, shape: "Oval" },
+    { id: 2, shape: "Round" },
+    { id: 3, shape: "Capsule" },
+    { id: 4, shape: "Tablet" },
   ]);
 
-  await knex('patient').insert([
+  await knex("doctor").insert([
     {
       id: 1,
-      name: 'John Doe',
-      password: 'password123',
-      id_number: '123456789',
-      birth_date: '1980-01-01',
-      phone_number: '555-1234',
-      diagnosis_id: 1,
-      emergency_name: 'Jane Doe',
-      emergency_contact: '555-5678',
-      updated_at: '2023-06-01 12:00:00',
-      created_at: '2023-05-01 10:00:00',
+      name: "Dr. John Doe",
+      specialty: "General Practitioner",
+      username: "jdoe",
+      password: "password123",
     },
     {
       id: 2,
-      name: 'Jane Smith',
-      password: 'password456',
-      id_number: '987654321',
-      birth_date: '1985-05-15',
-      phone_number: '555-9012',
-      diagnosis_id: 2,
-      emergency_name: 'John Smith',
-      emergency_contact: '555-3456',
-      updated_at: '2023-06-02 14:30:00',
-      created_at: '2023-05-15 09:00:00',
+      name: "Dr. Jane Smith",
+      specialty: "Cardiologist",
+      username: "jsmith",
+      password: "password456",
     },
   ]);
 
-  await knex('medicine').insert([
+  await knex("diagnosis").insert([
     {
       id: 1,
-      name: 'Aspirin',
-      generic_drug: 'Acetylsalicylic Acid',
-      description: 'Pain relief and anti-inflammatory medication',
-      dosage: 500,
-      type: 'Tablet',
-      shape: 'Round',
-      color: 'White',
-      created_at: '2022-01-01 00:00:00',
-      updated_at: '2022-01-01 00:00:00',
-    },
-    {
-      id: 2,
-      name: 'Ibuprofen',
-      generic_drug: 'Ibuprofen',
-      description: 'Pain relief and anti-inflammatory medication',
-      dosage: 200,
-      type: 'Capsule',
-      shape: 'Oval',
-      color: 'Blue',
-      created_at: '2022-03-15 00:00:00',
-      updated_at: '2022-03-15 00:00:00',
-    },
-  ]);
-
-  await knex('diagnosis').insert([
-    {
-      id: 1,
-      name: 'Headache',
+      name: "Common Cold",
       doctor_id: 1,
-      remarks: 'Mild tension headache',
-      updated_at: '2023-06-01 12:00:00',
-      created_at: '2023-05-01 10:00:00',
+      remarks: "Typical cold symptoms, no additional concerns.",
+      created_at: new Date(),
+      updated_at: new Date(),
     },
     {
       id: 2,
-      name: 'Fever',
+      name: "High Blood Pressure",
       doctor_id: 2,
-      remarks: 'Viral infection',
-      updated_at: '2023-06-02 14:30:00',
-      created_at: '2023-05-15 09:00:00',
+      remarks: "Patient has elevated blood pressure, monitoring required.",
+      created_at: new Date(),
+      updated_at: new Date(),
     },
   ]);
 
-  await knex('doctor').insert([
+  await knex("medicine").insert([
     {
       id: 1,
-      name: 'Dr. John Smith',
-      specialty: 'General Practitioner',
+      name: "Aspirin",
+      generic_drug: "Acetylsalicylic Acid",
+      description: "Pain reliever and anti-inflammatory.",
+      dosage: 325,
+      unit_measurement: 1,
+      type: "Oral",
+      drug_shape_id: 4,
+      color: "White",
+      created_at: new Date(),
+      updated_at: new Date(),
     },
     {
       id: 2,
-      name: 'Dr. Jane Johnson',
-      specialty: 'Pediatrician',
+      name: "Atorvastatin",
+      generic_drug: "Atorvastatin Calcium",
+      description: "Lowers cholesterol levels.",
+      dosage: 10,
+      unit_measurement: 1,
+      type: "Oral",
+      drug_shape_id: 4,
+      color: "Blue",
+      created_at: new Date(),
+      updated_at: new Date(),
     },
   ]);
 
-  await knex('drug_instruction').insert([
+  await knex("patient").insert([
+    {
+      id: 1,
+      register_id: 12345,
+      name: "John Doe",
+      password: "password123",
+      hkid_number: 123456789,
+      birth_date: new Date("1980-01-01"),
+      phone_number: "12345678",
+      diagnosis_id: 1,
+      emergency_name: "Jane Doe",
+      emergency_contact: "87654321",
+      created_at: new Date(),
+      updated_at: new Date(),
+    },
+    {
+      id: 2,
+      register_id: 54321,
+      name: "Jane Smith",
+      password: "password456",
+      hkid_number: 987654321,
+      birth_date: new Date("1985-06-15"),
+      phone_number: "87654321",
+      diagnosis_id: 2,
+      emergency_name: "John Smith",
+      emergency_contact: "12345678",
+      created_at: new Date(),
+      updated_at: new Date(),
+    },
+  ]);
+
+  await knex("drug_instruction").insert([
     {
       id: 1,
       medicine_id: 1,
       diagnosis_id: 1,
-      total_quantity: 20,
-      method: 'Oral',
+      unit_measurement: 1,
+      total_quantity: 30,
+      method: "Oral",
       taken_count_today: 1,
-      taken_count: 5,
-      period_day: 1,
-      period_hr: 6,
+      taken_count: 3,
+      period_day: 10,
+      period_hr: 0,
       frequency_per_day: 3,
       dosage_per_serving: 1,
-      remarks: 'Take with food',
-      notification_id: 1,
+      remarks: "Take 1 tablet 3 times a day with food.",
     },
     {
       id: 2,
       medicine_id: 2,
       diagnosis_id: 2,
-      total_quantity: 30,
-      method: 'Oral',
-      taken_count_today: 2,
-      taken_count: 10,
-      period_day: 1,
-      period_hr: 8,
-      frequency_per_day: 4,
-      dosage_per_serving: 2,
-      remarks: 'Take with water',
-      notification_id: 2,
+      unit_measurement: 1,
+      total_quantity: 60,
+      method: "Oral",
+      taken_count_today: 1,
+      taken_count: 1,
+      period_day: 30,
+      period_hr: 0,
+      frequency_per_day: 1,
+      dosage_per_serving: 1,
+      remarks: "Take 1 tablet once a day with food.",
     },
   ]);
 
-  await knex('notification').insert([
+  await knex("notification").insert([
     {
       id: 1,
       patient_id: 1,
-      medicine_id: 1,
-      send_at: '2023-06-01 08:00:00',
-      taken: true,
-      taken_at: '2023-06-01 08:15:00',
+      send_at: new Date(),
+      taken: false,
+      taken_at: new Date(),
+      drug_instruction_id: 1,
     },
     {
       id: 2,
       patient_id: 2,
-      medicine_id: 2,
-      send_at: '2023-06-02 10:00:00',
+      send_at: new Date(),
       taken: false,
-      taken_at: null,
+      taken_at: new Date(),
+      drug_instruction_id: 2,
     },
   ]);
-};
+}
