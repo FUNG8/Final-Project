@@ -12,6 +12,12 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useNavigate } from 'react-router-dom';
+import { useMutation } from '@tanstack/react-query';
+import { queryClient } from '..';
+import { FormEvent, useState } from 'react';
+import { login } from "../api/authAPI";
+
 
 function Copyright(props: any) {
   return (
@@ -29,12 +35,42 @@ function Copyright(props: any) {
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
-export default function SignInSide() {
+export default function doctorLogInForm() {
+  // const [usernameInput, setUsernameInput] = useState("");
+  // const [passwordInput, setPasswordInput] = useState("");
+
+  // const navigate = useNavigate();
+
+  // const onLogin = useMutation({
+  //   mutationFn: async (data: { username: string; password: string }) =>
+  //     login(data.username, data.password),
+  //   onSuccess: (data) => {
+  //     console.log("on success checking", data);
+  //     localStorage.setItem("todoToken", data);
+  //     console.log("hihihihihii");
+
+  //     queryClient.invalidateQueries({ queryKey: ["authStatus"] });
+  //   },
+  //   onError: (e) => {
+  //     console.log("error!!", e);
+  //   },
+  // });
+
+  // const handleLogin = () => {
+  //   console.log("loggging in");
+  //   onLogin.mutate({ username: usernameInput, password: passwordInput });
+
+
+  //   // function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  //   //   throw new Error('Function not implemented.');
+  //   // }
+
+//////////
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log({
-      email: data.get('email'),
+      userame: data.get('username'),
       password: data.get('password'),
     });
   };
@@ -78,10 +114,10 @@ export default function SignInSide() {
                 margin="normal"
                 required
                 fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
+                id="username"
+                label="Username"
+                name="username"
+                autoComplete="username"
                 autoFocus
               />
               <TextField
