@@ -25,15 +25,15 @@ export async function seed(knex: Knex): Promise<void> {
       id: 1,
       name: "Dr. John Doe",
       specialty: "General Practitioner",
-      username: "jdoe",
-      password: "password123",
+      username: "doctor1",
+      password: await hashPassword("password1"),
     },
     {
       id: 2,
       name: "Dr. Jane Smith",
       specialty: "Cardiologist",
-      username: "jsmith",
-      password: "password456",
+      username: "doctor2",
+      password: await hashPassword("password2"),
     },
   ]);
 
