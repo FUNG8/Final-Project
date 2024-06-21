@@ -27,7 +27,8 @@ export class DoctorAuthController {
   // };
 
   async login(req: Request, res: Response) {
-    let { usernameInput, passwordInput } = req.body;
+    const usernameInput = req.body.usernameInput;
+    const passwordInput = req.body.passwordInput;
     console.log("check 1", usernameInput, passwordInput);
     let result = await this.authService.login(usernameInput, passwordInput);
 

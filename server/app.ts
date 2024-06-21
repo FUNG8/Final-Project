@@ -18,6 +18,10 @@ const knex = Knex(knexConfig[process.env.NODE_ENV || "development"]);
 //cors
 app.use(cors())
 
+//json
+app.use(express.json());
+
+
 //api
 import { DoctorAuthController } from './controllers/DoctorAuthController';
 import { DoctorAuthService } from './services/DoctorAuthService';
