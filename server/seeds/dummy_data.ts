@@ -1,5 +1,6 @@
 import { Knex } from "knex";
 import { hashPassword } from "../utils/hash";
+import { faker } from '@faker-js/faker';
 
 
 export async function seed(knex: Knex): Promise<void> {
@@ -85,36 +86,33 @@ export async function seed(knex: Knex): Promise<void> {
     },
   ]);
 
-  await knex("patient").insert([
-    {
-      id: 1,
-      register_id: 12345,
-      name: "user1",
-      password: await hashPassword("password1"),
-      hkid: "y1234567",
-      birth_date: new Date("1980-01-01"),
-      phone_number: "12345678",
-      diagnosis_id: 1,
-      emergency_name: "Jane Doe",
-      emergency_contact: "87654321",
-      created_at: new Date(),
-      updated_at: new Date(),
-    },
-    {
-      id: 2,
-      register_id: 54321,
-      name: "user2",
-      password: await hashPassword("password2"),
-      hkid: "y7654321",
-      birth_date: new Date("1985-06-15"),
-      phone_number: "87654321",
-      diagnosis_id: 2,
-      emergency_name: "John Smith",
-      emergency_contact: "12345678",
-      created_at: new Date(),
-      updated_at: new Date(),
-    },
-  ]);
+  for (let i = 0; i < 100; i++) {
+    const firstName_data = faker.person.firstName()
+    const lastName_data = faker.person.lastName()
+    const gender_data = faker.person.sex()
+    const phone_data = faker.phone.number()
+
+    await knex("patient").insert([
+      {
+        id: i + 1,
+        register_id: Math.floor(Math.random() * 100) + 1,
+        firstName: firstName_data,
+        lastName: lastName_data,
+        gender: gender_data,
+        blood: "O",
+        password: await hashPassword("password1"),
+        hkid: "y1234567",
+        birth_date: new Date("1980-01-01"),
+        phone_number: phone_data,
+        diagnosis_id: 1,
+        emergency_name: "Jane Doe",
+        emergency_contact: phone_data,
+        created_at: new Date(),
+        updated_at: new Date(),
+      }
+    ]);
+  }
+
 
   await knex("drug_instruction").insert([
     {
