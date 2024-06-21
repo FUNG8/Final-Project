@@ -15,7 +15,10 @@ export function ListPatients() {
             <tr key={patient.id}>
               <td>{patient.id}</td>
               <td>{patient.register_id}</td>
-              <td>{patient.name}</td>
+              <td>{patient.firstName}</td>
+              <td>{patient.lastName}</td>
+              <td>{patient.gender}</td>
+              <td>{patient.blood}</td>
               <td>{patient.hkid}</td>
               <td>{patient.birth_date}</td>
               <td>{patient.phone_number}</td>

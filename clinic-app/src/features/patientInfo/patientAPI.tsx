@@ -1,39 +1,59 @@
-import {useQuery} from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
+
+
+export enum Gender {
+    Male = 'male',
+    Female = 'female',
+}
+
+export enum BloodType {
+    A = 'A',
+    B = 'B',
+    AB = 'AB',
+    O = 'O',
+}
 
 interface Patient {
-    id: number;
-    register_id: number;
-    name: string;
-    password: string;
-    hkid: string;
-    birth_date: string;
-    phone_number: number;
-    diagnosis_id: number;
-    emergency_name: string;
-    emergency_contact: number;
-    updated_at: string;
-    created_at: string;
-  }
+    id:number,
+    register_id: number,
+    firstName: string,
+    lastName: string,
+    gender: Gender,
+    blood: BloodType,
+    password: string,
+    hkid: string,
+    birth_date: string,
+    phone_number: number,
+    diagnosis_id: number,
+    emergency_name: string,
+    emergency_contact: number,
+    updated_at: string,
+    created_at: string
+}
 
-  export function usePatientsInfo(){
-    const {isLoading, error, data, isFetching} = useQuery({
+export function usePatientsInfo() {
+    const { isLoading, error, data, isFetching } = useQuery({
         queryKey: ["PatientInfo"],
-        queryFn: async ()=> {
+        queryFn: async () => {
             const res = await fetch(`${process.env.REACT_APP_API_SERVER}/patients/allPatients`)
             const result = await res.json()
             return result as Patient[]
         }
     })
-    if(isLoading || isFetching || error || !data){
+    if (isLoading || isFetching || error || !data) {
         return []
     }
 
     return data
-  }
+}
 
-  export async function addPatientInfo(
+
+export async function addPatientInfo(
     register_id: number,
-    name: string,
+    firstName: string,
+    lastName: string,
+    gender: Gender,
+    blood: BloodType,
     password: string,
     hkid: string,
     birth_date: string,
@@ -51,7 +71,10 @@ interface Patient {
         },
         body: JSON.stringify({
             register_id,
-            name,
+            firstName,
+            lastName,
+            gender,
+            blood,
             password,
             hkid,
             birth_date,

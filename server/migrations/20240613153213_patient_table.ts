@@ -42,7 +42,7 @@ export async function up(knex: Knex): Promise<void> {
 
   await knex.schema.createTable('patient', (table) => {
     table.bigInteger('id').primary();
-    table.bigInteger('register_id').notNullable();
+    table.bigInteger('register_id').notNullable().unique();
     table.string('name', 255).notNullable();
     table.string('password', 255).notNullable();
     table.bigInteger('hkid_number').nullable();
