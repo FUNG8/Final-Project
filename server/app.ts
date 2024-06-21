@@ -1,6 +1,7 @@
 import express from 'express'
 import { pgClient } from './pgCLients';
 import { patientRouter } from './patients/patient';
+import { accountRouter } from './accounts/accountRouter';
 
 const app = express();
 var cors = require('cors')
@@ -15,6 +16,7 @@ app.use(cors())
 
 //api
 app.use("/patients", patientRouter);
+app.use("/accounts", accountRouter)
 
 
 app.listen(PORT,()=>{

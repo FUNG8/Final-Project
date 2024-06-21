@@ -1,4 +1,6 @@
 import { Knex } from "knex";
+import { hashPassword } from "../utils/hash";
+
 
 export async function seed(knex: Knex): Promise<void> {
   // Deletes ALL existing entries
@@ -87,8 +89,8 @@ export async function seed(knex: Knex): Promise<void> {
     {
       id: 1,
       register_id: 12345,
-      name: "John Doe",
-      password: "password123",
+      name: "user1",
+      password: await hashPassword("password1"),
       hkid: "y1234567",
       birth_date: new Date("1980-01-01"),
       phone_number: "12345678",
@@ -101,8 +103,8 @@ export async function seed(knex: Knex): Promise<void> {
     {
       id: 2,
       register_id: 54321,
-      name: "Jane Smith",
-      password: "password456",
+      name: "user2",
+      password: await hashPassword("password2"),
       hkid: "y7654321",
       birth_date: new Date("1985-06-15"),
       phone_number: "87654321",
