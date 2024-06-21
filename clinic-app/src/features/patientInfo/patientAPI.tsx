@@ -31,15 +31,15 @@ interface Patient {
     created_at: string
 }
 
-export function usePatientsInfo() {
+export function usePatientsInfo(pageNumber = 1, pageSize = 20) {
     const { isLoading, error, data, isFetching } = useQuery({
-        queryKey: ["PatientInfo"],
-        queryFn: async () => {
-            const res = await fetch(`${process.env.REACT_APP_API_SERVER}/patients/allPatients`)
-            const result = await res.json()
-            return result as Patient[]
-        }
-    })
+      queryKey: ["PatientInfo", pageNumber, pageSize],
+      queryFn: async () => {
+        const res = await fetch(`${process.env.REACT_APP_API_SERVER}/patients/allPatients?pageNumber=${pageNumber}&pageSize=${pageSize}`);
+        const result = await res.json();
+        return result as Patient[];
+      },
+    });
     if (isLoading || isFetching || error || !data) {
         return []
     }

@@ -59,7 +59,7 @@ export default function TemporaryDrawer() {
 
   return (
     <SquarePaper square sx={{
-      backgroundColor: 'red',
+      backgroundColor: '#0ABAB5',
       position: 'fixed',
       top: 0,
       left: 0,
