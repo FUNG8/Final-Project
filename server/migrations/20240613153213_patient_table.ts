@@ -45,7 +45,7 @@ export async function up(knex: Knex): Promise<void> {
     table.bigInteger('register_id').notNullable();
     table.string('name', 255).notNullable();
     table.string('password', 255).notNullable();
-    table.bigInteger('hkid_number').nullable().unique();
+    table.bigInteger('hkid_number').nullable();
     table.timestamp('birth_date').notNullable();
     table.string('phone_number', 255).notNullable();
     table.bigInteger('diagnosis_id').notNullable();
@@ -56,12 +56,13 @@ export async function up(knex: Knex): Promise<void> {
   });
 
   await knex.schema.createTable('notification', (table) => {
-    table.bigInteger('id').primary();
-    table.bigInteger('patient_id').notNullable();
-    table.timestamp('send_at').notNullable();
-    table.boolean('taken').notNullable();
-    table.timestamp('taken_at').notNullable();
-    table.bigInteger('drug_instruction_id').notNullable();
+    table.increments('id').primary();
+    table.integer('patient_id').notNullable();
+    table.dateTime('send_at').notNullable();
+    table.boolean('taken').notNullable().defaultTo(false);
+    table.dateTime('taken_at');
+    table.integer('drug_instruction_id').notNullable();
+    table.timestamps(true, true);
   });
 
   await knex.schema.createTable('drug_shape', (table) => {
