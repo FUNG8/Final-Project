@@ -10,6 +10,7 @@ import Home from './pages/home';
 import DoctorLogin from './pages/doctorLogin';
 import History from './pages/history';
 import  Favourite  from './pages/favourite';
+import PatientHome from './pages/patientHomePage';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query'
 
 
@@ -26,9 +27,11 @@ function App() {
         <Route path = "/home" element ={<Home/>}/>
         <Route path = "/history" element ={<History/>}/>
         <Route path = "/favourite" element ={<Favourite/>}/>
+        <Route path = "/patientHome" element ={<PatientHome />}/>
+
       </Routes>
       
-      <FixedBottomNavigation/>
+     
     </div>
   );
 }
