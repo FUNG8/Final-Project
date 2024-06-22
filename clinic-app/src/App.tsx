@@ -9,7 +9,7 @@ import {BrowserRouter, Routes,  Route} from 'react-router-dom'
 import Home from './pages/home';
 import History from './pages/history';
 import  Favourite  from './pages/favourite';
-import PatientHome from './pages/patientHome';
+import PatientHome from './pages/patientHomePage';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query'
 
 
