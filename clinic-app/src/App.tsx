@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import FixedBottomNavigation from './components/bottomnavbar';
 import {BrowserRouter, Routes,  Route} from 'react-router-dom'
 import Home from './pages/home';
+import DoctorLogin from './pages/doctorLogin';
 import History from './pages/history';
 import  Favourite  from './pages/favourite';
 import PatientHome from './pages/patientHomePage';
@@ -22,6 +23,7 @@ function App() {
       
       <Routes>
         <Route index  element ={<Home/>}/>
+        <Route path = "/doctorlogin" element ={<DoctorLogin/>}/>
         <Route path = "/home" element ={<Home/>}/>
         <Route path = "/history" element ={<History/>}/>
         <Route path = "/favourite" element ={<Favourite/>}/>
