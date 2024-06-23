@@ -47,4 +47,11 @@ export async function login(usernameInput: string, passwordInput: string) {
 export function logout() {
   console.log("remove token")
   localStorage.removeItem("todoToken");
+
+  try {
+    console.log('logout success');
+    window.location.href = '/doctorlogin'; 
+  } catch (error) {
+    console.error('logout failed', error);
+  }
 }

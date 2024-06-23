@@ -21,6 +21,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
+import { logout } from '../api/authAPI';
 
 
 const drawerWidth = 240;
@@ -111,7 +112,9 @@ export default function MiniDrawer() {
         <AccountCircleIcon />,
         <NotificationsActiveIcon />,
         <SettingsIcon />,
-        <LogoutIcon />
+        <div onClick={logout}>
+            <LogoutIcon />
+            </div>
       ];
 
     return (

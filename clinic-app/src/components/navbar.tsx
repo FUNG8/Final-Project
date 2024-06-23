@@ -20,6 +20,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
+import { logout } from '../api/authAPI';
 
 
 const drawerWidth = 240;
@@ -85,6 +86,7 @@ export default function PersistentDrawerLeft() {
     setOpen(false);
   };
 
+
   return (
 
     <Box sx={{ display: 'flex' }}>
@@ -143,14 +145,13 @@ export default function PersistentDrawerLeft() {
         </ListItemIcon>
         <ListItemText primary="Medicine" />
       </ListItemButton>
-      <ListItemButton>
+      <ListItemButton onClick={logout}>
         <ListItemIcon>
           <LogoutIcon />
         </ListItemIcon>
         <ListItemText primary="Logout" />
       </ListItemButton>
-      </List>
-        
+    </List>
 
       </Drawer>
       <Main open={open}>
