@@ -8,23 +8,23 @@ dotenv.config();
 export class PatientAuthController {
   router = Router();
   constructor(private authService: PatientAuthService) {
-    // this.router.post("/drRegister", this.register);
+    this.router.post("/createPatient", this.createPatient);
     this.router.post("/patientLogin", this.login.bind(this));
   }
 
-  // register = async (req: Request, res: Response) => {
-  //   let { usernameInput, passwordInput } = req.body;
+  createPatient = async (req: Request, res: Response) => {
+    let { usernameInput, passwordInput } = req.body;
 
-  //   let result = await this.authService.register(usernameInput, passwordInput);
+    let result = await this.authService.register(usernameInput, passwordInput);
 
-  //   if (result) {
-  //     res.json({ message: "register success" });
-  //   } else {
-  //     res
-  //       .status(500)
-  //       .json({ message: "Internal Server Error! Register Failed." });
-  //   }
-  // };
+    if (result) {
+      res.json({ message: "register success" });
+    } else {
+      res
+        .status(500)
+        .json({ message: "Internal Server Error! Register Failed." });
+    }
+  };
 
   async login(req: Request, res: Response) {
     const registeridInput = req.body.registeridInput;
