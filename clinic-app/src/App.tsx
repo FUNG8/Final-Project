@@ -6,12 +6,12 @@ import { blue } from '@mui/material/colors';
 import styled from 'styled-components';
 import FixedBottomNavigation from './components/bottomnavbar';
 import {BrowserRouter, Routes,  Route} from 'react-router-dom'
-import Home from './pages/home';
-import DoctorLogin from './pages/doctorLogin';
-import History from './pages/history';
-import  Favourite  from './pages/favourite';
-import PatientHome from './pages/patientHomePage';
+import Home from './doctorpages/home';
+import DoctorLogin from './doctorpages/doctorLogin';
+import PatientHome from './doctorpages/patientHomePage';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query'
+import Patient from './doctorpages/patient';
+import Medicine from './doctorpages/medicine';
 
 
 
@@ -25,8 +25,8 @@ function App() {
         <Route index  element ={<Home/>}/>
         <Route path = "/doctorlogin" element ={<DoctorLogin/>}/>
         <Route path = "/home" element ={<Home/>}/>
-        <Route path = "/history" element ={<History/>}/>
-        <Route path = "/favourite" element ={<Favourite/>}/>
+        <Route path = "/patient" element ={<Patient/>}/>
+        <Route path = "/medicine" element ={<Medicine/>}/>
         <Route path = "/patientHome" element ={<PatientHome />}/>
 
       </Routes>

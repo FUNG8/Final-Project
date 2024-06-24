@@ -21,6 +21,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import { logout } from '../api/authAPI';
+import { useNavigate } from 'react-router-dom';
 
 
 const drawerWidth = 240;
@@ -29,7 +30,6 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
   open?: boolean;
 }>(({ theme, open }) => ({
   flexGrow: 1,
-  padding: theme.spacing(3),
   transition: theme.transitions.create('margin', {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
@@ -86,6 +86,9 @@ export default function PersistentDrawerLeft() {
     setOpen(false);
   };
 
+  const navigate = useNavigate();
+
+
 
   return (
 
@@ -131,19 +134,22 @@ export default function PersistentDrawerLeft() {
         <ListItemIcon>
           <HouseIcon />
         </ListItemIcon>
-        <ListItemText primary="Home" />
+        <ListItemText primary="Home" 
+         onClick={()=>{navigate("/home");}}/>
       </ListItemButton>
       <ListItemButton>
         <ListItemIcon>
           <PeopleAltIcon />
         </ListItemIcon>
-        <ListItemText primary="Patient" />
+        <ListItemText primary="Patient"
+         onClick={()=>{navigate("/patient");}} />
       </ListItemButton>
       <ListItemButton>
         <ListItemIcon>
           <MedicationIcon />
         </ListItemIcon>
-        <ListItemText primary="Medicine" />
+        <ListItemText primary="Medicine"
+         onClick={()=>{navigate("/medicine");}} />
       </ListItemButton>
       <ListItemButton onClick={logout}>
         <ListItemIcon>

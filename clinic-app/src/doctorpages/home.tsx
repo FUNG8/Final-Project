@@ -5,15 +5,22 @@ import TemporaryDrawer from '../components/navbar';
 import { blue } from '@mui/material/colors';
 import styled from 'styled-components';
 import FixedBottomNavigation from '../components/bottomnavbar';
- 
-export default function about() {
+import { ListPatients } from '../features/patientInfo/patientList';
+import { Margin } from '@mui/icons-material';
+
+
+
+
+
+
+export default function home() {
 
   return (
     <div className="App">
       <header className="App-header">
-        <p>about</p>
         
       </header>
+      <p>home</p>
     </div>
   );
 }
