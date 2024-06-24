@@ -1,5 +1,5 @@
 import { Outlet, useNavigate } from "react-router-dom";
-import { useAuthStatus } from "../api/authAPI";
+import { useAuthStatus } from "../api/doctorAuthAPI";
 
 
 import DoctorLogInForm from "../components/doctorLogInForm";

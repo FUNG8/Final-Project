@@ -16,7 +16,7 @@ import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
 import { queryClient } from '..';
 import { FormEvent, useState } from 'react';
-import { login } from "../api/authAPI";
+import { login } from "../api/doctorAuthAPI";
 
 function Copyright(props: any) {
   return (

@@ -20,7 +20,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import { logout } from '../api/authAPI';
+import { logout } from '../api/doctorAuthAPI';
 import { useNavigate } from 'react-router-dom';
 
 

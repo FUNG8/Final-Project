@@ -25,13 +25,18 @@ app.use(express.json());
 //api
 import { DoctorAuthController } from './controllers/DoctorAuthController';
 import { DoctorAuthService } from './services/DoctorAuthService';
-
 const doctorAuthService = new DoctorAuthService(knex);
 const doctorAuthController = new DoctorAuthController(doctorAuthService);
+
+import { PatientAuthController } from './controllers/PatientAuthController';
+import { PatientAuthService } from './services/PatientAuthService';
+const patientAuthService = new PatientAuthService(knex);
+const patientAuthController = new PatientAuthController(patientAuthService);
 
 
 app.use("/patients", patientRouter);
 app.use("/doctorAuth", doctorAuthController.router)
+app.use("/patientAuth", patientAuthController.router)
 
 
 
