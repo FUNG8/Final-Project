@@ -5,7 +5,7 @@ export function useAuthStatus() {
   const { isLoading, error, data, isFetching } = useQuery({
     queryKey: ["authStatus"],
     queryFn: async () => {
-      let token = localStorage.getItem("todoToken");
+      let token = localStorage.getItem("Token");
       console.log("querying local storate token", token);
       if (!token) {
         throw Error("You haven't logged in");
@@ -30,8 +30,8 @@ export function useAuthStatus() {
 }
 
 export async function login(usernameInput: string, passwordInput: string) {
-  console.log("hihihihi");
-  let res = await fetch(`${process.env.REACT_APP_API_ENDPOINT}/doctorAuth/drLogin`, {
+  console.log("authAPI try to log in");
+  let res = await fetch(`${process.env.REACT_APP_API_SERVER}/doctorAuth/drLogin`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

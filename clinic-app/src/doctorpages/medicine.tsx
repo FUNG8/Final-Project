@@ -15,7 +15,7 @@ export default function medicine() {
   return (
     <div className="App">
         
-        <p>favourite</p>        
+        <p>medicine</p>        
     </div>
   );
 }

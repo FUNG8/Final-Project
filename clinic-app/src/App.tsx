@@ -8,7 +8,7 @@ import FixedBottomNavigation from './components/bottomnavbar';
 import {BrowserRouter, Routes,  Route} from 'react-router-dom'
 import Home from './doctorpages/home';
 import DoctorLogin from './doctorpages/doctorLogin';
-import PatientHome from './doctorpages/patientHomePage';
+import PatientHome from './patientpages/patientHomePage';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query'
 import Patient from './doctorpages/patient';
 import Medicine from './doctorpages/medicine';
