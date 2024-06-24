@@ -22,6 +22,10 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import { logout } from '../api/authAPI';
+import notification from '../patientpages/notification';
+import Profile from '../patientpages/profilePage';
+import setting from '../patientpages/setting';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 
 const drawerWidth = 240;
@@ -107,11 +111,20 @@ export default function MiniDrawer() {
         setOpen(false);
     };
 
-    const icons = [
-        <HouseIcon />,
-        <AccountCircleIcon />,
-        <NotificationsActiveIcon />,
-        <SettingsIcon />,
+    const navigate = useNavigate();
+        const icons = [
+            <div onClick={() => navigate("/patientHome")}>
+              <HouseIcon />
+            </div>,
+            <div onClick={() => navigate("/patientProfile")}>
+              <AccountCircleIcon />
+            </div>,
+            <div onClick={() => navigate("/patientNotification")}>
+              <NotificationsActiveIcon />
+            </div>,
+            <div onClick={() => navigate("/patientSetting")}>
+              <SettingsIcon />
+            </div>,
         <div onClick={logout}>
             <LogoutIcon />
             </div>
