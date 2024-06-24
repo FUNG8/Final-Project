@@ -19,6 +19,8 @@ export class PatientController {
             const perPage = 20;
             const startIndex = ((pageNumber as unknown as number) - 1) * perPage;
             let patientResult = await this.patientSerivice.getPatients(startIndex, perPage)
+            // let patientResult = await pgClient.query('Select * from patient;')
+
             res.json(patientResult);
           } catch (e) {
             res.status(500);
