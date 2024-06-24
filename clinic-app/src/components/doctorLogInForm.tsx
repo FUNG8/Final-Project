@@ -35,8 +35,8 @@ function Copyright(props: any) {
 const defaultTheme = createTheme();
 
 export default function DoctorLogInForm() {
-  const [usernameInput, setUsernameInput] = useState("");
-  const [passwordInput, setPasswordInput] = useState("");
+  const [usernameInput, setUsernameInput] = useState("doctor1");
+  const [passwordInput, setPasswordInput] = useState("password1");
 
   const navigate = useNavigate();
 
@@ -45,8 +45,9 @@ export default function DoctorLogInForm() {
       login(data.username, data.password),
     onSuccess: (data) => {
       console.log("On success checking", data);
-      localStorage.setItem("todoToken", data);
-      console.log("nigga");
+      localStorage.setItem("clinicToken", data);
+      navigate('/doctor/home')
+
 
       queryClient.invalidateQueries({ queryKey: ["authStatus"] });
     },

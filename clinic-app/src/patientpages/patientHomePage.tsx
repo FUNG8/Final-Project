@@ -1,5 +1,5 @@
 import React from "react";
-import MiniDrawer from "../components/patient_sideNavbar";
+import MiniDrawer from "../components/patientNavBar";
 export default function patientHome() {
 
     return (

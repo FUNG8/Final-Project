@@ -5,8 +5,8 @@ export function useAuthStatus() {
   const { isLoading, error, data, isFetching } = useQuery({
     queryKey: ["authStatus"],
     queryFn: async () => {
-      let token = localStorage.getItem("Token");
-      console.log("querying local storate token", token);
+      let token = localStorage.getItem("clinicToken");
+      console.log("querying local storage token", token);
       if (!token) {
         throw Error("You haven't logged in");
       }
@@ -31,13 +31,16 @@ export function useAuthStatus() {
 
 export async function login(usernameInput: string, passwordInput: string) {
   console.log("authAPI try to log in");
-  let res = await fetch(`${process.env.REACT_APP_API_SERVER}/doctorAuth/drLogin`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ usernameInput, passwordInput }),
-  });
+  let res = await fetch(
+    `${process.env.REACT_APP_API_SERVER}/doctorAuth/drLogin`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ usernameInput, passwordInput }),
+    }
+  );
 
   let result = await res.json();
 
@@ -45,13 +48,13 @@ export async function login(usernameInput: string, passwordInput: string) {
 }
 
 export function logout() {
-  console.log("remove token")
-  localStorage.removeItem("todoToken");
+  console.log("remove token");
+  localStorage.removeItem("clinicToken");
 
   try {
-    console.log('logout success');
-    window.location.href = '/doctorlogin'; 
+    console.log("logout success");
+    window.location.href = "/doctorlogin";
   } catch (error) {
-    console.error('logout failed', error);
+    console.error("logout failed", error);
   }
 }

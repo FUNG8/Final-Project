@@ -99,7 +99,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
     }),
 );
 
-export default function MiniDrawer() {
+export default function PatientNavBar() {
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
 
