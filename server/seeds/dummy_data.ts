@@ -101,7 +101,7 @@ export async function seed(knex: Knex): Promise<void> {
         gender: gender_data,
         blood: "O",
         password: await hashPassword("password1"),
-        hkid: "y1234567",
+        hkid: "y123456(7)",
         birth_date: new Date("1980-01-01"),
         phone_number: phone_data,
         diagnosis_id: 1,
