@@ -1,7 +1,5 @@
 import express from 'express'
 import { pgClient } from './pgCLients';
-import { patientRouter } from './patients/patient';
-import { accountRouter } from './accounts/accountRouter';
 import Knex from 'knex';
 
 
@@ -25,13 +23,29 @@ app.use(express.json());
 //api
 import { DoctorAuthController } from './controllers/DoctorAuthController';
 import { DoctorAuthService } from './services/DoctorAuthService';
-
 const doctorAuthService = new DoctorAuthService(knex);
 const doctorAuthController = new DoctorAuthController(doctorAuthService);
 
+import { PatientAuthController } from './controllers/PatientAuthController';
+import { PatientAuthService } from './services/PatientAuthService';
+const patientAuthService = new PatientAuthService(knex);
+const patientAuthController = new PatientAuthController(patientAuthService);
 
-app.use("/patients", patientRouter);
+import { PatientService } from './services/PatientService';
+import { PatientController } from './controllers/PatientController';
+const patientSerivice = new PatientService(knex);
+const patientController = new PatientController(patientSerivice)
+
+import { MedicineService } from './services/MedicineService';
+import { MedicineController } from './controllers/MedicineController';
+const medicineService = new MedicineService(knex);
+const medicineController = new MedicineController(medicineService);
+
 app.use("/doctorAuth", doctorAuthController.router)
+app.use("/patientAuth", patientAuthController.router)
+app.use("/patients", patientController.router);
+app.use("/medicines", medicineController.router)
+
 
 
 

@@ -20,6 +20,8 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
+import { logout } from '../api/doctorAuthAPI';
+import { useNavigate } from 'react-router-dom';
 
 
 const drawerWidth = 240;
@@ -28,7 +30,6 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
   open?: boolean;
 }>(({ theme, open }) => ({
   flexGrow: 1,
-  padding: theme.spacing(3),
   transition: theme.transitions.create('margin', {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
@@ -73,7 +74,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   justifyContent: 'flex-end',
 }));
 
-export default function PersistentDrawerLeft() {
+export default function DoctorNavBar() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
@@ -84,6 +85,10 @@ export default function PersistentDrawerLeft() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
+  const navigate = useNavigate();
+
+
 
   return (
 
@@ -122,6 +127,7 @@ export default function PersistentDrawerLeft() {
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
           </IconButton>
+          
         </DrawerHeader>
         <Divider />
         <List>
@@ -129,28 +135,30 @@ export default function PersistentDrawerLeft() {
         <ListItemIcon>
           <HouseIcon />
         </ListItemIcon>
-        <ListItemText primary="Home" />
+        <ListItemText primary="Home" 
+         onClick={()=>{navigate("/doctor/home");}}/>
       </ListItemButton>
       <ListItemButton>
         <ListItemIcon>
           <PeopleAltIcon />
         </ListItemIcon>
-        <ListItemText primary="Patient" />
+        <ListItemText primary="Patient"
+         onClick={()=>{navigate("/doctor/patient");}} />
       </ListItemButton>
       <ListItemButton>
         <ListItemIcon>
           <MedicationIcon />
         </ListItemIcon>
-        <ListItemText primary="Medicine" />
+        <ListItemText primary="Medicine"
+         onClick={()=>{navigate("/doctor/medicine");}} />
       </ListItemButton>
-      <ListItemButton>
+      <ListItemButton onClick={logout}>
         <ListItemIcon>
           <LogoutIcon />
         </ListItemIcon>
         <ListItemText primary="Logout" />
       </ListItemButton>
-      </List>
-        
+    </List>
 
       </Drawer>
       <Main open={open}>
