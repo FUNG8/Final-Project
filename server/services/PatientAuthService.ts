@@ -9,10 +9,8 @@ export class PatientAuthService {
   }
 
   async createPatients(
-    
-    register_id: string,
     hkid: string,
-    // firstName: string,
+    firstName: string,
     // lastName: string,
     // gender: string,
     // blood: string,
@@ -21,25 +19,27 @@ export class PatientAuthService {
     // phone_number: string,
     // diagnosis_id: number,
     // emergency_name: string,
-    // emergency_contact: string,
-   
-  ): Promise<any> 
-    // Method implementation
-   {
+    // emergency_contact: string
+  ): Promise<number | null> {
     try {
+      // Check if the patient already exists
+      const existingPatient = await this.table().where({ hkid }).first();
+      if (existingPatient) {
+        throw new Error(`Patient with HKID ${hkid} already exists.`);
+      }
+  
       let passwordHash = await hashPassword(password);
   
       let insertResult = await this.table()
-      .insert({
-        hkid: hkid,
-        register_id: register_id,
-        password: passwordHash,
-        
-
-      });
+        .insert({
+          hkid: hkid,
+          firstName: firstName,
+          password: passwordHash,
+        })
+        .returning('id');
   
-      if (insertResult !== undefined && insertResult.length > 0) {
-        return insertResult[0];
+      if (insertResult.length > 0) {
+        return insertResult[0].id;
       } else {
         throw new Error('Failed to create patient');
       }
@@ -49,11 +49,11 @@ export class PatientAuthService {
     }
   }
 
-  async login(registeridInput: string, passwordInput: string) {
+  async login(hkidInput: string, passwordInput: string) {
     try {
       let queryResult = await this.table()
         .select("*")
-        .where("register_id", registeridInput);
+        .where("hkid", hkidInput);
 
       if (queryResult.length > 0) {
         let passwordHash = queryResult[0].password;
@@ -64,7 +64,7 @@ export class PatientAuthService {
           return {
             verified: compare,
             userId: queryResult[0].id,
-            registerId: registeridInput,
+            hkid: hkidInput,
             firstName: queryResult[0].firstName,
             lastName: queryResult[0].lastName
           };
