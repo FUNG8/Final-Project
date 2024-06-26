@@ -1,0 +1,32 @@
+.welcomeContainer{
+    width: 100%;
+    font-size: 30px;
+    margin-left:10px; 
+}
+.manyContainer{
+    display:flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-around;
+    height: auto;
+    font-family: monospace;
+
+}
+.smallContainer{
+    padding: 10px;
+    border: 2px solid #1976d2;
+    width: 30%;
+    height: 140px;
+    border-radius: 10px;
+    font-size: 25px;
+}
+.inSmContainer{
+    display: flex;
+    justify-content: center;
+    font-size: 50px;
+    font-weight: bold;
+    
+}
+.waitingList{
+    padding:10px;
+}

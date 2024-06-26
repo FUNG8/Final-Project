@@ -43,6 +43,7 @@ export async function seed(knex: Knex): Promise<void> {
       id: 1,
       name: "Common Cold",
       doctor_id: 1,
+      status: 'waiting',
       remarks: "Typical cold symptoms, no additional concerns.",
       created_at: new Date(),
       updated_at: new Date(),
@@ -51,6 +52,7 @@ export async function seed(knex: Knex): Promise<void> {
       id: 2,
       name: "High Blood Pressure",
       doctor_id: 2,
+      status: 'waiting',
       remarks: "Patient has elevated blood pressure, monitoring required.",
       created_at: new Date(),
       updated_at: new Date(),
@@ -92,10 +94,11 @@ export async function seed(knex: Knex): Promise<void> {
     const gender_data = faker.person.sex()
     const phone_data = faker.phone.number()
 
+    const fakeId = faker.number.int()
     await knex("patient").insert([
       {
         id: i + 1,
-        register_id: Math.floor(Math.random() * 100) + 1,
+        register_id: fakeId,
         firstName: firstName_data,
         lastName: lastName_data,
         gender: gender_data,
