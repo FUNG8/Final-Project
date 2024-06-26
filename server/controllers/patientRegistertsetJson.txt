@@ -1,0 +1,14 @@
+{
+  
+  "hkid": "y3aaassas23",
+	"password": "password1",
+	"firstName":"niggasddassd11",
+	"lastName":"fuasck",
+	"gender":"male",
+	"blood":"A",
+	"birth_date":"2020-02-02",
+	"phone_number":"12333321",
+	"diagnosis_id":"1",
+	"emergency_name":"nigga damn",
+	"emergency_number":"43243433"
+}

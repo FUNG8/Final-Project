@@ -7,7 +7,11 @@ import DoctorNavBar from "../components/doctorNavBar";
 import PatientNavBar from "../components/patientNavBar";
 import { LandingPage } from "../LandingPage";
 
-export function AuthGuard() {
+
+//logic to determine if status is sucess it will show doctor's pages component
+//outlet means stuffs of other pages other than doctor nav bar
+
+export function DoctorAuthGuard() {
   let authStatus = useAuthStatus();
   let navigate = useNavigate();
 

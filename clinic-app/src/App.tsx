@@ -16,20 +16,20 @@ import Medicine from "./doctorpages/medicine";
 import Notification from "./patientpages/notification";
 import Profile from "./patientpages/profilePage";
 import Setting from "./patientpages/setting";
-import { AuthGuard } from "./doctorpages/AuthGuard";
+import {  DoctorAuthGuard } from "./doctorpages/AuthGuard";
 import { LandingPage } from "./LandingPage";
 
 function App() {
   return (
 
     <div className="App">
-      {/* <TemporaryDrawer /> */}
+      {/* using Authguard route to wrap other routes so those will be only seen with logged in status */}
 
       <Routes>
         <Route index element={<LandingPage />} />
         <Route path="/doctorlogin" element={<DoctorLogin />} />
 
-        <Route path="/doctor" element={<AuthGuard />}>
+        <Route path="/doctor" element={<DoctorAuthGuard />}>
           <Route path="home" element={<Home />} />
           <Route path="patient" element={<Patient />} />
           <Route path="medicine" element={<Medicine />} />
