@@ -13,9 +13,34 @@ export class PatientAuthController {
   }
 
   createPatient = async (req: Request, res: Response) => {
-    let { usernameInput, passwordInput } = req.body;
+    let { register_id,
+      hkid,
+      // firstName,
+      // lastName,
+      // gender,
+      // blood,
+      password,
+      // birth_date,
+      // phone_number,
+      // diagnosis_id,
+      // emergency_name,
+      // emergency_contact,
+       } = req.body;
 
-    let result = await this.authService.register(usernameInput, passwordInput);
+    let result = await this.authService.createPatients(register_id,
+      hkid,
+      // firstName,
+      // lastName,
+      // gender,
+      // blood,
+      password,
+      // birth_date,
+      // phone_number,
+      // diagnosis_id,
+      // emergency_name,
+      // emergency_contact,
+     
+       );
 
     if (result) {
       res.json({ message: "register success" });
@@ -33,7 +58,7 @@ export class PatientAuthController {
     let result = await this.authService.login(registeridInput, passwordInput);
 
     if (result.verified) {
-      const payload = { userId: result.userId, firstName: result.firstName, lastName:result.lastName, registerId: result.registerId  };
+      const payload = { userId: result.userId, firstName: result.firstName, lastName: result.lastName, registerId: result.registerId };
       console.log("check payload", payload);
 
       const jwtToken = jwtSimple.encode(payload, process.env.JWT_SECRET!);

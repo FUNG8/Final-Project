@@ -8,21 +8,44 @@ export class PatientAuthService {
     return this.knex("patient");
   }
 
-  async register(registeridInput: string, passwordInput: string) {
+  async createPatients(
+    
+    register_id: string,
+    hkid: string,
+    // firstName: string,
+    // lastName: string,
+    // gender: string,
+    // blood: string,
+    password: string,
+    // birth_date: string,
+    // phone_number: string,
+    // diagnosis_id: number,
+    // emergency_name: string,
+    // emergency_contact: string,
+   
+  ): Promise<any> 
+    // Method implementation
+   {
     try {
-      let passwordHash = await hashPassword(passwordInput);
-
-      let insertResult = await this.table().insert({
-        registerid: registeridInput,
+      let passwordHash = await hashPassword(password);
+  
+      let insertResult = await this.table()
+      .insert({
+        hkid: hkid,
+        register_id: register_id,
         password: passwordHash,
-      });
+        
 
-      if (insertResult != undefined) {
-        return true;
-      } else return false;
+      });
+  
+      if (insertResult !== undefined && insertResult.length > 0) {
+        return insertResult[0];
+      } else {
+        throw new Error('Failed to create patient');
+      }
     } catch (error) {
-      console.log(error);
-      return false;
+      console.error('Error creating patient:', error);
+      throw error;
     }
   }
 
