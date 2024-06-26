@@ -1,37 +1,32 @@
-import { useSearchPatientsInfo, usePatientsInfo } from './patientAPI';
+import { usePatientsInfo } from './patientAPI';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Box } from '@mui/material';
 import Pagination from '@mui/material/Pagination';
-import Stack from '@mui/material/Stack';
 import { SetStateAction, useEffect, useState } from 'react';
 import { SearchBar } from '../../components/searchBar';
-import { queryClient } from '../..';
+
 
 export function ListPatients() {
   const [currentPage, setCurrentPage] = useState(1);
   const perPage = 20;
   const [searchTerm, setSearchTerm] = useState('');
   const patients = usePatientsInfo(currentPage, perPage, searchTerm);
-  // const searchingPatient = useSearchPatientsInfo(searchTerm)
 
   useEffect(() => {
-    setCurrentPage(1);
+    setCurrentPage(currentPage);
   }, []);
 
-  const handlePageChange = (event: React.ChangeEvent<unknown>, page: number) => {
-    setCurrentPage(page);
+  console.log("currentPage", currentPage)
+
+  const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
+    console.log(value)
+    setCurrentPage(value);
   };
 
   const handleSearch = (input: string) => {
     console.log("typing")
-    console.log("check input",input)
+    console.log("check input", input)
     setSearchTerm(input);
-    // queryClient.invalidateQueries([''])
   };
-
-  // const filteredPatients = patients?.filter(patient =>
-  //   patient.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-  //   patient.register_id.toString().toLowerCase().includes(searchTerm.toLowerCase())
-  // );
 
   return (
     <div>
@@ -63,9 +58,8 @@ export function ListPatients() {
                   <TableCell>Created At</TableCell>
                 </TableRow>
               </TableHead>
-              {/* {{}} */}
               <TableBody>
-                {patients && patients.map((patient) => (
+                {patients.status === "success" && (patients as any).patientResult.map((patient: any) => (
                   <TableRow key={patient.id}>
                     <TableCell>{patient.id}</TableCell>
                     <TableCell>{patient.register_id}</TableCell>
@@ -90,7 +84,7 @@ export function ListPatients() {
       </Box>
 
       <div style={{ display: 'flex', justifyContent: 'center', marginTop: '1rem' }}>
-        <Pagination count={10} onChange={handlePageChange} />
+        <Pagination count={(patients as any).totalPages || 1} onChange={handlePageChange} />
       </div>
     </div>
   );

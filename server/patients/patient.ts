@@ -13,6 +13,7 @@ async function searchPatients(req: Request, res: Response) {
   try {
     let queryString = `SELECT * FROM patient`
     const pageNumber = req.query.pageNumber?.toString();
+
     const perPage = 20;
     const startIndex = ((pageNumber as unknown as number) - 1) * perPage;
     const searchTerm: any = req.query.searchTerm
@@ -37,10 +38,9 @@ async function searchPatients(req: Request, res: Response) {
   }
 }
 
-// async function searchAllPatients(req: Request, res: Response) {
+// async function AllPatients(req: Request, res: Response) {
 //   try {
-//     console.log("what is this:",req.body)
-//     let patientResult = ((await pgClient.query('SELECT * FROM patient WHERE register_id = 4')).rows);
+//     let patientResult = ((await pgClient.query('SELECT * FROM patient')).rows);
 //     console.log("This is search Patient data:", patientResult)
 //     res.json(patientResult);
 //   } catch (e) {

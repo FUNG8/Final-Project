@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import usePatientSearch from "../../components/usePatientSearch";
+import patient from "./patient";
 
 
 export enum Gender {
@@ -35,20 +36,21 @@ interface Patient {
 
 export function usePatientsInfo(pageNumber = 1, pageSize = 20, searchTerm = "") {
     let paramString = `pageNumber=${pageNumber}&pageSize=${pageSize}`
-    if (searchTerm != null || searchTerm !== "") {
+    console.log("check searchTerm", searchTerm)
+    if (searchTerm !== null && searchTerm !== "" && searchTerm !== undefined) {
         paramString += `&searchTerm=${searchTerm}`
     }
     const { isLoading, error, data, isFetching } = useQuery({
-        queryKey: ["PatientInfo", pageNumber, pageSize,searchTerm],
+        queryKey: ["PatientInfo", pageNumber, pageSize, searchTerm],
         queryFn: async () => {
             const res = await fetch(`${process.env.REACT_APP_API_SERVER}/patients/searchPatients?${paramString}`);
             console.log("this is response", res)
             const result = await res.json();
-            return result as Patient[];
+            return { status: "success", patientResult: result.patientResult, currentPage: result.currentPage, totalPages: result.totalPages };
         },
     });
     if (isLoading || isFetching || error || !data) {
-        return []
+        return { status: "loading" }
     }
 
     return data

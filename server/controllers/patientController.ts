@@ -8,27 +8,56 @@ export const patientRouter = Router();
 
 export class PatientController {
     router = Router();
-    constructor(private patientSerivice: PatientService){
-        this.router.get("/allPatients", this.allPatients);
+    constructor(private patientSerivice: PatientService) {
+        this.router.get("/searchPatients", this.searchPatients);
         this.router.post("/addPatients", this.addPatients);
     }
 
-    allPatients= async (req: Request, res: Response) =>{
+    searchPatients = async (req: Request, res: Response) => {
         try {
-            const pageNumber = req.query.pageNumber?.toString();
+            let queryString = `SELECT * FROM patient`
+            console.log("check req query", req.query)
+            let pageNumber: number = parseInt(req.query.pageNumber as string);
             const perPage = 20;
-            const startIndex = ((pageNumber as unknown as number) - 1) * perPage;
-            let patientResult = await this.patientSerivice.getPatients(startIndex, perPage)
-            // let patientResult = await pgClient.query('Select * from patient;')
 
-            res.json(patientResult);
-          } catch (e) {
+            let totalPatients = (await pgClient.query(`SELECT COUNT(*) FROM patient;`)).rows[0].count
+            let totalPages = Math.ceil(totalPatients / perPage);
+
+
+            const currentPage = pageNumber; // Replace with the actual current page value
+            const startIndex = (currentPage - 1) * perPage;
+
+            const searchTerm: any = req.query.searchTerm
+
+
+            if (searchTerm) {
+                if (isNaN(searchTerm)) {
+                    queryString += ` WHERE SIMILARITY("firstName",'${searchTerm}') > 0.1`
+                    totalPatients = `SELECT COUNT(*) FROM patient WHERE SIMILARITY("firstName",'${searchTerm}') > 0.1`
+                    totalPages = Math.ceil(totalPatients / perPage);
+                } else
+                    queryString += ` WHERE register_id = ${searchTerm}  `
+                totalPatients = `SELECT COUNT(*) FROM patient WHERE register_id = ${searchTerm}`
+                totalPages = Math.ceil(totalPatients / perPage);
+            }
+
+            queryString += ` OFFSET $1 LIMIT $2`
+
+            let patientResult = (await pgClient.query(queryString, [startIndex, perPage])).rows;
+            const response = {
+                patientResult,
+                totalPages: totalPages,
+                currentPage: currentPage
+            };
+
+            res.json(response);
+        } catch (e) {
             res.status(500);
             console.log("Error Getting Patient Info");
-          }
+        }
     }
-    
-   addPatients= async (req: Request, res: Response)=> {
+
+    addPatients = async (req: Request, res: Response) => {
         try {
             let patientResult = await pgClient.query(`INSERT INTO patient (
         register_id,
@@ -43,12 +72,12 @@ export class PatientController {
         updated_at,
         created_at)
         VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11);`)
-    
+
         } catch (e) {
             res.status(500);
             console.log("Error adding Patient Info")
         }
-    
+
     }
 }
 
