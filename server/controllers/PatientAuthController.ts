@@ -27,13 +27,13 @@ export class PatientAuthController {
   };
 
   async login(req: Request, res: Response) {
-    const registeridInput = req.body.registeridInput;
+    const hkidInput = req.body.hkidInput;
     const passwordInput = req.body.passwordInput;
-    console.log("check 1", registeridInput, passwordInput);
-    let result = await this.authService.login(registeridInput, passwordInput);
+    console.log("check 1", hkidInput, passwordInput);
+    let result = await this.authService.login(hkidInput, passwordInput);
 
     if (result.verified) {
-      const payload = { userId: result.userId, firstName: result.firstName, lastName:result.lastName, registerId: result.registerId  };
+      const payload = { userId: result.userId, firstName: result.firstName, lastName:result.lastName  };
       console.log("check payload", payload);
 
       const jwtToken = jwtSimple.encode(payload, process.env.JWT_SECRET!);

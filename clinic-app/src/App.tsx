@@ -8,6 +8,7 @@ import FixedBottomNavigation from "./components/bottomnavbar";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./doctorpages/home";
 import DoctorLogin from "./doctorpages/doctorLogin";
+import PatientLogin from "./patientpages/patientLogin";
 import PatientHome from "./patientpages/patientHomePage";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import Patient from "./doctorpages/patient";
@@ -34,6 +35,7 @@ function App() {
           <Route path="medicine" element={<Medicine />} />
         </Route>
 
+        <Route path="/patientlogin" element={<PatientLogin />} />
         <Route path="/patientHome" element={<PatientHome />} />
         <Route path="/patientNotification" element={<Notification />} />
         <Route path="/patientProfile" element={<Profile />} />

@@ -26,11 +26,11 @@ export class PatientAuthService {
     }
   }
 
-  async login(registeridInput: string, passwordInput: string) {
+  async login(hkidInput: string, passwordInput: string) {
     try {
       let queryResult = await this.table()
         .select("*")
-        .where("register_id", registeridInput);
+        .where("hkid", hkidInput);
 
       if (queryResult.length > 0) {
         let passwordHash = queryResult[0].password;
@@ -41,7 +41,7 @@ export class PatientAuthService {
           return {
             verified: compare,
             userId: queryResult[0].id,
-            registerId: registeridInput,
+            hkid: hkidInput,
             firstName: queryResult[0].firstName,
             lastName: queryResult[0].lastName
           };

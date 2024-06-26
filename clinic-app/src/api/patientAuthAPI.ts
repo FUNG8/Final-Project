@@ -29,7 +29,7 @@ export function useAuthStatus() {
   return { status: "success", data: data };
 }
 
-export async function login(usernameInput: string, passwordInput: string) {
+export async function login(registeridInput: string, passwordInput: string) {
   console.log("authAPI try to log in");
   let res = await fetch(
     `${process.env.REACT_APP_API_SERVER}/patientAuth/patientLogin`,
@@ -38,7 +38,7 @@ export async function login(usernameInput: string, passwordInput: string) {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ usernameInput, passwordInput }),
+      body: JSON.stringify({ registeridInput, passwordInput }),
     }
   );
 
