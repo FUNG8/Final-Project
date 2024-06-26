@@ -11,10 +11,7 @@ export default function patient() {
 
   return (
     <div className="App">
-      <header className="App-header">
-        
-        
-      </header>
+      
       <ListPatients/>
     </div>
   );
