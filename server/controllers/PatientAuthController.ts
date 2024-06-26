@@ -14,32 +14,34 @@ export class PatientAuthController {
 
   createPatient = async (req: Request, res: Response) => {
     try {
+      
       let {
         hkid,
+        password,
         firstName,
-        // lastName,
+        lastName,
         // gender,
         // blood,
-        password,
-        // birth_date,
-        // phone_number,
-        // diagnosis_id,
-        // emergency_name,
-        // emergency_contact,
+        birth_date,
+        phone_number,
+        diagnosis_id,
+        emergency_name,
+        emergency_contact,
+        
       } = req.body;
   
       let result = await this.authService.createPatients(
         hkid,
+        password,
         firstName,
-        // lastName,
+        lastName,
         // gender,
         // blood,
-        password,
-        // birth_date,
-        // phone_number,
-        // diagnosis_id,
-        // emergency_name,
-        // emergency_contact
+        birth_date,
+        phone_number,
+        diagnosis_id,
+        emergency_name,
+        emergency_contact
       );
   
       if (result) {

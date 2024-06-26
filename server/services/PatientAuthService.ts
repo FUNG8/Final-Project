@@ -2,7 +2,7 @@ import { Knex } from "knex";
 import { comparePassword, hashPassword } from "../utils/hash";
 
 export class PatientAuthService {
-  constructor(private knex: Knex) {}
+  constructor(private knex: Knex) { }
 
   table() {
     return this.knex("patient");
@@ -11,15 +11,15 @@ export class PatientAuthService {
   async createPatients(
     hkid: string,
     firstName: string,
-    // lastName: string,
+    lastName: string,
     // gender: string,
     // blood: string,
     password: string,
-    // birth_date: string,
-    // phone_number: string,
-    // diagnosis_id: number,
-    // emergency_name: string,
-    // emergency_contact: string
+    birth_date: string,
+    phone_number: string,
+    diagnosis_id: number,
+    emergency_name: string,
+    emergency_contact: string
   ): Promise<number | null> {
     try {
       // Check if the patient already exists
@@ -27,17 +27,25 @@ export class PatientAuthService {
       if (existingPatient) {
         throw new Error(`Patient with HKID ${hkid} already exists.`);
       }
-  
+
       let passwordHash = await hashPassword(password);
-  
+
       let insertResult = await this.table()
         .insert({
           hkid: hkid,
-          firstName: firstName,
           password: passwordHash,
+          firstName: firstName,
+          lastName: lastName,
+          // gender: gender,
+          // blood: blood,
+          birth_date: birth_date,
+          phone_number: phone_number,
+          diagnosis_id: diagnosis_id,
+          emergency_name: emergency_name,
+          emergency_contact: emergency_contact
         })
         .returning('id');
-  
+
       if (insertResult.length > 0) {
         return insertResult[0].id;
       } else {
