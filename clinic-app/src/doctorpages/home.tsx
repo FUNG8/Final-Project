@@ -1,5 +1,5 @@
 import './home.scss';
-import TemporaryDrawer from '../components/navbar';
+import TemporaryDrawer from '../components/doctorNavBar';
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';

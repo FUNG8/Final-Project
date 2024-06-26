@@ -1,13 +1,17 @@
-import { usePatientsInfo } from './patientAPI';
+import { useSearchPatientsInfo, usePatientsInfo } from './patientAPI';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Box } from '@mui/material';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import { SetStateAction, useEffect, useState } from 'react';
+import { SearchBar } from '../../components/searchBar';
+import { queryClient } from '../..';
 
 export function ListPatients() {
   const [currentPage, setCurrentPage] = useState(1);
   const perPage = 20;
-  const patients = usePatientsInfo(currentPage, perPage);
+  const [searchTerm, setSearchTerm] = useState('');
+  const patients = usePatientsInfo(currentPage, perPage, searchTerm);
+  // const searchingPatient = useSearchPatientsInfo(searchTerm)
 
   useEffect(() => {
     setCurrentPage(1);
@@ -16,9 +20,24 @@ export function ListPatients() {
   const handlePageChange = (event: React.ChangeEvent<unknown>, page: number) => {
     setCurrentPage(page);
   };
-  
+
+  const handleSearch = (input: string) => {
+    console.log("typing")
+    console.log("check input",input)
+    setSearchTerm(input);
+    // queryClient.invalidateQueries([''])
+  };
+
+  // const filteredPatients = patients?.filter(patient =>
+  //   patient.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  //   patient.register_id.toString().toLowerCase().includes(searchTerm.toLowerCase())
+  // );
+
   return (
     <div>
+      <div>
+        <SearchBar onSearch={handleSearch} />
+      </div>
       <Box justifyContent="center" mt={4}>
         <div>
           <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '0.5rem' }}>
@@ -44,6 +63,7 @@ export function ListPatients() {
                   <TableCell>Created At</TableCell>
                 </TableRow>
               </TableHead>
+              {/* {{}} */}
               <TableBody>
                 {patients && patients.map((patient) => (
                   <TableRow key={patient.id}>

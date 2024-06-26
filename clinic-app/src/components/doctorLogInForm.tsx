@@ -16,8 +16,7 @@ import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
 import { queryClient } from '..';
 import { FormEvent, useState } from 'react';
-import { login } from "../api/authAPI";
-
+import { login } from "../api/doctorAuthAPI";
 
 function Copyright(props: any) {
   return (
@@ -35,44 +34,32 @@ function Copyright(props: any) {
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
-export default function doctorLogInForm() {
-  // const [usernameInput, setUsernameInput] = useState("");
-  // const [passwordInput, setPasswordInput] = useState("");
+export default function DoctorLogInForm() {
+  const [usernameInput, setUsernameInput] = useState("doctor1");
+  const [passwordInput, setPasswordInput] = useState("password1");
 
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
-  // const onLogin = useMutation({
-  //   mutationFn: async (data: { username: string; password: string }) =>
-  //     login(data.username, data.password),
-  //   onSuccess: (data) => {
-  //     console.log("on success checking", data);
-  //     localStorage.setItem("todoToken", data);
-  //     console.log("hihihihihii");
-
-  //     queryClient.invalidateQueries({ queryKey: ["authStatus"] });
-  //   },
-  //   onError: (e) => {
-  //     console.log("error!!", e);
-  //   },
-  // });
-
-  // const handleLogin = () => {
-  //   console.log("loggging in");
-  //   onLogin.mutate({ username: usernameInput, password: passwordInput });
+  const onLogin = useMutation({
+    mutationFn: async (data: { username: string; password: string }) =>
+      login(data.username, data.password),
+    onSuccess: (data) => {
+      console.log("On success checking", data);
+      localStorage.setItem("clinicToken", data);
+      navigate('/doctor/home')
 
 
-  //   // function handleSubmit(event: FormEvent<HTMLFormElement>) {
-  //   //   throw new Error('Function not implemented.');
-  //   // }
+      queryClient.invalidateQueries({ queryKey: ["authStatus"] });
+    },
+    onError: (e) => {
+      console.log("On error!!", e);
+    },
+  });
 
-//////////
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      userame: data.get('username'),
-      password: data.get('password'),
-    });
+  const handleLogin = () => {
+    console.log("loggging in");
+    console.log(usernameInput,passwordInput)
+    onLogin.mutate({ username: usernameInput, password: passwordInput });
   };
 
   return (
@@ -109,8 +96,10 @@ export default function doctorLogInForm() {
             <Typography component="h1" variant="h5">
               Sign in
             </Typography>
-            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+            <Box component="form" noValidate  sx={{ mt: 1 }}>
               <TextField
+               value={usernameInput}
+               onChange={(e) => setUsernameInput(e.target.value)}
                 margin="normal"
                 required
                 fullWidth
@@ -121,6 +110,8 @@ export default function doctorLogInForm() {
                 autoFocus
               />
               <TextField
+               value={passwordInput}
+               onChange={(e) => setPasswordInput(e.target.value)}
                 margin="normal"
                 required
                 fullWidth
@@ -135,7 +126,7 @@ export default function doctorLogInForm() {
                 label="Remember me"
               />
               <Button
-                type="submit"
+                onClick={handleLogin}
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}

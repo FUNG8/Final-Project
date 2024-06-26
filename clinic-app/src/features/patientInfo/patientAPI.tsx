@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import usePatientSearch from "../../components/usePatientSearch";
 
 
 export enum Gender {
@@ -14,7 +15,8 @@ export enum BloodType {
 }
 
 interface Patient {
-    id:number,
+    title: any;
+    id: number,
     register_id: number,
     firstName: string,
     lastName: string,
@@ -31,14 +33,19 @@ interface Patient {
     created_at: string
 }
 
-export function usePatientsInfo(pageNumber = 1, pageSize = 20) {
+export function usePatientsInfo(pageNumber = 1, pageSize = 20, searchTerm = "") {
+    let paramString = `pageNumber=${pageNumber}&pageSize=${pageSize}`
+    if (searchTerm != null || searchTerm !== "") {
+        paramString += `&searchTerm=${searchTerm}`
+    }
     const { isLoading, error, data, isFetching } = useQuery({
-      queryKey: ["PatientInfo", pageNumber, pageSize],
-      queryFn: async () => {
-        const res = await fetch(`${process.env.REACT_APP_API_SERVER}/patients/allPatients?pageNumber=${pageNumber}&pageSize=${pageSize}`);
-        const result = await res.json();
-        return result as Patient[];
-      },
+        queryKey: ["PatientInfo", pageNumber, pageSize,searchTerm],
+        queryFn: async () => {
+            const res = await fetch(`${process.env.REACT_APP_API_SERVER}/patients/searchPatients?${paramString}`);
+            console.log("this is response", res)
+            const result = await res.json();
+            return result as Patient[];
+        },
     });
     if (isLoading || isFetching || error || !data) {
         return []
@@ -46,6 +53,18 @@ export function usePatientsInfo(pageNumber = 1, pageSize = 20) {
 
     return data
 }
+
+export function useSearchPatientsInfo(searchTerm = '') {
+    const { isLoading, error, data, isFetching } = usePatientSearch(searchTerm);
+
+    if (isLoading || isFetching || error || !data) {
+        return [];
+    }
+    console.log("can you show me this", data)
+    return data;
+}
+
+
 
 
 export async function addPatientInfo(

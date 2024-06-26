@@ -20,7 +20,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import { logout } from '../api/authAPI';
+import { logout } from '../api/doctorAuthAPI';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -74,7 +74,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   justifyContent: 'flex-end',
 }));
 
-export default function PersistentDrawerLeft() {
+export default function DoctorNavBar() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
@@ -127,6 +127,7 @@ export default function PersistentDrawerLeft() {
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
           </IconButton>
+          
         </DrawerHeader>
         <Divider />
         <List>
@@ -135,21 +136,21 @@ export default function PersistentDrawerLeft() {
           <HouseIcon />
         </ListItemIcon>
         <ListItemText primary="Home" 
-         onClick={()=>{navigate("/home");}}/>
+         onClick={()=>{navigate("/doctor/home");}}/>
       </ListItemButton>
       <ListItemButton>
         <ListItemIcon>
           <PeopleAltIcon />
         </ListItemIcon>
         <ListItemText primary="Patient"
-         onClick={()=>{navigate("/patient");}} />
+         onClick={()=>{navigate("/doctor/patient");}} />
       </ListItemButton>
       <ListItemButton>
         <ListItemIcon>
           <MedicationIcon />
         </ListItemIcon>
         <ListItemText primary="Medicine"
-         onClick={()=>{navigate("/medicine");}} />
+         onClick={()=>{navigate("/doctor/medicine");}} />
       </ListItemButton>
       <ListItemButton onClick={logout}>
         <ListItemIcon>

@@ -104,7 +104,7 @@ export async function seed(knex: Knex): Promise<void> {
         gender: gender_data,
         blood: "O",
         password: await hashPassword("password1"),
-        hkid: "y1234567",
+        hkid: "y123456(7)",
         birth_date: new Date("1980-01-01"),
         phone_number: phone_data,
         diagnosis_id: 1,
@@ -112,8 +112,24 @@ export async function seed(knex: Knex): Promise<void> {
         emergency_contact: phone_data,
         created_at: new Date(),
         updated_at: new Date(),
-      }
-    ]);
+      },
+    ]),  {
+      id: 101,
+      register_id: 101,
+      firstName: "t1",
+      lastName: "t1",
+      gender: "Male",
+      blood: "O",
+      password: await hashPassword("t1"),
+      hkid: "y1234567",
+      birth_date: new Date("1980-01-01"),
+      phone_number: phone_data,
+      diagnosis_id: 1,
+      emergency_name: "Jane Doe",
+      emergency_contact: phone_data,
+      created_at: new Date(),
+      updated_at: new Date(),
+    };
   }
 
 

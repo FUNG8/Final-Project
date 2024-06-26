@@ -3,22 +3,21 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { Palette } from '@mui/icons-material';
 import { createTheme } from '@mui/material';
 import { BrowserRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { store } from './redux/store';
-import { Provider } from 'react-redux';
+
+
 
 export const queryClient = new QueryClient()
 
 
 const theme = createTheme({
-  palette:{
-    primary:{
+  palette: {
+    primary: {
       main: "#0f0f0f"
     },
-    secondary:{
+    secondary: {
       main: "#f0f0f0"
     }
   }
@@ -27,15 +26,16 @@ const theme = createTheme({
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
 root.render(
   <React.StrictMode>
-    <Provider store={store}>
-       <BrowserRouter>
-         <QueryClientProvider client={queryClient}>
-           <App />
-         </QueryClientProvider>
-       </BrowserRouter>
-    </Provider>
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
+
+        <App />
+
+      </BrowserRouter>
+    </QueryClientProvider>
   </React.StrictMode>
 );
 
