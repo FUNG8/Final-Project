@@ -16,7 +16,7 @@ import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
 import { queryClient } from '..';
 import { FormEvent, useState } from 'react';
-import { login } from "../api/doctorAuthAPI";
+import { login } from "../api/patientAuthAPI";
 
 function Copyright(props: any) {
   return (
@@ -34,22 +34,19 @@ function Copyright(props: any) {
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
-export default function DoctorLogInForm() {
-  const [usernameInput, setUsernameInput] = useState("doctor1");
-  const [passwordInput, setPasswordInput] = useState("password1");
+export default function PatientLoginForm() {
+  const [registerIDInput, setregisterIDInput] = useState("101");
+  const [passwordInput, setPasswordInput] = useState("t1");
 
   const navigate = useNavigate();
 
-  //submit button get the username and pw from handle login to here
-  //we bring the data to the doctorAuth API by login(data.username,data.pw)
-  //localStorage to set token
   const onLogin = useMutation({
-    mutationFn: async (data: { username: string; password: string }) =>
-    login(data.username, data.password),
+    mutationFn: async (data: { register_id: string; password: string }) =>
+      login(data.register_id, data.password),
     onSuccess: (data) => {
       console.log("On success checking", data);
       localStorage.setItem("clinicToken", data);
-      navigate('/doctor/home')
+      navigate('/patientHome')
 
 
       queryClient.invalidateQueries({ queryKey: ["authStatus"] });
@@ -59,13 +56,10 @@ export default function DoctorLogInForm() {
     },
   });
 
-
-  //input field onchange will set the username and pw input by props and state
-  //submit button 帶 value入去onLogin mutate 
   const handleLogin = () => {
     console.log("loggging in");
-    console.log(usernameInput,passwordInput)
-    onLogin.mutate({ username: usernameInput, password: passwordInput });
+    console.log(registerIDInput,passwordInput)
+    onLogin.mutate({ register_id: registerIDInput, password: passwordInput });
   };
 
   return (
@@ -103,18 +97,16 @@ export default function DoctorLogInForm() {
               Sign in
             </Typography>
             <Box component="form" noValidate  sx={{ mt: 1 }}>
-
-              {/* set the textfield with value usernameInput and change target value while the field onchange*/}
               <TextField
-               value={usernameInput}
-               onChange={(e) => setUsernameInput(e.target.value)}
+               value={registerIDInput}
+               onChange={(e) => setregisterIDInput(e.target.value)}
                 margin="normal"
                 required
                 fullWidth
-                id="username"
-                label="Username"
-                name="username"
-                autoComplete="username"
+                id="register_id"
+                label="Register ID"
+                name="Register ID"
+                autoComplete="Register ID"
                 autoFocus
               />
               <TextField
@@ -148,9 +140,7 @@ export default function DoctorLogInForm() {
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link href="#" variant="body2">
-                    {"Don't have an account? Sign Up"}
-                  </Link>
+                 
                 </Grid>
               </Grid>
               <Copyright sx={{ mt: 5 }} />

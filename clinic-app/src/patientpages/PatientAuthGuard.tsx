@@ -1,17 +1,9 @@
 import { Outlet, useNavigate } from "react-router-dom";
 import { useAuthStatus } from "../api/doctorAuthAPI";
-
-
-import DoctorLogInForm from "../components/doctorLogInForm";
-import DoctorNavBar from "../components/doctorNavBar";
 import PatientNavBar from "../components/patientNavBar";
 import { LandingPage } from "../LandingPage";
 
-
-//logic to determine if status is sucess it will show doctor's pages component
-//outlet means stuffs of other pages other than doctor nav bar
-
-export function DoctorAuthGuard() {
+export function AuthGuard() {
   let authStatus = useAuthStatus();
   let navigate = useNavigate();
 
@@ -20,7 +12,7 @@ export function DoctorAuthGuard() {
     
     return (
       <>
-        <DoctorNavBar />
+        <PatientNavBar />
         <Outlet />
       </>
     );

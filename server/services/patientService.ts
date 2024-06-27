@@ -12,5 +12,7 @@ export class PatientService{
         const result = await this.knex.raw(`SELECT * FROM patient OFFSET ? LIMIT ?;`, [startIndex, perPage]);
         return result.rows;
       }
+
+     
 }
 

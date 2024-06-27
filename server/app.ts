@@ -31,8 +31,9 @@ import { PatientAuthService } from './services/PatientAuthService';
 const patientAuthService = new PatientAuthService(knex);
 const patientAuthController = new PatientAuthController(patientAuthService);
 
-import { PatientService } from './services/PatientService';
-import { PatientController } from './controllers/PatientController';
+import { PatientService } from './services/patientService';
+import { PatientController } from './controllers/patientController';
+
 const patientSerivice = new PatientService(knex);
 const patientController = new PatientController(patientSerivice)
 
