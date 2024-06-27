@@ -24,9 +24,11 @@ export class PatientAuthController {
         blood,
         birth_date,
         phone_number,
-        diagnosis_id,
+
         emergency_name,
         emergency_contact,
+        created_at,
+        updated_at
         
       } = req.body;
   
@@ -39,9 +41,11 @@ export class PatientAuthController {
         blood,
         birth_date,
         phone_number,
-        diagnosis_id,
+
         emergency_name,
-        emergency_contact
+        emergency_contact,
+        created_at,
+        updated_at
       );
   
       if (result) {

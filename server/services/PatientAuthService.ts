@@ -17,9 +17,10 @@ export class PatientAuthService {
     blood:string,
     birth_date:string,
     phone_number:string,
-    diagnosis_id:string,
     emergency_name:string,
-    emergency_contact:string
+    emergency_contact:string,
+    created_at:string,
+    updated_at:string
   ): Promise<number | null> {
     try {
       // Check if the patient already exists
@@ -40,9 +41,10 @@ export class PatientAuthService {
           blood: blood ,
           birth_date: birth_date,
           phone_number: phone_number,
-          diagnosis_id: diagnosis_id,
           emergency_name: emergency_name,
-          emergency_contact: emergency_contact
+          emergency_contact: emergency_contact,
+          created_at:created_at,
+          updated_at:updated_at
         })
         .returning('id');
 

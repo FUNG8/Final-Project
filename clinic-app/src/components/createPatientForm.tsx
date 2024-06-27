@@ -28,6 +28,9 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import Button from "@mui/material/Button";
+import { useMutation } from "@tanstack/react-query";
+import { queryClient } from "..";
+import { createPatient } from "../api/patientAuthAPI";
 
 const genderOptions = ["male", "female"];
 const bloodOptions = ["A", "B", "AB", "O"];
@@ -52,8 +55,62 @@ export default function CreatePatientModal() {
   const [emergencyNameInput, setEmergencyNameInput] = useState("");
   const [emergencyContactInput, setEmergencyContactInput] = useState("");
 
+  const onSubmit = useMutation({
+    mutationFn: async (data: {
+      hkid: string;
+      password: string;
+      firstName: string;
+      lastName: string;
+      gender: string;
+      blood: string;
+      birth_date: string;
+      phone_number: string;
+      emergency_name: string;
+      emergency_contact: string;
+      created_at:string;
+      updated_at:string;
+    }) =>
+      createPatient(
+        data.hkid,
+        data.password,
+        data.firstName,
+        data.lastName,
+        data.gender,
+        data.blood,
+        data.birth_date,
+        data.phone_number,
+        data.emergency_name,
+        data.emergency_contact,
+        data.created_at,
+        data.updated_at
+        
+      ),
+    onSuccess: (data) => {
+      console.log("On Creating Patient", data);
+      queryClient.invalidateQueries({ queryKey: ["authStatus"] });
+    },
+    onError: (e) => {
+      console.log("On error!!", e);
+    },
+  });
+
   const handleSubmit = () => {
-    console.log("hi");
+    const currentTime = dayjs().format("YYYY-MM-DD HH:mm:ss");
+    console.log("current time is" + currentTime)
+    onSubmit.mutate({
+      hkid: hkidInput,
+      password: hkidInput,
+      firstName: firstNameInput,
+      lastName: lastNameInput,
+      gender: genderInput,
+      blood: bloodInput,
+      birth_date: birthDateInput?.format("YYYY-MM-DD") || "", 
+      phone_number: phoneNumberInput,
+      emergency_name: emergencyNameInput,
+      emergency_contact: emergencyContactInput,
+      created_at: currentTime,
+      updated_at: currentTime
+    });
   };
 
   return (
@@ -266,9 +323,8 @@ export default function CreatePatientModal() {
                       }}
                     >
                       <Button
-                        sx={{ position: "absolute",width:400 }}
+                        sx={{ position: "absolute", width: 400 }}
                         variant="contained"
-                        
                         onClick={handleSubmit}
                       >
                         Submit
