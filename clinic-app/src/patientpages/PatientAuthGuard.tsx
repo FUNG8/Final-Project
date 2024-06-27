@@ -1,10 +1,12 @@
 import { Outlet, useNavigate } from "react-router-dom";
-import { useAuthStatus } from "../api/doctorAuthAPI";
-import PatientNavBar from "../components/patientNavBar";
-import { LandingPage } from "../LandingPage";
+import useAuthStatusPatient from "../api/patientAuthAPI";
+import MiniDrawer from "../components/patientNavBar";
+import patientHome from "./patientHomePage";
+import PatientLoginForm from "../components/patientLoginForm";
 
-export function AuthGuard() {
-  let authStatus = useAuthStatus();
+
+export default function PatientAuthGuard() {
+  let authStatus = useAuthStatusPatient();
   let navigate = useNavigate();
 
   if (authStatus.status === "success") {
@@ -12,14 +14,14 @@ export function AuthGuard() {
     
     return (
       <>
-        <PatientNavBar />
+        
         <Outlet />
       </>
     );
   } else {
     return (
       <>
-        <LandingPage />
+        <PatientLoginForm />
       </>
     );
   }

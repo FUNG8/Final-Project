@@ -32,13 +32,21 @@ export class PatientController {
 
             if (searchTerm) {
                 if (isNaN(searchTerm)) {
+                    console.log("query is string")
                     queryString += ` WHERE SIMILARITY("firstName",'${searchTerm}') > 0.1`
                     totalPatients = `SELECT COUNT(*) FROM patient WHERE SIMILARITY("firstName",'${searchTerm}') > 0.1`
                     totalPages = Math.ceil(totalPatients / perPage);
-                } else
+                    console.log(totalPages)
+
+                } else {
+                    console.log("query is number")
+
                     queryString += ` WHERE register_id = ${searchTerm}  `
-                totalPatients = `SELECT COUNT(*) FROM patient WHERE register_id = ${searchTerm}`
-                totalPages = Math.ceil(totalPatients / perPage);
+                    totalPatients = `SELECT COUNT(*) FROM patient WHERE register_id = ${searchTerm}`
+                    totalPages = Math.ceil(totalPatients / perPage);
+                    console.log(totalPages)
+                }
+
             }
 
             queryString += ` OFFSET $1 LIMIT $2`
