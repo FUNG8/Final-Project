@@ -5,6 +5,8 @@ import { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import WaitingTable from '../components/homTable'
 import ConsultTable from '../components/consultingTable'
+import { Username } from '../components/username';
+
 
 export default function Home() {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -27,7 +29,7 @@ export default function Home() {
   return (
     <>
       <TemporaryDrawer />
-    
+
       <header
         className="App-header"
         style={{
@@ -61,17 +63,17 @@ export default function Home() {
                 width: '100%',
               }}
             >
-              <div className='welcomeContainer'>Welcome,Dr. Mattew</div>
+              <div className='welcomeContainer'><Username /></div>
               <div className='manyContainer'>
-              <div className='smallContainer'>Total Patient
-                <div className='inSmContainer'>22</div>
-              </div>
-              <div className='smallContainer'>Pending
-                <div className='inSmContainer'>21</div>
-              </div>
-              <div className='smallContainer'>Completed
-                <div className='inSmContainer'>6</div>
-              </div>
+                <div className='smallContainer'>Total Patient
+                  <div className='inSmContainer'>22</div>
+                </div>
+                <div className='smallContainer'>Pending
+                  <div className='inSmContainer'>21</div>
+                </div>
+                <div className='smallContainer'>Completed
+                  <div className='inSmContainer'>6</div>
+                </div>
               </div>
             </Box>
             <Box

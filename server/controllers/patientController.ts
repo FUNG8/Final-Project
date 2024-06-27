@@ -33,16 +33,8 @@ export class PatientController {
             if (searchTerm) {
                 if (isNaN(searchTerm)) {
                     console.log("query is string")
-                    queryString += ` WHERE SIMILARITY("firstName",'${searchTerm}') > 0.1`
+                    queryString += ` WHERE SIMILARITY("firstName",'${searchTerm}') > 0.1 OR SIMILARITY("hkid",'${searchTerm}') > 0.65`
                     totalPatients = `SELECT COUNT(*) FROM patient WHERE SIMILARITY("firstName",'${searchTerm}') > 0.1`
-                    totalPages = Math.ceil(totalPatients / perPage);
-                    console.log(totalPages)
-
-                } else {
-                    console.log("query is number")
-
-                    queryString += ` WHERE register_id = ${searchTerm}  `
-                    totalPatients = `SELECT COUNT(*) FROM patient WHERE register_id = ${searchTerm}`
                     totalPages = Math.ceil(totalPatients / perPage);
                     console.log(totalPages)
                 }
@@ -50,7 +42,7 @@ export class PatientController {
             }
 
             queryString += ` OFFSET $1 LIMIT $2`
-
+            console.log(queryString)
             let patientResult = (await pgClient.query(queryString, [startIndex, perPage])).rows;
             const response = {
                 patientResult,
@@ -65,6 +57,6 @@ export class PatientController {
         }
     }
 
-    
+
 }
 

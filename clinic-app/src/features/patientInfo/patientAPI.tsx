@@ -55,17 +55,6 @@ export function usePatientsInfo(pageNumber = 1, pageSize = 20, searchTerm = "") 
     return data
 }
 
-// export function useSearchPatientsInfo(searchTerm = '') {
-//     const { isLoading, error, data, isFetching } = usePatientSearch(searchTerm);
-
-//     if (isLoading || isFetching || error || !data) {
-//         return [];
-//     }
-//     console.log("can you show me this", data)
-//     return data;
-// }
-
-
 
 
 export async function addPatientInfo(

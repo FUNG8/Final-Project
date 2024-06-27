@@ -44,7 +44,6 @@ export function ListPatients() {
               <TableHead>
                 <TableRow>
                   <TableCell>ID</TableCell>
-                  <TableCell>Register ID</TableCell>
                   <TableCell>First Name</TableCell>
                   <TableCell>Last Name</TableCell>
                   <TableCell>Gender</TableCell>
@@ -63,7 +62,6 @@ export function ListPatients() {
                 {patients.status === "success" && (patients as any).patientResult.map((patient: any) => (
                   <TableRow key={patient.id}>
                     <TableCell>{patient.id}</TableCell>
-                    <TableCell>{patient.register_id}</TableCell>
                     <TableCell>{patient.firstName}</TableCell>
                     <TableCell>{patient.lastName}</TableCell>
                     <TableCell>{patient.gender}</TableCell>
