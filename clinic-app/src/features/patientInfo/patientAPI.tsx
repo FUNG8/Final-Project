@@ -44,7 +44,6 @@ export function usePatientsInfo(pageNumber = 1, pageSize = 20, searchTerm = "") 
         queryKey: ["PatientInfo", pageNumber, pageSize, searchTerm],
         queryFn: async () => {
             const res = await fetch(`${process.env.REACT_APP_API_SERVER}/patients/searchPatients?${paramString}`);
-            console.log("this is response", res)
             const result = await res.json();
             return { status: "success", patientResult: result.patientResult, currentPage: result.currentPage, totalPages: result.totalPages };
         },
@@ -56,15 +55,15 @@ export function usePatientsInfo(pageNumber = 1, pageSize = 20, searchTerm = "") 
     return data
 }
 
-export function useSearchPatientsInfo(searchTerm = '') {
-    const { isLoading, error, data, isFetching } = usePatientSearch(searchTerm);
+// export function useSearchPatientsInfo(searchTerm = '') {
+//     const { isLoading, error, data, isFetching } = usePatientSearch(searchTerm);
 
-    if (isLoading || isFetching || error || !data) {
-        return [];
-    }
-    console.log("can you show me this", data)
-    return data;
-}
+//     if (isLoading || isFetching || error || !data) {
+//         return [];
+//     }
+//     console.log("can you show me this", data)
+//     return data;
+// }
 
 
 

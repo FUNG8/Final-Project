@@ -26,6 +26,7 @@ export function ListPatients() {
     console.log("typing")
     console.log("check input", input)
     setSearchTerm(input);
+    setCurrentPage(1)
   };
 
   return (
