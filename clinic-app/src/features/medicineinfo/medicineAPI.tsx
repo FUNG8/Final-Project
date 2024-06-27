@@ -21,12 +21,12 @@ export function useMedicineInfo(pageNumber = 1, pageSize = 20, searchTerm = "") 
         paramString += `&searchTerm=${searchTerm}`
     }
     const { isLoading, error, data, isFetching } = useQuery({
-        queryKey: ["MedicineInfo", searchTerm],
+        queryKey: ["MedicineInfo", pageNumber, pageSize,searchTerm],
         queryFn: async () => {
-            const res = await fetch(`${process.env.REACT_APP_API_SERVER}/medicines/allMedicines?`);
+            const res = await fetch(`${process.env.REACT_APP_API_SERVER}/medicines/allMedicines?${paramString}`);
             console.log("this is response", res)
             const result = await res.json();
-            return { status: "success", medicineResult: result };
+            return { status: "success", medicineResult: result.medicineResult, currentPage: result.currentPage, totalPages: result.totalPages };
         },
     });
     if (isLoading || isFetching || error || !data) {

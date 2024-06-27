@@ -18,6 +18,7 @@ import { queryClient } from '..';
 import { FormEvent, useState } from 'react';
 import { login } from "../api/doctorAuthAPI";
 
+
 function Copyright(props: any) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -37,7 +38,6 @@ const defaultTheme = createTheme();
 export default function DoctorLogInForm() {
   const [usernameInput, setUsernameInput] = useState("doctor1");
   const [passwordInput, setPasswordInput] = useState("password1");
-
   const navigate = useNavigate();
 
   //submit button get the username and pw from handle login to here
