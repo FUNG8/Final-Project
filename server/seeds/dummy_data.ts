@@ -4,6 +4,9 @@ import { faker } from '@faker-js/faker';
 
 
 export async function seed(knex: Knex): Promise<void> {
+  //must need to have this command (it's for search bar function)
+  await knex.raw('CREATE EXTENSION pg_trgm;')
+
   // Deletes ALL existing entries
   await knex("notification").del();
   await knex("patient").del();

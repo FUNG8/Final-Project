@@ -13,16 +13,45 @@ export class PatientAuthController {
   }
 
   createPatient = async (req: Request, res: Response) => {
-    let { usernameInput, passwordInput } = req.body;
-
-    let result = await this.authService.register(usernameInput, passwordInput);
-
-    if (result) {
-      res.json({ message: "register success" });
-    } else {
-      res
-        .status(500)
-        .json({ message: "Internal Server Error! Register Failed." });
+    try {
+      
+      let {
+        hkid,
+        password,
+        firstName,
+        lastName,
+        gender,
+        blood,
+        birth_date,
+        phone_number,
+        diagnosis_id,
+        emergency_name,
+        emergency_contact,
+        
+      } = req.body;
+  
+      let result = await this.authService.createPatients(
+        hkid,
+        password,
+        firstName,
+        lastName,
+        gender,
+        blood,
+        birth_date,
+        phone_number,
+        diagnosis_id,
+        emergency_name,
+        emergency_contact
+      );
+  
+      if (result) {
+        res.json({ message: "register success" });
+      } else {
+        res.status(500).json({ message: "Internal Server Error! Register Failed." });
+      }
+    } catch (error) {
+      console.error("Error creating patient:", error);
+      res.status(500).json({ message: "Internal Server Error! Register Failed." });
     }
   };
 

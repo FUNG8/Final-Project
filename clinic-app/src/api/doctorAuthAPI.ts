@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { jwtDecode } from "jwt-decode";
 
+// this is for authGuard.tsx to check token status
 export function useAuthStatusDoctor() {
   const { isLoading, error, data, isFetching } = useQuery({
     queryKey: ["authStatus"],
@@ -29,6 +30,7 @@ export function useAuthStatusDoctor() {
   return { status: "success", data: data };
 }
 
+//from the onLogin use mutation get the username and pw input then fetch the backend database
 export async function login(usernameInput: string, passwordInput: string) {
   console.log("authAPI try to log in");
   let res = await fetch(
@@ -47,6 +49,7 @@ export async function login(usernameInput: string, passwordInput: string) {
   return result.token as string;
 }
 
+//simply remove token from local storage, and redirect page
 export function logout() {
   console.log("remove token");
   localStorage.removeItem("clinicToken");

@@ -1,6 +1,6 @@
 import { Router, Request, Response } from "express";
 import { pgClient } from "../pgCLients";
-import { PatientService } from "../services/PatientService";
+import { PatientService } from "../services/patientService";
 
 export const patientRouter = Router();
 
@@ -10,7 +10,7 @@ export class PatientController {
     router = Router();
     constructor(private patientSerivice: PatientService) {
         this.router.get("/searchPatients", this.searchPatients);
-        this.router.post("/addPatients", this.addPatients);
+
     }
 
     searchPatients = async (req: Request, res: Response) => {
@@ -32,13 +32,21 @@ export class PatientController {
 
             if (searchTerm) {
                 if (isNaN(searchTerm)) {
+                    console.log("query is string")
                     queryString += ` WHERE SIMILARITY("firstName",'${searchTerm}') > 0.1`
                     totalPatients = `SELECT COUNT(*) FROM patient WHERE SIMILARITY("firstName",'${searchTerm}') > 0.1`
                     totalPages = Math.ceil(totalPatients / perPage);
-                } else
+                    console.log(totalPages)
+
+                } else {
+                    console.log("query is number")
+
                     queryString += ` WHERE register_id = ${searchTerm}  `
-                totalPatients = `SELECT COUNT(*) FROM patient WHERE register_id = ${searchTerm}`
-                totalPages = Math.ceil(totalPatients / perPage);
+                    totalPatients = `SELECT COUNT(*) FROM patient WHERE register_id = ${searchTerm}`
+                    totalPages = Math.ceil(totalPatients / perPage);
+                    console.log(totalPages)
+                }
+
             }
 
             queryString += ` OFFSET $1 LIMIT $2`
@@ -57,27 +65,6 @@ export class PatientController {
         }
     }
 
-    addPatients = async (req: Request, res: Response) => {
-        try {
-            let patientResult = await pgClient.query(`INSERT INTO patient (
-        register_id,
-        name,
-        password,
-        hkid,
-        birth_date,
-        phone_number,
-        diagnosis_id,
-        emergency_name,
-        emergency_contact,
-        updated_at,
-        created_at)
-        VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11);`)
-
-        } catch (e) {
-            res.status(500);
-            console.log("Error adding Patient Info")
-        }
-
-    }
+    
 }
 

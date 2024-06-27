@@ -40,9 +40,12 @@ export default function DoctorLogInForm() {
 
   const navigate = useNavigate();
 
+  //submit button get the username and pw from handle login to here
+  //we bring the data to the doctorAuth API by login(data.username,data.pw)
+  //localStorage to set token
   const onLogin = useMutation({
     mutationFn: async (data: { username: string; password: string }) =>
-      login(data.username, data.password),
+    login(data.username, data.password),
     onSuccess: (data) => {
       console.log("On success checking", data);
       localStorage.setItem("clinicToken", data);
@@ -56,6 +59,9 @@ export default function DoctorLogInForm() {
     },
   });
 
+
+  //input field onchange will set the username and pw input by props and state
+  //submit button 帶 value入去onLogin mutate 
   const handleLogin = () => {
     console.log("loggging in");
     console.log(usernameInput,passwordInput)
@@ -97,6 +103,8 @@ export default function DoctorLogInForm() {
               Sign in
             </Typography>
             <Box component="form" noValidate  sx={{ mt: 1 }}>
+
+              {/* set the textfield with value usernameInput and change target value while the field onchange*/}
               <TextField
                value={usernameInput}
                onChange={(e) => setUsernameInput(e.target.value)}

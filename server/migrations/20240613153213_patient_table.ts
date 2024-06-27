@@ -62,20 +62,19 @@ export async function up(knex: Knex): Promise<void> {
   await knex.schema.createTable('patient', (table) => {
     table.increments('id')
     // table.bigInteger('register_id').notNullable().unique();
-    table.string('firstName', 20).nullable();
-    table.string('lastName', 20).nullable();
+    table.string('firstName', 20);
+    table.string('lastName', 20);
     table.string('password', 255).notNullable();
-    table.enu('gender', ['male', 'female']).nullable()
-    table.enu('blood', ['A', 'B', 'AB', 'O']).nullable()
-
+    table.enu('gender', ['male', 'female'])
+    table.enu('blood', ['A', 'B', 'AB', 'O'])
     table.string('hkid', 20).notNullable().unique();
-    table.timestamp('birth_date').notNullable();
-    table.string('phone_number', 255).notNullable();
-    table.bigInteger('diagnosis_id').notNullable();
-    table.string('emergency_name', 255).notNullable();
-    table.string('emergency_contact', 255).notNullable();
-    table.timestamp('updated_at').notNullable();
-    table.timestamp('created_at').notNullable();
+    table.timestamp('birth_date');
+    table.string('phone_number', 255);
+    table.bigInteger('diagnosis_id');
+    table.string('emergency_name', 255);
+    table.string('emergency_contact', 255);
+    table.timestamp('updated_at');
+    table.timestamp('created_at');
     table.foreign('diagnosis_id').references('id').inTable('diagnosis');
   });
 
@@ -89,7 +88,6 @@ export async function up(knex: Knex): Promise<void> {
     table.timestamps(true, true);
     table.foreign('patient_id').references('id').inTable('patient');
     table.foreign('drug_instruction_id').references('id').inTable('drug_instruction');
-
   });
 
 
@@ -103,10 +101,6 @@ export async function down(knex: Knex): Promise<void> {
   await knex.schema.dropTableIfExists('diagnosis');
   await knex.schema.dropTableIfExists('medicine');
   await knex.schema.dropTableIfExists('doctor');
-
-
-
-
   await knex.schema.dropTableIfExists('drug_shape');
 
 }
