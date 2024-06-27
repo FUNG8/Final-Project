@@ -67,7 +67,6 @@ export async function up(knex: Knex): Promise<void> {
     table.string('password', 255).notNullable();
     table.enu('gender', ['male', 'female'])
     table.enu('blood', ['A', 'B', 'AB', 'O'])
-
     table.string('hkid', 20).notNullable().unique();
     table.timestamp('birth_date');
     table.string('phone_number', 255);
@@ -89,7 +88,6 @@ export async function up(knex: Knex): Promise<void> {
     table.timestamps(true, true);
     table.foreign('patient_id').references('id').inTable('patient');
     table.foreign('drug_instruction_id').references('id').inTable('drug_instruction');
-
   });
 
 
@@ -103,10 +101,6 @@ export async function down(knex: Knex): Promise<void> {
   await knex.schema.dropTableIfExists('diagnosis');
   await knex.schema.dropTableIfExists('medicine');
   await knex.schema.dropTableIfExists('doctor');
-
-
-
-
   await knex.schema.dropTableIfExists('drug_shape');
 
 }

@@ -9,17 +9,17 @@ export class PatientAuthService {
   }
 
   async createPatients(
-    hkid: string,
-    firstName: string,
-    lastName: string,
-    // gender: 'male' | 'female',
-    // blood: 'A' | 'B' | 'AB' | 'O',
-    password: string,
-    birth_date: string,
-    phone_number: string,
-    diagnosis_id: number,
-    emergency_name: string,
-    emergency_contact: string
+    hkid:string,
+    password:string,
+    firstName:string,
+    lastName:string,
+    gender:string,
+    blood:string,
+    birth_date:string,
+    phone_number:string,
+    diagnosis_id:string,
+    emergency_name:string,
+    emergency_contact:string
   ): Promise<number | null> {
     try {
       // Check if the patient already exists
@@ -36,7 +36,8 @@ export class PatientAuthService {
           password: passwordHash,
           firstName: firstName,
           lastName: lastName,
-          // gender: gender, 
+          gender: gender, 
+          blood: blood ,
           birth_date: birth_date,
           phone_number: phone_number,
           diagnosis_id: diagnosis_id,
