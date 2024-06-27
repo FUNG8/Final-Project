@@ -35,31 +35,31 @@ function Copyright(props: any) {
 const defaultTheme = createTheme();
 
 export default function PatientLoginForm() {
-  const [registerIDInput, setregisterIDInput] = useState("101");
-  const [passwordInput, setPasswordInput] = useState("t1");
+  const [hkidInput, sethkidInput] = useState("");
+  const [passwordInput, setPasswordInput] = useState("");
 
   const navigate = useNavigate();
-
+ const [ErrorMessage, setErrorMessage] = useState('');
+ 
   const onLogin = useMutation({
-    mutationFn: async (data: { register_id: string; password: string }) =>
-      login(data.register_id, data.password),
+    mutationFn: async (data: { hkid: string; password: string }) =>
+      login(data.hkid, data.password),
     onSuccess: (data) => {
       console.log("On success checking", data);
-      localStorage.setItem("clinicToken", data);
-      navigate('/patientHome')
-
-
+      localStorage.setItem("patientToken", data);
+      
       queryClient.invalidateQueries({ queryKey: ["authStatus"] });
+      navigate('/patient/home')
     },
     onError: (e) => {
       console.log("On error!!", e);
+      setErrorMessage('Login failed.')
     },
   });
 
   const handleLogin = () => {
     console.log("loggging in");
-    console.log(registerIDInput,passwordInput)
-    onLogin.mutate({ register_id: registerIDInput, password: passwordInput });
+    onLogin.mutate({ hkid: hkidInput, password: passwordInput });
   };
 
   return (
@@ -98,15 +98,15 @@ export default function PatientLoginForm() {
             </Typography>
             <Box component="form" noValidate  sx={{ mt: 1 }}>
               <TextField
-               value={registerIDInput}
-               onChange={(e) => setregisterIDInput(e.target.value)}
+               value={hkidInput}
+               onChange={(e) => sethkidInput(e.target.value)}
                 margin="normal"
                 required
                 fullWidth
-                id="register_id"
-                label="Register ID"
-                name="Register ID"
-                autoComplete="Register ID"
+                id="hkid"
+                label="HKID"
+                name="hkid"
+                autoComplete="hkid"
                 autoFocus
               />
               <TextField

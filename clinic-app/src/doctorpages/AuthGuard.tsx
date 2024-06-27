@@ -1,5 +1,5 @@
 import { Outlet, useNavigate } from "react-router-dom";
-import { useAuthStatus } from "../api/doctorAuthAPI";
+import { useAuthStatusDoctor } from "../api/doctorAuthAPI";
 
 
 import DoctorLogInForm from "../components/doctorLogInForm";
@@ -8,7 +8,7 @@ import PatientNavBar from "../components/patientNavBar";
 import { LandingPage } from "../LandingPage";
 
 export function AuthGuard() {
-  let authStatus = useAuthStatus();
+  let authStatus = useAuthStatusDoctor();
   let navigate = useNavigate();
 
   if (authStatus.status === "success") {

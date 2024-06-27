@@ -1,11 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import { jwtDecode } from "jwt-decode";
 
-export function useAuthStatus() {
+export default function useAuthStatusPatient() {
   const { isLoading, error, data, isFetching } = useQuery({
     queryKey: ["authStatus"],
     queryFn: async () => {
-      let token = localStorage.getItem("clinicToken");
+      let token = localStorage.getItem("patientToken");
       console.log("querying local storage token", token);
       if (!token) {
         throw Error("You haven't logged in");
@@ -29,7 +29,7 @@ export function useAuthStatus() {
   return { status: "success", data: data };
 }
 
-export async function login(registeridInput: string, passwordInput: string) {
+export async function login(hkidInput: string, passwordInput: string) {
   console.log("authAPI try to log in");
   let res = await fetch(
     `${process.env.REACT_APP_API_SERVER}/patientAuth/patientLogin`,
@@ -38,7 +38,7 @@ export async function login(registeridInput: string, passwordInput: string) {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ registeridInput, passwordInput }),
+      body: JSON.stringify({ hkidInput, passwordInput }),
     }
   );
 
@@ -49,7 +49,7 @@ export async function login(registeridInput: string, passwordInput: string) {
 
 export function logout() {
   console.log("remove token");
-  localStorage.removeItem("clinicToken");
+  localStorage.removeItem("patientToken");
 
   try {
     console.log("logout success");

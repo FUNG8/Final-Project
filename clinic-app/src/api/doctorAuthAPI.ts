@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { jwtDecode } from "jwt-decode";
 
-export function useAuthStatus() {
+export function useAuthStatusDoctor() {
   const { isLoading, error, data, isFetching } = useQuery({
     queryKey: ["authStatus"],
     queryFn: async () => {
