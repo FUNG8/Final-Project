@@ -13,7 +13,7 @@ export function useAuthStatusDoctor() {
       }
 
       let decoded = jwtDecode(token);
-      console.log("check decoded", decoded);
+      console.log("check decoded....", decoded);
       return decoded;
     },
     retry: false,
