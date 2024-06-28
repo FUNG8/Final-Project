@@ -22,7 +22,6 @@ export class PatientAuthController {
       blood,
       birth_date,
       phone_number,
-
       emergency_name,
       emergency_contact,
       created_at,
@@ -47,9 +46,7 @@ export class PatientAuthController {
       if (result) {
         res.json({ message: "register success" });
       } 
-      // else {
-      //   res.json({ message: "No result return" });
-      // }
+      
     } catch (error) {
       const message = "Error creating patient:" + error
       console.error(message);

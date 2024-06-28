@@ -1,4 +1,4 @@
-import { useMedicineInfo } from './medicineAPI';
+import { useMedicineInfo } from '../../api/medicineAPI';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Box, Pagination } from '@mui/material';
 import { SetStateAction, useEffect, useState } from 'react';
 import { SearchBar } from "../../components/searchBar";
