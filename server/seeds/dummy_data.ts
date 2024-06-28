@@ -1,17 +1,17 @@
 import { Knex } from "knex";
 import { hashPassword } from "../utils/hash";
-import { faker } from '@faker-js/faker';
-
+import { faker } from "@faker-js/faker";
 
 export async function seed(knex: Knex): Promise<void> {
   //must need to have this command (it's for search bar function)
-  await knex.raw('CREATE EXTENSION pg_trgm;')
+  // await knex.raw("CREATE EXTENSION pg_trgm;");
 
   // Deletes ALL existing entries
   await knex("notification").del();
-  await knex("patient").del();
+
   await knex("drug_instruction").del();
   await knex("diagnosis").del();
+  await knex("patient").del();
   await knex("medicine").del();
   await knex("doctor").del();
   await knex("drug_shape").del();
@@ -39,27 +39,8 @@ export async function seed(knex: Knex): Promise<void> {
     },
   ]);
 
-  await knex("diagnosis").insert([
-    {
-
-      name: "Common Cold",
-      doctor_id: 1,
-      remarks: "Typical cold symptoms, no additional concerns.",
-      created_at: new Date(),
-      updated_at: new Date(),
-    },
-    {
-      name: "High Blood Pressure",
-      doctor_id: 2,
-      remarks: "Patient has elevated blood pressure, monitoring required.",
-      created_at: new Date(),
-      updated_at: new Date(),
-    },
-  ]);
-
   await knex("medicine").insert([
     {
-
       name: "Aspirin",
       generic_drug: "Acetylsalicylic Acid",
       description: "Pain reliever and anti-inflammatory.",
@@ -72,7 +53,6 @@ export async function seed(knex: Knex): Promise<void> {
       updated_at: new Date(),
     },
     {
-
       name: "Atorvastatin",
       generic_drug: "Atorvastatin Calcium",
       description: "Lowers cholesterol levels.",
@@ -87,12 +67,12 @@ export async function seed(knex: Knex): Promise<void> {
   ]);
 
   for (let i = 0; i < 2; i++) {
-    const firstName_data = faker.person.firstName()
-    const lastName_data = faker.person.lastName()
-    const gender_data = faker.person.sex()
-    const phone_data = faker.phone.number()
+    const firstName_data = faker.person.firstName();
+    const lastName_data = faker.person.lastName();
+    const gender_data = faker.person.sex();
+    const phone_data = faker.phone.number();
 
-    const fakeId = faker.number.int()
+    const fakeId = faker.number.int();
     await knex("patient").insert([
       {
         firstName: firstName_data,
@@ -103,38 +83,54 @@ export async function seed(knex: Knex): Promise<void> {
         hkid: `Y123456${i}`,
         birth_date: new Date("1980-01-01"),
         phone_number: phone_data,
-        diagnosis_id: 1,
         emergency_name: "Jane Doe",
         emergency_contact: phone_data,
         created_at: new Date(),
         updated_at: new Date(),
       },
-    ])
+    ]);
   }
 
-  let phone_data = faker.phone.number()
+  let phone_data = faker.phone.number();
 
-  await knex('patient').insert([{
+  await knex("patient").insert([
+    {
+      firstName: "test1",
+      lastName: "test1",
+      gender: "male",
+      blood: "O",
+      password: await hashPassword("t2"),
+      hkid: "Y1234568",
+      birth_date: new Date("1980-01-01"),
+      phone_number: phone_data,
+      emergency_name: "Jane Doe",
+      emergency_contact: phone_data,
+      created_at: new Date(),
+      updated_at: new Date(),
+    },
+  ]);
 
-    firstName: "test1",
-    lastName: "test1",
-    gender: "male",
-    blood: "O",
-    password: await hashPassword("t2"),
-    hkid: "Y1234568",
-    birth_date: new Date("1980-01-01"),
-    phone_number: phone_data,
-    diagnosis_id: 1,
-    emergency_name: "Jane Doe",
-    emergency_contact: phone_data,
-    created_at: new Date(),
-    updated_at: new Date(),
-  }])
-
+  await knex("diagnosis").insert([
+    {
+      name: "Common Cold",
+      doctor_id: 1,
+      patient_id: 1,
+      remarks: "Typical cold symptoms, no additional concerns.",
+      created_at: new Date(),
+      updated_at: new Date(),
+    },
+    {
+      name: "High Blood Pressure",
+      doctor_id: 2,
+      patient_id: 2,
+      remarks: "Patient has elevated blood pressure, monitoring required.",
+      created_at: new Date(),
+      updated_at: new Date(),
+    },
+  ]);
 
   await knex("drug_instruction").insert([
     {
-
       medicine_id: 1,
       diagnosis_id: 1,
       unit_measurement: 1,

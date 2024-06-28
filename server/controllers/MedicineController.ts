@@ -10,13 +10,14 @@ export class MedicineController {
   constructor(private medicineService: MedicineService) {
     this.router = Router();
     this.router.get("/allMedicines", this.allMedicines);
+    this.router.post("/insertMedicines", this.insertMedicines);
     medicineRouter.use("/", this.router);
   }
 
   allMedicines = async (req: Request, res: Response) => {
     try {
-      let queryString = `SELECT * FROM medicine`
-      console.log("check req query", req.query)
+      let queryString = `SELECT * FROM medicine`;
+      console.log("check req query", req.query);
       let pageNumber: number = parseInt(req.query.pageNumber as string);
       const perPage = 20;
       let totalMedicine = await this.medicineService.getAllMedcines_number();
@@ -25,38 +26,46 @@ export class MedicineController {
       const currentPage = pageNumber; // Replace with the actual current page value
       const startIndex = (currentPage - 1) * perPage;
 
-      const searchTerm: any = req.query.searchTerm
+      const searchTerm: any = req.query.searchTerm;
       // let medicineResult = await this.medicineService.getMedcines();
 
       if (searchTerm) {
         if (isNaN(searchTerm)) {
-          console.log("query is string")
-          queryString += ` WHERE SIMILARITY("name",'${searchTerm}') > 0.1`
-          totalMedicine = (await pgClient.query(`SELECT COUNT(*) FROM medicine WHERE SIMILARITY("name",'${searchTerm}') > 0.1`)).rows[0].count
-          console.log(totalMedicine)
+          console.log("query is string");
+          queryString += ` WHERE SIMILARITY("name",'${searchTerm}') > 0.1`;
+          totalMedicine = (
+            await pgClient.query(
+              `SELECT COUNT(*) FROM medicine WHERE SIMILARITY("name",'${searchTerm}') > 0.1`
+            )
+          ).rows[0].count;
+          console.log(totalMedicine);
           totalPages = Math.ceil(totalMedicine / perPage);
-          console.log("upper",totalPages)
-
+          console.log("upper", totalPages);
         } else {
-          console.log("query is number")
+          console.log("query is number");
 
-          queryString += ` WHERE generic_drug = ${searchTerm}  `
-          totalMedicine = (await pgClient.query(`SELECT COUNT(*) FROM medicine WHERE SIMILARITY("generic_drug",'${searchTerm}') > 0.1`)).rows[0].count
-          console.log("lower",totalMedicine)
+          queryString += ` WHERE generic_drug = ${searchTerm}  `;
+          totalMedicine = (
+            await pgClient.query(
+              `SELECT COUNT(*) FROM medicine WHERE SIMILARITY("generic_drug",'${searchTerm}') > 0.1`
+            )
+          ).rows[0].count;
+          console.log("lower", totalMedicine);
           totalPages = Math.ceil(totalMedicine / perPage);
-          console.log(totalPages)
+          console.log(totalPages);
         }
-
       }
 
-      queryString += ` OFFSET $1 LIMIT $2`
+      queryString += ` OFFSET $1 LIMIT $2`;
 
-      let medicineResult = (await pgClient.query(queryString, [startIndex, perPage])).rows;
-      
+      let medicineResult = (
+        await pgClient.query(queryString, [startIndex, perPage])
+      ).rows;
+
       const response = {
         medicineResult,
         totalPages: totalPages,
-        currentPage: currentPage
+        currentPage: currentPage,
       };
 
       res.json(response);
@@ -65,48 +74,38 @@ export class MedicineController {
       console.log("Error Getting Medicine Seed", e);
     }
   };
+
+  insertMedicines = async (req: Request, res: Response) => {
+    let {
+      name,
+      generic_drug,
+      description,
+      dosage,
+      unit_measurement,
+      type,
+      drug_shape_id,
+      color,
+      created_at,
+      updated_at,
+    } = req.body;
+    try {
+      let insertMedsResult = await this.medicineService.insertMedicine(
+        name,
+        generic_drug,
+        description,
+        dosage,
+        unit_measurement,
+        type,
+        drug_shape_id,
+        color,
+        created_at,
+        updated_at
+      );
+      if (insertMedsResult) {
+        res.json({ message: "insert medicine success" });
+      }
+    } catch (error) {
+        res.status(400).json({error})
+    }
+  };
 }
-
-
-
-
-// let queryString = `SELECT * FROM patient`
-
-// let totalPatients = (await pgClient.query(`SELECT COUNT(*) FROM patient;`)).rows[0].count
-// let totalPages = Math.ceil(totalPatients / perPage);
-
-// const currentPage = pageNumber; // Replace with the actual current page value
-// const startIndex = (currentPage - 1) * perPage;
-
-// const searchTerm: any = req.query.searchTerm
-
-
-// if (searchTerm) {
-//     if (isNaN(searchTerm)) {
-//         console.log("query is string")
-//         queryString += ` WHERE SIMILARITY("firstName",'${searchTerm}') > 0.1`
-//         totalPatients = `SELECT COUNT(*) FROM patient WHERE SIMILARITY("firstName",'${searchTerm}') > 0.1`
-//         totalPages = Math.ceil(totalPatients / perPage);
-//         console.log(totalPages)
-
-//     } else {
-//         console.log("query is number")
-
-//         queryString += ` WHERE register_id = ${searchTerm}  `
-//         totalPatients = `SELECT COUNT(*) FROM patient WHERE register_id = ${searchTerm}`
-//         totalPages = Math.ceil(totalPatients / perPage);
-//         console.log(totalPages)
-//     }
-
-// }
-
-// queryString += ` OFFSET $1 LIMIT $2`
-
-// let patientResult = (await pgClient.query(queryString, [startIndex, perPage])).rows;
-// const response = {
-//     patientResult,
-//     totalPages: totalPages,
-//     currentPage: currentPage
-// };
-
-// res.json(response);

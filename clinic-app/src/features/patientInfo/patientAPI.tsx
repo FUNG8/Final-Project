@@ -55,8 +55,6 @@ export function usePatientsInfo(pageNumber = 1, pageSize = 20, searchTerm = "") 
     return data
 }
 
-
-
 export async function addPatientInfo(
     register_id: number,
     firstName: string,
