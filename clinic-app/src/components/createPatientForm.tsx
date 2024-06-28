@@ -29,8 +29,8 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import Button from "@mui/material/Button";
 import { useMutation } from "@tanstack/react-query";
-import { queryClient } from "..";
 import { createPatient } from "../api/patientAuthAPI";
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 
 const genderOptions = ["male", "female"];
 const bloodOptions = ["A", "B", "AB", "O"];
@@ -55,6 +55,15 @@ export default function CreatePatientModal() {
   const [emergencyNameInput, setEmergencyNameInput] = useState("");
   const [emergencyContactInput, setEmergencyContactInput] = useState("");
 
+  const queryClient = useQueryClient()
+
+  const handleAddPatient = async () => {
+    try {
+      queryClient.invalidateQueries({ queryKey: ['PatientInfo'] });
+    } catch (error) {
+      console.error('Error adding Patient:', error);
+    }
+  };
   const onSubmit = useMutation({
     mutationFn: async (data: {
       hkid: string;
@@ -86,10 +95,15 @@ export default function CreatePatientModal() {
         
       ),
     onSuccess: (data) => {
+      console.log("mutate on success")
       console.log("On Creating Patient", data);
-      queryClient.invalidateQueries({ queryKey: ["authStatus"] });
+      handleAddPatient()
+      handleClose()
+
+    //   queryClient.invalidateQueries({ queryKey: ["authStatus"] });
     },
     onError: (e) => {
+        console.log("mutate on error")
       console.log("On error!!", e);
     },
   });

@@ -1,5 +1,6 @@
 import { Knex } from "knex";
 import { comparePassword, hashPassword } from "../utils/hash";
+import { error } from "console";
 
 export class PatientAuthService {
   constructor(private knex: Knex) { }
@@ -22,15 +23,15 @@ export class PatientAuthService {
     created_at:string,
     updated_at:string
   ): Promise<number | null> {
+
+  // Check if the patient already exists
+  const existingPatient = await this.table().where({ hkid }).first();
+  if (existingPatient) {
+    console.log(`Patient with HKID ${hkid} already exists.`)
+    throw new Error(`Patient with HKID ${hkid} already exists.`);
+  }
     try {
-      // Check if the patient already exists
-      const existingPatient = await this.table().where({ hkid }).first();
-      if (existingPatient) {
-        throw new Error(`Patient with HKID ${hkid} already exists.`);
-      }
-
       let passwordHash = await hashPassword(password);
-
       let insertResult = await this.table()
         .insert({
           hkid: hkid,
