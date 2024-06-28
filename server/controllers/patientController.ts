@@ -10,6 +10,7 @@ export class PatientController {
     router = Router();
     constructor(private patientSerivice: PatientService) {
         this.router.get("/searchPatients", this.searchPatients);
+        this.router.get("/showPatients", this.showPatients);
 
     }
 
@@ -56,6 +57,27 @@ export class PatientController {
             console.log("Error Getting Patient Info");
         }
     }
+
+
+    showPatients = async (req: Request, res: Response) => {
+        try {
+            console.log("what's the show button shown", req.query)
+            const patientId = req.query.patientId
+            const patient_soloInfo = (await pgClient.query(`SELECT * FROM patient WHERE id = ${patientId};`)).rows
+            console.log(patient_soloInfo)
+
+            res.json(patient_soloInfo);
+        } catch (e) {
+            res.status(500);
+            console.log("Error showing Patient Info");
+        }
+    }
+
+
+
+
+
+
 
 
 }

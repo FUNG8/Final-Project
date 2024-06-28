@@ -103,3 +103,6 @@ export async function addPatientInfo(
     const result = await response.json();
     return result.data;
 }
+
+
+

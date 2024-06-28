@@ -1,8 +1,12 @@
 import { usePatientsInfo } from './patientAPI';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Box } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Box, Button } from '@mui/material';
 import Pagination from '@mui/material/Pagination';
 import { SetStateAction, useEffect, useState } from 'react';
 import { SearchBar } from '../../components/searchBar';
+import SendIcon from '@mui/icons-material/Send';
+import { SendPatient } from './sendPatient';
+import { useNavigate } from 'react-router-dom';
+
 
 
 export function ListPatients() {
@@ -10,6 +14,7 @@ export function ListPatients() {
   const perPage = 20;
   const [searchTerm, setSearchTerm] = useState('');
   const patients = usePatientsInfo(currentPage, perPage, searchTerm);
+  const navigate = useNavigate()
 
   useEffect(() => {
     setCurrentPage(currentPage);
@@ -28,6 +33,7 @@ export function ListPatients() {
     setSearchTerm(input);
     setCurrentPage(1)
   };
+
 
   return (
     <div>
@@ -51,16 +57,17 @@ export function ListPatients() {
                   <TableCell>HKID</TableCell>
                   <TableCell>Birth Date</TableCell>
                   <TableCell>Phone Number</TableCell>
-                  <TableCell>Diagnosis ID</TableCell>
                   <TableCell>Emergency Name</TableCell>
                   <TableCell>Emergency Contact</TableCell>
                   <TableCell>Updated At</TableCell>
                   <TableCell>Created At</TableCell>
+                  <TableCell></TableCell>
                 </TableRow>
               </TableHead>
+
               <TableBody>
                 {patients.status === "success" && (patients as any).patientResult.map((patient: any) => (
-                  <TableRow key={patient.id}>
+                  <TableRow key={patient.id} onClick={() => navigate(`/doctor/patientDetail/${patient.id}`)} style={{ cursor: 'pointer' }}>
                     <TableCell>{patient.id}</TableCell>
                     <TableCell>{patient.firstName}</TableCell>
                     <TableCell>{patient.lastName}</TableCell>
@@ -69,11 +76,20 @@ export function ListPatients() {
                     <TableCell>{patient.hkid}</TableCell>
                     <TableCell>{patient.birth_date}</TableCell>
                     <TableCell>{patient.phone_number}</TableCell>
-                    <TableCell>{patient.diagnosis_id}</TableCell>
                     <TableCell>{patient.emergency_name}</TableCell>
                     <TableCell>{patient.emergency_contact}</TableCell>
                     <TableCell>{patient.updated_at}</TableCell>
                     <TableCell>{patient.created_at}</TableCell>
+                    <TableCell>
+                      <Button
+                        variant="contained"
+                        size="small"
+                        endIcon={<SendIcon />}
+                        onClick={() => SendPatient(patient.id as number)}
+                      >
+                        Queue
+                      </Button>
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -88,3 +104,10 @@ export function ListPatients() {
     </div>
   );
 }
+
+
+
+// onClick={() => ShowPatientInfo(patient.id)} style={{ cursor: 'pointer' }}
+
+
+// ShowPatients
