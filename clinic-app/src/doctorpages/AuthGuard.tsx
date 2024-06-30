@@ -4,7 +4,7 @@ import { useAuthStatusDoctor } from "../api/doctorAuthAPI";
 
 import DoctorLogInForm from "../components/doctorLogInForm";
 import DoctorNavBar from "../components/doctorNavBar";
-import PatientNavBar from "../components/patientNavBar";
+import PatientNavBar from "../components/patients/patientNavBar";
 import { LandingPage } from "../LandingPage";
 
 
