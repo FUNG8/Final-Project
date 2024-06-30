@@ -16,8 +16,9 @@ import Profile from "./patientpages/profilePage";
 import Setting from "./patientpages/setting";
 
 import PatientAuthGuard from "./patientpages/PatientAuthGuard";
-import {  DoctorAuthGuard } from "./doctorpages/AuthGuard";
+import { DoctorAuthGuard } from "./doctorpages/AuthGuard";
 import { LandingPage } from "./LandingPage";
+import { ShowPatientInfo } from "./features/patientInfo/ShowPatientInfo";
 
 const queryClient = new QueryClient();
 
@@ -33,11 +34,12 @@ function App() {
             <Route path="/doctorlogin" element={<DoctorLogin />} />
             <Route path="/patientlogin" element={<PatientLogin />} />
 
-        <Route path="/doctor" element={<DoctorAuthGuard />}>
-          <Route path="home" element={<Home />} />
-          <Route path="patient" element={<Patient />} />
-          <Route path="medicine" element={<Medicine />} />
-        </Route>
+            <Route path="/doctor" element={<DoctorAuthGuard />}>
+              <Route path="home" element={<Home />} />
+              <Route path="patient" element={<Patient />} />
+              <Route path="patientDetail/:patientId" element={<ShowPatientInfo />} />
+              <Route path="medicine" element={<Medicine />} />
+            </Route>
 
 
             <Route path="/patient" element={<PatientAuthGuard />}>

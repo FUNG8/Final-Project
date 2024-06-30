@@ -42,6 +42,7 @@ export async function createPatient( hkid: string,
   created_at:string,
   updated_at:string){
     console.log("Ready to fetch,HKID is:" + hkid)
+    try{
     let res = await fetch(` ${process.env.REACT_APP_API_SERVER}/patientAuth/createPatient`,
       {
         method: "POST",
@@ -52,7 +53,14 @@ export async function createPatient( hkid: string,
       }
     )
     let result = await res.json();
+    if (!res.ok) {
+      console.log(result)
+      throw new Error(result.message)
+    }
     return result;
+  }catch(e){
+    throw e
+  }
     
   };
 

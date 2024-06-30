@@ -21,7 +21,7 @@ export async function up(knex: Knex): Promise<void> {
     table.string('generic_drug', 255).notNullable();
     table.text('description').notNullable();
     table.integer('dosage').notNullable();
-    table.bigInteger('unit_measurement').notNullable();
+    table.string('unit_measurement').notNullable();
     table.string('type', 255).notNullable();
     table.bigInteger('drug_shape_id').notNullable();
     table.string('color', 255).notNullable();

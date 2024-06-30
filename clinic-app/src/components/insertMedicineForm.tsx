@@ -29,38 +29,39 @@ import Button from "@mui/material/Button";
 import { useMutation } from "@tanstack/react-query";
 import { createPatient } from "../api/patientAuthAPI";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { MuiTelInput } from "mui-tel-input";
+import { useRef } from "react";
+import { insertMedicine } from "../api/medicineAPI";
 
-const genderOptions = ["male", "female"];
+const unitOptions = [
+  "毫克 mg",
+  "微克 μg",
+  "克 g",
+  "國際單位 IU",
+  "毫升 mL",
+  "液量盎司 fl oz",
+  "滴 gtt",
+  "泰瑟 tsp",
+  "湯匙 tbsp",
+];
 const bloodOptions = ["A", "B", "AB", "O"];
 
-export default function CreatePatientModal() {
+export default function InsertMedicineModal() {
+  let medicineNameInput = useRef(null);
+
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const defaultTheme = createTheme();
 
-  const [hkidInput, setHkidInput] = useState("");
-  const [firstNameInput, setFirstNameInput] = useState("");
-  const [lastNameInput, setLastNameInput] = useState("");
-  const [genderInput, setGenderInput] = useState("");
-  const [gender, setGender] = React.useState<string | null>(genderOptions[0]);
-  const [bloodInput, setBLoodInput] = useState("");
-  const [blood, setBlood] = React.useState<string | null>(bloodOptions[0]);
+  const [unitInput, setUnitInput] = useState("");
+  const [unit, setUnit] = React.useState<string | null>(unitOptions[0]);
   const [birthDateInput, setBirthDateInput] = React.useState<Dayjs | null>(
     dayjs("2000-01-01")
   );
-  //phone field
-  const [phoneNumberInput, setPhoneNumberInput] = React.useState("");
-  const phoneChange = (newPhoneNumberInput: React.SetStateAction<string>) => {
-    setPhoneNumberInput(newPhoneNumberInput);
-  };
+  const [phoneNumberInput, setPhoneNumberInput] = useState("");
   const [emergencyNameInput, setEmergencyNameInput] = useState("");
-  //emergencyContact
-  const [emergencyContactInput, setEmergencyContactInput] = React.useState("");
-  const emergencyContactChange = (newEmergencyContactInput: React.SetStateAction<string>) => {
-    setEmergencyContactInput(newEmergencyContactInput);
-  };
+  const [emergencyContactInput, setEmergencyContactInput] = useState("");
+
   const queryClient = useQueryClient();
 
   const handleAddPatient = async () => {
@@ -72,36 +73,32 @@ export default function CreatePatientModal() {
   };
   const onSubmit = useMutation({
     mutationFn: async (data: {
-      hkid: string;
-      password: string;
-      firstName: string;
-      lastName: string;
-      gender: string;
-      blood: string;
-      birth_date: string;
-      phone_number: string;
-      emergency_name: string;
-      emergency_contact: string;
+      name: string;
+      generic_drug: string;
+      description: string;
+      dosage: string;
+      unit_measurement: string;
+      type: string;
+      drug_shape_id: string;
+      color: string;
       created_at: string;
       updated_at: string;
     }) =>
-      createPatient(
-        data.hkid,
-        data.password,
-        data.firstName,
-        data.lastName,
-        data.gender,
-        data.blood,
-        data.birth_date,
-        data.phone_number,
-        data.emergency_name,
-        data.emergency_contact,
+      insertMedicine(
+        data.name,
+        data.generic_drug,
+        data.description,
+        data.dosage,
+        data.unit_measurement,
+        data.type,
+        data.drug_shape_id,
+        data.color,
         data.created_at,
         data.updated_at
       ),
     onSuccess: (data) => {
       console.log("mutate on success");
-      console.log("On Creating Patient", data);
+      console.log("On Insert Medicine", data);
       handleAddPatient();
       handleClose();
 
@@ -113,23 +110,19 @@ export default function CreatePatientModal() {
     },
   });
 
-  const handleSubmit = () => {
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+    // console.log(e.target[0]);
+    // @ts-ignore
+    console.log("G9G",medicineNameInput!.current);
+    // console.log("GG", e.target.querySelector(".hihi > div > div > input").value);
     const currentTime = dayjs().format("YYYY-MM-DD HH:mm:ss");
     console.log("current time is" + currentTime);
-    onSubmit.mutate({
-      hkid: hkidInput,
-      password: hkidInput,
-      firstName: firstNameInput,
-      lastName: lastNameInput,
-      gender: genderInput,
-      blood: bloodInput,
-      birth_date: birthDateInput?.format("YYYY-MM-DD") || "",
-      phone_number: phoneNumberInput,
-      emergency_name: emergencyNameInput,
-      emergency_contact: emergencyContactInput,
-      created_at: currentTime,
-      updated_at: currentTime,
-    });
+
+    // onSubmit.mutate({
+
+    //   name:medicineName
+    // });
   };
 
   return (
@@ -161,49 +154,49 @@ export default function CreatePatientModal() {
                   }}
                 >
                   <Typography component="h1" variant="h5">
-                    Create Patient
+                    Insert New Medicine
                   </Typography>
-                  <Box component="form" noValidate sx={{ mt: 0 }}>
-                    {/* HKID input */}
+                  <Box
+                    component="form"
+                    noValidate
+                    sx={{ mt: 0 }}
+                    onSubmit={handleSubmit}
+                  >
+                    {/* medicine name */}
                     <TextField
-                      value={hkidInput}
-                      onChange={(e) => setHkidInput(e.target.value)}
+                      name="medicineName"
                       margin="normal"
                       required
                       fullWidth
-                      id="hkid"
-                      label="HKID"
-                      name="hkid"
-                      autoComplete="hkid"
+                      id="medicineName"
+                      label="Medicine Name"
+                      autoComplete="medicineName"
                       autoFocus
+                      ref={medicineNameInput}
                     />
-                    {/* first name */}
+                    {/* Generic Drug */}
                     <TextField
-                      value={firstNameInput}
-                      onChange={(e) => setFirstNameInput(e.target.value)}
+                      name="genericDrug"
                       margin="normal"
                       required
                       fullWidth
-                      id="firstName"
-                      label="First Name"
-                      name="firstName"
-                      autoComplete="firstName"
+                      id="genericDrug"
+                      label="Generic Drug"
+                      autoComplete="genericDrug"
                       autoFocus
                     />
-                    {/* last name */}
+                    {/* description */}
                     <TextField
-                      value={lastNameInput}
-                      onChange={(e) => setLastNameInput(e.target.value)}
+                      name="description"
                       margin="normal"
                       required
                       fullWidth
-                      id="lastName"
-                      label="Last Name"
-                      name="lastName"
-                      autoComplete="lastName"
+                      id="description"
+                      label="Description"
+                      autoComplete="description"
                       autoFocus
                     />
-                    {/* Blood and Gender */}
+                    {/* dosage and unit */}
                     <Grid
                       sx={{
                         mt: 2,
@@ -211,40 +204,42 @@ export default function CreatePatientModal() {
                         justifyContent: "space-between",
                       }}
                     >
-                      {/* Gender */}
-
-                      <Autocomplete
-                        value={gender}
-                        onChange={(event: any, newGender: string | null) => {
-                          setGender(newGender);
-                        }}
-                        inputValue={genderInput}
-                        onInputChange={(event, newInputValue) => {
-                          setGenderInput(newInputValue);
-                        }}
-                        id="controllable-states-demo"
-                        options={genderOptions}
-                        sx={{ width: 300 }}
-                        renderInput={(params) => (
-                          <TextField {...params} label="Gender" />
-                        )}
+                      {/* doseage */}
+                      <TextField
+                        name="dosage"
+                        sx={{ width: 300, mt: 0 }}
+                        value={emergencyContactInput}
+                        onChange={(e) =>
+                          setEmergencyContactInput(e.target.value)
+                        }
+                        margin="normal"
+                        required
+                        id="dosage"
+                        label="Dosage"
+                        autoComplete="dosage"
+                        autoFocus
+                        type="number"
+                        inputProps={{ maxLength: 8 }}
                       />
-                      {/* Blood */}
-
+                      {/* unit */}
                       <Autocomplete
-                        value={blood}
-                        onChange={(event: any, newBlood: string | null) => {
-                          setBlood(newBlood);
+                        /* 
+                        // @ts-ignore */
+
+                        className="hihi"
+                        value={unit}
+                        onChange={(event: any, newunit: string | null) => {
+                          setUnit(newunit);
                         }}
-                        inputValue={bloodInput}
+                        inputValue={unitInput}
                         onInputChange={(event, newInputValue) => {
-                          setBLoodInput(newInputValue);
+                          setUnitInput(newInputValue);
                         }}
                         id="controllable-states-demo"
-                        options={bloodOptions}
+                        options={unitOptions}
                         sx={{ width: 300 }}
                         renderInput={(params) => (
-                          <TextField {...params} label="Blood" />
+                          <TextField {...params} label="unit" />
                         )}
                       />
                     </Grid>
@@ -268,6 +263,7 @@ export default function CreatePatientModal() {
                           <DatePicker
                             sx={{ width: 300, mb: 0 }}
                             label="Date of Birth"
+                            name="date"
                             value={birthDateInput}
                             onChange={(newValue) => setBirthDateInput(newValue)}
                           />
@@ -275,11 +271,19 @@ export default function CreatePatientModal() {
                       </LocalizationProvider>
                       {/* Phone Number */}
 
-                      <MuiTelInput
+                      <TextField
                         sx={{ width: 300, mt: 1, mb: 0 }}
-                        label="Phone Number"
                         value={phoneNumberInput}
-                        onChange={phoneChange}
+                        onChange={(e) => setPhoneNumberInput(e.target.value)}
+                        margin="normal"
+                        required
+                        id="phoneNumber"
+                        label="Phone Number"
+                        name="phoneNumber"
+                        autoComplete="phoneNumber"
+                        autoFocus
+                        type="number"
+                        inputProps={{ maxLength: 8 }}
                       />
                     </Grid>
 
@@ -307,11 +311,21 @@ export default function CreatePatientModal() {
 
                       {/* emergency contact Number */}
 
-                      <MuiTelInput
-                        sx={{ width: 300, mt: 1, mb: 0 }}
-                        label="Emergency Contact Person Number"
+                      <TextField
+                        sx={{ width: 300, mt: 1 }}
                         value={emergencyContactInput}
-                        onChange={emergencyContactChange}
+                        onChange={(e) =>
+                          setEmergencyContactInput(e.target.value)
+                        }
+                        margin="normal"
+                        required
+                        id="emergencyContact"
+                        label="Emergency Contact Person Number"
+                        name="emergencyContact"
+                        autoComplete="emergencyContact"
+                        autoFocus
+                        type="number"
+                        inputProps={{ maxLength: 8 }}
                       />
                     </Grid>
 
@@ -326,7 +340,7 @@ export default function CreatePatientModal() {
                       <Button
                         sx={{ position: "absolute", width: 400 }}
                         variant="contained"
-                        onClick={handleSubmit}
+                        type="submit"
                       >
                         Submit
                       </Button>

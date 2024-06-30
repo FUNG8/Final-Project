@@ -13,25 +13,21 @@ export class PatientAuthController {
   }
 
   createPatient = async (req: Request, res: Response) => {
+    let {
+      hkid,
+      password,
+      firstName,
+      lastName,
+      gender,
+      blood,
+      birth_date,
+      phone_number,
+      emergency_name,
+      emergency_contact,
+      created_at,
+      updated_at,
+    } = req.body;
     try {
-      
-      let {
-        hkid,
-        password,
-        firstName,
-        lastName,
-        gender,
-        blood,
-        birth_date,
-        phone_number,
-
-        emergency_name,
-        emergency_contact,
-        created_at,
-        updated_at
-        
-      } = req.body;
-  
       let result = await this.authService.createPatients(
         hkid,
         password,
@@ -41,21 +37,20 @@ export class PatientAuthController {
         blood,
         birth_date,
         phone_number,
-
         emergency_name,
         emergency_contact,
         created_at,
         updated_at
       );
-  
+
       if (result) {
         res.json({ message: "register success" });
-      } else {
-        res.status(500).json({ message: "Internal Server Error! Register Failed." });
-      }
+      } 
+      
     } catch (error) {
-      console.error("Error creating patient:", error);
-      res.status(500).json({ message: "Internal Server Error! Register Failed." });
+      const message = "Error creating patient:" + error
+      console.error(message);
+      res.status(400).json({ message});
     }
   };
 
@@ -66,7 +61,11 @@ export class PatientAuthController {
     let result = await this.authService.login(hkidInput, passwordInput);
 
     if (result.verified) {
-      const payload = { userId: result.userId, firstName: result.firstName, lastName:result.lastName  };
+      const payload = {
+        userId: result.userId,
+        firstName: result.firstName,
+        lastName: result.lastName,
+      };
       console.log("check payload", payload);
 
       const jwtToken = jwtSimple.encode(payload, process.env.JWT_SECRET!);

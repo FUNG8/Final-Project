@@ -55,8 +55,6 @@ export function usePatientsInfo(pageNumber = 1, pageSize = 20, searchTerm = "") 
     return data
 }
 
-
-
 export async function addPatientInfo(
     register_id: number,
     firstName: string,
@@ -103,3 +101,6 @@ export async function addPatientInfo(
     const result = await response.json();
     return result.data;
 }
+
+
+
