@@ -55,8 +55,8 @@ export function ListMedicine() {
                             </TableHead>
                             <TableBody>
                                 {medicine && medicine.status === "success" && (medicine as any).medicineResult?.map((medicine: any) => (
-                                    <TableRow key={medicine.id}>
-                                        <TableCell>{medicine.id}</TableCell>
+                                    <TableRow key={medicine.medicine_id}>
+                                        <TableCell>{medicine.medicine_id}</TableCell>
                                         <TableCell>{medicine.name}</TableCell>
                                         <TableCell>{medicine.generic_drug}</TableCell>
                                         <TableCell>{medicine.description}</TableCell>

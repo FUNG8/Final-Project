@@ -14,7 +14,7 @@ export async function insertMedicine(
 ) {
     console.log("medicineAPI.ts ready to fetch");
     try {
-        let res = await fetch(`${process.env.REACT_APP_SERVER}/medicines/insertMedicines`, {
+        let res = await fetch(`${process.env.REACT_APP_API_SERVER}/medicines/insertMedicines`, {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json",
