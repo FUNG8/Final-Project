@@ -1,5 +1,4 @@
 import { useQuery } from "@tanstack/react-query";
-import usePatientSearch from "../components/usePatientSearch";
 import { useParams } from "react-router-dom";
 
 

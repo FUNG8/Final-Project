@@ -27,7 +27,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import Button from "@mui/material/Button";
 import { useMutation } from "@tanstack/react-query";
-import { createPatient } from "../api/patientAuthAPI";
+import { createPatient } from "../../api/patientAuthAPI";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { MuiTelInput } from "mui-tel-input";
 

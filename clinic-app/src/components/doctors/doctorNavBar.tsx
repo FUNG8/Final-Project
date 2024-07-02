@@ -20,7 +20,7 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import { logout } from "../api/doctorAuthAPI";
+import { logout } from "../../api/doctorAuthAPI";
 import { useNavigate } from "react-router-dom";
 
 const drawerWidth = 240;

@@ -22,9 +22,9 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import { logout } from '../../api/patientAuthAPI';
-import notification from '../..//patientpages/notification';
-import Profile from '../../patientpages/profilePage';
-import setting from '../../patientpages/setting';
+import notification from '../../pages/patientpages/notification';
+import Profile from '../../pages/patientpages/profilePage';
+import setting from '../../pages/patientpages/setting';
 import { Navigate, useNavigate } from 'react-router-dom';
 
 

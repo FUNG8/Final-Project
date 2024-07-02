@@ -20,17 +20,11 @@ import {
   createTheme,
 } from "@mui/material";
 import { useState } from "react";
-import dayjs, { Dayjs } from "dayjs";
-import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import dayjs from "dayjs";
 import Button from "@mui/material/Button";
 import { useMutation } from "@tanstack/react-query";
-import { createPatient } from "../api/patientAuthAPI";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useRef } from "react";
-import { insertMedicine } from "../api/medicineAPI";
+import { insertMedicine } from "../../api/medicineAPI";
 
 const unitOptions = [
   "毫克 mg",

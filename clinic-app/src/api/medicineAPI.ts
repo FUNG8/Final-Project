@@ -1,5 +1,4 @@
 import { useQuery } from "@tanstack/react-query";
-import { jwtDecode } from "jwt-decode";
 
 export async function insertMedicine(
     name: string,

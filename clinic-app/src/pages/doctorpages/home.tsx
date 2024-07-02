@@ -1,12 +1,11 @@
 import './home.scss';
-import TemporaryDrawer from '../components/doctorNavBar';
+import TemporaryDrawer from '../../components/doctors/doctorNavBar';
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
-import WaitingTable from '../components/homTable'
-import ConsultTable from '../components/consultingTable'
-import { Username } from '../components/username';
-import WindowResize from '../features/resizeWindowSize';
+import WaitingTable from '../../components/homTable'
+import ConsultTable from '../../components/consultingTable'
+import { Username } from '../../components/username';
 
 export default function Home() {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
