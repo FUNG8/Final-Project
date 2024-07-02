@@ -3,6 +3,7 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper
 import { SetStateAction, useEffect, useState } from 'react';
 import { SearchBar } from "./searchBar";
 
+
 export function ListMedicine() {
     const [currentPage, setCurrentPage] = useState(1);
     const perPage = 20;

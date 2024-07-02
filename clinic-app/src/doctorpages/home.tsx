@@ -6,7 +6,7 @@ import Box from '@mui/material/Box';
 import WaitingTable from '../components/homTable'
 import ConsultTable from '../components/consultingTable'
 import { Username } from '../components/username';
-
+import WindowResize from '../features/resizeWindowSize';
 
 export default function Home() {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);

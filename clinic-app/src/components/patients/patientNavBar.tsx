@@ -21,10 +21,10 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import { logout } from '../api/patientAuthAPI';
-import notification from '../patientpages/notification';
-import Profile from '../patientpages/profilePage';
-import setting from '../patientpages/setting';
+import { logout } from '../../api/patientAuthAPI';
+import notification from '../..//patientpages/notification';
+import Profile from '../../patientpages/profilePage';
+import setting from '../../patientpages/setting';
 import { Navigate, useNavigate } from 'react-router-dom';
 
 
@@ -113,16 +113,16 @@ export default function PatientNavBar() {
 
     const navigate = useNavigate();
         const icons = [
-            <div onClick={() => navigate("/patientHome")}>
+            <div onClick={() => navigate("/patient/home")}>
               <HouseIcon />
             </div>,
-            <div onClick={() => navigate("/patientProfile")}>
+            <div onClick={() => navigate("/patient/profile")}>
               <AccountCircleIcon />
             </div>,
-            <div onClick={() => navigate("/patientNotification")}>
+            <div onClick={() => navigate("/patient/notification")}>
               <NotificationsActiveIcon />
             </div>,
-            <div onClick={() => navigate("/patientSetting")}>
+            <div onClick={() => navigate("/patient/setting")}>
               <SettingsIcon />
             </div>,
         <div onClick={logout}>

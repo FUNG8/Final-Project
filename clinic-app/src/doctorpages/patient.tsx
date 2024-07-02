@@ -4,7 +4,6 @@ import style from './App.module.scss'
 import TemporaryDrawer from '../components/doctorNavBar';
 import { blue } from '@mui/material/colors';
 import styled from 'styled-components';
-import FixedBottomNavigation from '../components/bottomnavbar';
 import { ListPatients } from '../components/patientList';
 import CreatePatientModal from '../components/createPatientForm';
  
