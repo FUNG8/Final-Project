@@ -7,6 +7,11 @@ import Grid from "@mui/material/Grid";
 import PatientBanner from "../components/patients/patientBanner"
 
 export default function Profile() {
+
+
+
+
+
   return (
     <div>
       <PatientBanner />
@@ -14,10 +19,10 @@ export default function Profile() {
       
       <Grid container spacing={2} sx={{ mt: 1 }}>
         <Grid item xs={12} md={6}>
-          <Card sx={{ ml:3 ,height: 500, padding: 2, backgroundColor: 'rgb(232, 242, 252, 0.4)' }}>
+          <Card sx={{ height: 500, padding: 2, backgroundColor: 'rgb(232, 242, 252, 0.4)' }}>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
-                <StyleContainer title="First Name :">
+                <StyleContainer title="First Name : ">
                   {/* content goes here */}
                 </StyleContainer>
               </Grid>
@@ -56,7 +61,7 @@ export default function Profile() {
         </Grid>
         
         <Grid item xs={12} md={6}>
-          <Card sx={{ mr: 3,height: 500, padding: 2, backgroundColor: 'rgb(232, 242, 252, 0.4)' }}>
+          <Card sx={{ height: 500, padding: 2, backgroundColor: 'rgb(232, 242, 252, 0.4)' }}>
             <Grid sx={{ fontSize: 30, padding: 2, fontFamily: "monospace" }}>
               Diagnosis History
             </Grid>
