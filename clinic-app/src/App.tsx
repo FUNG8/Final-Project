@@ -18,7 +18,7 @@ import Setting from "./patientpages/setting";
 import PatientAuthGuard from "./patientpages/PatientAuthGuard";
 import { DoctorAuthGuard } from "./doctorpages/AuthGuard";
 import { LandingPage } from "./LandingPage";
-import { ShowPatientInfo } from "./features/patientInfo/ShowPatientInfo";
+import { ShowPatientInfo } from "./components/ShowPatientInfo";
 
 const queryClient = new QueryClient();
 
