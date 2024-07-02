@@ -14,6 +14,7 @@ import {
   CssBaseline,
   FormControlLabel,
   FormGroup,
+  FormLabel,
   Grid,
   Radio,
   RadioGroup,
@@ -86,7 +87,6 @@ export default function InsertMedicineModal() {
   const [typeInput, setTypeInput] = useState("");
   const [type, setType] = React.useState<string | null>(typeOptions[0]);
   const drug = GetDrugShape();
-  console.log(drug);
 
   const queryClient = useQueryClient();
 
@@ -294,20 +294,32 @@ export default function InsertMedicineModal() {
                       />
                     </Grid>
                     {/* Drug Shape */}
-                    <RadioGroup
-                      row
-                      aria-labelledby="demo-row-radio-buttons-group-label"
-                      name="row-radio-buttons-group"
+                    <Grid
+                      sx={{
+                        mt: 2,
+                      }}
                     >
-                      <FormControlLabel
-                        value="female"
-                        control={<Radio />}
-                        label="Female"
-                      />
-                      
-                      
-                     
-                    </RadioGroup>
+                      <FormLabel id="demo-row-radio-buttons-group-label">
+                        Medicine Shape
+                      </FormLabel>
+                      <Grid>
+                      <RadioGroup
+                        row
+                        aria-labelledby="demo-row-radio-buttons-group-label"
+                        name="row-radio-buttons-group"
+                      >
+                        {drug.status === "success" &&
+                          (drug as any).data.map((drug: any) => (
+                            <FormControlLabel
+                              value={drug.id}
+                              control={<Radio />}
+                              label={drug.shape}
+                            />
+                          ))}
+                      </RadioGroup>
+                      </Grid>
+                    </Grid>
+                    {/* Submit Button */}
                     <Grid
                       sx={{
                         my: 4,

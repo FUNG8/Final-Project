@@ -38,28 +38,28 @@ import { useQuery } from "@tanstack/react-query";
 //             throw new Error(insertResult.message)
 //           }
 //           return insertResult;
-        
+
 //     } catch (error) {
 //         console.error("Error inserting medicine:", error);
 //         throw error
 //     }
 // }
 
-export function GetDrugShape(){
+export function GetDrugShape() {
+  const { isLoading, error, data, isFetching } = useQuery({
+    queryKey: ["Show Drug Shape"],
+    queryFn: async () => {
+      const res = await fetch(
+        `${process.env.REACT_APP_API_SERVER}/drugShape/getDrugShape`
+      );
+      const result = await res.json();
+      console.log(result);
+      return { status: "success", data: result };
+    },
+  });
+  if (isLoading || isFetching || error || !data) {
+    return { status: "loading" };
+  }
 
-    const { isLoading, error, data, isFetching } = useQuery({
-        queryKey: ["Show Drug Shape"],
-        queryFn: async () => {
-            const res = await fetch(`${process.env.REACT_APP_API_SERVER}/drugShape/getDrugShape`);
-            const result = await res.json();
-            console.log(result)
-            return { status: "success", result };
-        },
-    });
-    if (isLoading || isFetching || error || !data) {
-        return { status: "loading" }
-    }
-
-    return data
+  return data;
 }
-
