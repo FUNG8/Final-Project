@@ -43,24 +43,52 @@ const unitOptions = [
   "泰瑟 tsp",
   "湯匙 tbsp",
 ];
-const bloodOptions = ["A", "B", "AB", "O"];
+const typeOptions = [
+  "Analgesics (painkillers)",
+  "Antibiotics",
+  "Antivirals",
+  "Antidepressants",
+  "Antihypertensives (blood pressure)",
+  "Antidiabetics",
+  "Antihistamines",
+  "Chemotherapeutics (cancer)",
+  "Immunosuppressants",
+  "Agonists",
+  "Antagonists", 
+  "Enzyme inhibitors",
+  "Receptor modulators",
+  "Natural/herbal",
+  "Synthetic",
+  "Biologic (e.g. proteins, vaccines)",
+  "Oral",
+  "Topical",
+  "Intravenous",
+  "Inhaled",
+  "Transdermal",
+  "Over-the-counter (OTC)",
+  "Prescription-only",
+  "Controlled substances",
+  "Short-acting vs long-acting",
+  "Immediate release vs extended release",
+  "High therapeutic index (wide safety margin)",
+  "Low therapeutic index (narrow safety margin)"
+];
 
 export default function InsertMedicineModal() {
-  let medicineNameInput = useRef(null);
-
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const defaultTheme = createTheme();
 
+  const [medicineNameInput, setMedicineNameInput] = useState("");
+  const [genericDrugInput, setGenericDrugInput] = useState("");
+  const [descriptionInput, setDescriptionInput] = useState("");
+  const [dosageInput, setDosageInput] = useState("");
   const [unitInput, setUnitInput] = useState("");
   const [unit, setUnit] = React.useState<string | null>(unitOptions[0]);
-  const [birthDateInput, setBirthDateInput] = React.useState<Dayjs | null>(
-    dayjs("2000-01-01")
-  );
-  const [phoneNumberInput, setPhoneNumberInput] = useState("");
-  const [emergencyNameInput, setEmergencyNameInput] = useState("");
-  const [emergencyContactInput, setEmergencyContactInput] = useState("");
+  const [typeInput, setTypeInput] = useState("");
+  const [type, setType] = React.useState <string | null>(typeOptions[0]);
+
 
   const queryClient = useQueryClient();
 
@@ -114,7 +142,7 @@ export default function InsertMedicineModal() {
     e.preventDefault();
     // console.log(e.target[0]);
     // @ts-ignore
-    console.log("G9G",medicineNameInput!.current);
+    console.log("G9G", medicineNameInput!.current);
     // console.log("GG", e.target.querySelector(".hihi > div > div > input").value);
     const currentTime = dayjs().format("YYYY-MM-DD HH:mm:ss");
     console.log("current time is" + currentTime);
@@ -164,7 +192,8 @@ export default function InsertMedicineModal() {
                   >
                     {/* medicine name */}
                     <TextField
-                      name="medicineName"
+                      value={medicineNameInput}
+                      onChange={(e) => setMedicineNameInput(e.target.value)}
                       margin="normal"
                       required
                       fullWidth
@@ -172,10 +201,11 @@ export default function InsertMedicineModal() {
                       label="Medicine Name"
                       autoComplete="medicineName"
                       autoFocus
-                      ref={medicineNameInput}
                     />
                     {/* Generic Drug */}
                     <TextField
+                      value={genericDrugInput}
+                      onChange={(e) => setGenericDrugInput(e.target.value)}
                       name="genericDrug"
                       margin="normal"
                       required
@@ -187,6 +217,8 @@ export default function InsertMedicineModal() {
                     />
                     {/* description */}
                     <TextField
+                      value={descriptionInput}
+                      onChange={(e) => setDescriptionInput(e.target.value)}
                       name="description"
                       margin="normal"
                       required
@@ -208,10 +240,8 @@ export default function InsertMedicineModal() {
                       <TextField
                         name="dosage"
                         sx={{ width: 300, mt: 0 }}
-                        value={emergencyContactInput}
-                        onChange={(e) =>
-                          setEmergencyContactInput(e.target.value)
-                        }
+                        value={dosageInput}
+                        onChange={(e) => setDosageInput(e.target.value)}
                         margin="normal"
                         required
                         id="dosage"
@@ -223,10 +253,6 @@ export default function InsertMedicineModal() {
                       />
                       {/* unit */}
                       <Autocomplete
-                        /* 
-                        // @ts-ignore */
-
-                        className="hihi"
                         value={unit}
                         onChange={(event: any, newunit: string | null) => {
                           setUnit(newunit);
@@ -239,55 +265,12 @@ export default function InsertMedicineModal() {
                         options={unitOptions}
                         sx={{ width: 300 }}
                         renderInput={(params) => (
-                          <TextField {...params} label="unit" />
+                          <TextField {...params} label="Unit" />
                         )}
                       />
                     </Grid>
 
-                    {/* date of birth and phone number */}
-                    <Grid
-                      sx={{
-                        mt: 2,
-                        mb: 0,
-                        display: "flex",
-                        justifyContent: "space-between",
-                      }}
-                    >
-                      {/* Birth Date */}
-
-                      <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DemoContainer
-                          sx={{ my: 0 }}
-                          components={["DatePicker", "DatePicker"]}
-                        >
-                          <DatePicker
-                            sx={{ width: 300, mb: 0 }}
-                            label="Date of Birth"
-                            name="date"
-                            value={birthDateInput}
-                            onChange={(newValue) => setBirthDateInput(newValue)}
-                          />
-                        </DemoContainer>
-                      </LocalizationProvider>
-                      {/* Phone Number */}
-
-                      <TextField
-                        sx={{ width: 300, mt: 1, mb: 0 }}
-                        value={phoneNumberInput}
-                        onChange={(e) => setPhoneNumberInput(e.target.value)}
-                        margin="normal"
-                        required
-                        id="phoneNumber"
-                        label="Phone Number"
-                        name="phoneNumber"
-                        autoComplete="phoneNumber"
-                        autoFocus
-                        type="number"
-                        inputProps={{ maxLength: 8 }}
-                      />
-                    </Grid>
-
-                    {/* emergency contact person and number */}
+                    {/* type */}
                     <Grid
                       sx={{
                         mt: 2,
@@ -295,37 +278,23 @@ export default function InsertMedicineModal() {
                         justifyContent: "space-between",
                       }}
                     >
-                      {/* emergency contact person */}
-                      <TextField
-                        sx={{ width: 300, mt: 1 }}
-                        value={emergencyNameInput}
-                        onChange={(e) => setEmergencyNameInput(e.target.value)}
-                        margin="normal"
-                        required
-                        id="emergencyNameInput"
-                        label="Emergency Contact Person"
-                        name="emergencyNameInput"
-                        autoComplete="emergencyNameInput"
-                        autoFocus
-                      />
-
-                      {/* emergency contact Number */}
-
-                      <TextField
-                        sx={{ width: 300, mt: 1 }}
-                        value={emergencyContactInput}
-                        onChange={(e) =>
-                          setEmergencyContactInput(e.target.value)
-                        }
-                        margin="normal"
-                        required
-                        id="emergencyContact"
-                        label="Emergency Contact Person Number"
-                        name="emergencyContact"
-                        autoComplete="emergencyContact"
-                        autoFocus
-                        type="number"
-                        inputProps={{ maxLength: 8 }}
+                      
+                      
+                      <Autocomplete
+                        value={type}
+                        onChange={(event: any, newtype: string | null) => {
+                          setType(newtype);
+                        }}
+                        inputValue={typeInput}
+                        onInputChange={(event, newInputValue) => {
+                          setTypeInput(newInputValue);
+                        }}
+                        id="controllable-states-demo"
+                        options={typeOptions}
+                        fullWidth
+                        renderInput={(params) => (
+                          <TextField {...params} label="Medicine Type" />
+                        )}
                       />
                     </Grid>
 

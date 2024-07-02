@@ -1,11 +1,13 @@
-import { usePatientsInfo } from './patientAPI';
+import { usePatientsInfo } from '../api/patientAPI';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Box, Button } from '@mui/material';
 import Pagination from '@mui/material/Pagination';
 import { SetStateAction, useEffect, useState } from 'react';
-import { SearchBar } from '../../components/searchBar';
+
 import SendIcon from '@mui/icons-material/Send';
-import { SendPatient } from './sendPatient';
+
 import { useNavigate } from 'react-router-dom';
+import { SearchBar } from './searchBar';
+import { SendPatient } from '../features/patientInfo/sendPatient';
 
 
 

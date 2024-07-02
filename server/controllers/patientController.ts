@@ -11,6 +11,7 @@ export class PatientController {
     constructor(private patientSerivice: PatientService) {
         this.router.get("/searchPatients", this.searchPatients);
         this.router.get("/showPatients", this.showPatients);
+        this.router.post("/editPatients", this.editPatients);
 
     }
 
@@ -61,7 +62,7 @@ export class PatientController {
 
     showPatients = async (req: Request, res: Response) => {
         try {
-            console.log("what's the show button shown", req.query)
+            // console.log("what's the show button shown", req.query)
             const patientId = req.query.patientId
             const patient_soloInfo = (await pgClient.query(`SELECT * FROM patient WHERE id = ${patientId};`)).rows
             console.log(patient_soloInfo)
@@ -73,7 +74,19 @@ export class PatientController {
         }
     }
 
+    editPatients = async (req: Request, res: Response) => {
+        try {
+            console.log("what's the edit shown", req.query)
+            // const patientId = req.query.patientId
+            // const editPatientDetails = (await pgClient.query(`UPDATE patient SET 'firstName' = ${}, 'lastName' = ${}, 'gender' = ${}, 'blood' = ${}, 'hkid' = ${}, 'birth_date' = ${}, 'phone_number' = ${}, 'emergency_name' = ${}, 'emergency_contact' = ${} WHERE id = ${patientId};`)).rows
+            // console.log(editPatientDetails)
 
+            res.json();
+        } catch (e) {
+            res.status(500);
+            console.log("Error showing Patient Info");
+        }
+    }
 
 
 

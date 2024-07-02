@@ -23,6 +23,7 @@ import { ShowPatientInfo } from "./features/patientInfo/ShowPatientInfo";
 const queryClient = new QueryClient();
 
 function App() {
+  const parsedPatientId: number | undefined = 123;
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
