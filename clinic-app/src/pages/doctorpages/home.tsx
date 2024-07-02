@@ -5,10 +5,23 @@ import { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import WaitingTable from '../../components/homTable'
 import ConsultTable from '../../components/consultingTable'
-import { Username } from '../../components/username';
+import { Username } from '../../components/Username';
+import styled from 'styled-components';
+import { Paper } from '@mui/material';
+import Grid from '@mui/material/Grid';
+
 
 export default function Home() {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  const Item = styled(Paper)(({ theme }) => ({
+    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+    ...theme.typography.body2,
+    padding: theme.spacing(1),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+    flexGrow: 1,
+  }));
 
   useEffect(() => {
     // Handler to call on window resize
@@ -29,11 +42,11 @@ export default function Home() {
     <>
       <TemporaryDrawer />
 
-      <header
+      {/* <header
         className="App-header"
         style={{
           display: 'flex',
-          justifyContent: 'flex-end',
+          justifyContent: 'space-around',
           alignItems: 'flex-start',
         }}>
         <Box
@@ -102,7 +115,26 @@ export default function Home() {
             </Box>
           )}
         </Box>
-      </header>
+      </header> */}
+      <body>
+        {/* <Box sx={{ flexGrow: 1 }}>
+          <Grid container spacing={2}>
+            <Grid item xs={8}>
+              <Item>xs=8</Item>
+            </Grid>
+            <Grid item xs={4}>
+              <Item>xs=4</Item>
+            </Grid>
+            <Grid item xs={4}>
+              <Item>xs=4</Item>
+            </Grid>
+            <Grid item xs={8}>
+              <Item>xs=8</Item>
+            </Grid>
+          </Grid>
+        </Box> */}
+      </body>
+
     </>
   );
 }

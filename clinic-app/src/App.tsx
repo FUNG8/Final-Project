@@ -19,40 +19,49 @@ import PatientAuthGuard from "./pages/patientpages/PatientAuthGuard";
 import { DoctorAuthGuard } from "./pages/doctorpages/AuthGuard";
 import { LandingPage } from "./LandingPage";
 import { ShowPatientInfo } from "./components/ShowPatientInfo";
+import { ThemeProvider, createTheme } from "@mui/material";
+import { useThemeContext } from "./theme/ThemeContextProvider";
+import NightModeToggle from "./components/NightModeToggle";
 
 const queryClient = new QueryClient();
 
+
 function App() {
   const parsedPatientId: number | undefined = 123;
+const { theme } = useThemeContext();
+
   return (
-    <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <div className="App">
-          {/* <TemporaryDrawer /> */}
+    <ThemeProvider theme={theme}>
+      <QueryClientProvider client={queryClient}>
+        <BrowserRouter>
+          <div className="App">
+            {/* <TemporaryDrawer /> */}
+            
 
-          <Routes>
-            <Route index element={<LandingPage />} />
-            <Route path="/doctorlogin" element={<DoctorLogin />} />
-            <Route path="/patientlogin" element={<PatientLogin />} />
+            <Routes>
+              <Route index element={<LandingPage />} />
+              <Route path="/doctorlogin" element={<DoctorLogin />} />
+              <Route path="/patientlogin" element={<PatientLogin />} />
 
-            <Route path="/doctor" element={<DoctorAuthGuard />}>
-              <Route path="home" element={<Home />} />
-              <Route path="patient" element={<Patient />} />
-              <Route path="patientDetail/:patientId" element={<ShowPatientInfo />} />
-              <Route path="medicine" element={<Medicine />} />
-            </Route>
+              <Route path="/doctor" element={<DoctorAuthGuard />}>
+                <Route path="home" element={<Home />} />
+                <Route path="patient" element={<Patient />} />
+                <Route path="patientDetail/:patientId" element={<ShowPatientInfo />} />
+                <Route path="medicine" element={<Medicine />} />
+              </Route>
 
 
-            <Route path="/patient" element={<PatientAuthGuard />}>
-              <Route path="home" element={<PatientHome />} />
-              <Route path="notification" element={<Notification />} />
-              <Route path="profile" element={<Profile />} />
-              <Route path="setting" element={<Setting />} />
-            </Route>
-          </Routes>
-        </div>
-      </BrowserRouter>
-    </QueryClientProvider>
+              <Route path="/patient" element={<PatientAuthGuard />}>
+                <Route path="home" element={<PatientHome />} />
+                <Route path="notification" element={<Notification />} />
+                <Route path="profile" element={<Profile />} />
+                <Route path="setting" element={<Setting />} />
+              </Route>
+            </Routes>
+          </div>
+        </BrowserRouter>
+      </QueryClientProvider>
+    </ThemeProvider>
   );
 }
 
