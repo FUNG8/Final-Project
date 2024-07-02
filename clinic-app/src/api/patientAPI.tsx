@@ -103,8 +103,7 @@ export async function addPatientInfo(
 }
 
 export function useShowPatientInfo(patientId: number) {
-    // console.log("show patient with ID:", patientId)
-    // console.log("test",test)
+
 
     const { isLoading, error, data, isFetching } = useQuery({
         queryKey: ["showPatientsInfo", patientId],
