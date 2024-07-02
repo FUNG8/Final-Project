@@ -1,7 +1,7 @@
-import { useMedicineInfo } from '../../api/medicineAPI';
+import { useMedicineInfo } from '../api/medicineAPI';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Box, Pagination } from '@mui/material';
 import { SetStateAction, useEffect, useState } from 'react';
-import { SearchBar } from "../../components/searchBar";
+import { SearchBar } from "./searchBar";
 
 export function ListMedicine() {
     const [currentPage, setCurrentPage] = useState(1);

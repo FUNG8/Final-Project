@@ -1,6 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import usePatientSearch from "../../components/usePatientSearch";
-import patient from "./patient";
+import usePatientSearch from "../components/usePatientSearch";
 
 
 export enum Gender {

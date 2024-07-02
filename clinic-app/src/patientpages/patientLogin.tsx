@@ -1,7 +1,7 @@
 import React from 'react';
 import style from './App.module.scss';
 import TemporaryDrawer from '../components/doctorNavBar';
-import { ListPatients } from '../features/patientInfo/patientList';
+import { ListPatients } from '../components/patientList';
 import { Margin } from '@mui/icons-material';
 
 import PatientLoginForm from '../components/patientLoginForm';

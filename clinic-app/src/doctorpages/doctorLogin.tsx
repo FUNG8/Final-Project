@@ -3,7 +3,7 @@ import logo from './logo.svg';
 import style from './App.module.scss';
 import TemporaryDrawer from '../components/doctorNavBar';
 import { blue } from '@mui/material/colors';
-import { ListPatients } from '../features/patientInfo/patientList';
+import { ListPatients } from '../components/patientList';
 import { Margin } from '@mui/icons-material';
 
 import DoctorLogInForm from '../components/doctorLogInForm';
