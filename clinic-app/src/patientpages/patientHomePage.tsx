@@ -1,11 +1,11 @@
 import React from "react";
-import MiniDrawer from "../components/patientNavBar";
+import BottomNavbar from "../components/patients/bottomnavbar";
 export default function patientHome() {
 
     return (
    
       <div className="App">
-        <MiniDrawer />
+        <BottomNavbar />
         <header className="App-header">
           <p>Home</p>
                     

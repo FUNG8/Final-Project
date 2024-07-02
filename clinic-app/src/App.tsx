@@ -4,7 +4,7 @@ import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import logo from "./logo.svg";
 import style from "./App.module.scss";
 import TemporaryDrawer from "./components/doctorNavBar";
-import FixedBottomNavigation from "./components/bottomnavbar";
+import FixedBottomNavigation from "./components/patients/bottomnavbar";
 import Home from "./doctorpages/home";
 import DoctorLogin from "./doctorpages/doctorLogin";
 import PatientLogin from "./patientpages/patientLogin";

@@ -14,9 +14,9 @@ import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
-import { queryClient } from '..';
+import { queryClient } from '../../';
 import { FormEvent, useState } from 'react';
-import { login } from "../api/patientAuthAPI";
+import { login } from "../../api/patientAuthAPI";
 
 function Copyright(props: any) {
   return (
@@ -35,8 +35,8 @@ function Copyright(props: any) {
 const defaultTheme = createTheme();
 
 export default function PatientLoginForm() {
-  const [hkidInput, sethkidInput] = useState("");
-  const [passwordInput, setPasswordInput] = useState("");
+  const [hkidInput, sethkidInput] = useState("Z1234574");
+  const [passwordInput, setPasswordInput] = useState("Z1234574");
 
   const navigate = useNavigate();
  const [ErrorMessage, setErrorMessage] = useState('');

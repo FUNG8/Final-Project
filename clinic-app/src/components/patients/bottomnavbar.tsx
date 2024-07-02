@@ -1,4 +1,13 @@
 import * as React from "react";
+import HouseIcon from '@mui/icons-material/House';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
+import SettingsIcon from '@mui/icons-material/Settings';
+import LogoutIcon from '@mui/icons-material/Logout';
+import { logout } from '../../api/patientAuthAPI';
+import notification from '../../patientpages/notification';
+import Profile from '../../patientpages/profilePage';
+import setting from '../../patientpages/setting';
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import BottomNavigation from "@mui/material/BottomNavigation";
@@ -10,7 +19,7 @@ import Paper from "@mui/material/Paper";
 import { Link, Navigate, useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
-export default function FixedBottomNavigation() {
+export default function BottomNavbar() {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -46,19 +55,29 @@ export default function FixedBottomNavigation() {
       >
         <BottomNavigation value={value} showLabels onChange={handleChange}>
           <BottomNavigationAction
-            onClick={()=>{navigate("/home");}}
+            onClick={()=>{navigate("/patient/home");}}
             label="Home"
-            icon={<HomeIcon />}
+            icon={<HouseIcon />}
           />
           <BottomNavigationAction
-            onClick={()=>{navigate("/history");}}
-            label="History"
-            icon={<HistoryIcon />}
+            onClick={()=>{navigate("/patient/profile");}}
+            label="Profile"
+            icon={<AccountCircleIcon />}
           />
           <BottomNavigationAction
-            onClick={()=>{navigate("/favourite");}}
-            label="Favourite"
-            icon={<FavoriteIcon />}
+            onClick={()=>{navigate("/patient/notification");}}
+            label="Notification"
+            icon={<NotificationsActiveIcon />}
+          />
+          <BottomNavigationAction
+            onClick={()=>{navigate("/patient/setting");}}
+            label="Setting"
+            icon={<SettingsIcon />}
+          />
+          <BottomNavigationAction
+            onClick={logout}
+            label="Logout"
+            icon={<LogoutIcon/>}
           />
         </BottomNavigation>
       </Paper>

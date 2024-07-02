@@ -1,10 +1,10 @@
-import MiniDrawer from "../components/patientNavBar";
+import BottomNavbar from "../components/patients/bottomnavbar";
 export default function notification() {
 
     return (
    
       <div className="App">
-        <MiniDrawer />
+       <BottomNavbar />
         <header className="App-header">
           <p>Notification</p>
                     
