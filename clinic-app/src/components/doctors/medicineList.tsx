@@ -63,7 +63,7 @@ export function ListMedicine() {
                                         <TableCell>{medicine.dosage}</TableCell>
                                         <TableCell>{medicine.unit_measurement}</TableCell>
                                         <TableCell>{medicine.type}</TableCell>
-                                        <TableCell>{medicine.drug_shape_id}</TableCell>
+                                        <TableCell>{medicine.shape}</TableCell>
                                         <TableCell>{medicine.color}</TableCell>
                                         <TableCell>{medicine.updated_at}</TableCell>
                                         <TableCell>{medicine.created_at}</TableCell>

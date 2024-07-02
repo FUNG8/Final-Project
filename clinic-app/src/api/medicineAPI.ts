@@ -56,12 +56,17 @@ export function useMedicineInfo(pageNumber = 1, pageSize = 20,searchTerm = ""){
             const res = await fetch(`${process.env.REACT_APP_API_SERVER}/medicines/allMedicines?${paramString}`);
             console.log("this is response", res)
             const result = await res.json();
+            console.log(result)
             return { status: "success", medicineResult: result.medicineResult, currentPage: result.currentPage, totalPages: result.totalPages };
         },
     });
     if (isLoading || isFetching || error || !data) {
         return { status: "loading" }
     }
-
+console.log(data)
     return data
+}
+
+export function getDrugShape(){
+    
 }

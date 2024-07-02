@@ -16,7 +16,7 @@ export class MedicineController {
 
   allMedicines = async (req: Request, res: Response) => {
     try {
-      let queryString = `SELECT * FROM medicine`;
+      let queryString = `SELECT * FROM  medicine  JOIN drug_shape ON medicine.drug_shape_id = drug_shape.id`;
       console.log("check req query", req.query);
       let pageNumber: number = parseInt(req.query.pageNumber as string);
       const perPage = 20;
@@ -105,7 +105,7 @@ export class MedicineController {
         res.json({ message: "insert medicine success" });
       }
     } catch (error) {
-        res.status(400).json({error})
+      res.status(400).json({ error });
     }
   };
 }

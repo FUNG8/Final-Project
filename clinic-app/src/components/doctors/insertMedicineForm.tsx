@@ -15,6 +15,8 @@ import {
   FormControlLabel,
   FormGroup,
   Grid,
+  Radio,
+  RadioGroup,
   TextField,
   Typography,
   createTheme,
@@ -25,6 +27,7 @@ import Button from "@mui/material/Button";
 import { useMutation } from "@tanstack/react-query";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { insertMedicine } from "../../api/medicineAPI";
+import { GetDrugShape } from "../../api/drugAPI";
 
 const unitOptions = [
   "毫克 mg",
@@ -48,7 +51,7 @@ const typeOptions = [
   "Chemotherapeutics (cancer)",
   "Immunosuppressants",
   "Agonists",
-  "Antagonists", 
+  "Antagonists",
   "Enzyme inhibitors",
   "Receptor modulators",
   "Natural/herbal",
@@ -65,7 +68,7 @@ const typeOptions = [
   "Short-acting vs long-acting",
   "Immediate release vs extended release",
   "High therapeutic index (wide safety margin)",
-  "Low therapeutic index (narrow safety margin)"
+  "Low therapeutic index (narrow safety margin)",
 ];
 
 export default function InsertMedicineModal() {
@@ -81,8 +84,9 @@ export default function InsertMedicineModal() {
   const [unitInput, setUnitInput] = useState("");
   const [unit, setUnit] = React.useState<string | null>(unitOptions[0]);
   const [typeInput, setTypeInput] = useState("");
-  const [type, setType] = React.useState <string | null>(typeOptions[0]);
-
+  const [type, setType] = React.useState<string | null>(typeOptions[0]);
+  const drug = GetDrugShape();
+  console.log(drug);
 
   const queryClient = useQueryClient();
 
@@ -272,8 +276,6 @@ export default function InsertMedicineModal() {
                         justifyContent: "space-between",
                       }}
                     >
-                      
-                      
                       <Autocomplete
                         value={type}
                         onChange={(event: any, newtype: string | null) => {
@@ -291,7 +293,21 @@ export default function InsertMedicineModal() {
                         )}
                       />
                     </Grid>
-
+                    {/* Drug Shape */}
+                    <RadioGroup
+                      row
+                      aria-labelledby="demo-row-radio-buttons-group-label"
+                      name="row-radio-buttons-group"
+                    >
+                      <FormControlLabel
+                        value="female"
+                        control={<Radio />}
+                        label="Female"
+                      />
+                      
+                      
+                     
+                    </RadioGroup>
                     <Grid
                       sx={{
                         my: 4,

@@ -24,51 +24,30 @@ export class MedicineService {
     color: string,
     created_at: string,
     updated_at: string
-  ) {
-    try {
-      return this.knex.transaction(async (trx) => {
-        // Insert the medicine first
-        let medInsertResult = await trx
-          .insert({
-            name: name,
-            generic_drug: generic_drug,
-            description: description,
-            dosage: dosage,
-            unit_measurement: unit_measurement,
-            type: type,
-            drug_shape_id: drug_shape_id,
-            color: color,
-            created_at: created_at,
-            updated_at: updated_at,
-          })
-          .into("Medicine")
-          .returning("id");
-  
-        if (medInsertResult.length > 0) {
-          // Check if the drug_shape_id already exists in the drug_shape table
-          let drugShapeExistsResult = await trx
-            .from("drug_shape")
-            .where("id", drug_shape_id)
-            .first();
-  
-          if (!drugShapeExistsResult) {
-            // Insert the drug shape if it doesn't exist
-            await trx
-              .insert({
-                id: drug_shape_id,
-                // Add any other drug shape properties here
-              })
-              .into("drug_shape");
-          }
-  
-          return medInsertResult[0].id;
-        } else {
-          throw new Error("Failed to insert Medicine");
-        }
-      });
-    } catch (error) {
-      console.log("Error insert Medicine", error);
-      throw error;
+    ) {
+    try{
+    let medInsertResult = await this.table()
+    .insert({
+    name: name,
+    generic_drug: generic_drug,
+    description: description,
+    dosage: dosage,
+    unit_measurement: unit_measurement,
+    type: type,
+    drug_shape_id: drug_shape_id,
+    color: color,
+    created_at: created_at,
+    updated_at: updated_at,
+    })
+    .returning('id');
+    
+    if (medInsertResult.length>0){
+    return medInsertResult[0].id;
+    }else{
+    throw new Error('Failed to insert Medicine')
+    }}catch(error){
+    console.log('Error insert Medicine', error)
+    throw error;
     }
-  }
+    }
 }
