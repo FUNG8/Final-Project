@@ -42,10 +42,17 @@ import { MedicineController } from './controllers/MedicineController';
 const medicineService = new MedicineService(knex);
 const medicineController = new MedicineController(medicineService);
 
+import { PatientProfileService } from './services/patientProfileService';
+import { PatientProfileController } from './controllers/patientProfileController';
+const patientProfileService = new PatientProfileService(knex);
+const patientProfileController = new PatientProfileController(patientProfileService)
+
+
 app.use("/doctorAuth", doctorAuthController.router)
 app.use("/patientAuth", patientAuthController.router)
 app.use("/patients", patientController.router);
 app.use("/medicines", medicineController.router)
+app.use("/patientProfile",patientProfileController.router)
 
 
 

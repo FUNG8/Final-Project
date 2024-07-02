@@ -45,12 +45,12 @@ export class PatientAuthController {
 
       if (result) {
         res.json({ message: "register success" });
-      } 
-      
+      }
+
     } catch (error) {
       const message = "Error creating patient:" + error
       console.error(message);
-      res.status(400).json({ message});
+      res.status(400).json({ message });
     }
   };
 
@@ -65,6 +65,7 @@ export class PatientAuthController {
         userId: result.userId,
         firstName: result.firstName,
         lastName: result.lastName,
+        hkid: result.hkid
       };
       console.log("check payload", payload);
 
