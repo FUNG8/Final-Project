@@ -23,7 +23,7 @@ import { ShowPatientInfo } from "./components/ShowPatientInfo";
 const queryClient = new QueryClient();
 
 function App() {
-  const parsedPatientId: number | undefined = 123;
+   const hkid = "Z1234574"
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
@@ -46,7 +46,7 @@ function App() {
             <Route path="/patient" element={<PatientAuthGuard />}>
               <Route path="home" element={<PatientHome />} />
               <Route path="notification" element={<Notification />} />
-              <Route path="profile" element={<Profile />} />
+              <Route path="profile" element={<Profile hkid={hkid} />} />
               <Route path="setting" element={<Setting />} />
             </Route>
           </Routes>

@@ -128,7 +128,7 @@ export function useEditPatientInfo(patientId: number) {
         queryFn: async () => {
             const res = await fetch(`${process.env.REACT_APP_API_SERVER}/patients/editPatients?patientId=${patientId}`);
             const result = await res.json();
-            return { status: "success", editPatientId: result.patientId};
+            return { status: "success", editPatientId: result.patientId };
         },
     });
     if (isLoading || isFetching || error || !data) {
@@ -136,5 +136,50 @@ export function useEditPatientInfo(patientId: number) {
     }
     console.log(data)
     return data
+
 }
 
+export function useFetchDataToProfile(hkid: string) {
+    const { isLoading, error, data, isFetching } = useQuery({
+        queryKey: ["profileData", hkid],
+        queryFn: async () => {
+            const res = await fetch(`${process.env.REACT_APP_API_SERVER}/patientProfile/profilePage/`, {
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem("patientToken")}`
+                }
+            });
+            const result = await res.json();
+            console.log(result)
+            return { status: "success", result: result.data }
+        },
+    });
+    if (isLoading || isFetching || error || !data) {
+        return { status: "loading" }
+    }
+
+
+    return data
+}
+
+
+
+export function useFetchDataToDiagnosis(hkid: string) {
+    const { isLoading, error, data, isFetching } = useQuery({
+        queryKey: ["diagnosisData", hkid],
+        queryFn: async () => {
+            const res = await fetch(`${process.env.REACT_APP_API_SERVER}/patientDiagnosis/getDiagnosis/`, {
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem("patientToken")}`
+                }
+            });
+            const results = await res.json();
+            return results.data
+        },
+    });
+    if (isLoading || isFetching || error || !data) {
+        return { status: "loading" }
+    }
+
+ 
+    return data
+}

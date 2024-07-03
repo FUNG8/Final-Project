@@ -1,87 +1,102 @@
 import Card from "@mui/material/Card";
-import BottomNavbar from "../../components/patients/bottomnavbar"
-import PatientProfileBar from "../../components/patients/patientProfileBar"
-import Container from '@mui/material/Container';
-import { StyleContainer } from "./patientPageConatinerStyle";
+import BottomNavbar from "../../components/patients/bottomnavbar";
+import PatientProfileBar from "../../components/patients/patientProfileBar";
 import Grid from "@mui/material/Grid";
-import PatientBanner from "../../components/patients/patientBanner"
+import PatientBanner from "../../components/patients/patientBanner";
+import { useFetchDataToDiagnosis, useFetchDataToProfile } from "../../api/patientAPI";
 
-export default function Profile() {
+interface ProfileDetails {
+  firstName: string;
+  lastName: string;
+  birth_date: string;
+  gender: string;
+  phone_number: string;
+  emergency_contact: number;
+  emergency_name: string;
+  created_at: Date;
+  name: string;
+};
 
 
 
-
+export default function Profile({ hkid }: { hkid: string }) {
+  const profileDetails: any = useFetchDataToProfile(hkid);
+  const diagnosisDetails: any = useFetchDataToDiagnosis(hkid);
+  console.log(profileDetails)
+  console.log(diagnosisDetails)
 
   return (
     <div>
       <PatientBanner />
       <PatientProfileBar />
-      
-      <Grid container spacing={2} sx={{ mt: 1 }}>
-        <Grid item xs={12} md={6}>
-          <Card sx={{ height: 500, padding: 2, backgroundColor: 'rgb(232, 242, 252, 0.4)' }}>
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <StyleContainer title="First Name : ">
-                  {/* content goes here */}
-                </StyleContainer>
+      {profileDetails.status === "success" ?
+        <Grid container spacing={2} sx={{ mt: 1 }}>
+          <Grid item xs={12} md={6}>
+            <Card sx={{ height: 500, padding: 2, backgroundColor: 'rgb(232, 242, 252, 0.4)' }}>
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={8}>
+                  <div className="detailsContainer">
+                    First Name: {profileDetails.result.firstName}
+                  </div>
+                </Grid>
+                <Grid item xs={12} sm={8}>
+                  <div className="detailsContainer">
+                    Last Name : {profileDetails.result.lastName}
+                  </div>
+                </Grid>
+                <Grid item xs={12} sm={8}>
+                  <div className="detailsContainer">
+                    Birth : {profileDetails.result.birth_date}
+                  </div>
+                </Grid>
+                <Grid item xs={12} sm={8}>
+                  <div className="detailsContainer">
+                    Gender : {profileDetails.result.gender}
+                  </div>
+                </Grid>
+                <Grid item xs={12} sm={8}>
+                  <div className="detailsContainer">
+                    Phone Number : {profileDetails.result.phone_number}
+                  </div>
+                </Grid>
+                <Grid item xs={12} sm={8}>
+                  <div className="detailsContainer">
+                    Emergency Name : {profileDetails.result.emergency_name}
+                  </div>
+                </Grid>
+                <Grid item xs={12} sm={8}>
+                  <div className="detailsContainer">
+                    Emergency Contact : {profileDetails.result.emergency_contact}
+                  </div>
+                </Grid>
               </Grid>
-              <Grid item xs={12} sm={6}>
-                <StyleContainer title="Last Name :">
-                  {/* content goes here */}
-                </StyleContainer>
+            </Card>
+          </Grid>
+          {diagnosisDetails.message = "success" ? <Grid item xs={12} md={6}>
+            <Card sx={{ height: 500, padding: 2, backgroundColor: 'rgb(232, 242, 252, 0.4)' }}>
+              <Grid sx={{ fontSize: 30, padding: 2, fontFamily: "monospace" }}>
+                Diagnosis History
               </Grid>
-              <Grid item xs={12} sm={6}>
-                <StyleContainer title="Birthday :">
-                  {/* content goes here */}
-                </StyleContainer>
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={6}>
+                  <div className="detailsContainer">
+                    Date: {diagnosisDetails ? diagnosisDetails.created_at : " "}
+                  </div>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <div className="detailsContainer">
+                    Diagnosis: {diagnosisDetails ? diagnosisDetails.name : " "}
+                  </div>
+                </Grid>
               </Grid>
-              <Grid item xs={12} sm={6}>
-                <StyleContainer title="Gender :">
-                  {/* content goes here */}
-                </StyleContainer>
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <StyleContainer title="Phone Number :">
-                  {/* content goes here */}
-                </StyleContainer>
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <StyleContainer title="Emergency Contact Name :">
-                  {/* content goes here */}
-                </StyleContainer>
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <StyleContainer title="Emergency Contact Number :">
-                  {/* content goes here */}
-                </StyleContainer>
-              </Grid>
-            </Grid>
-          </Card>
-        </Grid>
-        
-        <Grid item xs={12} md={6}>
-          <Card sx={{ height: 500, padding: 2, backgroundColor: 'rgb(232, 242, 252, 0.4)' }}>
-            <Grid sx={{ fontSize: 30, padding: 2, fontFamily: "monospace" }}>
-              Diagnosis History
-            </Grid>
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <StyleContainer title="Date:">
-                  {/* content goes here */}
-                </StyleContainer>
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <StyleContainer title="Name:">
-                  {/* content goes here */}
-                </StyleContainer>
-              </Grid>
-            </Grid>
-          </Card>
-        </Grid>
-      </Grid>
+            </Card>
+          </Grid> :<></>}
+        </Grid> : <></>}
 
       <BottomNavbar />
     </div>
   );
 }
+
+
+
