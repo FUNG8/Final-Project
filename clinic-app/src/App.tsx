@@ -18,7 +18,7 @@ import Setting from "./pages/patientpages/setting";
 import PatientAuthGuard from "./pages/patientpages/PatientAuthGuard";
 import { DoctorAuthGuard } from "./pages/doctorpages/AuthGuard";
 import { LandingPage } from "./LandingPage";
-import { ShowPatientInfo } from "./components/ShowPatientInfo";
+import { ShowPatientInfo } from "./components/doctors/ShowPatientInfo";
 import { ThemeProvider, createTheme } from "@mui/material";
 import { useThemeContext } from "./theme/ThemeContextProvider";
 import NightModeToggle from "./components/NightModeToggle";

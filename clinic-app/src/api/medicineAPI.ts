@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 
+//mutation
 export async function insertMedicine(
     name: string,
     generic_drug: string,
@@ -45,6 +46,8 @@ export async function insertMedicine(
     }
 }
 
+
+//query
 export function useMedicineInfo(pageNumber = 1, pageSize = 20,searchTerm = ""){
     let paramString = `pageNumber=${pageNumber}&pageSize=${pageSize}`
     if (searchTerm !== null && searchTerm !== "" && searchTerm !== undefined) {

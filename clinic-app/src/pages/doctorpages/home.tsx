@@ -5,7 +5,6 @@ import { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import WaitingTable from '../../components/homTable'
 import ConsultTable from '../../components/consultingTable'
-import { Username } from '../../components/Username';
 import styled from 'styled-components';
 import { Paper } from '@mui/material';
 import Grid from '@mui/material/Grid';

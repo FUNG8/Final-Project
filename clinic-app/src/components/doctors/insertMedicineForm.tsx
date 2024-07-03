@@ -114,6 +114,7 @@ export default function InsertMedicineModal() {
     setDrugInput((event.target as HTMLInputElement).value);
   };
 
+  //step1 set up mutation
   const onSubmit = useMutation({
     mutationFn: async (data: {
       name: string;
@@ -153,6 +154,8 @@ export default function InsertMedicineModal() {
     },
   });
 
+
+  //step 2 trigger the mutation by action
   const handleSubmit = (e: any) => {
     e.preventDefault();
     const currentTime = dayjs().format("YYYY-MM-DD HH:mm:ss");
