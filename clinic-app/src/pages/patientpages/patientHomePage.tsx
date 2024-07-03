@@ -1,5 +1,5 @@
 import React from "react";
-import BottomNavbar from "../../components/patients/bottomnavbar";
+import BottomNavbar from "../../components/patients/BottomNavbar";
 export default function patientHome() {
 
     return (

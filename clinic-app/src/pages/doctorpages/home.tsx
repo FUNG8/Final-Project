@@ -1,10 +1,10 @@
 import './home.scss';
-import TemporaryDrawer from '../../components/doctors/doctorNavBar';
+import TemporaryDrawer from '../../components/doctors/DoctorNavBar';
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
-import WaitingTable from '../../components/homTable'
-import ConsultTable from '../../components/consultingTable'
+import WaitingTable from '../../components/HomeTable'
+import ConsultTable from '../../components/ConsultingTable'
 import styled from 'styled-components';
 import { Paper } from '@mui/material';
 import Grid from '@mui/material/Grid';

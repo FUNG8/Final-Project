@@ -16,7 +16,6 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
@@ -24,7 +23,6 @@ import { logout } from "../../api/doctorAuthAPI";
 import { useNavigate } from "react-router-dom";
 import NightModeToggle from "../NightModeToggle";
 import { Grid } from "@mui/material";
-
 
 const drawerWidth = 240;
 
@@ -95,7 +93,12 @@ export default function DoctorNavBar() {
       <CssBaseline />
       <AppBar position="fixed" open={open}>
         <Toolbar>
-          <Grid container direction="row" justifyContent="space-between" alignItems="center">
+          <Grid
+            container
+            direction="row"
+            justifyContent="space-between"
+            alignItems="center"
+          >
             <Grid direction="row" alignItems="center">
               <IconButton
                 color="inherit"
@@ -106,9 +109,6 @@ export default function DoctorNavBar() {
               >
                 <MenuIcon />
               </IconButton>
-              {/* <Typography variant="h6" noWrap component="div">
-                Doctor System
-              </Typography> */}
             </Grid>
             <Grid item>
               <NightModeToggle />
@@ -144,7 +144,6 @@ export default function DoctorNavBar() {
             onClick={() => {
               navigate("/doctor/home");
               handleDrawerClose();
-
             }}
           >
             <ListItemIcon>
@@ -156,7 +155,6 @@ export default function DoctorNavBar() {
             onClick={() => {
               navigate("/doctor/patient");
               handleDrawerClose();
-
             }}
           >
             <ListItemIcon>
@@ -168,7 +166,6 @@ export default function DoctorNavBar() {
             onClick={() => {
               navigate("/doctor/medicine");
               handleDrawerClose();
-
             }}
           >
             <ListItemIcon>

@@ -1,10 +1,10 @@
 import Card from "@mui/material/Card";
-import BottomNavbar from "../../components/patients/bottomnavbar"
-import PatientProfileBar from "../../components/patients/patientProfileBar"
+import BottomNavbar from "../../components/patients/BottomNavbar"
+import PatientProfileBar from "../../components/patients/PatientProfileBar"
 import Container from '@mui/material/Container';
 import { StyleContainer } from "./patientPageConatinerStyle";
 import Grid from "@mui/material/Grid";
-import PatientBanner from "../../components/patients/patientBanner"
+import PatientBanner from "../../components/patients/PatientBanner"
 
 export default function Profile() {
 

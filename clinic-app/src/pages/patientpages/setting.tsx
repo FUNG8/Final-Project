@@ -1,4 +1,4 @@
-import BottomNavbar from "../../components/patients/bottomnavbar";
+import BottomNavbar from "../../components/patients/BottomNavbar";
 export default function setting() {
 
     return (
