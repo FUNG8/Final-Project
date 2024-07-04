@@ -1,4 +1,4 @@
-import BottomNavbar from "../../components/patients/BottomNavbar";
+import BottomNavbar from "../../components/patients/Bottomnavbar";
 export default function notification() {
 
     return (

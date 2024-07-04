@@ -7,14 +7,21 @@ import { ListPatients } from '../../components/doctors/PatientList';
 import { Margin } from '@mui/icons-material';
 
 import DoctorLogInForm from '../../components/doctors/DoctorLogInForm';
+import { MuiTelInput } from "mui-tel-input";
 
-export default function doctorLogin() {
+export default function DoctorLogin() {
+  const [phone, setPhone] = React.useState('+852')
+
+  const handleChange = (newPhone: any) => {
+    setPhone(newPhone)
+  }
   return (
     <div className="App">
       <header className="App-header">
         
       </header>
-      <DoctorLogInForm />
+      <MuiTelInput className="MuiTelInput-FlagImg" value={phone} onChange={handleChange}  />
+      {/* <DoctorLogInForm /> */}
     </div>
   );
 }
