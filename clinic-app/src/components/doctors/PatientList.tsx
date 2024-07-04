@@ -90,12 +90,12 @@ export function ListPatients() {
                 {patients.status === "success" &&
                   (patients as any).patientResult.map((patient: any) => (
                     <TableRow
-                    key={patient.id}
-                    onClick={() => navigate(`/doctor/patientDetail/${patient.id}`)}
-                    style={{
-                      cursor: 'pointer',
-                    }}
-                  >
+                      key={patient.id}
+                      onClick={() => navigate(`/doctor/patientDetail/${patient.id}`)}
+                      style={{
+                        cursor: 'pointer',
+                      }}
+                    >
                       <TableCell>{patient.id}</TableCell>
                       <TableCell>{patient.firstName}</TableCell>
                       <TableCell>{patient.lastName}</TableCell>
@@ -119,7 +119,10 @@ export function ListPatients() {
                         </Button>
                       </TableCell>
                     </TableRow>
+
                   ))}
+
+
               </TableBody>
             </Table>
           </TableContainer>
@@ -139,5 +142,5 @@ export function ListPatients() {
 }
 
 
- 
+
 

@@ -18,7 +18,7 @@ import { useParams, useSearchParams } from "react-router-dom";
 import React from "react";
 import { MuiTelInput, MuiTelInputInfo } from "mui-tel-input";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { queryClient } from "../..";
+import { useQueryClient } from "@tanstack/react-query";
 import { useMutation } from "@tanstack/react-query";
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -50,6 +50,7 @@ interface Patient {
 export function ShowPatientInfo() {
   let { patientId } = useParams();
 
+  const queryClient = useQueryClient()
   // console.log("param is", patientId);
 
   const onEditItem = useMutation({
@@ -58,7 +59,7 @@ export function ShowPatientInfo() {
     onSuccess: (message: any) => {
       console.log(message)
       // invalidate query
-      console.log("this is queryinvliaded", queryClient.invalidateQueries({ queryKey: ["showPatientsInfo"] }))
+      queryClient.invalidateQueries({ queryKey: ["showPatientsInfo"] })
     }
   }
   )
@@ -67,9 +68,7 @@ export function ShowPatientInfo() {
   let [editedPatient, setEditedPatient] = useState<Patient | null>(null);
 
 
-
   const response = useShowPatientInfo(parseInt(patientId!));
-
 
   const handleEditClick = () => {
     setIsEditing(true);
