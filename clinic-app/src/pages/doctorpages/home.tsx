@@ -3,8 +3,8 @@ import TemporaryDrawer from '../../components/doctors/DoctorNavBar';
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
-import WaitingTable from '../../components/HomeTable'
-import ConsultTable from '../../components/ConsultingTable'
+import WaitingTable from '../../components/patients/HomeTable'
+import ConsultTable from '../../components/patients/ConsultingTable'
 import styled from 'styled-components';
 import { FormControlLabel, Paper, Slide, Switch } from '@mui/material';
 import Grid from '@mui/material/Grid';
