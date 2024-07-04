@@ -112,7 +112,7 @@ export function ShowPatientInfo() {
   return (response as any)?.result?.map((patient: any) => (
     <div>
       {isEditing ? (
-        <Accordion defaultExpanded>
+        <Accordion  sx={{ margin: 2 }}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1-content"
@@ -405,7 +405,7 @@ export function ShowPatientInfo() {
             </Container></AccordionDetails>
         </Accordion>
       ) : (
-        <Accordion defaultExpanded>
+        <Accordion  sx={{ margin: 2 }} >
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1-content"
@@ -455,6 +455,7 @@ export function ShowPatientInfo() {
                     {patient.hkid}
                   </Grid>
                 </Grid>
+                
 
                 {/* 2　row */}
                 <Grid

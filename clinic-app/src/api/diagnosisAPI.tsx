@@ -89,6 +89,7 @@ export function useShowDiagnosis(id: number) {
         queryFn: async () => {
             const res = await fetch(`${process.env.REACT_APP_API_SERVER}/diagnosis/getDiagnosis/${id}`);
             const diagnosisResult = await res.json();
+            console.log(diagnosisResult)
             return { status: "success", diagnosisResult };
         },
     });

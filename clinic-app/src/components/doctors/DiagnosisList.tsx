@@ -8,33 +8,65 @@ import {
   Paper,
   Box,
   Pagination,
+  Grid,
 } from "@mui/material";
 import { SetStateAction, useEffect, useState } from "react";
 import { SearchBar } from "./SearchBar";
 import { useShowDiagnosis } from "../../api/diagnosisAPI";
 import { useParams } from "react-router-dom";
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import Typography from '@mui/material/Typography';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 interface Diagnosis {
-    id: string;
-    name: string;
-  }
-  
-  interface DiagnosisResponse {
-    status: string;
-    diagnosisResult?: Diagnosis[];
-  }
+  created_at: string;
+  remarks: string;
+  id: string;
+  name: string;
+}
+
+interface DiagnosisResponse {
+  status: string;
+  diagnosisResult?: Diagnosis[];
+}
+
+AOS.init();
+
 
 export function ListDiagnosis() {
-  let {patientId} = useParams();
+  let { patientId } = useParams();
   const diagnosis: DiagnosisResponse | null = useShowDiagnosis(parseInt(patientId!));
-
-
   return (
     <div>
       <Box justifyContent="center" mt={4}>
         {diagnosis?.status === "success" && diagnosis.diagnosisResult?.map((diagnosis) => (
+
+
+
+
           <div key={diagnosis.id}>
-            {diagnosis.name}
+            <Accordion sx={{ margin: 2 }} >
+              <AccordionSummary
+                expandIcon={<ArrowDropDownIcon />}
+                aria-controls="panel2-content"
+                id="panel2-header"
+              >
+                <Grid xs={4} sx={{ margin: 2 }}><Typography>Diagnosis ID: {diagnosis.id}</Typography></Grid>
+                <Grid xs={8} sx={{ margin: 2 }}><Typography>Symptoms: {diagnosis.name}</Typography></Grid>
+
+              </AccordionSummary>
+              <AccordionDetails>
+                <Typography sx={{ margin: 2 }}>
+                  Remarks: {diagnosis.remarks}
+                  Diagnosis Time: {diagnosis.created_at}
+                </Typography>
+              </AccordionDetails>
+            </Accordion>
           </div>
         ))}
       </Box>

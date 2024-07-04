@@ -15,7 +15,7 @@ export default function PatientInfo() {
       <ShowPatientInfo />
     
       <ListDiagnosis/>
-      <Box>hi</Box>
+      
      
     </div>
   );
