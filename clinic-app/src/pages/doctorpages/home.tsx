@@ -6,8 +6,24 @@ import Box from '@mui/material/Box';
 import WaitingTable from '../../components/HomeTable'
 import ConsultTable from '../../components/ConsultingTable'
 import styled from 'styled-components';
-import { Paper } from '@mui/material';
+import { FormControlLabel, Paper, Slide, Switch } from '@mui/material';
 import Grid from '@mui/material/Grid';
+
+const icon = (
+  <Paper sx={{ m: 1, width: 100, height: 100 }} elevation={4}>
+    <svg>
+      <Box
+        component="polygon"
+        points="0,100 50,00, 100,100"
+        sx={{
+          fill: (theme) => theme.palette.common.white,
+          stroke: (theme) => theme.palette.divider,
+          strokeWidth: 1,
+        }}
+      />
+    </svg>
+  </Paper>
+);
 
 
 export default function Home() {
@@ -36,6 +52,12 @@ export default function Home() {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
+
+  const [checked, setChecked] = React.useState(false);
+
+  const handleChange = () => {
+    setChecked((prev) => !prev);
+  };
 
   return (
     <>
@@ -132,6 +154,22 @@ export default function Home() {
             </Grid>
           </Grid>
         </Box> */}
+        <Box
+        sx={{
+          height: 180,
+          width: 130,
+          position: 'relative',
+          zIndex: 1,
+        }}
+      >
+        <FormControlLabel
+          control={<Switch checked={checked} onChange={handleChange} />}
+          label="Show"
+        />
+        <Slide direction="up" in={checked} mountOnEnter unmountOnExit>
+          {icon}
+        </Slide>
+      </Box>
       </body>
 
     </>

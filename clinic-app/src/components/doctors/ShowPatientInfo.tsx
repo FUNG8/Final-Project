@@ -1,19 +1,9 @@
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
   Paper,
-  Box,
   Button,
   TextField,
   Grid,
   Container,
-  ListItem,
-  List,
-  ListItemText,
   Typography,
   Autocomplete,
 } from "@mui/material";
@@ -23,7 +13,6 @@ import { styled } from "@mui/material/styles";
 import { useEditPatientInfo, useShowPatientInfo } from "../../api/patientAPI";
 import { useParams, useSearchParams } from "react-router-dom";
 import React from "react";
-import dayjs, { Dayjs } from "dayjs";
 import { MuiTelInput } from "mui-tel-input";
 
 const Item = styled(Paper)(({ theme }) => ({
