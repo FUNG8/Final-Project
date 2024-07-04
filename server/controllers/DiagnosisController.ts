@@ -1,7 +1,6 @@
 import { Router, Request, Response } from "express";
 import { pgClient } from "../pgCLients";
 import { DiagnosisService } from "../services/diagnosisService";
-import { useParams } from "react-router-dom";
 
 export const diagnosisRouter = Router();
 

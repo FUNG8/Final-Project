@@ -122,6 +122,22 @@ export async function seed(knex: Knex): Promise<void> {
     {
       name: "High Blood Pressure",
       doctor_id: 2,
+      patient_id: 1,
+      remarks: "Patient has elevated blood pressure, monitoring required.",
+      created_at: new Date(),
+      updated_at: new Date(),
+    },
+    {
+      name: "Low Blood Pressure",
+      doctor_id: 2,
+      patient_id: 1,
+      remarks: "Patient has elevated blood pressure, monitoring required.",
+      created_at: new Date(),
+      updated_at: new Date(),
+    },
+    {
+      name: "High Blood Pressure",
+      doctor_id: 2,
       patient_id: 2,
       remarks: "Patient has elevated blood pressure, monitoring required.",
       created_at: new Date(),
