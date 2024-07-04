@@ -21,6 +21,7 @@ const queryClient = new QueryClient();
 function App() {
   const parsedPatientId: number | undefined = 123;
   const { theme } = useThemeContext();
+  
 
   return (
     <ThemeProvider theme={theme}>
