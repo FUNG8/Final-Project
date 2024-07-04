@@ -1,10 +1,10 @@
 import React from 'react';
 import style from './App.module.scss';
-import TemporaryDrawer from '../../components/doctors/DoctorNavBar';
-import { ListPatients } from '../../components/doctors/PatientList';
+import TemporaryDrawer from '../../components/doctors/doctorNavBar';
+import { ListPatients } from '../../components/doctors/patientList';
 import { Margin } from '@mui/icons-material';
 
-import PatientLoginForm from '../../components/patients/PatientLoginForm';
+import PatientLoginForm from '../../components/patients/patientLoginForm';
 
 export default function doctorLogin() {
   return (

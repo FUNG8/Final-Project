@@ -9,7 +9,6 @@ export default function patientProfileBar(){
     <div id="mainContainer">
       <div className="profileBox">PROFILE</div>
       <div id="iconBox">
-      <div className="icon"><SettingsIcon  sx={iconSize}/></div>
       <div className="icon"><VpnKeyIcon  sx={iconSize} /></div>
       </div>
     </div>

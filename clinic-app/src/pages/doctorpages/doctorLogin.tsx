@@ -1,27 +1,20 @@
 import React from 'react';
 import logo from './logo.svg';
 import style from './App.module.scss';
-import TemporaryDrawer from '../../components/doctors/DoctorNavBar';
+import TemporaryDrawer from '../../components/doctors/doctorNavBar';
 import { blue } from '@mui/material/colors';
-import { ListPatients } from '../../components/doctors/PatientList';
+import { ListPatients } from '../../components/doctors/patientList';
 import { Margin } from '@mui/icons-material';
 
-import DoctorLogInForm from '../../components/doctors/DoctorLogInForm';
-import { MuiTelInput } from "mui-tel-input";
+import DoctorLogInForm from '../../components/doctors/doctorLogInForm';
 
-export default function DoctorLogin() {
-  const [phone, setPhone] = React.useState('+852')
-
-  const handleChange = (newPhone: any) => {
-    setPhone(newPhone)
-  }
+export default function doctorLogin() {
   return (
     <div className="App">
       <header className="App-header">
         
       </header>
-      <MuiTelInput className="MuiTelInput-FlagImg" value={phone} onChange={handleChange}  />
-      {/* <DoctorLogInForm /> */}
+      <DoctorLogInForm />
     </div>
   );
 }

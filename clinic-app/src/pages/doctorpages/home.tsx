@@ -1,42 +1,14 @@
 import './home.scss';
-import TemporaryDrawer from '../../components/doctors/DoctorNavBar';
+import TemporaryDrawer from '../../components/doctors/doctorNavBar';
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
-import WaitingTable from '../../components/HomeTable'
-import ConsultTable from '../../components/ConsultingTable'
-import styled from 'styled-components';
-import { FormControlLabel, Paper, Slide, Switch } from '@mui/material';
-import Grid from '@mui/material/Grid';
-
-const icon = (
-  <Paper sx={{ m: 1, width: 100, height: 100 }} elevation={4}>
-    <svg>
-      <Box
-        component="polygon"
-        points="0,100 50,00, 100,100"
-        sx={{
-          fill: (theme) => theme.palette.common.white,
-          stroke: (theme) => theme.palette.divider,
-          strokeWidth: 1,
-        }}
-      />
-    </svg>
-  </Paper>
-);
-
+import WaitingTable from '../../components/homTable'
+import ConsultTable from '../../components/consultingTable'
+import { Username } from '../../components/username';
 
 export default function Home() {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-
-  const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-    flexGrow: 1,
-  }));
 
   useEffect(() => {
     // Handler to call on window resize
@@ -53,21 +25,15 @@ export default function Home() {
     };
   }, []);
 
-  const [checked, setChecked] = React.useState(false);
-
-  const handleChange = () => {
-    setChecked((prev) => !prev);
-  };
-
   return (
     <>
       <TemporaryDrawer />
 
-      {/* <header
+      <header
         className="App-header"
         style={{
           display: 'flex',
-          justifyContent: 'space-around',
+          justifyContent: 'flex-end',
           alignItems: 'flex-start',
         }}>
         <Box
@@ -136,42 +102,7 @@ export default function Home() {
             </Box>
           )}
         </Box>
-      </header> */}
-      <body>
-        {/* <Box sx={{ flexGrow: 1 }}>
-          <Grid container spacing={2}>
-            <Grid item xs={8}>
-              <Item>xs=8</Item>
-            </Grid>
-            <Grid item xs={4}>
-              <Item>xs=4</Item>
-            </Grid>
-            <Grid item xs={4}>
-              <Item>xs=4</Item>
-            </Grid>
-            <Grid item xs={8}>
-              <Item>xs=8</Item>
-            </Grid>
-          </Grid>
-        </Box> */}
-        <Box
-        sx={{
-          height: 180,
-          width: 130,
-          position: 'relative',
-          zIndex: 1,
-        }}
-      >
-        <FormControlLabel
-          control={<Switch checked={checked} onChange={handleChange} />}
-          label="Show"
-        />
-        <Slide direction="up" in={checked} mountOnEnter unmountOnExit>
-          {icon}
-        </Slide>
-      </Box>
-      </body>
-
+      </header>
     </>
   );
 }

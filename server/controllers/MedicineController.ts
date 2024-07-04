@@ -16,7 +16,7 @@ export class MedicineController {
 
   allMedicines = async (req: Request, res: Response) => {
     try {
-      let queryString = `select medicine.id as medicine_id ,* from medicine join drug_shape on medicine.drug_shape_id = drug_shape.id order by medicine.id`;
+      let queryString = `SELECT * FROM medicine`;
       console.log("check req query", req.query);
       let pageNumber: number = parseInt(req.query.pageNumber as string);
       const perPage = 20;
@@ -29,7 +29,6 @@ export class MedicineController {
       const searchTerm: any = req.query.searchTerm;
       // let medicineResult = await this.medicineService.getMedcines();
 
-      console.log("123", searchTerm);
       if (searchTerm) {
         if (isNaN(searchTerm)) {
           console.log("query is string");
@@ -59,12 +58,9 @@ export class MedicineController {
 
       queryString += ` OFFSET $1 LIMIT $2`;
 
-      console.log("check query string", queryString);
       let medicineResult = (
         await pgClient.query(queryString, [startIndex, perPage])
       ).rows;
-
-      console.log("check medi ggg", medicineResult);
 
       const response = {
         medicineResult,
@@ -109,7 +105,7 @@ export class MedicineController {
         res.json({ message: "insert medicine success" });
       }
     } catch (error) {
-      res.status(400).json({ error });
+        res.status(400).json({error})
     }
   };
 }

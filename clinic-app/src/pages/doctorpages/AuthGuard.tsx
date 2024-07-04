@@ -2,9 +2,9 @@ import { Outlet, useNavigate } from "react-router-dom";
 import { useAuthStatusDoctor } from "../../api/doctorAuthAPI";
 
 
-import DoctorLogInForm from "../../components/doctors/DoctorLogInForm";
-import DoctorNavBar from "../../components/doctors/DoctorNavBar";
-import PatientNavBar from "../../components/patients/PatientNavBar";
+import DoctorLogInForm from "../../components/doctors/doctorLogInForm";
+import DoctorNavBar from "../../components/doctors/doctorNavBar";
+import PatientNavBar from "../../components/patients/patientNavBar";
 import { LandingPage } from "../../LandingPage";
 
 

@@ -1,6 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
 
-//mutation
 export async function insertMedicine(
     name: string,
     generic_drug: string,
@@ -15,7 +14,7 @@ export async function insertMedicine(
 ) {
     console.log("medicineAPI.ts ready to fetch");
     try {
-        let res = await fetch(`${process.env.REACT_APP_API_SERVER}/medicines/insertMedicines`, {
+        let res = await fetch(`${process.env.REACT_APP_SERVER}/medicines/insertMedicines`, {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json",
@@ -46,8 +45,6 @@ export async function insertMedicine(
     }
 }
 
-
-//query
 export function useMedicineInfo(pageNumber = 1, pageSize = 20,searchTerm = ""){
     let paramString = `pageNumber=${pageNumber}&pageSize=${pageSize}`
     if (searchTerm !== null && searchTerm !== "" && searchTerm !== undefined) {
@@ -59,17 +56,12 @@ export function useMedicineInfo(pageNumber = 1, pageSize = 20,searchTerm = ""){
             const res = await fetch(`${process.env.REACT_APP_API_SERVER}/medicines/allMedicines?${paramString}`);
             console.log("this is response", res)
             const result = await res.json();
-            console.log(result)
             return { status: "success", medicineResult: result.medicineResult, currentPage: result.currentPage, totalPages: result.totalPages };
         },
     });
     if (isLoading || isFetching || error || !data) {
         return { status: "loading" }
     }
-console.log(data)
-    return data
-}
 
-export function getDrugShape(){
-    
+    return data
 }

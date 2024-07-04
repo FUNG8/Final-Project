@@ -9,7 +9,11 @@ import { ThemeProvider } from "styled-components";
 import {
   Autocomplete,
   Box,
+  Checkbox,
+  Container,
   CssBaseline,
+  FormControlLabel,
+  FormGroup,
   Grid,
   TextField,
   Typography,
@@ -54,9 +58,7 @@ export default function CreatePatientModal() {
   const [emergencyNameInput, setEmergencyNameInput] = useState("");
   //emergencyContact
   const [emergencyContactInput, setEmergencyContactInput] = React.useState("");
-  const emergencyContactChange = (
-    newEmergencyContactInput: React.SetStateAction<string>
-  ) => {
+  const emergencyContactChange = (newEmergencyContactInput: React.SetStateAction<string>) => {
     setEmergencyContactInput(newEmergencyContactInput);
   };
   const queryClient = useQueryClient();

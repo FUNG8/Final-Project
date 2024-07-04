@@ -1,4 +1,4 @@
-import { TextField } from "@mui/material";
+import { TextField } from '@mui/material';
 
 interface SearchBarProps {
   onSearch: (searchTerm: string) => void;
@@ -6,11 +6,15 @@ interface SearchBarProps {
 
 export function SearchBar({ onSearch }: SearchBarProps) {
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("hi");
+    console.log("hi")
     onSearch(event.target.value);
   };
 
   return (
-    <TextField label="Search" variant="outlined" onChange={handleInputChange} />
+    <TextField
+      label="Search"
+      variant="outlined"
+      onChange={handleInputChange}
+    />
   );
-}
+} 
