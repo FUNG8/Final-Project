@@ -11,7 +11,7 @@ export class PatientController {
     constructor(private patientSerivice: PatientService) {
         this.router.get("/searchPatients", this.searchPatients);
         this.router.get("/showPatients", this.showPatients);
-        this.router.post("/editPatients", this.editPatients);
+        this.router.put("/editPatients", this.editPatients);
 
     }
 
@@ -76,15 +76,36 @@ export class PatientController {
 
     editPatients = async (req: Request, res: Response) => {
         try {
-            console.log("what's the edit shown", req.query)
-            // const patientId = req.query.patientId
-            // const editPatientDetails = (await pgClient.query(`UPDATE patient SET 'firstName' = ${}, 'lastName' = ${}, 'gender' = ${}, 'blood' = ${}, 'hkid' = ${}, 'birth_date' = ${}, 'phone_number' = ${}, 'emergency_name' = ${}, 'emergency_contact' = ${} WHERE id = ${patientId};`)).rows
-            // console.log(editPatientDetails)
+            const patientId = req.query.patientId;
+            console.log("check body", req.body)
+            const { firstName, lastName, gender, blood, hkid, birth_date, phone_number, emergency_name, emergency_contact } = req.body;
+            console.log("what's the firstName",req.body.phone_number)
+            // Perform the necessary database update using the received data
+            const editPatientDetails = await pgClient.query(
+                `UPDATE patient SET 
+              "firstName" = $1,
+              "lastName" = $2,
+              gender = $3,
+              blood = $4,
+              hkid = $5,
+              birth_date = $6,
+              phone_number = $7,
+              emergency_name = $8,
+              emergency_contact = $9
+              WHERE id = $10`,
+                [firstName, lastName, gender, blood, hkid, birth_date, phone_number, emergency_name, emergency_contact, patientId]
+            );
 
-            res.json();
+            if (editPatientDetails.rowCount == 1) {
+                res.json({ message: "update success" })
+
+            }
+            else {
+                res.status(500).json({ message: "update failed" })
+            }
         } catch (e) {
-            res.status(500);
-            console.log("Error showing Patient Info");
+            res.status(500).json({ error: "Error editing Patient Info" });
+            console.log("Error editing Patient Info", e);
         }
     }
 

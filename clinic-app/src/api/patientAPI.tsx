@@ -1,5 +1,4 @@
 import { useQuery } from "@tanstack/react-query";
-import { useParams } from "react-router-dom";
 
 
 export enum Gender {
@@ -120,21 +119,40 @@ export function useShowPatientInfo(patientId: number) {
 }
 
 
-export function useEditPatientInfo(patientId: number) {
-    console.log("show patient with ID so to Edit:", patientId)
+// export function useEditPatientInfo(patientId: number) {
+//     console.log("show patient with ID so to Edit:", patientId)
 
-    const { isLoading, error, data, isFetching } = useQuery({
-        queryKey: ["editPatientsInfo", patientId],
-        queryFn: async () => {
-            const res = await fetch(`${process.env.REACT_APP_API_SERVER}/patients/editPatients?patientId=${patientId}`);
-            const result = await res.json();
-            return { status: "success", editPatientId: result.patientId};
+//     const { isLoading, error, data, isFetching } = useQuery({
+//         queryKey: ["editPatientsInfo", patientId],
+//         queryFn: async () => {
+//             const res = await fetch(`${process.env.REACT_APP_API_SERVER}/patients/editPatients?patientId=${patientId}`);
+//             const result = await res.json();
+//             return { status: "success", editPatientId: result.patientId};
+//         },
+//     });
+//     if (isLoading || isFetching || error || !data) {
+//         return { status: "loading" }
+//     }
+//     console.log(data)
+//     return data
+// }
+
+export async function editPatientInfo(patientId: number, editedInfo: Patient) {
+
+    let updateResponse = await fetch(`${process.env.REACT_APP_API_SERVER}/patients/editPatients?patientId=${patientId}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
         },
-    });
-    if (isLoading || isFetching || error || !data) {
-        return { status: "loading" }
+        body: JSON.stringify({ ...editedInfo }),
     }
-    console.log(data)
-    return data
-}
 
+    )
+
+    if (!updateResponse.ok) {
+        throw new Error(`HTTP error ${updateResponse.status}`);
+    }
+
+    const result = await updateResponse.json();
+    return result.message;
+}
