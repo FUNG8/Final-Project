@@ -9,6 +9,8 @@ import {
   Paper,
   Box,
   Button,
+  styled,
+  makeStyles,
 } from "@mui/material";
 import Pagination from "@mui/material/Pagination";
 import { SetStateAction, useEffect, useState } from "react";
@@ -16,6 +18,7 @@ import SendIcon from "@mui/icons-material/Send";
 import { useNavigate } from "react-router-dom";
 import { SearchBar } from "./SearchBar";
 import { SendPatient } from "./EditPatient";
+import { Margin } from "@mui/icons-material";
 
 export function ListPatients() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -44,6 +47,8 @@ export function ListPatients() {
     setSearchTerm(input);
     setCurrentPage(1);
   };
+
+
 
   return (
     <div>
@@ -85,12 +90,12 @@ export function ListPatients() {
                 {patients.status === "success" &&
                   (patients as any).patientResult.map((patient: any) => (
                     <TableRow
-                      key={patient.id}
-                      onClick={() =>
-                        navigate(`/doctor/patientDetail/${patient.id}`)
-                      }
-                      style={{ cursor: "pointer" }}
-                    >
+                    key={patient.id}
+                    onClick={() => navigate(`/doctor/patientDetail/${patient.id}`)}
+                    style={{
+                      cursor: 'pointer',
+                    }}
+                  >
                       <TableCell>{patient.id}</TableCell>
                       <TableCell>{patient.firstName}</TableCell>
                       <TableCell>{patient.lastName}</TableCell>
@@ -133,4 +138,6 @@ export function ListPatients() {
   );
 }
 
+
+ 
 

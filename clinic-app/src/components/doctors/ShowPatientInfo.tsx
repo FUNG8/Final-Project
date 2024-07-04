@@ -1,21 +1,14 @@
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
   Paper,
-  Box,
   Button,
   TextField,
   Grid,
   Container,
-  ListItem,
-  List,
-  ListItemText,
   Typography,
   Autocomplete,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
 } from "@mui/material";
 import { ChangeEvent, SetStateAction, useEffect, useState } from "react";
 import Stack from "@mui/material/Stack";
@@ -23,8 +16,8 @@ import { styled } from "@mui/material/styles";
 import { useEditPatientInfo, useShowPatientInfo } from "../../api/patientAPI";
 import { useParams, useSearchParams } from "react-router-dom";
 import React from "react";
-import dayjs, { Dayjs } from "dayjs";
 import { MuiTelInput } from "mui-tel-input";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -134,252 +127,481 @@ export function ShowPatientInfo() {
 
   return (patients as any)?.result?.map((patient: any) => (
     <div>
-     
       {isEditing ? (
-            <Item>
-            <Container maxWidth="lg">
-              <Grid p={4}>
-                <Typography variant="h4">
-                  {patient.firstName} {patient.lastName}
-                </Typography>
-                <p>Patient Details</p>
-              </Grid>
+        <Accordion defaultExpanded>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1-content"
+            id="panel1-header"
+          >
+            <Grid p={4}>
+              <Typography variant="h4">
+                {patient.firstName} {patient.lastName}
+              </Typography>
+              <p>Patient Details</p>
+            </Grid>
+          </AccordionSummary>
+          <AccordionDetails>
+
+          <Container maxWidth={"lg"}>
+
+            <Grid
+              container
+              rowSpacing={0}
+              columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+            >
+              {/* 1 row */}
               <Grid
-                container
-                rowSpacing={0}
-                columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+                height={80}
+                xs={6}
+                display={"flex"}
+                justifyContent={"flex-start"}
+                alignItems={"center"}
               >
-                {/* 1 row */}
-                <Grid
-                  height={80}
-                  xs={6}
-                  display={"flex"}
-                  justifyContent={"flex-start"}
-                  alignItems={"center"}
-                >
-                  <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
-                    <b>ID:</b>
-                  </Grid>
-                  <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
-                    {patient.id}
-                  </Grid>
+                <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                  <b>ID:</b>
                 </Grid>
-    
-                <Grid
-                  height={80}
-                  xs={6}
-                  display={"flex"}
-                  justifyContent={"flex-start"}
-                  alignItems={"center"}
-                >
-                  <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
-                    <b>HKID:</b>
-                  </Grid>
-                  <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
-                    {patient.hkid}
-                  </Grid>
-                </Grid>
-    
-                {/* 2　row */}
-                <Grid
-                  height={80}
-                  xs={6}
-                  display={"flex"}
-                  justifyContent={"flex-start"}
-                  alignItems={"center"}
-                >
-                  <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
-                    <b>First Name:</b>
-                  </Grid>
-                  <TextField
-                    value={firstNameInput}
-                    sx={{ width: 300, mt: 1 }}
-                    onChange={(e) => setFirstNameInput(e.target.value)}
-                    margin="normal"
-                    required
-                    id="firstName"
-                    label="First Name"
-                    name="firstName"
-                    autoComplete="firstName"
-                    autoFocus
-                  />
-                </Grid>
-    
-                <Grid
-                  height={80}
-                  xs={6}
-                  display={"flex"}
-                  justifyContent={"flex-start"}
-                  alignItems={"center"}
-                >
-                  <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
-                    <b>Last Name:</b>
-                  </Grid>
-                  <TextField
-                          value={lastNameInput}
-                          sx={{ width: 300, mt: 1 }}
-    
-                          onChange={(e) => setLastNameInput(e.target.value)}
-                          margin="normal"
-                          required
-                          id="lastName"
-                          label="Last Name"
-                          name="lastName"
-                          autoComplete="lastName"
-                          autoFocus
-                        />
-                </Grid>
-                {/* 3　row */}
-                <Grid
-                  height={80}
-                  xs={6}
-                  display={"flex"}
-                  justifyContent={"flex-start"}
-                  alignItems={"center"}
-                >
-                  <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
-                    <b>Birth Date:</b>
-                  </Grid>
-                  <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
-                    {patient.birth_date}
-                  </Grid>
-                </Grid>
-    
-                <Grid
-                  height={80}
-                  xs={6}
-                  display={"flex"}
-                  justifyContent={"flex-start"}
-                  alignItems={"center"}
-                >
-                  <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
-                    <b>Gender:</b>
-                  </Grid>
-                  <Autocomplete
-                            value={gender}
-                            onChange={(event: any, newGender: string | null) => {
-                              setGender(newGender);
-                            }}
-                            inputValue={genderInput}
-                            onInputChange={(event, newInputValue) => {
-                              setGenderInput(newInputValue);
-                            }}
-                            id="controllable-states-demo"
-                            options={genderOptions}
-                            sx={{ width: 300 }}
-                            renderInput={(params) => (
-                              <TextField {...params} label="Gender" />
-                            )}
-                          />
-                </Grid>
-                {/* 4　row */}
-                <Grid
-                  height={80}
-                  xs={6}
-                  display={"flex"}
-                  justifyContent={"flex-start"}
-                  alignItems={"center"}
-                >
-                  <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
-                    <b>Blood Type:</b>
-                  </Grid>
-                  <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
-                    {patient.blood}
-                  </Grid>
-                </Grid>
-    
-                <Grid
-                  height={80}
-                  xs={6}
-                  display={"flex"}
-                  justifyContent={"flex-start"}
-                  alignItems={"center"}
-                >
-                  <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
-                    <b>Phone Number:</b>
-                  </Grid>
-                  <MuiTelInput
-                            sx={{ width: 300, mt: 1, mb: 0 }}
-                            label="Phone Number"
-                            value={phoneNumberInput}
-                            onChange={phoneChange}
-                          />
-                </Grid>
-                {/* 5　row */}
-                <Grid
-                  height={80}
-                  xs={6}
-                  display={"flex"}
-                  justifyContent={"flex-start"}
-                  alignItems={"center"}
-                >
-                  <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
-                    <b>Emergency Contact Person:</b>
-                  </Grid>
-                  <TextField
-                            sx={{ width: 300, mt: 1 }}
-                            value={emergencyNameInput}
-                            onChange={(e) => setEmergencyNameInput(e.target.value)}
-                            margin="normal"
-                            required
-                            id="emergencyNameInput"
-                            label="Emergency Contact Person"
-                            name="emergencyNameInput"
-                            autoComplete="emergencyNameInput"
-                            autoFocus
-                          />
-                </Grid>
-    
-                <Grid
-                  height={80}
-                  xs={6}
-                  display={"flex"}
-                  justifyContent={"flex-start"}
-                  alignItems={"center"}
-                >
-                  <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
-                    <b>Emergency Person Phone Number:</b>
-                  </Grid>
-                  <MuiTelInput
-                            sx={{ width: 300, mt: 1, mb: 0 }}
-                            label="Emergency Contact Person Number"
-                            value={emergencyContactInput}
-                            onChange={emergencyContactChange}
-                          />
-                </Grid>
-                {/* 6　row */}
-                <Grid
-                  height={80}
-                  xs={6}
-                  display={"flex"}
-                  justifyContent={"flex-start"}
-                  alignItems={"center"}
-                >
-                  <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
-                    <b>Created At:</b>
-                  </Grid>
-                  <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
-                    {patient.created_at}
-                  </Grid>
-                </Grid>
-    
-                <Grid
-                  height={80}
-                  xs={6}
-                  display={"flex"}
-                  justifyContent={"flex-start"}
-                  alignItems={"center"}
-                >
-                  <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
-                    <b>Updated At:</b>
-                  </Grid>
-                  <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
-                    {patient.updated_at}
-                  </Grid>
+                <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                  {patient.id}
                 </Grid>
               </Grid>
-            </Container>
-    
+
+              <Grid
+                height={80}
+                xs={6}
+                display={"flex"}
+                justifyContent={"flex-start"}
+                alignItems={"center"}
+              >
+                <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                  <b>HKID:</b>
+                </Grid>
+                <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                  {patient.hkid}
+                </Grid>
+              </Grid>
+
+              {/* 2　row */}
+              <Grid
+                height={80}
+                xs={6}
+                display={"flex"}
+                justifyContent={"flex-start"}
+                alignItems={"center"}
+              >
+                <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                  <b>First Name:</b>
+                </Grid>
+                <TextField
+                  value={firstNameInput}
+                  sx={{ width: 300, mt: 1 }}
+                  onChange={(e) => setFirstNameInput(e.target.value)}
+                  margin="normal"
+                  required
+                  id="firstName"
+                  label="First Name"
+                  name="firstName"
+                  autoComplete="firstName"
+                  autoFocus
+                />
+              </Grid>
+
+              <Grid
+                height={80}
+                xs={6}
+                display={"flex"}
+                justifyContent={"flex-start"}
+                alignItems={"center"}
+              >
+                <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                  <b>Last Name:</b>
+                </Grid>
+                <TextField
+                  value={lastNameInput}
+                  sx={{ width: 300, mt: 1 }}
+                  onChange={(e) => setLastNameInput(e.target.value)}
+                  margin="normal"
+                  required
+                  id="lastName"
+                  label="Last Name"
+                  name="lastName"
+                  autoComplete="lastName"
+                  autoFocus
+                />
+              </Grid>
+              {/* 3　row */}
+              <Grid
+                height={80}
+                xs={6}
+                display={"flex"}
+                justifyContent={"flex-start"}
+                alignItems={"center"}
+              >
+                <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                  <b>Birth Date:</b>
+                </Grid>
+                <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                  {patient.birth_date}
+                </Grid>
+              </Grid>
+
+              <Grid
+                height={80}
+                xs={6}
+                display={"flex"}
+                justifyContent={"flex-start"}
+                alignItems={"center"}
+              >
+                <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                  <b>Gender:</b>
+                </Grid>
+                <Autocomplete
+                  value={gender}
+                  onChange={(event: any, newGender: string | null) => {
+                    setGender(newGender);
+                  }}
+                  inputValue={genderInput}
+                  onInputChange={(event, newInputValue) => {
+                    setGenderInput(newInputValue);
+                  }}
+                  id="controllable-states-demo"
+                  options={genderOptions}
+                  sx={{ width: 300 }}
+                  renderInput={(params) => (
+                    <TextField {...params} label="Gender" />
+                  )}
+                />
+              </Grid>
+              {/* 4　row */}
+              <Grid
+                height={80}
+                xs={6}
+                display={"flex"}
+                justifyContent={"flex-start"}
+                alignItems={"center"}
+              >
+                <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                  <b>Blood Type:</b>
+                </Grid>
+                <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                  {patient.blood}
+                </Grid>
+              </Grid>
+
+              <Grid
+                height={80}
+                xs={6}
+                display={"flex"}
+                justifyContent={"flex-start"}
+                alignItems={"center"}
+              >
+                <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                  <b>Phone Number:</b>
+                </Grid>
+                <MuiTelInput
+                  sx={{ width: 300, mt: 1, mb: 0 }}
+                  label="Phone Number"
+                  value={phoneNumberInput}
+                  onChange={phoneChange}
+                />
+              </Grid>
+              {/* 5　row */}
+              <Grid
+                height={80}
+                xs={6}
+                display={"flex"}
+                justifyContent={"flex-start"}
+                alignItems={"center"}
+              >
+                <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                  <b>Emergency Contact Person:</b>
+                </Grid>
+                <TextField
+                  sx={{ width: 300, mt: 1 }}
+                  value={emergencyNameInput}
+                  onChange={(e) => setEmergencyNameInput(e.target.value)}
+                  margin="normal"
+                  required
+                  id="emergencyNameInput"
+                  label="Emergency Contact Person"
+                  name="emergencyNameInput"
+                  autoComplete="emergencyNameInput"
+                  autoFocus
+                />
+              </Grid>
+
+              <Grid
+                height={80}
+                xs={6}
+                display={"flex"}
+                justifyContent={"flex-start"}
+                alignItems={"center"}
+              >
+                <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                  <b>Emergency Person Phone Number:</b>
+                </Grid>
+                <MuiTelInput
+                  sx={{ width: 300, mt: 1, mb: 0 }}
+                  label="Emergency Contact Person Number"
+                  value={emergencyContactInput}
+                  onChange={emergencyContactChange}
+                />
+              </Grid>
+              {/* 6　row */}
+              <Grid
+                height={80}
+                xs={6}
+                display={"flex"}
+                justifyContent={"flex-start"}
+                alignItems={"center"}
+              >
+                <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                  <b>Created At:</b>
+                </Grid>
+                <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                  {patient.created_at}
+                </Grid>
+              </Grid>
+
+              <Grid
+                height={80}
+                xs={6}
+                display={"flex"}
+                justifyContent={"flex-start"}
+                alignItems={"center"}
+              >
+                <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                  <b>Updated At:</b>
+                </Grid>
+                <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                  {patient.updated_at}
+                </Grid>
+              </Grid>
+            </Grid>
+            <Grid p={4}>
+              <Stack
+                spacing={{ sm: 4, md: 8 }}
+                direction="row"
+                justifyContent={"center"}
+              >
+                <Button
+                  variant="contained"
+                  disableElevation
+                  onClick={handleSaveClick}
+                >
+                  SAVE
+                </Button>
+
+                <Button variant="contained" disableElevation>
+                  HISTORY
+                </Button>
+              </Stack>
+            </Grid>
+            </Container></AccordionDetails>
+        </Accordion>
+      ) : (
+        <Accordion defaultExpanded>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1-content"
+            id="panel1-header"
+          >
+            <Grid p={4}>
+              <Typography variant="h4">
+                {patient.firstName} {patient.lastName}
+              </Typography>
+              <p>Patient Details</p>
+            </Grid>
+          </AccordionSummary>
+          <AccordionDetails>
+            <Container maxWidth={"lg"}>
+            <Grid
+              container
+              rowSpacing={0}
+              columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+            >
+              {/* 1 row */}
+              <Grid
+                height={80}
+                xs={6}
+                display={"flex"}
+                justifyContent={"flex-start"}
+                alignItems={"center"}
+              >
+                <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                  <b>ID:</b>
+                </Grid>
+                <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                  {patient.id}
+                </Grid>
+              </Grid>
+
+              <Grid
+                height={80}
+                xs={6}
+                display={"flex"}
+                justifyContent={"flex-start"}
+                alignItems={"center"}
+              >
+                <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                  <b>HKID:</b>
+                </Grid>
+                <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                  {patient.hkid}
+                </Grid>
+              </Grid>
+
+              {/* 2　row */}
+              <Grid
+                height={80}
+                xs={6}
+                display={"flex"}
+                justifyContent={"flex-start"}
+                alignItems={"center"}
+              >
+                <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                  <b>First Name:</b>
+                </Grid>
+                <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                  {patient.firstName}
+                </Grid>
+              </Grid>
+
+              <Grid
+                height={80}
+                xs={6}
+                display={"flex"}
+                justifyContent={"flex-start"}
+                alignItems={"center"}
+              >
+                <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                  <b>Last Name:</b>
+                </Grid>
+                <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                  {patient.lastName}
+                </Grid>
+              </Grid>
+              {/* 3　row */}
+              <Grid
+                height={80}
+                xs={6}
+                display={"flex"}
+                justifyContent={"flex-start"}
+                alignItems={"center"}
+              >
+                <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                  <b>Birth Date:</b>
+                </Grid>
+                <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                  {patient.birth_date}
+                </Grid>
+              </Grid>
+
+              <Grid
+                height={80}
+                xs={6}
+                display={"flex"}
+                justifyContent={"flex-start"}
+                alignItems={"center"}
+              >
+                <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                  <b>Gender:</b>
+                </Grid>
+                <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                  {patient.gender}
+                </Grid>
+              </Grid>
+              {/* 4　row */}
+              <Grid
+                height={80}
+                xs={6}
+                display={"flex"}
+                justifyContent={"flex-start"}
+                alignItems={"center"}
+              >
+                <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                  <b>Blood Type:</b>
+                </Grid>
+                <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                  {patient.blood}
+                </Grid>
+              </Grid>
+
+              <Grid
+                height={80}
+                xs={6}
+                display={"flex"}
+                justifyContent={"flex-start"}
+                alignItems={"center"}
+              >
+                <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                  <b>Phone Number:</b>
+                </Grid>
+                <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                  {patient.phone_number}
+                </Grid>
+              </Grid>
+              {/* 5　row */}
+              <Grid
+                height={80}
+                xs={6}
+                display={"flex"}
+                justifyContent={"flex-start"}
+                alignItems={"center"}
+              >
+                <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                  <b>Emergency Contact Person:</b>
+                </Grid>
+                <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                  {patient.emergency_name}
+                </Grid>
+              </Grid>
+
+              <Grid
+                height={80}
+                xs={6}
+                display={"flex"}
+                justifyContent={"flex-start"}
+                alignItems={"center"}
+              >
+                <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                  <b>Emergency Person Phone Number:</b>
+                </Grid>
+                <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                  {patient.emergency_contact}
+                </Grid>
+              </Grid>
+              {/* 6　row */}
+              <Grid
+                height={80}
+                xs={6}
+                display={"flex"}
+                justifyContent={"flex-start"}
+                alignItems={"center"}
+              >
+                <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                  <b>Created At:</b>
+                </Grid>
+                <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                  {patient.created_at}
+                </Grid>
+              </Grid>
+
+              <Grid
+                height={80}
+                xs={6}
+                display={"flex"}
+                justifyContent={"flex-start"}
+                alignItems={"center"}
+              >
+                <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                  <b>Updated At:</b>
+                </Grid>
+                <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                  {patient.updated_at}
+                </Grid>
+              </Grid>
+            </Grid>
             {/* Buttons */}
             <Grid p={4}>
               <Stack
@@ -387,249 +609,23 @@ export function ShowPatientInfo() {
                 direction="row"
                 justifyContent={"center"}
               >
-                
-                  <Button
-                    variant="contained"
-                    disableElevation
-                    onClick={handleSaveClick}
-                  >
-                    SAVE
-                  </Button>
-                
+                <Button
+                  variant="contained"
+                  disableElevation
+                  onClick={handleEditClick}
+                >
+                  EDIT
+                </Button>
+
                 <Button variant="contained" disableElevation>
                   HISTORY
                 </Button>
               </Stack>
             </Grid>
-    
-            {/* </Stack> */}
-          </Item>
-            ) : (
-              <Item>
-              <Container maxWidth="lg">
-                <Grid p={4}>
-                  <Typography variant="h4">
-                    {patient.firstName} {patient.lastName}
-                  </Typography>
-                  <p>Patient Details</p>
-                </Grid>
-                <Grid
-                  container
-                  rowSpacing={0}
-                  columnSpacing={{ xs: 1, sm: 2, md: 3 }}
-                >
-                  {/* 1 row */}
-                  <Grid
-                    height={80}
-                    xs={6}
-                    display={"flex"}
-                    justifyContent={"flex-start"}
-                    alignItems={"center"}
-                  >
-                    <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
-                      <b>ID:</b>
-                    </Grid>
-                    <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
-                      {patient.id}
-                    </Grid>
-                  </Grid>
-      
-                  <Grid
-                    height={80}
-                    xs={6}
-                    display={"flex"}
-                    justifyContent={"flex-start"}
-                    alignItems={"center"}
-                  >
-                    <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
-                      <b>HKID:</b>
-                    </Grid>
-                    <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
-                      {patient.hkid}
-                    </Grid>
-                  </Grid>
-      
-                  {/* 2　row */}
-                  <Grid
-                    height={80}
-                    xs={6}
-                    display={"flex"}
-                    justifyContent={"flex-start"}
-                    alignItems={"center"}
-                  >
-                    <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
-                      <b>First Name:</b>
-                    </Grid>
-                    <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
-                      {patient.firstName}
-                    </Grid>
-                  </Grid>
-      
-                  <Grid
-                    height={80}
-                    xs={6}
-                    display={"flex"}
-                    justifyContent={"flex-start"}
-                    alignItems={"center"}
-                  >
-                    <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
-                      <b>Last Name:</b>
-                    </Grid>
-                    <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
-                      {patient.lastName}
-                    </Grid>
-                  </Grid>
-                  {/* 3　row */}
-                  <Grid
-                    height={80}
-                    xs={6}
-                    display={"flex"}
-                    justifyContent={"flex-start"}
-                    alignItems={"center"}
-                  >
-                    <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
-                      <b>Birth Date:</b>
-                    </Grid>
-                    <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
-                      {patient.birth_date}
-                    </Grid>
-                  </Grid>
-      
-                  <Grid
-                    height={80}
-                    xs={6}
-                    display={"flex"}
-                    justifyContent={"flex-start"}
-                    alignItems={"center"}
-                  >
-                    <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
-                      <b>Gender:</b>
-                    </Grid>
-                    <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
-                      {patient.gender}
-                    </Grid>
-                  </Grid>
-                  {/* 4　row */}
-                  <Grid
-                    height={80}
-                    xs={6}
-                    display={"flex"}
-                    justifyContent={"flex-start"}
-                    alignItems={"center"}
-                  >
-                    <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
-                      <b>Blood Type:</b>
-                    </Grid>
-                    <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
-                      {patient.blood}
-                    </Grid>
-                  </Grid>
-      
-                  <Grid
-                    height={80}
-                    xs={6}
-                    display={"flex"}
-                    justifyContent={"flex-start"}
-                    alignItems={"center"}
-                  >
-                    <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
-                      <b>Phone Number:</b>
-                    </Grid>
-                    <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
-                      {patient.phone_number}
-                    </Grid>
-                  </Grid>
-                  {/* 5　row */}
-                  <Grid
-                    height={80}
-                    xs={6}
-                    display={"flex"}
-                    justifyContent={"flex-start"}
-                    alignItems={"center"}
-                  >
-                    <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
-                      <b>Emergency Contact Person:</b>
-                    </Grid>
-                    <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
-                      {patient.emergency_name}
-                    </Grid>
-                  </Grid>
-      
-                  <Grid
-                    height={80}
-                    xs={6}
-                    display={"flex"}
-                    justifyContent={"flex-start"}
-                    alignItems={"center"}
-                  >
-                    <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
-                      <b>Emergency Person Phone Number:</b>
-                    </Grid>
-                    <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
-                      {patient.emergency_contact}
-                    </Grid>
-                  </Grid>
-                  {/* 6　row */}
-                  <Grid
-                    height={80}
-                    xs={6}
-                    display={"flex"}
-                    justifyContent={"flex-start"}
-                    alignItems={"center"}
-                  >
-                    <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
-                      <b>Created At:</b>
-                    </Grid>
-                    <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
-                      {patient.created_at}
-                    </Grid>
-                  </Grid>
-      
-                  <Grid
-                    height={80}
-                    xs={6}
-                    display={"flex"}
-                    justifyContent={"flex-start"}
-                    alignItems={"center"}
-                  >
-                    <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
-                      <b>Updated At:</b>
-                    </Grid>
-                    <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
-                      {patient.updated_at}
-                    </Grid>
-                  </Grid>
-                </Grid>
-              </Container>
-      
-              {/* Buttons */}
-              <Grid p={4}>
-                <Stack
-                  spacing={{ sm: 4, md: 8 }}
-                  direction="row"
-                  justifyContent={"center"}
-                >
-                  
-                    <Button
-                      variant="contained"
-                      disableElevation
-                      onClick={handleEditClick}
-                    >
-                      EDIT
-                    </Button>
-                  
-                  <Button variant="contained" disableElevation>
-                    HISTORY
-                  </Button>
-                </Stack>
-              </Grid>
-      
-              {/* </Stack> */}
-            </Item>
-            )}
-      
-     
-      
+            </Container>
+          </AccordionDetails>
+        </Accordion>
+      )}
     </div>
   ));
 }

@@ -12,9 +12,9 @@ import Setting from "./pages/patientpages/setting";
 import PatientAuthGuard from "./pages/patientpages/PatientAuthGuard";
 import { DoctorAuthGuard } from "./pages/doctorpages/AuthGuard";
 import { LandingPage } from "./LandingPage";
-import { ShowPatientInfo } from "./components/doctors/ShowPatientInfo";
 import { ThemeProvider, createTheme } from "@mui/material";
 import { useThemeContext } from "./theme/ThemeContextProvider";
+import PatientInfo from "./pages/doctorpages/PatientInfo";
 
 const queryClient = new QueryClient();
 
@@ -39,7 +39,7 @@ function App() {
                 <Route path="patient" element={<Patient />} />
                 <Route
                   path="patientDetail/:patientId"
-                  element={<ShowPatientInfo />}
+                  element={<PatientInfo/>}
                 />
                 <Route path="medicine" element={<Medicine />} />
               </Route>

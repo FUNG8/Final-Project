@@ -1,5 +1,4 @@
 import Card from "@mui/material/Card";
-import BottomNavbar from "../../components/patients/BottomNavbar"
 import PatientProfileBar from "../../components/patients/PatientProfileBar"
 import Container from '@mui/material/Container';
 import { StyleContainer } from "./patientPageConatinerStyle";
@@ -81,7 +80,6 @@ export default function Profile() {
         </Grid>
       </Grid>
 
-      <BottomNavbar />
     </div>
   );
 }

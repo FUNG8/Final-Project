@@ -7,8 +7,10 @@ import { ListPatients } from '../../components/doctors/PatientList';
 import { Margin } from '@mui/icons-material';
 
 import DoctorLogInForm from '../../components/doctors/DoctorLogInForm';
+import { MuiTelInput } from "mui-tel-input";
 
-export default function doctorLogin() {
+export default function DoctorLogin() {
+ 
   return (
     <div className="App">
       <header className="App-header">
