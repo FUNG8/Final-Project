@@ -1,5 +1,6 @@
-import { useQuery } from "@tanstack/react-query";
 // hahahahaha
+import { useQuery } from "@tanstack/react-query";
+
 // export async function insertMedicine(
 //     name: string,
 //     generic_drug: string,
