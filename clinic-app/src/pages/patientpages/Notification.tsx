@@ -1,5 +1,5 @@
 // hahahahaha
-import BottomNavbar from "../../components/patients/BottomNavbar";
+import BottomNavbar from "../../components/patients/BottomNavbar1";
 export default function notification() {
 
     return (
