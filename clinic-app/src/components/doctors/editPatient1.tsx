@@ -1,5 +1,5 @@
 export function SendPatient(patientId: number) {
-    console.log("send patient with ID:", patientId)
+    console.log("send patient with ID~~~:", patientId)
 
     // const { isLoading, error, data, isFetching } = useQuery({
     //     queryKey: ["PatientInfo"],

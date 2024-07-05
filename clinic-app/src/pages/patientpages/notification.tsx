@@ -1,3 +1,4 @@
+// hahahahaha
 import BottomNavbar from "../../components/patients/BottomNavbar";
 export default function notification() {
 

@@ -1,3 +1,4 @@
+// hahahahaha
 import { usePatientsInfo } from "../../api/patientAPI";
 import {
     Table,
@@ -17,7 +18,7 @@ import { SetStateAction, useEffect, useState } from "react";
 import SendIcon from "@mui/icons-material/Send";
 import { useNavigate } from "react-router-dom";
 import { SearchBar } from "./SearchBar";
-import { SendPatient } from "./EditPatient";
+import { SendPatient } from "./editPatient1";
 import { Margin } from "@mui/icons-material";
 import CreatePatientModal from "./CreatePatientForm";
 
