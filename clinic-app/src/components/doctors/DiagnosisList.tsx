@@ -1,4 +1,3 @@
-// hahahahaha
 import {
   Table,
   TableBody,

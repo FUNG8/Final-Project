@@ -15,7 +15,6 @@ export default function PatientInfo() {
       
       <ShowPatientInfo />
     
-      <ListDiagnosis/>
       
      
     </div>
