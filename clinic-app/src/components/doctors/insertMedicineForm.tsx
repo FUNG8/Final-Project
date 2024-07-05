@@ -149,7 +149,9 @@ export default function InsertMedicineModal() {
 
   return (
     <div>
-      <TriggerButton onClick={handleOpen}>Create Patients</TriggerButton>
+      <Grid xs={12} sx={{display:"flex",justifyContent:"center",margin:2}}>
+      <TriggerButton onClick={handleOpen}>Insert Medicine</TriggerButton>
+      </Grid>
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"

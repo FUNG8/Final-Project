@@ -22,6 +22,8 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import { logout } from "../../api/doctorAuthAPI";
 import { useNavigate } from "react-router-dom";
+import { Grid } from "@mui/material";
+import NightModeToggle from "../global/NightModeToggle";
 
 const drawerWidth = 240;
 

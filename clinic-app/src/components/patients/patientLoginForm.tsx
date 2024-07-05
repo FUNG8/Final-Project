@@ -35,8 +35,8 @@ function Copyright(props: any) {
 const defaultTheme = createTheme();
 
 export default function PatientLoginForm() {
-  const [hkidInput, sethkidInput] = useState("Z1234574");
-  const [passwordInput, setPasswordInput] = useState("Z1234574");
+  const [hkidInput, sethkidInput] = useState("Y1234568");
+  const [passwordInput, setPasswordInput] = useState("t2");
 
   const navigate = useNavigate();
  const [ErrorMessage, setErrorMessage] = useState('');

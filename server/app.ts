@@ -53,12 +53,21 @@ const patientDiagnosisService = new PatientDiagnosisService(knex);
 const patientDiagnosisController = new PatientDiagnosisController(patientDiagnosisService)
 
 
+
+import { DiagnosisController } from './controllers/DiagnosisController';
+import { DiagnosisService } from './services/diagnosisService';
+const diagnosisService = new DiagnosisService(knex);
+const diagnosisController = new DiagnosisController(diagnosisService);
+
 app.use("/doctorAuth", doctorAuthController.router)
 app.use("/patientAuth", patientAuthController.router)
 app.use("/patients", patientController.router);
 app.use("/medicines", medicineController.router)
 app.use("/patientProfile",patientProfileController.router)
-app.use("/patientDiagnosis",patientDiagnosisController.router)
+// app.use("/drugShape",drugShapeController.router)
+app.use("/diagnosis",diagnosisController.router)
+
+
 
 
 

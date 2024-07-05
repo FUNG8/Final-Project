@@ -1,8 +1,8 @@
 import Card from "@mui/material/Card";
-import BottomNavbar from "../../components/patients/bottomnavbar";
-import PatientProfileBar from "../../components/patients/patientProfileBar";
+import PatientProfileBar from "../../components/patients/PatientProfileBar"
 import Grid from "@mui/material/Grid";
-import PatientBanner from "../../components/patients/patientBanner";
+import PatientBanner from "../../components/patients/PatientBanner"
+import { StyleContainer } from "./PatientPageConatinerStyle";
 import { useFetchDataToDiagnosis, useFetchDataToProfile } from "../../api/patientAPI";
 
 interface ProfileDetails {
@@ -90,10 +90,9 @@ export default function Profile({ hkid }: { hkid: string }) {
                 </Grid>
               </Grid>
             </Card>
-          </Grid> :<></>}
+          </Grid> : <></>}
         </Grid> : <></>}
 
-      <BottomNavbar />
     </div>
   );
 }

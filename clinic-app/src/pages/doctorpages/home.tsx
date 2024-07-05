@@ -3,9 +3,28 @@ import TemporaryDrawer from '../../components/doctors/doctorNavBar';
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
-import WaitingTable from '../../components/homTable'
-import ConsultTable from '../../components/consultingTable'
-import { Username } from '../../components/username';
+import WaitingTable from '../../components/patients/HomeTable'
+import ConsultTable from '../../components/patients/ConsultingTable'
+import styled from 'styled-components';
+import { FormControlLabel, Paper, Slide, Switch } from '@mui/material';
+import Grid from '@mui/material/Grid';
+
+const icon = (
+  <Paper sx={{ m: 1, width: 100, height: 100 }} elevation={4}>
+    <svg>
+      <Box
+        component="polygon"
+        points="0,100 50,00, 100,100"
+        sx={{
+          fill: (theme) => theme.palette.common.white,
+          stroke: (theme) => theme.palette.divider,
+          strokeWidth: 1,
+        }}
+      />
+    </svg>
+  </Paper>
+);
+
 
 export default function Home() {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -62,7 +81,7 @@ export default function Home() {
                 width: '100%',
               }}
             >
-              <div className='welcomeContainer'><Username /></div>
+              {/* <div className='welcomeContainer'><Username /></div> */}
               <div className='manyContainer'>
                 <div className='smallContainer'>Total Patient
                   <div className='inSmContainer'>22</div>
