@@ -5,7 +5,7 @@ import TemporaryDrawer from '../../components/doctors/DoctorNavBar';
 
 import { Margin } from '@mui/icons-material';
 
-import PatientLoginForm from '../../components/patients/PatientLoginForm1';
+import PatientLoginForm from '../../components/patients/PatientLoginForm';
 
 export default function doctorLogin() {
   return (
