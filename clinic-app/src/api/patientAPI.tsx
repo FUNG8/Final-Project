@@ -146,9 +146,7 @@ export async function editPatientInfo(patientId: number, editedInfo: Patient) {
             "Content-Type": "application/json",
         },
         body: JSON.stringify({ ...editedInfo }),
-    }
-
-    )
+    })
 
     if (!updateResponse.ok) {
         throw new Error(`HTTP error ${updateResponse.status}`);
@@ -156,4 +154,49 @@ export async function editPatientInfo(patientId: number, editedInfo: Patient) {
 
     const result = await updateResponse.json();
     return result.message;
+}
+
+export function useFetchDataToProfile(hkid: string) {
+    const { isLoading, error, data, isFetching } = useQuery({
+        queryKey: ["profileData", hkid],
+        queryFn: async () => {
+            const res = await fetch(`${process.env.REACT_APP_API_SERVER}/patientProfile/profilePage/`, {
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem("patientToken")}`
+                }
+            });
+            const result = await res.json();
+            console.log(result)
+            return { status: "success", result: result.data }
+        },
+    });
+    if (isLoading || isFetching || error || !data) {
+        return { status: "loading" }
+    }
+
+
+    return data
+}
+
+
+
+export function useFetchDataToDiagnosis(hkid: string) {
+    const { isLoading, error, data, isFetching } = useQuery({
+        queryKey: ["diagnosisData", hkid],
+        queryFn: async () => {
+            const res = await fetch(`${process.env.REACT_APP_API_SERVER}/patientDiagnosis/getDiagnosis/`, {
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem("patientToken")}`
+                }
+            });
+            const results = await res.json();
+            return results.data
+        },
+    });
+    if (isLoading || isFetching || error || !data) {
+        return { status: "loading" }
+    }
+
+
+    return data
 }

@@ -1,4 +1,4 @@
-// hahahahaha
+import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import Home from "./pages/doctorpages/Home";
@@ -10,23 +10,25 @@ import Medicine from "./pages/doctorpages/Medicine";
 import Notification from "./pages/patientpages/Notification";
 import Profile from "./pages/patientpages/ProfilePage";
 import Setting from "./pages/patientpages/setting";
+
 import PatientAuthGuard from "./pages/patientpages/PatientAuthGuard";
 import { DoctorAuthGuard } from "./pages/doctorpages/AuthGuard";
 import { LandingPage } from "./LandingPage";
-import { ThemeProvider, createTheme } from "@mui/material";
-import { useThemeContext } from "./theme/ThemeContextProvider";
-import PatientInfo from "./pages/doctorpages/PatientInfo";
+import { ShowPatientInfo } from "./components/ShowPatientInfo";
+import { ThemeProvider } from "styled-components";
+
 
 // hahahahaha
 const queryClient = new QueryClient();
 
 function App() {
+  const hkid = "Z1234574"
   const parsedPatientId: number | undefined = 123;
-  const { theme } = useThemeContext();
-  
+  // const { theme } = useThemeContext();
+
 
   return (
-    <ThemeProvider theme={theme}>
+    // <ThemeProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
           <div className="App">
@@ -40,25 +42,22 @@ function App() {
               <Route path="/doctor" element={<DoctorAuthGuard />}>
                 <Route path="home" element={<Home />} />
                 <Route path="patient" element={<Patient />} />
-                <Route
-                  path="patientDetail/:patientId"
-                  element={<PatientInfo/>}
-                />
+                <Route path="patientDetail/:patientId" element={<ShowPatientInfo />} />
                 <Route path="medicine" element={<Medicine />} />
               </Route>
 
               <Route path="/patient" element={<PatientAuthGuard />}>
                 <Route path="home" element={<PatientHome />} />
                 <Route path="notification" element={<Notification />} />
-                <Route path="profile" element={<Profile />} />
+                <Route path="profile" element={<Profile hkid={hkid} />} />
                 <Route path="setting" element={<Setting />} />
               </Route>
-              
+
             </Routes>
           </div>
         </BrowserRouter>
       </QueryClientProvider>
-    </ThemeProvider>
+    // </ThemeProvider>
   );
 }
 
