@@ -1,4 +1,4 @@
-
+// hahahahaha
 import { Paper, styled } from '@mui/material';
 import { jwtDecode } from 'jwt-decode';
 import React, { useEffect, useState } from 'react';
@@ -17,8 +17,8 @@ export function Username() {
   useEffect(() => {
     const storedName = localStorage.getItem('clinicToken');
     if (storedName) {
-      let decoded :any= jwtDecode(storedName);
-      const username =  decoded["username"]
+      let decoded: any = jwtDecode(storedName);
+      const username = decoded["username"]
       setName(username)
     }
   }, []);

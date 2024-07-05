@@ -1,3 +1,4 @@
+// hahahahaha
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import Home from "./pages/doctorpages/Home";

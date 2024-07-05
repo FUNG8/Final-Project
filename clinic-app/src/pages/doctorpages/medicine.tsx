@@ -1,3 +1,4 @@
+// hahahahaha
 import { ListMedicine } from "../../components/doctors/MedicineList";
 
 export default function medicine() {

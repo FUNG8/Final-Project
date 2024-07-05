@@ -1,3 +1,4 @@
+// hahahahaha
 import React, { useEffect, useState } from 'react'
 import  "./patientBanner.scss"
 import logo from '../../image/logo.jpeg'
