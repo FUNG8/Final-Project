@@ -1,6 +1,6 @@
 
 // hahahahaha
-import { ListPatients } from '../../components/doctors/PatientList';
+import { ListPatients } from "../../components/doctors/PatientList";
 
 export default function Patient() {
 
