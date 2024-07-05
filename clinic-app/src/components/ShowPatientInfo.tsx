@@ -1,20 +1,25 @@
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
   Paper,
-  Box,
   Button,
   TextField,
+  Grid,
+  Container,
+  Typography,
+  Autocomplete,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
 } from "@mui/material";
 import { ChangeEvent, SetStateAction, useEffect, useState } from "react";
 import Stack from "@mui/material/Stack";
 import { styled } from "@mui/material/styles";
-import { useShowPatientInfo } from "../api/patientAPI";
+import { editPatientInfo, useShowPatientInfo } from "../api/patientAPI";
 import { useParams, useSearchParams } from "react-router-dom";
+import React from "react";
+import { MuiTelInput, MuiTelInputInfo } from "mui-tel-input";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -22,9 +27,12 @@ const Item = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(1),
   margin: 8,
   textAlign: "center",
+  justifyContent: "flex-start",
   color: theme.palette.text.secondary,
   flexGrow: 1,
 }));
+
+const CustonTextField = styled(TextField)(({ theme }) => ({}));
 
 interface Patient {
   id: string;
@@ -42,53 +50,38 @@ interface Patient {
 export function ShowPatientInfo() {
   let { patientId } = useParams();
 
-  console.log("param is", patientId);
+  const queryClient = useQueryClient()
+  // console.log("param is", patientId);
+
+  const onEditItem = useMutation({
+    mutationFn: async (data: { patientId: number, editedInfo: any }) =>
+      editPatientInfo(data.patientId, data.editedInfo),
+    onSuccess: (message: any) => {
+      console.log(message)
+      // invalidate query
+      queryClient.invalidateQueries({ queryKey: ["showPatientsInfo"] })
+    }
+  }
+  )
 
   let [isEditing, setIsEditing] = useState(false);
   let [editedPatient, setEditedPatient] = useState<Patient | null>(null);
 
-  const patients = useShowPatientInfo(parseInt(patientId!));
-  const editPatientsDetails = useEditPatientInfo(parseInt(patientId!));
-  const patient = (editPatientsDetails as any)?.result?.[0];
+
+  const response = useShowPatientInfo(parseInt(patientId!));
 
   const handleEditClick = () => {
     setIsEditing(true);
-    setEditedPatient(patient);
+    console.log("check response result", (response as any).result);
+    setEditedPatient((response as any).result[0]);
   };
 
-  const handleSaveClick = () => {
-    if (editedPatient) {
-      // Check the difference between the original patient and the edited patient
-      const hasChanges =
-        JSON.stringify(patient) !== JSON.stringify(editedPatient);
 
-      if (hasChanges) {
-        // Perform the save logic using post fetch to update the database
-        fetch(`/patients/editPatients?patientId=${patientId}`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(editedPatient),
-        })
-          .then((response) => {
-            if (response.ok) {
-              // Once the save is successful, you can set isEditing back to false
-              setIsEditing(false);
-            } else {
-              // Handle error case if save fails
-              console.log("Save failed");
-            }
-          })
-          .catch((error) => {
-            // Handle error case if fetch fails
-            console.log("Error:", error);
-          });
-      } else {
-        // No changes, do nothing
-        setIsEditing(false);
-      }
-    }
+
+  const handleSaveClick = async () => {
+    console.log("edited info", editedPatient)
+    onEditItem.mutate({ patientId: parseInt(patientId!), editedInfo: editedPatient })
+    setIsEditing(false);
   };
 
   // Function to handle input change
@@ -99,70 +92,96 @@ export function ShowPatientInfo() {
     setEditedPatient(updatedPatient as SetStateAction<Patient | null>);
   };
 
-  return (patients as any)?.result?.map((patient: any) => (
+  //set input usestate
+  const genderOptions = ["male", "female"];
+  // const [firstNameInput, setFirstNameInput] = useState("");
+  // const [lastNameInput, setLastNameInput] = useState("");
+  const [genderInput, setGenderInput] = useState("");
+  const [gender, setGender] = React.useState<string | null>(genderOptions[0]);
+  const [phoneNumberInput, setPhoneNumberInput] = React.useState(editedPatient?.phone_number || "");
+  // const [emergencyNameInput, setEmergencyNameInput] = useState("");
+  const [emergencyContactInput, setEmergencyContactInput] = React.useState(editedPatient?.emergency_contact || "");
+  // const [editedEmergencyContactInput, setEditedEmergencyContactInput] = useState(emergencyContactInput);
+
+  useEffect(() => {
+    setPhoneNumberInput(editedPatient?.phone_number || "");
+    setEmergencyContactInput(editedPatient?.emergency_contact || "");
+  }, [editedPatient]);
+
+
+  return (response as any)?.result?.map((patient: any) => (
     <div>
-      <Box justifyContent="center" mt={2}>
-        <div>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              marginBottom: "0.5rem",
-            }}
+      {isEditing ? (
+        <Accordion defaultExpanded>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1-content"
+            id="panel1-header"
           >
-            <h2>Patient Details</h2>
-          </div>
-          <Box sx={{ width: 1730 }}>
-            <Stack
-              spacing={{ sm: 2, md: 3 }}
-              direction={{ xs: "column", sm: "row" }}
-              useFlexGap
-              flexWrap="wrap"
-            >
-              <Box sx={{ flex: "1 1 50%" }} style={{ display: "flex" }}>
-                <Item>ID</Item>
-                {isEditing ? (
-                  <TextField
-                    id="outlined-basic"
-                    label="ID"
-                    variant="outlined"
-                    value={editedPatient?.id || ""}
-                    onChange={(event) => {
-                      setEditedPatient((prevPatient) => ({
-                        ...prevPatient!,
-                        id: event.target.value,
-                      }));
-                    }}
-                  />
-                ) : (
-                  <Item>{patient.id}</Item>
-                )}
-                <Item>Gender</Item>
-                {isEditing ? (
-                  <TextField
-                    id="outlined-basic"
-                    label="Gender"
-                    variant="outlined"
-                    value={editedPatient?.gender || ""}
-                    onChange={(event) => {
-                      setEditedPatient((prevPatient) => ({
-                        ...prevPatient!,
-                        gender: event.target.value,
-                      }));
-                    }}
-                  />
-                ) : (
-                  <Item>{patient.gender}</Item>
-                )}
-              </Box>
-              <Box sx={{ flex: "1 1 50%" }} style={{ display: "flex" }}>
-                <Item>First Name</Item>
-                {isEditing ? (
+            <Grid p={4}>
+              <Typography variant="h4">
+                {patient.firstName} {patient.lastName}
+              </Typography>
+              <p>Patient Details</p>
+            </Grid>
+          </AccordionSummary>
+          <AccordionDetails>
+
+            <Container maxWidth={"lg"}>
+
+              <Grid
+                container
+                rowSpacing={0}
+                columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+              >
+                {/* 1 row */}
+                <Grid
+                  height={80}
+                  xs={6}
+                  display={"flex"}
+                  justifyContent={"flex-start"}
+                  alignItems={"center"}
+                >
+                  <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                    <b>ID:</b>
+                  </Grid>
+                  <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                    {patient.id}
+                  </Grid>
+                </Grid>
+
+                <Grid
+                  height={80}
+                  xs={6}
+                  display={"flex"}
+                  justifyContent={"flex-start"}
+                  alignItems={"center"}
+                >
+                  <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                    <b>HKID:</b>
+                  </Grid>
+                  <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                    {patient.hkid}
+                  </Grid>
+                </Grid>
+
+                {/* 2　row */}
+                <Grid
+                  height={80}
+                  xs={6}
+                  display={"flex"}
+                  justifyContent={"flex-start"}
+                  alignItems={"center"}
+                >
+                  <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                    <b>First Name:</b>
+                  </Grid>
                   <TextField
                     id="outlined-basic"
                     label="First Name"
                     variant="outlined"
-                    value={editedPatient?.firstName || ""}
+                    defaultValue={patient.firstName || ""}
+                    // value={editedPatient?.firstName || ""}
                     onChange={(event) => {
                       setEditedPatient((prevPatient) => ({
                         ...prevPatient!,
@@ -170,16 +189,24 @@ export function ShowPatientInfo() {
                       }));
                     }}
                   />
-                ) : (
-                  <Item>{patient.firstName}</Item>
-                )}
-                <Item>Last Name</Item>
-                {isEditing ? (
+                </Grid>
+
+                <Grid
+                  height={80}
+                  xs={6}
+                  display={"flex"}
+                  justifyContent={"flex-start"}
+                  alignItems={"center"}
+                >
+                  <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                    <b>Last Name:</b>
+                  </Grid>
                   <TextField
                     id="outlined-basic"
                     label="Last Name"
                     variant="outlined"
-                    value={editedPatient?.lastName || ""}
+                    defaultValue={patient.lastName || ""}
+                    // value={editedPatient?.lastName || ""}
                     onChange={(event) => {
                       setEditedPatient((prevPatient) => ({
                         ...prevPatient!,
@@ -187,152 +214,423 @@ export function ShowPatientInfo() {
                       }));
                     }}
                   />
-                ) : (
-                  <Item>{patient.lastName}</Item>
-                )}
-              </Box>
-              <Box sx={{ flex: "1 1 50%" }} style={{ display: "flex" }}>
-                <Item>HKID</Item>
-                {isEditing ? (
-                  <TextField
-                    id="outlined-basic"
-                    label="HKID"
-                    variant="outlined"
-                    value={editedPatient?.hkid || ""}
-                    onChange={(event) => {
+                </Grid>
+                {/* 3　row */}
+                <Grid
+                  height={80}
+                  xs={6}
+                  display={"flex"}
+                  justifyContent={"flex-start"}
+                  alignItems={"center"}
+                >
+                  <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                    <b>Birth Date:</b>
+                  </Grid>
+                  <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                    {patient.birth_date}
+                  </Grid>
+                </Grid>
+
+                <Grid
+                  height={80}
+                  xs={6}
+                  display={"flex"}
+                  justifyContent={"flex-start"}
+                  alignItems={"center"}
+                >
+                  <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                    <b>Gender:</b>
+                  </Grid>
+                  <Autocomplete
+                    value={gender}
+                    onChange={(event: any, newGender: string | null) => {
+                      setGender(newGender);
+                    }}
+                    inputValue={genderInput}
+                    onInputChange={(event, newInputValue) => {
+                      setGenderInput(newInputValue);
+                    }}
+                    id="controllable-states-demo"
+                    options={genderOptions}
+                    sx={{ width: 300 }}
+                    renderInput={(params) => (
+                      <TextField {...params} label="Gender" />
+                    )}
+                  />
+                </Grid>
+                {/* 4　row */}
+                <Grid
+                  height={80}
+                  xs={6}
+                  display={"flex"}
+                  justifyContent={"flex-start"}
+                  alignItems={"center"}
+                >
+                  <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                    <b>Blood Type:</b>
+                  </Grid>
+                  <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                    {patient.blood}
+                  </Grid>
+                </Grid>
+
+                <Grid
+                  height={80}
+                  xs={6}
+                  display={"flex"}
+                  justifyContent={"flex-start"}
+                  alignItems={"center"}
+                >
+                  <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                    <b>Phone Number:</b>
+                  </Grid>
+                  <MuiTelInput
+                    sx={{ width: 300, mt: 1, mb: 0 }}
+                    label="Emergency Contact Person Number"
+                    value={phoneNumberInput}
+                    onChange={(value: string, info: MuiTelInputInfo) => {
+                      setPhoneNumberInput(value);
                       setEditedPatient((prevPatient) => ({
                         ...prevPatient!,
-                        hkid: event.target.value,
+                        phone_number: value,
                       }));
                     }}
+                    defaultCountry="HK"
                   />
-                ) : (
-                  <Item>{patient.hkid}</Item>
-                )}
-                <Item>Birth Date</Item>
-                {isEditing ? (
+                </Grid>
+                {/* 5　row */}
+                <Grid
+                  height={80}
+                  xs={6}
+                  display={"flex"}
+                  justifyContent={"flex-start"}
+                  alignItems={"center"}
+                >
+                  <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                    <b>Emergency Contact Person:</b>
+                  </Grid>
                   <TextField
-                    id="outlined-basic"
-                    label="Birth Date"
-                    variant="outlined"
-                    value={editedPatient?.birth_date || ""}
-                    onChange={(event) => {
-                      setEditedPatient((prevPatient) => ({
-                        ...prevPatient!,
-                        birth_date: event.target.value,
-                      }));
-                    }}
-                  />
-                ) : (
-                  <Item>{patient.birth_date}</Item>
-                )}
-              </Box>
-              <Box sx={{ flex: "1 1 50%" }} style={{ display: "flex" }}>
-                <Item>Blood Type</Item>
-                {isEditing ? (
-                  <TextField
-                    id="outlined-basic"
-                    label="Blood Type"
-                    variant="outlined"
-                    value={editedPatient?.blood || ""}
-                    onChange={(event) => {
-                      setEditedPatient((prevPatient) => ({
-                        ...prevPatient!,
-                        blood: event.target.value,
-                      }));
-                    }}
-                  />
-                ) : (
-                  <Item>{patient.blood}</Item>
-                )}
-                <Item>Phone Number</Item>
-                {isEditing ? (
-                  <TextField
-                    id="outlined-basic"
-                    label="Phone Number"
-                    variant="outlined"
-                    value={editedPatient?.phone_number || ""}
-                    onChange={(event) => {
-                      setEditedPatient((prevPatient) => ({
-                        ...prevPatient!,
-                        phone_number: event.target.value,
-                      }));
-                    }}
-                  />
-                ) : (
-                  <Item>{patient.phone_number}</Item>
-                )}
-              </Box>
-              <Box sx={{ flex: "1 1 50%" }} style={{ display: "flex" }}>
-                <Item>Emergency Name</Item>
-                {isEditing ? (
-                  <TextField
-                    id="outlined-basic"
-                    label="Emergency Name"
-                    variant="outlined"
-                    value={editedPatient?.emergency_name || ""}
+                    sx={{ width: 300, mt: 1 }}
+                    defaultValue={patient.emergency_name}
                     onChange={(event) => {
                       setEditedPatient((prevPatient) => ({
                         ...prevPatient!,
                         emergency_name: event.target.value,
                       }));
                     }}
+                    margin="normal"
+                    required
+                    id="emergencyNameInput"
+                    label="Emergency Contact Person"
+                    name="emergencyNameInput"
+                    autoComplete="emergencyNameInput"
+                    autoFocus
                   />
-                ) : (
-                  <Item>{patient.emergency_name}</Item>
-                )}
-                <Item>Emergency Contact</Item>
-                {isEditing ? (
-                  <TextField
-                    id="outlined-basic"
-                    label="Emergency Contact"
-                    variant="outlined"
-                    value={editedPatient?.emergency_contact || ""}
-                    onChange={(event) => {
+                </Grid>
+
+                <Grid
+                  height={80}
+                  xs={6}
+                  display={"flex"}
+                  justifyContent={"flex-start"}
+                  alignItems={"center"}
+                >
+                  <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                    <b>Emergency Person Phone Number:</b>
+                  </Grid>
+                  <MuiTelInput
+                    sx={{ width: 300, mt: 1, mb: 0 }}
+                    label="Emergency Contact Person Number"
+                    value={emergencyContactInput}
+                    onChange={(value: string, info: MuiTelInputInfo) => {
+                      setEmergencyContactInput(value);
                       setEditedPatient((prevPatient) => ({
                         ...prevPatient!,
-                        emergency_contact: event.target.value,
+                        emergency_contact: value,
                       }));
                     }}
+                    defaultCountry="HK"
                   />
-                ) : (
-                  <Item>{patient.emergency_contact}</Item>
-                )}
-              </Box>
-              <Box sx={{ flex: "1 1 50%" }} style={{ display: "flex" }}>
-                <Item>Updated At</Item>
-                <Item>{patient.updated_at}</Item>
-                <Item>Created At</Item>
-                <Item>{patient.created_at}</Item>
-              </Box>
-            </Stack>
-          </Box>
-        </div>
-        <Box sx={{ width: 1730, display: "flex", justifyContent: "center" }}>
-          <Stack spacing={{ sm: 4, md: 8 }} direction="row">
-            {isEditing ? (
-              <Button
-                variant="contained"
-                disableElevation
-                onClick={handleSaveClick}
+                </Grid>
+                {/* 6　row */}
+                <Grid
+                  height={80}
+                  xs={6}
+                  display={"flex"}
+                  justifyContent={"flex-start"}
+                  alignItems={"center"}
+                >
+                  <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                    <b>Created At:</b>
+                  </Grid>
+                  <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                    {patient.created_at}
+                  </Grid>
+                </Grid>
+
+                <Grid
+                  height={80}
+                  xs={6}
+                  display={"flex"}
+                  justifyContent={"flex-start"}
+                  alignItems={"center"}
+                >
+                  <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                    <b>Updated At:</b>
+                  </Grid>
+                  <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                    {patient.updated_at}
+                  </Grid>
+                </Grid>
+              </Grid>
+              <Grid p={4}>
+                <Stack
+                  spacing={{ sm: 4, md: 8 }}
+                  direction="row"
+                  justifyContent={"center"}
+                >
+                  <Button
+                    variant="contained"
+                    disableElevation
+                    onClick={handleSaveClick}
+                  >
+                    SAVE
+                  </Button>
+
+                  <Button variant="contained" disableElevation>
+                    HISTORY
+                  </Button>
+                </Stack>
+              </Grid>
+            </Container></AccordionDetails>
+        </Accordion>
+      ) : (
+        <Accordion defaultExpanded>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1-content"
+            id="panel1-header"
+          >
+            <Grid p={4}>
+              <Typography variant="h4">
+                {patient.firstName} {patient.lastName}
+              </Typography>
+              <p>Patient Details</p>
+            </Grid>
+          </AccordionSummary>
+          <AccordionDetails>
+            <Container maxWidth={"lg"}>
+              <Grid
+                container
+                rowSpacing={0}
+                columnSpacing={{ xs: 1, sm: 2, md: 3 }}
               >
-                SAVE
-              </Button>
-            ) : (
-              <Button
-                variant="contained"
-                disableElevation
-                onClick={handleEditClick}
-              >
-                EDIT
-              </Button>
-            )}
-            <Button variant="contained" disableElevation>
-              HISTORY
-            </Button>
-          </Stack>
-        </Box>
-      </Box>
+                {/* 1 row */}
+                <Grid
+                  height={80}
+                  xs={6}
+                  display={"flex"}
+                  justifyContent={"flex-start"}
+                  alignItems={"center"}
+                >
+                  <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                    <b>ID:</b>
+                  </Grid>
+                  <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                    {patient.id}
+                  </Grid>
+                </Grid>
+
+                <Grid
+                  height={80}
+                  xs={6}
+                  display={"flex"}
+                  justifyContent={"flex-start"}
+                  alignItems={"center"}
+                >
+                  <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                    <b>HKID:</b>
+                  </Grid>
+                  <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                    {patient.hkid}
+                  </Grid>
+                </Grid>
+
+                {/* 2　row */}
+                <Grid
+                  height={80}
+                  xs={6}
+                  display={"flex"}
+                  justifyContent={"flex-start"}
+                  alignItems={"center"}
+                >
+                  <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                    <b>First Name:</b>
+                  </Grid>
+                  <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                    {patient.firstName}
+                  </Grid>
+                </Grid>
+
+                <Grid
+                  height={80}
+                  xs={6}
+                  display={"flex"}
+                  justifyContent={"flex-start"}
+                  alignItems={"center"}
+                >
+                  <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                    <b>Last Name:</b>
+                  </Grid>
+                  <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                    {patient.lastName}
+                  </Grid>
+                </Grid>
+                {/* 3　row */}
+                <Grid
+                  height={80}
+                  xs={6}
+                  display={"flex"}
+                  justifyContent={"flex-start"}
+                  alignItems={"center"}
+                >
+                  <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                    <b>Birth Date:</b>
+                  </Grid>
+                  <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                    {patient.birth_date}
+                  </Grid>
+                </Grid>
+
+                <Grid
+                  height={80}
+                  xs={6}
+                  display={"flex"}
+                  justifyContent={"flex-start"}
+                  alignItems={"center"}
+                >
+                  <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                    <b>Gender:</b>
+                  </Grid>
+                  <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                    {patient.gender}
+                  </Grid>
+                </Grid>
+                {/* 4　row */}
+                <Grid
+                  height={80}
+                  xs={6}
+                  display={"flex"}
+                  justifyContent={"flex-start"}
+                  alignItems={"center"}
+                >
+                  <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                    <b>Blood Type:</b>
+                  </Grid>
+                  <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                    {patient.blood}
+                  </Grid>
+                </Grid>
+
+                <Grid
+                  height={80}
+                  xs={6}
+                  display={"flex"}
+                  justifyContent={"flex-start"}
+                  alignItems={"center"}
+                >
+                  <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                    <b>Phone Number:</b>
+                  </Grid>
+                  <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                    {patient.phone_number}
+                  </Grid>
+                </Grid>
+                {/* 5　row */}
+                <Grid
+                  height={80}
+                  xs={6}
+                  display={"flex"}
+                  justifyContent={"flex-start"}
+                  alignItems={"center"}
+                >
+                  <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                    <b>Emergency Contact Person:</b>
+                  </Grid>
+                  <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                    {patient.emergency_name}
+                  </Grid>
+                </Grid>
+
+                <Grid
+                  height={80}
+                  xs={6}
+                  display={"flex"}
+                  justifyContent={"flex-start"}
+                  alignItems={"center"}
+                >
+                  <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                    <b>Emergency Person Phone Number:</b>
+                  </Grid>
+                  <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                    {patient.emergency_contact}
+                  </Grid>
+                </Grid>
+                {/* 6　row */}
+                <Grid
+                  height={80}
+                  xs={6}
+                  display={"flex"}
+                  justifyContent={"flex-start"}
+                  alignItems={"center"}
+                >
+                  <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                    <b>Created At:</b>
+                  </Grid>
+                  <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                    {patient.created_at}
+                  </Grid>
+                </Grid>
+
+                <Grid
+                  height={80}
+                  xs={6}
+                  display={"flex"}
+                  justifyContent={"flex-start"}
+                  alignItems={"center"}
+                >
+                  <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                    <b>Updated At:</b>
+                  </Grid>
+                  <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
+                    {patient.updated_at}
+                  </Grid>
+                </Grid>
+              </Grid>
+              {/* Buttons */}
+              <Grid p={4}>
+                <Stack
+                  spacing={{ sm: 4, md: 8 }}
+                  direction="row"
+                  justifyContent={"center"}
+                >
+                  <Button
+                    variant="contained"
+                    disableElevation
+                    onClick={handleEditClick}
+                  >
+                    EDIT
+                  </Button>
+
+                  <Button variant="contained" disableElevation>
+                    HISTORY
+                  </Button>
+                </Stack>
+              </Grid>
+            </Container>
+          </AccordionDetails>
+        </Accordion>
+      )}
     </div>
   ));
 }
