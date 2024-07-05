@@ -4,7 +4,7 @@ import useAuthStatusPatient from "../../api/patientAuthAPI";
 import MiniDrawer from "../../components/patients/PatientNavBar";
 import patientHome from "./PatientHomePage";
 import PatientLoginForm from "../../components/patients/PatientLoginForm";
-import BottomNavbar from "../../components/patients/Bottomnavbar";
+import BottomNavbar from "../../components/patients/BottomNavbar";
 
 
 export default function PatientAuthGuard() {
