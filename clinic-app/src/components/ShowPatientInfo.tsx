@@ -13,7 +13,7 @@ import {
 import { ChangeEvent, SetStateAction, useEffect, useState } from "react";
 import Stack from "@mui/material/Stack";
 import { styled } from "@mui/material/styles";
-import { useEditPatientInfo, useShowPatientInfo } from "../api/patientAPI";
+import { useShowPatientInfo } from "../api/patientAPI";
 import { useParams, useSearchParams } from "react-router-dom";
 
 const Item = styled(Paper)(({ theme }) => ({
