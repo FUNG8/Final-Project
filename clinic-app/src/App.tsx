@@ -1,13 +1,13 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
-import Home from "./pages/doctorpages/home";
-import DoctorLogin from "./pages/doctorpages/doctorLogin";
-import PatientLogin from "./pages/patientpages/patientLogin";
-import PatientHome from "./pages/patientpages/patientHomePage";
+import Home from "./pages/doctorpages/Home";
+import DoctorLogin from "./pages/doctorpages/DoctorLogin";
+import PatientLogin from "./pages/patientpages/PatientLogin";
+import PatientHome from "./pages/patientpages/PatientHomePage";
 import Patient from "./pages/doctorpages/Patient";
 import Medicine from "./pages/doctorpages/Medicine";
-import Notification from "./pages/patientpages/notification";
-import Profile from "./pages/patientpages/profilePage";
+import Notification from "./pages/patientpages/Notification";
+import Profile from "./pages/patientpages/ProfilePage";
 import Setting from "./pages/patientpages/setting";
 import PatientAuthGuard from "./pages/patientpages/PatientAuthGuard";
 import { DoctorAuthGuard } from "./pages/doctorpages/AuthGuard";
@@ -21,6 +21,7 @@ const queryClient = new QueryClient();
 function App() {
   const parsedPatientId: number | undefined = 123;
   const { theme } = useThemeContext();
+  
 
   return (
     <ThemeProvider theme={theme}>

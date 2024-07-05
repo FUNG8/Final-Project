@@ -9,6 +9,7 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
+  Divider,
 } from "@mui/material";
 import { ChangeEvent, SetStateAction, useEffect, useState } from "react";
 import Stack from "@mui/material/Stack";
@@ -112,7 +113,17 @@ export function ShowPatientInfo() {
   return (response as any)?.result?.map((patient: any) => (
     <div>
       {isEditing ? (
-        <Accordion defaultExpanded>
+        <Accordion
+        sx={{
+          margin: 2,
+          "&.Mui-expanded": {
+            // Styles for the expanded accordion
+            boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
+            backgroundColor: "#f5f5f5",
+            margin: 2,
+          },
+        }}
+      >
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1-content"
@@ -163,7 +174,11 @@ export function ShowPatientInfo() {
                   <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
                     {patient.hkid}
                   </Grid>
+                <Divider />
+
                 </Grid>
+                <Divider />
+
 
                 {/* 2　row */}
                 <Grid
@@ -405,7 +420,17 @@ export function ShowPatientInfo() {
             </Container></AccordionDetails>
         </Accordion>
       ) : (
-        <Accordion defaultExpanded>
+        <Accordion
+              sx={{
+                margin: 2,
+                "&.Mui-expanded": {
+                  // Styles for the expanded accordion
+                  boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
+                  backgroundColor: "#f5f5f5",
+                  margin: 2,
+                },
+              }}
+            >
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1-content"
@@ -455,6 +480,7 @@ export function ShowPatientInfo() {
                     {patient.hkid}
                   </Grid>
                 </Grid>
+                
 
                 {/* 2　row */}
                 <Grid

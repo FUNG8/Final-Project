@@ -14,6 +14,7 @@ export class DiagnosisController {
     try {
       let patient_id = req.params.id;
       const diagnosisResult = await this.diagnosisServices.getDiagnosis(patient_id);
+      console.log(diagnosisResult)
       res.json(diagnosisResult);
     } catch (e) {
       res.status(500);

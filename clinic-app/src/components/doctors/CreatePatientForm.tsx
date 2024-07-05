@@ -132,7 +132,10 @@ export default function CreatePatientModal() {
 
   return (
     <div>
+      <Grid xs={12} sx={{display:"flex",justifyContent:"center",margin:2}}>
+
       <TriggerButton onClick={handleOpen}>Create Patients</TriggerButton>
+      </Grid>
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"

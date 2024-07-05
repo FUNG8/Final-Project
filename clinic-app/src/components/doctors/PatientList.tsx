@@ -19,6 +19,7 @@ import { useNavigate } from "react-router-dom";
 import { SearchBar } from "./SearchBar";
 import { SendPatient } from "./EditPatient";
 import { Margin } from "@mui/icons-material";
+import CreatePatientModal from "./CreatePatientForm";
 
 export function ListPatients() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -57,14 +58,8 @@ export function ListPatients() {
       </div>
       <Box justifyContent="center" mt={4}>
         <div>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              marginBottom: "0.5rem",
-            }}
-          >
-            <h2>Patients</h2>
+        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '0.5rem' }}>
+            <h2>Patients</h2> <CreatePatientModal />
           </div>
           <TableContainer component={Paper}>
             <Table>

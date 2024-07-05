@@ -22,8 +22,8 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import { logout } from '../../api/patientAuthAPI';
-import notification from '../../pages/patientpages/notification';
-import Profile from '../../pages/patientpages/profilePage';
+import notification from '../../pages/patientpages/Notification';
+import Profile from '../../pages/patientpages/ProfilePage';
 import setting from '../../pages/patientpages/setting';
 import { Navigate, useNavigate } from 'react-router-dom';
 

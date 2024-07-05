@@ -1,7 +1,8 @@
 import { useMedicineInfo } from '../../api/medicineAPI';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Box, Pagination } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Box, Pagination, Grid } from '@mui/material';
 import { SetStateAction, useEffect, useState } from 'react';
 import { SearchBar } from "./SearchBar";
+import InsertMedicineModal from './InsertMedicineForm';
 
 
 export function ListMedicine() {
@@ -28,13 +29,11 @@ export function ListMedicine() {
 
     return (
         <div>
-            <div>
-                <SearchBar onSearch={handleSearch} />
-            </div>
+            <SearchBar onSearch={handleSearch} />
             <Box justifyContent="center" mt={4}>
                 <div>
                     <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '0.5rem' }}>
-                        <h2>Medicine</h2>
+                        <h2>Medicine</h2><InsertMedicineModal />
                     </div>
                     <TableContainer component={Paper}>
                         <Table>
