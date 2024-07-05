@@ -7,7 +7,7 @@ export default function patientHome() {
       <div className="App">
         <header className="App-header">
           <p>Home</p>
-                    
+          
         </header>
         
       </div>
