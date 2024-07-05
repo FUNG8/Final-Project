@@ -1,5 +1,5 @@
 // hahahahaha
-import './home.scss';
+import './Home.scss';
 import TemporaryDrawer from '../../components/doctors/DoctorNavBar';
 import * as React from 'react';
 import { useState, useEffect } from 'react';

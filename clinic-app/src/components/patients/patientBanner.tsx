@@ -1,6 +1,6 @@
 // hahahahaha
 import React, { useEffect, useState } from 'react'
-import  "./patientBanner.scss"
+import  "./PatientBanner.scss"
 import logo from '../../image/logo.jpeg'
 
 export default function PatientBanner(){

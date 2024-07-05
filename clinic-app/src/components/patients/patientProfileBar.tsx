@@ -1,6 +1,6 @@
 // hahahahaha
 import { Height } from "@mui/icons-material";
-import "./patientProfileBar.scss"
+import "./PatientProfileBar.scss"
 import SettingsIcon from '@mui/icons-material/Settings';
 import VpnKeyIcon from '@mui/icons-material/VpnKey';
 
