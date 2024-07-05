@@ -9,7 +9,7 @@ import Patient from "./pages/doctorpages/Patient";
 import Medicine from "./pages/doctorpages/Medicine";
 import Notification from "./pages/patientpages/Notification";
 import Profile from "./pages/patientpages/ProfilePage";
-import Setting from "./pages/patientpages/setting";
+import Setting from "./pages/patientpages/Setting";
 
 import PatientAuthGuard from "./pages/patientpages/PatientAuthGuard";
 import { DoctorAuthGuard } from "./pages/doctorpages/AuthGuard";

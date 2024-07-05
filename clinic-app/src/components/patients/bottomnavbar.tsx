@@ -8,7 +8,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import { logout } from "../../api/patientAuthAPI";
 import notification from "../../pages/patientpages/Notification";
 import Profile from "../../pages/patientpages/ProfilePage";
-import setting from "../../pages/patientpages/setting";
+import setting from "../../pages/patientpages/Setting";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import BottomNavigation from "@mui/material/BottomNavigation";

@@ -18,7 +18,7 @@ import { SetStateAction, useEffect, useState } from "react";
 import SendIcon from "@mui/icons-material/Send";
 import { useNavigate } from "react-router-dom";
 import { SearchBar } from "./SearchBar";
-import { SendPatient } from "./editPatient1";
+import { SendPatient } from "./editPatient";
 import { Margin } from "@mui/icons-material";
 import CreatePatientModal from "./CreatePatientForm";
 
