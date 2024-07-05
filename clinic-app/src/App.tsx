@@ -16,6 +16,7 @@ import { ThemeProvider, createTheme } from "@mui/material";
 import { useThemeContext } from "./theme/ThemeContextProvider";
 import PatientInfo from "./pages/doctorpages/PatientInfo";
 
+// hahahahaha
 const queryClient = new QueryClient();
 
 function App() {
