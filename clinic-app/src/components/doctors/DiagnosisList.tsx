@@ -49,8 +49,6 @@ export function ListDiagnosis() {
         {diagnosis?.status === "success" && diagnosis.diagnosisResult?.map((diagnosis) => (
 
 
-
-
           <div key={diagnosis.id}>
             <Accordion
               sx={{

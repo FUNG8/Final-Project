@@ -16,6 +16,7 @@ import { DoctorAuthGuard } from "./pages/doctorpages/AuthGuard";
 import { LandingPage } from "./LandingPage";
 import { ShowPatientInfo } from "./components/ShowPatientInfo";
 import { ThemeProvider } from "styled-components";
+import PatientInfo from "./pages/doctorpages/PatientInfo";
 
 
 // hahahahaha
@@ -42,7 +43,11 @@ function App() {
               <Route path="/doctor" element={<DoctorAuthGuard />}>
                 <Route path="home" element={<Home />} />
                 <Route path="patient" element={<Patient />} />
-                <Route path="patientDetail/:patientId" element={<ShowPatientInfo />} />
+                {/* <Route path="patientDetail/:patientId" element={<ShowPatientInfo />} /> */}
+                <Route
+                  path="patientDetail/:patientId"
+                  element={<PatientInfo/>}
+                />
                 <Route path="medicine" element={<Medicine />} />
               </Route>
 
