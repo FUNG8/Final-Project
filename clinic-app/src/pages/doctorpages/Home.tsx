@@ -4,11 +4,13 @@ import TemporaryDrawer from '../../components/doctors/DoctorNavBar';
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
-import WaitingTable from '../../components/patients/HomeTable'
 import ConsultTable from '../../components/patients/ConsultingTable'
 import styled from 'styled-components';
 import { FormControlLabel, Paper, Slide, Switch } from '@mui/material';
 import Grid from '@mui/material/Grid';
+import { Username } from '../../components/patients/Username';
+import ManyContainer from './ManyContainer';
+import  HomeTable  from '../../components/patients/HomeTable';
 
 const icon = (
   <Paper sx={{ m: 1, width: 100, height: 100 }} elevation={4}>
@@ -44,6 +46,8 @@ export default function Home() {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
+
+
 
   return (
     <>
@@ -82,18 +86,8 @@ export default function Home() {
                 width: '100%',
               }}
             >
-              {/* <div className='welcomeContainer'><Username /></div> */}
-              <div className='manyContainer'>
-                <div className='smallContainer'>Total Patient
-                  <div className='inSmContainer'>22</div>
-                </div>
-                <div className='smallContainer'>Pending
-                  <div className='inSmContainer'>21</div>
-                </div>
-                <div className='smallContainer'>Completed
-                  <div className='inSmContainer'>6</div>
-                </div>
-              </div>
+              <div className='welcomeContainer'><Username /></div>
+              <ManyContainer />
             </Box>
             <Box
               sx={{
@@ -118,7 +112,7 @@ export default function Home() {
               <div className="waitingList">Consulting...</div>
               <ConsultTable />
               <div className="waitingList">Waiting List...</div>
-              <WaitingTable />
+              <HomeTable/>
             </Box>
           )}
         </Box>

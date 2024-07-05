@@ -18,7 +18,7 @@ app.use(cors())
 
 //json
 app.use(express.json());
-
+app.use(express.urlencoded({extended: false}));
 
 //api
 import { DoctorAuthController } from './controllers/DoctorAuthController';
@@ -59,6 +59,11 @@ import { DiagnosisService } from './services/diagnosisService';
 const diagnosisService = new DiagnosisService(knex);
 const diagnosisController = new DiagnosisController(diagnosisService);
 
+import { HomePatientService } from './services/HomePatientService';
+import { HomePatientController } from './controllers/HomePatientController';
+const homePatientService = new HomePatientService(knex)
+const homePatientController = new HomePatientController(homePatientService)
+
 app.use("/doctorAuth", doctorAuthController.router)
 app.use("/patientAuth", patientAuthController.router)
 app.use("/patients", patientController.router);
@@ -66,6 +71,7 @@ app.use("/medicines", medicineController.router)
 app.use("/patientProfile",patientProfileController.router)
 // app.use("/drugShape",drugShapeController.router)
 app.use("/diagnosis",diagnosisController.router)
+app.use("/homePatient", homePatientController.router)
 
 
 

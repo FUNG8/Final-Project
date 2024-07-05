@@ -119,25 +119,6 @@ export function useShowPatientInfo(patientId: number) {
     return data
 }
 
-
-// export function useEditPatientInfo(patientId: number) {
-//     console.log("show patient with ID so to Edit:", patientId)
-
-//     const { isLoading, error, data, isFetching } = useQuery({
-//         queryKey: ["editPatientsInfo", patientId],
-//         queryFn: async () => {
-//             const res = await fetch(`${process.env.REACT_APP_API_SERVER}/patients/editPatients?patientId=${patientId}`);
-//             const result = await res.json();
-//             return { status: "success", editPatientId: result.patientId};
-//         },
-//     });
-//     if (isLoading || isFetching || error || !data) {
-//         return { status: "loading" }
-//     }
-//     console.log(data)
-//     return data
-// }
-
 export async function editPatientInfo(patientId: number, editedInfo: Patient) {
 
     let updateResponse = await fetch(`${process.env.REACT_APP_API_SERVER}/patients/editPatients?patientId=${patientId}`, {
@@ -179,7 +160,6 @@ export function useFetchDataToProfile(hkid: string) {
 }
 
 
-
 export function useFetchDataToDiagnosis(hkid: string) {
     const { isLoading, error, data, isFetching } = useQuery({
         queryKey: ["diagnosisData", hkid],
@@ -200,3 +180,45 @@ export function useFetchDataToDiagnosis(hkid: string) {
 
     return data
 }
+
+
+
+export function useNumberWaitingList() {
+
+
+    const { isLoading, error, data, isFetching } = useQuery({
+        queryKey: ["NumberWaitingList"],
+        queryFn: async () => {
+            const res = await fetch(`${process.env.REACT_APP_API_SERVER}/homePatient/allWaitingList`);
+            const result = await res.json();
+            console.log("this is patient waiting List",result.data)
+            return { status: "success", result: result.data };
+        },
+    });
+    if (isLoading || isFetching || error || !data) {
+        return { status: "loading" }
+    }
+
+    return data
+}
+
+
+export function usePatientWaitingList() {
+
+
+    const { isLoading, error, data, isFetching } = useQuery({
+        queryKey: ["PatientWaitingList"],
+        queryFn: async () => {
+            const res = await fetch(`${process.env.REACT_APP_API_SERVER}/homePatient/patientWaitingList`);
+            const result = await res.json();
+            console.log("this is usePatientWaitingList",result.data)
+            return { status: "success", result: result.data };
+        },
+    });
+    if (isLoading || isFetching || error || !data) {
+        return { status: "loading" }
+    }
+
+    return data
+}
+

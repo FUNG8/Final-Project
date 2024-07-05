@@ -26,7 +26,7 @@ export class PatientController {
             let totalPages = Math.ceil(totalPatients / perPage);
 
 
-            const currentPage = pageNumber; // Replace with the actual current page value
+            const currentPage = pageNumber; 
             const startIndex = (currentPage - 1) * perPage;
 
             const searchTerm: any = req.query.searchTerm

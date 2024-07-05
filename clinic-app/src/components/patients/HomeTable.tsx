@@ -11,83 +11,84 @@ import TimeAgo from 'react-time-ago';
 import en from 'javascript-time-ago/locale/en'
 import JavascriptTimeAgo from 'javascript-time-ago';
 import PublishIcon from '@mui/icons-material/Publish';
+import { usePatientWaitingList } from '../../api/patientAPI';
+import { DragDropContext, Draggable, Droppable, DropResult } from 'react-beautiful-dnd';
 
 JavascriptTimeAgo.addDefaultLocale(en);
 
-function createData(
-  first_name: string,
-  last_name: string,
-  time: string
-) {
-  return { first_name, last_name, time };
+interface PatientWaitingList {
+  status: string;
+  result?: {
+    time: string | number | Date;
+    firstName: string;
+    lastName: string;
+  }[];
 }
 
-const initialRows = [
-    createData('Sunny', 'Bay', '2023-06-24T15:00:57Z'),
-    createData('John', 'Doe', '2023-06-24T15:00:57Z'),
-    createData('Jane', 'Smith', '2023-06-24T15:00:57Z'),
-    createData('Alice', 'Johnson', '2023-06-24T15:00:57Z'),
-    createData('Bob', 'Brown', '2023-06-24T15:00:57Z'),
-    createData('Charlie', 'Davis', '2023-06-24T15:00:57Z'),
-    createData('David', 'Evans', '2023-06-24T15:00:57Z'),
-    createData('Eve', 'Foster', '2023-06-24T15:00:57Z'),
-    createData('Frank', 'Green', '2023-06-24T15:00:57Z'),
-    createData('Grace', 'Harris', '2023-06-24T15:00:57Z'),
-    createData('Hank', 'Ives', '2023-06-24T15:00:57Z'),
-    createData('Ivy', 'Jones', '2023-06-24T15:00:57Z'),
-    createData('Jack', 'King', '2023-06-24T15:00:57Z'),
-    createData('Karen', 'Lee', '2023-06-24T15:00:57Z'),
-    createData('Leo', 'Miller', '2023-06-24T15:00:57Z'),
-  ];
 
+export default function HomeTable() {
+  const patientWaitingList: PatientWaitingList = usePatientWaitingList();
+  console.log(patientWaitingList.result?.[0]?.firstName);
 
+  const handleDragEnd = (result: DropResult, provided: any) => {
+    if (!result.destination) {
+      return;
+    }
 
-export default function BasicTable() {
-  const [rows, setRows] = React.useState(initialRows);
-  const handleIconClick = (index: number) => {
-    const selectedRow = rows[index];
-    const newRows = [selectedRow, ...rows.filter((_, i) => i !== index)];
-    setRows(newRows);
+    const updatedPatientList = Array.from(patientWaitingList.result || []);
+    const [removed] = updatedPatientList.splice(result.source.index, 1);
+    updatedPatientList.splice(result.destination.index, 0, removed);
+
+    // setPatientWaitingList({
+    //   result: updatedPatientList,
+    // });
   };
 
-
   return (
-    <TableContainer component={Paper} style={{ maxHeight: 450 }}>
-      <Table stickyHeader sx={{ minWidth: 100 }} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-              
-            <TableCell>First Name</TableCell>
-            <TableCell>Last Name</TableCell>
-            <TableCell>Check In Time</TableCell>
-            <TableCell>Consult</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row, index) => (
-            <TableRow
-              key={row.last_name}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-
-              <TableCell component="th" scope="row">
-                {row.first_name}
-              </TableCell>
-              <TableCell>{row.last_name}</TableCell>
-              <TableCell>
-                <TimeAgo date={new Date(row.time)} />
-              </TableCell>
-              <TableCell>
-              {index === 0 ? (
-                  'Next Consult'
-                ) : (
-                  <PublishIcon onClick={() => handleIconClick(index)} style={{ cursor: 'pointer' }} />
-                )}
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <DragDropContext onDragEnd={handleDragEnd}>
+      <Droppable droppableId="patientList" type="group" >
+        {(provided: any) => (
+          <div ref={provided.innerRef} {...provided.droppableProps}>
+            <TableContainer component={Paper} style={{ maxHeight: 450 }}>
+              <Table stickyHeader sx={{ minWidth: 100 }} aria-label="simple table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>First Name</TableCell>
+                    <TableCell>Last Name</TableCell>
+                    <TableCell>Check In Time</TableCell>
+                    <TableCell>Consult</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {patientWaitingList.result?.map((row: any, index: number) => (
+                    <Draggable key={index} draggableId={`patient-${index}`} index={index} >
+                      {(provided: any) => (
+                        <TableRow
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                          ref={provided.innerRef}
+                          sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                        >
+                          <TableCell component="th" scope="row">
+                            {row.firstName}
+                          </TableCell>
+                          <TableCell>{row.lastName}</TableCell>
+                          <TableCell>
+                            <TimeAgo date={new Date()} />
+                          </TableCell>
+                        </TableRow>
+                      )}
+                    </Draggable>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+            {provided.placeholder}
+          </div>
+        )}
+      </Droppable>
+    </DragDropContext>
   );
 }
+
+
