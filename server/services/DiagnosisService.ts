@@ -76,7 +76,7 @@ export class DiagnosisService {
             WHERE d.patient_id = ${ patient_id }
             GROUP BY d.patient_id;
         `);
-        return result.rows
+        return result.rows[0].diagnosisdetail
     }
 }
 
