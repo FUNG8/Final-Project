@@ -1,3 +1,4 @@
+// hahahahaha
 import * as React from 'react';
 import HouseIcon from '@mui/icons-material/House';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
@@ -24,7 +25,7 @@ import ListItemText from '@mui/material/ListItemText';
 import { logout } from '../../api/patientAuthAPI';
 import notification from '../../pages/patientpages/Notification';
 import Profile from '../../pages/patientpages/ProfilePage';
-import setting from '../../pages/patientpages/setting';
+import setting from '../../pages/patientpages/Setting';
 import { Navigate, useNavigate } from 'react-router-dom';
 
 

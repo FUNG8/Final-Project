@@ -1,3 +1,4 @@
+// hahahahaha
 import * as React from "react";
 import HouseIcon from "@mui/icons-material/House";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
@@ -5,9 +6,9 @@ import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 import SettingsIcon from "@mui/icons-material/Settings";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { logout } from "../../api/patientAuthAPI";
-import notification from "../../pages/patientpages/Notification";
-import Profile from "../../pages/patientpages/ProfilePage";
-import setting from "../../pages/patientpages/setting";
+// import notification from "../../pages/patientpages/Notification";
+// import Profile from "../../pages/patientpages/ProfilePage";
+// import setting from "../../pages/patientpages/Setting";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import BottomNavigation from "@mui/material/BottomNavigation";

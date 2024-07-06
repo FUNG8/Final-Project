@@ -1,3 +1,4 @@
+// hahahahaha
 import { Grid, TextField } from "@mui/material";
 import styled from "styled-components";
 import SearchIcon from '@mui/icons-material/Search';
@@ -11,7 +12,7 @@ const StyledTextField = styled(TextField)({
 
 export function SearchBar({ onSearch }: SearchBarProps) {
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("hi");
+    console.log("hi")
     onSearch(event.target.value);
 
 
@@ -24,4 +25,4 @@ export function SearchBar({ onSearch }: SearchBarProps) {
       <TextField size="small" label="Search" variant="outlined" onChange={handleInputChange} sx={{ width: 500 }} />
     </Grid>
   );
-}
+} 

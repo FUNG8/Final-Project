@@ -1,13 +1,16 @@
-import './home.scss';
+// hahahahaha
+import './Home.scss';
 import TemporaryDrawer from '../../components/doctors/DoctorNavBar';
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
-import WaitingTable from '../../components/patients/HomeTable'
 import ConsultTable from '../../components/patients/ConsultingTable'
 import styled from 'styled-components';
 import { FormControlLabel, Paper, Slide, Switch } from '@mui/material';
 import Grid from '@mui/material/Grid';
+import { Username } from '../../components/patients/Username';
+import ManyContainer from './ManyContainer';
+import  HomeTable  from '../../components/patients/HomeTable';
 
 const icon = (
   <Paper sx={{ m: 1, width: 100, height: 100 }} elevation={4}>
@@ -29,15 +32,6 @@ const icon = (
 export default function Home() {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
-  const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-    flexGrow: 1,
-  }));
-
   useEffect(() => {
     // Handler to call on window resize
     const handleResize = () => {
@@ -53,21 +47,17 @@ export default function Home() {
     };
   }, []);
 
-  const [checked, setChecked] = React.useState(false);
 
-  const handleChange = () => {
-    setChecked((prev) => !prev);
-  };
 
   return (
     <>
       <TemporaryDrawer />
 
-      {/* <header
+      <header
         className="App-header"
         style={{
           display: 'flex',
-          justifyContent: 'space-around',
+          justifyContent: 'flex-end',
           alignItems: 'flex-start',
         }}>
         <Box
@@ -97,17 +87,7 @@ export default function Home() {
               }}
             >
               <div className='welcomeContainer'><Username /></div>
-              <div className='manyContainer'>
-                <div className='smallContainer'>Total Patient
-                  <div className='inSmContainer'>22</div>
-                </div>
-                <div className='smallContainer'>Pending
-                  <div className='inSmContainer'>21</div>
-                </div>
-                <div className='smallContainer'>Completed
-                  <div className='inSmContainer'>6</div>
-                </div>
-              </div>
+              <ManyContainer />
             </Box>
             <Box
               sx={{
@@ -132,46 +112,11 @@ export default function Home() {
               <div className="waitingList">Consulting...</div>
               <ConsultTable />
               <div className="waitingList">Waiting List...</div>
-              <WaitingTable />
+              <HomeTable/>
             </Box>
           )}
         </Box>
-      </header> */}
-      <body>
-        {/* <Box sx={{ flexGrow: 1 }}>
-          <Grid container spacing={2}>
-            <Grid item xs={8}>
-              <Item>xs=8</Item>
-            </Grid>
-            <Grid item xs={4}>
-              <Item>xs=4</Item>
-            </Grid>
-            <Grid item xs={4}>
-              <Item>xs=4</Item>
-            </Grid>
-            <Grid item xs={8}>
-              <Item>xs=8</Item>
-            </Grid>
-          </Grid>
-        </Box> */}
-        <Box
-        sx={{
-          height: 180,
-          width: 130,
-          position: 'relative',
-          zIndex: 1,
-        }}
-      >
-        <FormControlLabel
-          control={<Switch checked={checked} onChange={handleChange} />}
-          label="Show"
-        />
-        <Slide direction="up" in={checked} mountOnEnter unmountOnExit>
-          {icon}
-        </Slide>
-      </Box>
-      </body>
-
+      </header>
     </>
   );
 }

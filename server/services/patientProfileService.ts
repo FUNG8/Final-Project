@@ -13,6 +13,7 @@ export class PatientProfileService {
                     'birth_date',
                     'gender',
                     'phone_number',
+                    'emergency_name',
                     'emergency_contact')
                     .where({hkid})
                     .first()

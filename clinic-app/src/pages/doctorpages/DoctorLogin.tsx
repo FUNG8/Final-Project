@@ -1,18 +1,21 @@
+// hahahahaha
 import React from 'react';
+import logo from './logo.svg';
 import style from './App.module.scss';
 import TemporaryDrawer from '../../components/doctors/DoctorNavBar';
-import { ListPatients } from '../../components/doctors/PatientList';
+import { blue } from '@mui/material/colors';
 import { Margin } from '@mui/icons-material';
 
-import PatientLoginForm from '../../components/patients/PatientLoginForm';
+import DoctorLogInForm from '../../components/doctors/DoctorLogInForm';
 
-export default function doctorLogin() {
+export default function DoctorLogin() {
+
   return (
     <div className="App">
       <header className="App-header">
-        
+
       </header>
-      <PatientLoginForm />
+      <DoctorLogInForm />
     </div>
   );
 }

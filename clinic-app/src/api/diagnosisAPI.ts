@@ -1,3 +1,4 @@
+// hahahahaha
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 
@@ -89,8 +90,7 @@ export function useShowDiagnosis(id: number) {
         queryFn: async () => {
             const res = await fetch(`${process.env.REACT_APP_API_SERVER}/diagnosis/getDiagnosis/${id}`);
             const diagnosisResult = await res.json();
-            console.log(diagnosisResult)
-            return { status: "success", diagnosisResult };
+            return { status: "success", result:diagnosisResult };
         },
     });
     if (isLoading || isFetching || error || !data) {

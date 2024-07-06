@@ -28,15 +28,7 @@ export class PatientProfileController {
         }
   
         res.status(200).json({
-          message: `
-            First Name: ${details.firstName},
-            Last Name: ${details.lastName}, 
-            Birth: ${details.birth_date}, 
-            Gender: ${details.gender}, 
-            Phone: ${details.phone_number}, 
-            Emergency Contact: ${details.emergency_contact}, 
-            Emergency Name: ${details.emergency_name}
-          `,
+          message: "success",
           data: details
         });
       } catch (error) {

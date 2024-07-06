@@ -1,5 +1,6 @@
+// hahahahaha
 import React, { useEffect, useState } from 'react'
-import  "./patientBanner.scss"
+import  "./PatientBanner.scss"
 import logo from '../../image/logo.jpeg'
 
 export default function PatientBanner(){
@@ -23,7 +24,7 @@ export default function PatientBanner(){
     const imageSize = windowWidth < 600 ? 100 : 150; // Example: smaller image for small screens
     return(
         <div className='bannerBack-layer'>
-            <img src={logo} alt="logo"
+            <img className='image' src={logo} alt="logo"
             style={{
             width: `${imageSize}px`,
             height: `${imageSize}px`,

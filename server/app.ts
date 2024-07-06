@@ -18,7 +18,7 @@ app.use(cors())
 
 //json
 app.use(express.json());
-
+app.use(express.urlencoded({extended: false}));
 
 //api
 import { DoctorAuthController } from './controllers/DoctorAuthController';
@@ -47,10 +47,11 @@ import { PatientProfileController } from './controllers/patientProfileController
 const patientProfileService = new PatientProfileService(knex);
 const patientProfileController = new PatientProfileController(patientProfileService)
 
-import { DrugService } from './services/DrugService';
-import { DrugShapeController } from './controllers/DrugShapeController';
-const drugService = new DrugService(knex);
-const drugShapeController = new DrugShapeController(drugService);
+import { PatientDiagnosisService } from './services/patientDiagnosisService';
+import { PatientDiagnosisController } from './controllers/patientDiagnosisController';
+const patientDiagnosisService = new PatientDiagnosisService(knex);
+const patientDiagnosisController = new PatientDiagnosisController(patientDiagnosisService)
+
 
 
 import { DiagnosisController } from './controllers/DiagnosisController';
@@ -58,13 +59,19 @@ import { DiagnosisService } from './services/diagnosisService';
 const diagnosisService = new DiagnosisService(knex);
 const diagnosisController = new DiagnosisController(diagnosisService);
 
+import { HomePatientService } from './services/HomePatientService';
+import { HomePatientController } from './controllers/HomePatientController';
+const homePatientService = new HomePatientService(knex)
+const homePatientController = new HomePatientController(homePatientService)
+
 app.use("/doctorAuth", doctorAuthController.router)
 app.use("/patientAuth", patientAuthController.router)
 app.use("/patients", patientController.router);
 app.use("/medicines", medicineController.router)
 app.use("/patientProfile",patientProfileController.router)
-app.use("/drugShape",drugShapeController.router)
+// app.use("/drugShape",drugShapeController.router)
 app.use("/diagnosis",diagnosisController.router)
+app.use("/homePatient", homePatientController.router)
 
 
 

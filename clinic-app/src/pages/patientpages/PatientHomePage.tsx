@@ -1,5 +1,6 @@
+// hahahahaha
 import React from "react";
-import BottomNavbar from "../../components/patients/BottomNavbar";
+// import BottomNavbar from "../../components/patients/BottomNavbar";
 export default function patientHome() {
 
     return (
@@ -7,7 +8,7 @@ export default function patientHome() {
       <div className="App">
         <header className="App-header">
           <p>Home</p>
-                    
+          
         </header>
         
       </div>

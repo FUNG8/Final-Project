@@ -1,3 +1,4 @@
+// hahahahaha
 import { useQuery } from "@tanstack/react-query";
 
 
@@ -118,25 +119,6 @@ export function useShowPatientInfo(patientId: number) {
     return data
 }
 
-
-// export function useEditPatientInfo(patientId: number) {
-//     console.log("show patient with ID so to Edit:", patientId)
-
-//     const { isLoading, error, data, isFetching } = useQuery({
-//         queryKey: ["editPatientsInfo", patientId],
-//         queryFn: async () => {
-//             const res = await fetch(`${process.env.REACT_APP_API_SERVER}/patients/editPatients?patientId=${patientId}`);
-//             const result = await res.json();
-//             return { status: "success", editPatientId: result.patientId};
-//         },
-//     });
-//     if (isLoading || isFetching || error || !data) {
-//         return { status: "loading" }
-//     }
-//     console.log(data)
-//     return data
-// }
-
 export async function editPatientInfo(patientId: number, editedInfo: Patient) {
 
     let updateResponse = await fetch(`${process.env.REACT_APP_API_SERVER}/patients/editPatients?patientId=${patientId}`, {
@@ -145,9 +127,7 @@ export async function editPatientInfo(patientId: number, editedInfo: Patient) {
             "Content-Type": "application/json",
         },
         body: JSON.stringify({ ...editedInfo }),
-    }
-
-    )
+    })
 
     if (!updateResponse.ok) {
         throw new Error(`HTTP error ${updateResponse.status}`);
@@ -156,3 +136,89 @@ export async function editPatientInfo(patientId: number, editedInfo: Patient) {
     const result = await updateResponse.json();
     return result.message;
 }
+
+export function useFetchDataToProfile(hkid: string) {
+    const { isLoading, error, data, isFetching } = useQuery({
+        queryKey: ["profileData", hkid],
+        queryFn: async () => {
+            const res = await fetch(`${process.env.REACT_APP_API_SERVER}/patientProfile/profilePage/`, {
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem("patientToken")}`
+                }
+            });
+            const result = await res.json();
+            console.log(result)
+            return { status: "success", result: result.data }
+        },
+    });
+    if (isLoading || isFetching || error || !data) {
+        return { status: "loading" }
+    }
+
+
+    return data
+}
+
+
+export function useFetchDataToDiagnosis(hkid: string) {
+    const { isLoading, error, data, isFetching } = useQuery({
+        queryKey: ["diagnosisData", hkid],
+        queryFn: async () => {
+            const res = await fetch(`${process.env.REACT_APP_API_SERVER}/patientDiagnosis/getDiagnosis/`, {
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem("patientToken")}`
+                }
+            });
+            const results = await res.json();
+            return results.data
+        },
+    });
+    if (isLoading || isFetching || error || !data) {
+        return { status: "loading" }
+    }
+
+
+    return data
+}
+
+
+
+export function useNumberWaitingList() {
+
+
+    const { isLoading, error, data, isFetching } = useQuery({
+        queryKey: ["NumberWaitingList"],
+        queryFn: async () => {
+            const res = await fetch(`${process.env.REACT_APP_API_SERVER}/homePatient/allWaitingList`);
+            const result = await res.json();
+            console.log("this is patient waiting List",result.data)
+            return { status: "success", result: result.data };
+        },
+    });
+    if (isLoading || isFetching || error || !data) {
+        return { status: "loading" }
+    }
+
+    return data
+}
+
+
+export function usePatientWaitingList() {
+
+
+    const { isLoading, error, data, isFetching } = useQuery({
+        queryKey: ["PatientWaitingList"],
+        queryFn: async () => {
+            const res = await fetch(`${process.env.REACT_APP_API_SERVER}/homePatient/patientWaitingList`);
+            const result = await res.json();
+            console.log("this is usePatientWaitingList",result.data)
+            return { status: "success", result: result.data };
+        },
+    });
+    if (isLoading || isFetching || error || !data) {
+        return { status: "loading" }
+    }
+
+    return data
+}
+

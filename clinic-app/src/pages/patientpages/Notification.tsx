@@ -1,10 +1,12 @@
-export default function setting() {
+// hahahahaha
+import BottomNavbar from "../../components/patients/BottomNavbar";
+export default function notification() {
 
     return (
    
       <div className="App">
         <header className="App-header">
-          <p>Setting</p>
+          <p>Notification</p>
                     
         </header>
         
