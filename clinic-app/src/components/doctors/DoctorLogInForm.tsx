@@ -17,7 +17,8 @@ import { useMutation } from '@tanstack/react-query';
 import { queryClient } from '../..';
 import { FormEvent, useState } from 'react';
 import { login } from "../../api/doctorAuthAPI";
-
+import landingpage from '../../image/landingpage.jpg'
+import { WidthFull } from '@mui/icons-material';
 
 function Copyright(props: any) {
   return (
@@ -78,14 +79,15 @@ export default function DoctorLogInForm() {
           sm={4}
           md={7}
           sx={{
-            backgroundImage: 'url(https://source.unsplash.com/random?wallpapers)',
+            backgroundImage: 'url(/src/image/landingpage.jpg)',
             backgroundRepeat: 'no-repeat',
             backgroundColor: (t) =>
               t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
             backgroundSize: 'cover',
             backgroundPosition: 'center',
           }}
-        />
+       />
+        
         <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
           <Box
             sx={{

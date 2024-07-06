@@ -114,16 +114,16 @@ export function ShowPatientInfo() {
     <div>
       {isEditing ? (
         <Accordion
-        sx={{
-          margin: 2,
-          "&.Mui-expanded": {
-            // Styles for the expanded accordion
-            boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
-            backgroundColor: "#f5f5f5",
+          sx={{
             margin: 2,
-          },
-        }}
-      >
+            "&.Mui-expanded": {
+              // Styles for the expanded accordion
+              boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
+              backgroundColor: "#f5f5f5",
+              margin: 2,
+            },
+          }}
+        >
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1-content"
@@ -174,7 +174,7 @@ export function ShowPatientInfo() {
                   <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
                     {patient.hkid}
                   </Grid>
-                <Divider />
+                  <Divider />
 
                 </Grid>
                 <Divider />
@@ -421,16 +421,16 @@ export function ShowPatientInfo() {
         </Accordion>
       ) : (
         <Accordion
-              sx={{
-                margin: 2,
-                "&.Mui-expanded": {
-                  // Styles for the expanded accordion
-                  boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
-                  backgroundColor: "#f5f5f5",
-                  margin: 2,
-                },
-              }}
-            >
+          sx={{
+            margin: 2,
+            "&.Mui-expanded": {
+              // Styles for the expanded accordion
+              boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
+              backgroundColor: "#f5f5f5",
+              margin: 2,
+            },
+          }}
+        >
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1-content"
@@ -480,7 +480,7 @@ export function ShowPatientInfo() {
                     {patient.hkid}
                   </Grid>
                 </Grid>
-                
+
 
                 {/* 2　row */}
                 <Grid
