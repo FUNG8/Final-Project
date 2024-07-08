@@ -28,6 +28,7 @@ export class MedicineService {
     try {
       return this.knex.transaction(async (trx) => {
         // Insert the medicine first
+        console.log("Med Service Inserting")
         let medInsertResult = await trx
           .insert({
             name: name,

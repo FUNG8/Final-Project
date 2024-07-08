@@ -9,11 +9,8 @@ import { ThemeProvider } from "styled-components";
 import {
   Autocomplete,
   Box,
-  Checkbox,
-  Container,
   CssBaseline,
   FormControlLabel,
-  FormGroup,
   FormLabel,
   Grid,
   Radio,
@@ -114,6 +111,7 @@ export default function InsertMedicineModal() {
     setDrugInput((event.target as HTMLInputElement).value);
   };
 
+  //step1 set up mutation
   const onSubmit = useMutation({
     mutationFn: async (data: {
       name: string;
@@ -144,8 +142,6 @@ export default function InsertMedicineModal() {
       console.log("On Insert Medicine", data);
       handleAddMedicine();
       handleClose();
-
-      //   queryClient.invalidateQueries({ queryKey: ["authStatus"] });
     },
     onError: (e) => {
       console.log("mutate on error");
@@ -153,23 +149,23 @@ export default function InsertMedicineModal() {
     },
   });
 
+  //step 2 trigger the mutation by action
   const handleSubmit = (e: any) => {
     e.preventDefault();
     const currentTime = dayjs().format("YYYY-MM-DD HH:mm:ss");
     console.log("current time is" + currentTime);
 
     onSubmit.mutate({
-
-     name:medicineNameInput,
-      generic_drug:genericDrugInput,
-      description:descriptionInput,
-      dosage:dosageInput,
-      unit_measurement:unitInput,
-      type:typeInput,
-      drug_shape_id:drugInput,
-      color:colorInput,
-      created_at:currentTime,
-      updated_at:currentTime
+      name: medicineNameInput,
+      generic_drug: genericDrugInput,
+      description: descriptionInput,
+      dosage: dosageInput,
+      unit_measurement: unitInput,
+      type: typeInput,
+      drug_shape_id: drugInput,
+      color: colorInput,
+      created_at: currentTime,
+      updated_at: currentTime,
     });
   };
 
@@ -371,7 +367,7 @@ export default function InsertMedicineModal() {
                         alignItems: "center",
                       }}
                     >
-                       <Button
+                      <Button
                         sx={{ position: "absolute", width: 400 }}
                         variant="contained"
                         onClick={handleSubmit}
