@@ -17,6 +17,7 @@ import { LandingPage } from "./LandingPage";
 import { ShowPatientInfo } from "./components/ShowPatientInfo";
 import { ThemeProvider } from "styled-components";
 import PatientInfo from "./pages/doctorpages/PatientInfo";
+import { useThemeContext } from "./theme/ThemeContextProvider";
 
 
 // hahahahaha
@@ -25,11 +26,11 @@ const queryClient = new QueryClient();
 function App() {
   const hkid = "Z1234574"
   const parsedPatientId: number | undefined = 123;
-  // const { theme } = useThemeContext();
+  const { theme } = useThemeContext();
 
 
   return (
-    // <ThemeProvider theme={theme}>
+    <ThemeProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
           <div className="App">

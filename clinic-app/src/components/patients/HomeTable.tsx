@@ -13,6 +13,7 @@ import JavascriptTimeAgo from 'javascript-time-ago';
 import PublishIcon from '@mui/icons-material/Publish';
 import { usePatientWaitingList } from '../../api/patientAPI';
 import { DragDropContext, Draggable, Droppable, DropResult } from 'react-beautiful-dnd';
+import { Button } from '@mui/material';
 
 JavascriptTimeAgo.addDefaultLocale(en);
 
@@ -67,7 +68,7 @@ export default function HomeTable() {
                           {...provided.draggableProps}
                           {...provided.dragHandleProps}
                           ref={provided.innerRef}
-                          sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                          sx={{ '&:last-child td, &:last-child th': { border: 0,height:20 } }}
                         >
                           <TableCell component="th" scope="row">
                             {row.firstName}
@@ -75,6 +76,11 @@ export default function HomeTable() {
                           <TableCell>{row.lastName}</TableCell>
                           <TableCell>
                             <TimeAgo date={new Date()} />
+                          </TableCell>
+                          <TableCell>
+                            
+                          <Button variant="contained" size="small">Check In</Button>
+                            
                           </TableCell>
                         </TableRow>
                       )}

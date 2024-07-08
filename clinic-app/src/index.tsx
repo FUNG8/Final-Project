@@ -7,6 +7,8 @@ import reportWebVitals from './reportWebVitals';
 import { createTheme } from '@mui/material';
 import { BrowserRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ThemeContextProvider } from './theme/ThemeContextProvider';
+
 
 
 
@@ -30,13 +32,15 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
+    <ThemeContextProvider>
+      <QueryClientProvider client={queryClient}>
 
 
-      <App />
+        <App />
 
 
-    </QueryClientProvider>
+      </QueryClientProvider>
+    </ThemeContextProvider>
   </React.StrictMode>
 );
 
