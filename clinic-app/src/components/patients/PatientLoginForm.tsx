@@ -50,7 +50,7 @@ export default function PatientLoginForm() {
       localStorage.setItem("patientToken", data);
       
       queryClient.invalidateQueries({ queryKey: ["authStatus"] });
-      navigate('/patient/home')
+      navigate('/patient/profile')
     },
     onError: (e) => {
       console.log("On error!!", e);

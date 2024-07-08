@@ -1,7 +1,8 @@
 import express from 'express'
 import { pgClient } from './pgCLients';
 import Knex from 'knex';
-
+import dotenv from "dotenv"
+dotenv.config()
 
 
 const app = express();
@@ -10,8 +11,9 @@ const PORT = 8080;
 
 //knex config
 const knexConfig = require("./knexfile");
+console.log("check node env",process.env.NODE_ENV)
 const knex = Knex(knexConfig[process.env.NODE_ENV || "development"]);
-
+console.log(knexConfig[process.env.NODE_ENV || "development"])
 
 //cors
 app.use(cors())
@@ -55,23 +57,27 @@ const patientDiagnosisController = new PatientDiagnosisController(patientDiagnos
 
 
 import { DiagnosisController } from './controllers/DiagnosisController';
-import { DiagnosisService } from './services/diagnosisService';
+import { DiagnosisService } from './services/DiagnosisService';
 const diagnosisService = new DiagnosisService(knex);
 const diagnosisController = new DiagnosisController(diagnosisService);
 
+
+app.get("/hi", (req, res) => {
+    res.send("bye")
+})
 app.use("/doctorAuth", doctorAuthController.router)
 app.use("/patientAuth", patientAuthController.router)
 app.use("/patients", patientController.router);
 app.use("/medicines", medicineController.router)
-app.use("/patientProfile",patientProfileController.router)
+app.use("/patientProfile", patientProfileController.router)
 // app.use("/drugShape",drugShapeController.router)
-app.use("/diagnosis",diagnosisController.router)
+app.use("/diagnosis", diagnosisController.router)
 
 
 
 
 
 
-app.listen(PORT,()=>{
+app.listen(PORT, () => {
     console.log(`http://localhost:${PORT}`)
 })

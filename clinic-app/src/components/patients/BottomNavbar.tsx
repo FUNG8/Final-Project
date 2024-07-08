@@ -64,13 +64,7 @@ export default function BottomNavbar() {
             setValue(newValue);
           }}
         >
-          <BottomNavigationAction
-            label="Home"
-            onClick={() => {
-              navigate("/patient/home");
-            }}
-            icon={<HouseIcon />}
-          />
+          
           <BottomNavigationAction
             label="Profile"
             onClick={() => {

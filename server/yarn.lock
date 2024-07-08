@@ -757,6 +757,13 @@
   dependencies:
     undici-types "~5.26.4"
 
+"@types/node@^20.14.9":
+  version "20.14.9"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-20.14.9.tgz#12e8e765ab27f8c421a1820c99f5f313a933b420"
+  integrity sha512-06OCtnTXtWOZBJlRApleWndH4JsRVs1pDCc8dLSQp+7PpUpX3ePdHyeNSFTeSe7FtKyQkrlPvHwJOW3SLd8Oyg==
+  dependencies:
+    undici-types "~5.26.4"
+
 "@types/permit@^0.2.4":
   version "0.2.4"
   resolved "https://registry.yarnpkg.com/@types/permit/-/permit-0.2.4.tgz#3151be6fabd2e73994641e7439aa72fd18cb5322"

@@ -100,12 +100,12 @@ export async function down(knex: Knex): Promise<void> {
   await knex.schema.dropTableIfExists('notification');
 
   await knex.schema.dropTableIfExists('drug_instruction');
-  await knex.schema.dropTableIfExists('patient');
+
   await knex.schema.dropTableIfExists('medicine');
   await knex.schema.dropTableIfExists('drug_shape');
   await knex.schema.dropTableIfExists('diagnosis');
+  await knex.schema.dropTableIfExists('patient');
   await knex.schema.dropTableIfExists('doctor');
-
 
 
 }
