@@ -15,6 +15,7 @@ import {
   ListItemIcon,
   ListItemButton,
   ListItemText,
+  Chip,
 } from "@mui/material";
 import { SetStateAction, useEffect, useState } from "react";
 import { SearchBar } from "./SearchBar";
@@ -38,6 +39,7 @@ interface Diagnosis {
 }
 
 interface Instructions {
+  instruction_id: number;
   method: string;
   period_hr: number;
   period_day: number;
@@ -62,8 +64,6 @@ interface InstructionResponse {
   instructionsResult?: Instructions[];
 
 }
-
-
 
 export function ListDiagnosis() {
   let { patientId } = useParams();
@@ -157,34 +157,49 @@ export function ListDiagnosis() {
                   {/* mapping instructions */}
                   {instructions?.status === "success" && instructions.instructionsResult?.map((instructions) => (
 
-                    <Box sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-                      <List sx={{ marginTop: 2 }}>
-                        <Grid container sx={{ display: "flex", alignItems: "center" }}>
-                          <Grid item xs={6}>
-                            <ListItemText>Medicine</ListItemText>
-                          </Grid>
-                          <Grid item xs={6}>
-                            <ListItemText>{instructions.medicine_name}</ListItemText>
-                          </Grid>
-                        </Grid>
-                        <Grid container sx={{ display: "flex", alignItems: "center" }}>
-                          <Grid item xs={6}>
-                            <ListItemText>Method</ListItemText>
-                          </Grid>
-                          <Grid item xs={6}>
-                            <ListItemText>{instructions.method}</ListItemText>
-                          </Grid>
-                        </Grid>
-                      </List>
-                    </Box>
-
-
+                    <Paper key={instructions.instruction_id} sx={{ marginBottom: 2, padding: 2 }}>
+                      <Grid container sx={{ marginTop: 2, marginBottom: 2 }}>
+                        <Grid xs={2}>Medicine ID:</Grid>
+                        <Grid xs={2}>{instructions.medicine_id}</Grid>
+                        <Grid xs={2}>Medicine Name:</Grid>
+                        <Grid xs={6}>{instructions.medicine_name}</Grid>
+                      </Grid>
+                      <Grid container sx={{ marginTop: 2, marginBottom: 2 }}>
+                        <Grid xs={2}>Take In Method:</Grid>
+                        <Grid xs={2}>{instructions.method}</Grid>
+                        <Grid xs={2}>Take In Period Day:</Grid>
+                        <Grid xs={2}>{instructions.period_day}</Grid>
+                        <Grid xs={2}>Take In Period Hours:</Grid>
+                        <Grid xs={2}>{instructions.period_hr}</Grid>
+                      </Grid>
+                      <Grid container sx={{ marginTop: 2, marginBottom: 2 }}>
+                        <Grid xs={2}>Unit Measurement:</Grid>
+                        <Grid xs={2}>{instructions.unit_measurement}</Grid>
+                        <Grid xs={2}>Frequency Per Day:</Grid>
+                        <Grid xs={2}>{instructions.frequency_per_day}</Grid>
+                        <Grid xs={2}>Dosage Per Serving:</Grid>
+                        <Grid xs={2}>{instructions.dosage_per_serving}</Grid>
+                      </Grid>
+                      <Grid container sx={{ marginTop: 2, marginBottom: 2 }}>
+                        <Grid xs={2}>Drug Remarks:</Grid>
+                        <Grid xs={10}>{instructions.drug_remarks}</Grid>
+                      </Grid>
+                      <Divider />
+                      <Grid container sx={{ marginTop: 2, marginBottom: 2 }}>
+                        <Grid xs={2}>Total Quantity:</Grid>
+                        <Grid xs={2}><Chip label={instructions.total_quantity} /></Grid>
+                        <Grid xs={2}>Taken Count:</Grid>
+                        <Grid xs={2}><Chip label={instructions.taken_count} /></Grid>
+                        <Grid xs={2}>Taken Count Today:</Grid>
+                        <Grid xs={2}><Chip label={instructions.taken_count_today} /></Grid>
+                      </Grid>
+                    </Paper>
                   ))}</Typography>
+
 
               </AccordionDetails>
             </Accordion>
-            <Box>
-            </Box>
+
           </div>
         ))}
 
