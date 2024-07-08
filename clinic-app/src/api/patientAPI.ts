@@ -222,3 +222,21 @@ export function usePatientWaitingList() {
     return data
 }
 
+export function useWaitingTime() {
+
+
+    const { isLoading, error, data, isFetching } = useQuery({
+        queryKey: ["WaitingTime"],
+        queryFn: async () => {
+            const res = await fetch(`${process.env.REACT_APP_API_SERVER}/homePatient/patientWaitingTime`);
+            const result = await res.json();
+            console.log("this is patientWaitingTime",result.data)
+            return { status: "success", result: result.data };
+        },
+    });
+    if (isLoading || isFetching || error || !data) {
+        return { status: "loading" }
+    }
+
+    return data
+}

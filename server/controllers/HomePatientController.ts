@@ -10,6 +10,8 @@ export class HomePatientController {
     this.router.get("/allWaitingList", this.allWaitingList);
     this.router.post("/patientNameforWaitingList/:id", this.patientNameforWaitingList);
     this.router.get("/patientWaitingList", this.patientWaitingList);
+    // this.router.get("/patientWaitingTime", this.patientWaitingTime);
+
 
   }
 
@@ -57,7 +59,7 @@ export class HomePatientController {
 
   patientWaitingList = async (req: Request, res: Response) => {
     try {
-      const waitingQueueName = (await pgClient.query('select "firstName","lastName" from patient right join tickets on patient.id = tickets.patient_id;')).rows
+      const waitingQueueName = (await pgClient.query('select "firstName","lastName","timestamp" from patient right join tickets on patient.id = tickets.patient_id;')).rows
       console.log("this is patient Name on the queue",waitingQueueName)
 
       if (!waitingQueueName) {
@@ -76,6 +78,26 @@ export class HomePatientController {
 
   }
 
+  // patientWaitingTime = async (req: Request, res: Response) => {
+  //   try {
+  //     const waitingTime = (await pgClient.query('select "timestamp" from tickets;')).rows
+  //     console.log("this is patient waitingTime on the queue",waitingTime)
+
+  //     if (!waitingTime) {
+  //       res.status(404).json({ message: "No waitingTime details found" });
+  //       return;
+  //     }
+
+  //     res.status(200).json({
+  //       message: "success",
+  //       data: waitingTime
+  //     });
+  //   } catch (error) {
+  //     console.error("Error fetching waiting list:", error);
+  //     res.status(500).json({ message: "Internal Server Error" });
+  //   }
+
+  // }
 
 
 

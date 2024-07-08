@@ -46,6 +46,7 @@ export class PatientController {
             queryString += ` OFFSET $1 LIMIT $2`
             console.log(queryString)
             let patientResult = (await pgClient.query(queryString, [startIndex, perPage])).rows;
+            console.log("show me the result from patient search bar",patientResult)
             const response = {
                 patientResult,
                 totalPages: totalPages,
