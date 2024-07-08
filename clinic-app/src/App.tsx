@@ -36,6 +36,7 @@ function App() {
           <div className="App">
             {/* <TemporaryDrawer /> */}
 
+
             <Routes>
               <Route index element={<LandingPage />} />
               <Route path="/doctorlogin" element={<DoctorLogin />} />
@@ -52,18 +53,18 @@ function App() {
                 <Route path="medicine" element={<Medicine />} />
               </Route>
 
+
               <Route path="/patient" element={<PatientAuthGuard />}>
                 <Route path="home" element={<PatientHome />} />
                 <Route path="notification" element={<Notification />} />
                 <Route path="profile" element={<Profile hkid={hkid} />} />
                 <Route path="setting" element={<Setting />} />
               </Route>
-
             </Routes>
           </div>
         </BrowserRouter>
       </QueryClientProvider>
-    // </ThemeProvider>
+    </ThemeProvider>
   );
 }
 
