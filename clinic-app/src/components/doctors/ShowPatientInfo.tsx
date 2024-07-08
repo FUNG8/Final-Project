@@ -9,6 +9,7 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
+  Divider,
 } from "@mui/material";
 import { ChangeEvent, SetStateAction, useEffect, useState } from "react";
 import Stack from "@mui/material/Stack";
@@ -94,14 +95,10 @@ export function ShowPatientInfo() {
 
   //set input usestate
   const genderOptions = ["male", "female"];
-  // const [firstNameInput, setFirstNameInput] = useState("");
-  // const [lastNameInput, setLastNameInput] = useState("");
   const [genderInput, setGenderInput] = useState("");
   const [gender, setGender] = React.useState<string | null>(genderOptions[0]);
   const [phoneNumberInput, setPhoneNumberInput] = React.useState(editedPatient?.phone_number || "");
-  // const [emergencyNameInput, setEmergencyNameInput] = useState("");
   const [emergencyContactInput, setEmergencyContactInput] = React.useState(editedPatient?.emergency_contact || "");
-  // const [editedEmergencyContactInput, setEditedEmergencyContactInput] = useState(emergencyContactInput);
 
   useEffect(() => {
     setPhoneNumberInput(editedPatient?.phone_number || "");
@@ -112,7 +109,17 @@ export function ShowPatientInfo() {
   return (response as any)?.result?.map((patient: any) => (
     <div>
       {isEditing ? (
-        <Accordion defaultExpanded>
+        <Accordion
+          sx={{
+            margin: 2,
+            "&.Mui-expanded": {
+              // Styles for the expanded accordion
+              boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
+              backgroundColor: "#f5f5f5",
+              margin: 2,
+            },
+          }}
+        >
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1-content"
@@ -163,6 +170,8 @@ export function ShowPatientInfo() {
                   <Grid xs={6} p={2} sx={{ textAlign: "left" }}>
                     {patient.hkid}
                   </Grid>
+                  <Divider />
+
                 </Grid>
 
                 {/* 2　row */}
@@ -405,7 +414,17 @@ export function ShowPatientInfo() {
             </Container></AccordionDetails>
         </Accordion>
       ) : (
-        <Accordion defaultExpanded>
+        <Accordion
+          sx={{
+            margin: 2,
+            "&.Mui-expanded": {
+              // Styles for the expanded accordion
+              boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
+              backgroundColor: "#f5f5f5",
+              margin: 2,
+            },
+          }}
+        >
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1-content"

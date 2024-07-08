@@ -10,7 +10,12 @@ import { FormControlLabel, Paper, Slide, Switch } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { Username } from '../../components/patients/Username';
 import ManyContainer from './ManyContainer';
-import  HomeTable  from '../../components/patients/HomeTable';
+import HomeTable from '../../components/patients/HomeTable';
+import { BarChart } from '@mui/x-charts/BarChart';
+import { LineChart } from '@mui/x-charts';
+import MedicineConsumption from '../../components/doctors/MedicineConsumption';
+import PatientNumber from '../../components/doctors/PatientNumber';
+import { Margin } from '@mui/icons-material';
 
 const icon = (
   <Paper sx={{ m: 1, width: 100, height: 100 }} elevation={4}>
@@ -47,76 +52,52 @@ export default function Home() {
     };
   }, []);
 
+  const Item = styled(Paper)(({ theme }) => ({
+    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+    ...theme.typography.body2,
+    padding: theme.spacing(1),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+    margin: 8
+  }));
+
 
 
   return (
-    <>
-      <TemporaryDrawer />
 
-      <header
-        className="App-header"
-        style={{
-          display: 'flex',
-          justifyContent: 'flex-end',
-          alignItems: 'flex-start',
-        }}>
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'flex-end',
-            alignItems: 'flex-start',
-            width: '80%',
-            margin: 5,
-            gap: 2, // Adds space between columns
-          }}
-        >
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              width: windowWidth > 800 ? '70%' : '100%', // Adjust width based on window width
-              gap: 2, // Adds space between Box 1 and Box 2
-            }}
-          >
-            <Box
-              sx={{
-                border: '2px solid #1976d2',
-                borderRadius: 3,
-                height: { xs: 150, md: 200 },
-                width: '100%',
-              }}
-            >
-              <div className='welcomeContainer'><Username /></div>
-              <ManyContainer />
-            </Box>
-            <Box
-              sx={{
-                border: '2px solid #1976d2',
-                borderRadius: 3,
-                height: { xs: 250, md: 500 },
-                width: '100%',
-              }}
-            >
-              <div></div>
-            </Box>
-          </Box>
-          {windowWidth > 500 && (
-            <Box
-              sx={{
-                border: '2px solid #1976d2',
-                borderRadius: 3,
-                height: { xs: 400, md: 720 },
-                width: '30%',
-              }}
-            >
-              <div className="waitingList">Consulting...</div>
+    <div>
+      <Grid sx={{ paddingLeft: 20 }}>
+        <Username />
+      </Grid>
+      <Box sx={{ flexGrow: 1 }}>
+        <Grid container spacing={2}>
+
+          <Grid item xs={8}>
+
+            <Grid sx={{ display: "flex" }}>
+              <Item>
+                <p>Number of Patients</p>
+                <PatientNumber />
+              </Item>
+              <Item>
+                <p>Medicine Consumption</p>
+                <MedicineConsumption />
+              </Item>
+            </Grid>
+
+          </Grid>
+          <Grid item xs={4}>
+            <Item> <div className="waitingList">Consulting</div>
               <ConsultTable />
-              <div className="waitingList">Waiting List...</div>
-              <HomeTable/>
-            </Box>
-          )}
-        </Box>
-      </header>
-    </>
+              <div className="waitingList">Waiting List</div>
+              <HomeTable />
+            </Item>
+          </Grid>
+
+        </Grid>
+      </Box>
+
+    </div>
+
   );
 }
