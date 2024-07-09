@@ -24,10 +24,8 @@ import NotificationPage from "./pages/patientpages/NotificationPage";
 const queryClient = new QueryClient();
 
 function App() {
-  
   const parsedPatientId: number | undefined = 123;
   const { theme } = useThemeContext();
-
 
   return (
     <ThemeProvider theme={theme}>
@@ -37,7 +35,6 @@ function App() {
         <BrowserRouter>
           <div className="App">
             {/* <TemporaryDrawer /> */}
-
 
             <Routes>
               <Route index element={<LandingPage />} />
@@ -50,11 +47,10 @@ function App() {
                 {/* <Route path="patientDetail/:patientId" element={<ShowPatientInfo />} /> */}
                 <Route
                   path="patientDetail/:patientId"
-                  element={<PatientInfo/>}
+                  element={<PatientInfo />}
                 />
                 <Route path="medicine" element={<Medicine />} />
               </Route>
-
 
               <Route path="/patient" element={<PatientAuthGuard />}>
                 <Route path="notification" element={<NotificationPage />} />

@@ -41,7 +41,3 @@ export default QueueButton;
 
 
 
-// function useSnackbar(): { enqueueSnackbar: any; } {
-//   throw new Error('Function not implemented.');
-// }
-
