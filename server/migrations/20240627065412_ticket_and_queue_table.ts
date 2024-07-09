@@ -25,9 +25,9 @@ export async function up(knex: Knex): Promise<void> {
     ]);
   
     await knex('queue').insert([
-      { ticket_id: 1, queue_position: 1 },
+      { ticket_id: 1, queue_position: 3 },
       { ticket_id: 2, queue_position: 2 },
-      { ticket_id: 3, queue_position: 3 },
+      { ticket_id: 3, queue_position: 1 },
     ]);
   }
   
