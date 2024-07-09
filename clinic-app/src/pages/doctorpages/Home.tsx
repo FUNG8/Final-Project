@@ -11,8 +11,6 @@ import Grid from '@mui/material/Grid';
 import { Username } from '../../components/patients/Username';
 import ManyContainer from './ManyContainer';
 import HomeTable from '../../components/patients/HomeTable';
-import { BarChart } from '@mui/x-charts/BarChart';
-import { LineChart } from '@mui/x-charts';
 import MedicineConsumption from '../../components/doctors/MedicineConsumption';
 import PatientNumber from '../../components/doctors/PatientNumber';
 import { Margin } from '@mui/icons-material';

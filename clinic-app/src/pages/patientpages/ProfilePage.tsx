@@ -1,10 +1,13 @@
-// hahahahaha
 import Card from "@mui/material/Card";
 import PatientProfileBar from "../../components/patients/PatientProfileBar"
 import Grid from "@mui/material/Grid";
 import PatientBanner from "../../components/patients/PatientBanner"
 import { StyleContainer } from "./PatientPageConatinerStyle";
 import { useFetchDataToDiagnosis, useFetchDataToProfile } from "../../api/patientAPI";
+import { timeStamp } from "console";
+import useAuthStatusPatient from "../../api/patientAuthAPI";
+import { jwtDecode } from "jwt-decode";
+import "./ProfilePage.scss"
 
 interface ProfileDetails {
   firstName: string;
@@ -20,22 +23,40 @@ interface ProfileDetails {
 
 
 
-export default function Profile({ hkid }: { hkid: string }) {
+export default function Profile() {
+  const hkid = (jwtDecode(localStorage.getItem("patientToken")!) as any).hkid
   const profileDetails: any = useFetchDataToProfile(hkid);
   const diagnosisDetails: any = useFetchDataToDiagnosis(hkid);
   console.log(profileDetails)
   console.log(diagnosisDetails)
 
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+    const year = date.getFullYear();
+    return `${day}-${month}-${year}`;
+  };
+
+  const formattedBirthDate = profileDetails?.result?.birth_date
+    ? formatDate(profileDetails.result.birth_date)
+    : 'Date not available';
+
   return (
     <div>
       <PatientBanner />
       <PatientProfileBar />
+      <div className="ticketContainer">Your Ticket Number : ticket_number </div>
       {profileDetails.status === "success" ?
         <Grid container spacing={2} sx={{ mt: 1 }}>
           <Grid item xs={12} md={6}>
             <Card sx={{ height: 500, padding: 2, backgroundColor: 'rgb(232, 242, 252, 0.4)' }}>
-              <Grid container spacing={2}>
-                <Grid item xs={12} sm={8}>
+              <Grid sx={{ fontSize: 30, padding: 2, fontFamily: "monospace" }}>
+                Personal Details
+              </Grid>
+              <Grid container spacing={3} sx={{ padding: 1, fontFamily: "monospace", fontSize: 18, ml: 1 }}>
+
+                <Grid item xs={12} sm={8} >
                   <div className="detailsContainer">
                     First Name: {profileDetails.result.firstName}
                   </div>
@@ -47,7 +68,7 @@ export default function Profile({ hkid }: { hkid: string }) {
                 </Grid>
                 <Grid item xs={12} sm={8}>
                   <div className="detailsContainer">
-                    Birth : {profileDetails.result.birth_date}
+                    Birth: {formattedBirthDate}
                   </div>
                 </Grid>
                 <Grid item xs={12} sm={8}>
@@ -78,7 +99,7 @@ export default function Profile({ hkid }: { hkid: string }) {
               <Grid sx={{ fontSize: 30, padding: 2, fontFamily: "monospace" }}>
                 Diagnosis History
               </Grid>
-              <Grid container spacing={2}>
+              <Grid container spacing={3} sx={{ padding: 1, fontFamily: "monospace", fontSize: 18, ml: 1 }}>
                 <Grid item xs={12} sm={6}>
                   <div className="detailsContainer">
                     Date: {diagnosisDetails ? diagnosisDetails.created_at : " "}
@@ -97,6 +118,3 @@ export default function Profile({ hkid }: { hkid: string }) {
     </div>
   );
 }
-
-
-

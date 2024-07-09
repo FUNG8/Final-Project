@@ -20,6 +20,7 @@ import SendIcon from "@mui/icons-material/Send";
 import { useNavigate } from "react-router-dom";
 import { SearchBar } from "./SearchBar";
 import { SendPatient } from "./SendPatient";
+import QueueButton from "./QueueButton";
 
 export function ListPatients() {
     const [currentPage, setCurrentPage] = useState(1);
