@@ -35,28 +35,55 @@ interface PatientWaitingTime {
 
 
 
-export default function HomeTable() {
+export default function WaitingList() {
   const patientWaitingList: PatientWaitingList = usePatientWaitingList();
   console.log(patientWaitingList.result?.[0]?.firstName);
 
+
+  const [waitingList, setWaitingList] = React.useState([
+    {
+      firstName: 'Hayley',
+      lastName: 'Reichel-Watsica',
+      timestamp: new Date("2024-07-09T07:25:27.706Z"),
+      ticket_number: 1,
+      id: 1,
+      queue_position: 3
+    },
+    {
+      firstName: 'Tre',
+      lastName: 'Stamm',
+      timestamp: new Date("2024-07-09T07:25:27.706Z"),
+      ticket_number: 2,
+      id: 2,
+      queue_position: 2
+    },
+    {
+      firstName: 'test1',
+      lastName: 'test1',
+      timestamp: new Date("2024-07-09T07:25:27.706Z"),
+      ticket_number: 3,
+      id: 3,
+      queue_position: 1
+    }
+  ]);
 
   const handleDragEnd = (result: DropResult, provided: any) => {
     if (!result.destination) {
       return;
     }
+    console.log("check result after drag end", result.source, result.destination)
+    // const updatedPatientList = patientWaitingList.result
+    //   ? Array.from(patientWaitingList.result)
+    //   : [];
 
-    const updatedPatientList = patientWaitingList.result
-      ? Array.from(patientWaitingList.result)
-      : [];
+    // if (updatedPatientList.length > 0) {
+    //   const [removed] = updatedPatientList.splice(result.source.index, 1);
+    //   updatedPatientList.splice(result.destination.index, 0, removed);
 
-    if (updatedPatientList.length > 0) {
-      const [removed] = updatedPatientList.splice(result.source.index, 1);
-      updatedPatientList.splice(result.destination.index, 0, removed);
-
-      // setPatientWaitingList({
-      //   result: updatedPatientList,
-      // });
-    }
+    //   // setPatientWaitingList({
+    //   //   result: updatedPatientList,
+    //   // });
+    // }
   };
 
   return (
@@ -74,8 +101,9 @@ export default function HomeTable() {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {patientWaitingList.result?.map((row: any, index: number) => (
-                    <Draggable key={index} draggableId={`patient-${row.id}`} index={index} >
+                  {/* {patientWaitingList.result?.map((row: any) => ( */}
+                  {waitingList.map((row: any) => (
+                    <Draggable key={row.id} draggableId={`patient-${row.id}`} index={row.queue_position} >
                       {(provided: any) => (
                         <TableRow
                           {...provided.draggableProps}

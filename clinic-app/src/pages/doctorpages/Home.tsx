@@ -6,7 +6,7 @@ import ConsultTable from "../../components/patients/ConsultingTable";
 import { Paper, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import { Username } from "../../components/patients/Username";
-import HomeTable from "../../components/patients/HomeTable";
+import WaitingList from "../../components/patients/WaitingList";
 import MedicineConsumption from "../../components/doctors/MedicineConsumption";
 import PatientNumber from "../../components/doctors/PatientNumber";
 import { useNumberWaitingList } from "../../api/patientAPI";
@@ -112,12 +112,15 @@ export default function Home() {
                     Waiting List
                   </Typography>
                 </div>
-                <HomeTable />
+                <WaitingList />
               </Paper>
             </Grid>
           </Grid>
         </Box>
       </Grid>
+
+      <br></br>
+      <br></br>
       <Paper>
         <p>Number of Patients</p>
         <PatientNumber />
