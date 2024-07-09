@@ -6,16 +6,15 @@ import { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import ConsultTable from '../../components/patients/ConsultingTable'
 import styled from 'styled-components';
-import { FormControlLabel, Paper, Slide, Switch } from '@mui/material';
+import { FormControlLabel, Paper, Slide, Switch, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { Username } from '../../components/patients/Username';
 import ManyContainer from './ManyContainer';
 import HomeTable from '../../components/patients/HomeTable';
-import { BarChart } from '@mui/x-charts/BarChart';
-import { LineChart } from '@mui/x-charts';
 import MedicineConsumption from '../../components/doctors/MedicineConsumption';
 import PatientNumber from '../../components/doctors/PatientNumber';
-import { Margin } from '@mui/icons-material';
+import { useNumberWaitingList } from '../../api/patientAPI';
+
 
 const icon = (
   <Paper sx={{ m: 1, width: 100, height: 100 }} elevation={4}>
@@ -33,6 +32,10 @@ const icon = (
   </Paper>
 );
 
+interface TotalQueue {
+  status: string
+  result?: string[]
+}
 
 export default function Home() {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -61,43 +64,65 @@ export default function Home() {
     margin: 8
   }));
 
-
+  const totalQueue: TotalQueue = useNumberWaitingList()
 
   return (
-
-    <div>
-      <Grid sx={{ paddingLeft: 20 }}>
-        <Username />
-      </Grid>
-      <Box sx={{ flexGrow: 1 }}>
-        <Grid container spacing={2}>
-
-          <Grid item xs={8}>
-
-            <Grid sx={{ display: "flex" }}>
+    <Grid container justifyContent="center" alignItems="center" height="50vh">
+      <Grid item xs={12} >
+        <Item>
+          <Username />
+        </Item>
+        <Box sx={{ flexGrow: 1 }} marginTop={15}>
+          <Grid container spacing={6} justifyContent="center">
+            <Grid item xs={6}>
               <Item>
-                <p>Number of Patients</p>
-                <PatientNumber />
-              </Item>
-              <Item>
-                <p>Medicine Consumption</p>
-                <MedicineConsumption />
+                <div className="waitingList">
+                  <Typography variant="h4" fontWeight="bold">
+                    Pending
+                  </Typography>
+                </div>
+                <Item>
+                  <Typography variant="h5" fontWeight="bold">
+                  {(totalQueue as any).result?.count}
+                  </Typography>
+                </Item>
               </Item>
             </Grid>
-
+            <Grid item xs={6}>
+              <Item>
+                <div className="waitingList">
+                  <Typography variant="h4" fontWeight="bold">
+                    Completed
+                  </Typography>
+                </div>
+                <Item>
+                  <Typography variant="h5" fontWeight="bold">
+                    100
+                  </Typography>
+                </Item>
+              </Item>
+            </Grid>
+            <Grid item xs={12}>
+              <Item>
+                <div className="waitingList">
+                  <Typography variant="h4" fontWeight="bold">
+                    Consulting
+                  </Typography>
+                </div>
+                <ConsultTable />
+              </Item>
+              <Item>
+                <div className="waitingList">
+                  <Typography variant="h4" fontWeight="bold">
+                    Waiting List
+                  </Typography>
+                </div>
+                <HomeTable />
+              </Item>
+            </Grid>
           </Grid>
-          <Grid item xs={4}>
-            <Item> <div className="waitingList">Consulting</div>
-              <ConsultTable />
-              <div className="waitingList">Waiting List</div>
-              <HomeTable />
-            </Item>
-          </Grid>
-
-        </Grid>
-      </Box>
-
-    </div>
-
+        </Box>
+      </Grid>
+    </Grid >
   );
 }

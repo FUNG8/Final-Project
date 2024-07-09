@@ -11,7 +11,7 @@ import TimeAgo from 'react-time-ago';
 import en from 'javascript-time-ago/locale/en'
 import JavascriptTimeAgo from 'javascript-time-ago';
 import PublishIcon from '@mui/icons-material/Publish';
-import { usePatientWaitingList, useWaitingTime } from '../../api/patientAPI';
+import { usePatientWaitingList } from '../../api/patientAPI';
 import { DragDropContext, Draggable, Droppable, DropResult } from 'react-beautiful-dnd';
 import { Button } from '@mui/material';
 
@@ -39,12 +39,6 @@ export default function HomeTable() {
   const patientWaitingList: PatientWaitingList = usePatientWaitingList();
   console.log(patientWaitingList.result?.[0]?.firstName);
 
-  let waitingTime: PatientWaitingTime = useWaitingTime()
-  if (waitingTime.result && waitingTime.result.length > 0) {
-    console.log("First result timestamp:", waitingTime.result[0].timestamp);
-  } else {
-    console.log("No results available");
-  }
 
   const handleDragEnd = (result: DropResult, provided: any) => {
     if (!result.destination) {
@@ -70,7 +64,7 @@ export default function HomeTable() {
       <Droppable droppableId="patientList" type="group" >
         {(provided: any) => (
           <div ref={provided.innerRef} {...provided.droppableProps} >
-            <TableContainer component={Paper} style={{ maxHeight: 450 }}>
+            <TableContainer component={Paper} style={{ maxHeight: 600 }}>
               <Table stickyHeader sx={{ minWidth: 100 }} aria-label="simple table">
                 <TableHead>
                   <TableRow>
@@ -95,11 +89,6 @@ export default function HomeTable() {
                           <TableCell>{row.lastName}</TableCell>
                           <TableCell>
                             <TimeAgo date={row.timestamp} />
-                          </TableCell>
-                          <TableCell>
-                            
-                          <Button variant="contained" size="small">Check In</Button>
-                            
                           </TableCell>
                         </TableRow>
                       )}
