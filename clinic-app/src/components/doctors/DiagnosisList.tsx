@@ -66,18 +66,18 @@ interface InstructionResponse {
 
 export function ListDiagnosis() {
   let { patientId } = useParams();
-  const diagnosis: DiagnosisResponse | null = useShowDiagnosis(
+  const allDiagnosis: DiagnosisResponse | null = useShowDiagnosis(
     parseInt(patientId!)
   );
-  const instructions: InstructionResponse | null = useShowDiagnosis(
-    parseInt(patientId!)
-  );
+  // const instructions: InstructionResponse | null = useShowDiagnosis(
+  //   parseInt(patientId!)
+  // );
 
   return (
     <div>
       <Box justifyContent="center" mt={4}>
-        {diagnosis?.status === "success" &&
-          diagnosis.diagnosisResult?.map((diagnosis) => (
+        {allDiagnosis?.status === "success" &&
+          allDiagnosis.diagnosisResult?.map((diagnosis) => (
             <div key={diagnosis.id}>
               <Accordion
                 sx={{
@@ -115,10 +115,10 @@ export function ListDiagnosis() {
                   <Divider />
                   <Typography sx={{ margin: 2 }}>
                     {/* mapping instructions */}
-                    {instructions?.status === "success" &&
-                      instructions.instructionsResult?.map((instructions) => (
+                    {
+                      diagnosis.instructions?.map((instruction:any) => (
                         <Paper
-                          key={instructions.instruction_id}
+                          key={instruction.instruction_id}
                           sx={{ marginBottom: 2, padding: 2 }}
                         >
                           <Grid
@@ -126,32 +126,32 @@ export function ListDiagnosis() {
                             sx={{ marginTop: 2, marginBottom: 2 }}
                           >
                             <Grid xs={2}>Medicine ID:</Grid>
-                            <Grid xs={2}>{instructions.medicine_id}</Grid>
+                            <Grid xs={2}>{instruction.medicine_id}</Grid>
                             <Grid xs={2}>Medicine Name:</Grid>
-                            <Grid xs={6}>{instructions.medicine_name}</Grid>
+                            <Grid xs={6}>{instruction.medicine_name}</Grid>
                           </Grid>
                           <Grid
                             container
                             sx={{ marginTop: 2, marginBottom: 2 }}
                           >
                             <Grid xs={2}>Take In Method:</Grid>
-                            <Grid xs={2}>{instructions.method}</Grid>
+                            <Grid xs={2}>{instruction.method}</Grid>
                             <Grid xs={2}>Take In Period Day:</Grid>
-                            <Grid xs={2}>{instructions.period_day}</Grid>
+                            <Grid xs={2}>{instruction.period_day}</Grid>
                             <Grid xs={2}>Take In Period Hours:</Grid>
-                            <Grid xs={2}>{instructions.period_hr}</Grid>
+                            <Grid xs={2}>{instruction.period_hr}</Grid>
                           </Grid>
                           <Grid
                             container
                             sx={{ marginTop: 2, marginBottom: 2 }}
                           >
                             <Grid xs={2}>Unit Measurement:</Grid>
-                            <Grid xs={2}>{instructions.unit_measurement}</Grid>
+                            <Grid xs={2}>{instruction.unit_measurement}</Grid>
                             <Grid xs={2}>Frequency Per Day:</Grid>
-                            <Grid xs={2}>{instructions.frequency_per_day}</Grid>
+                            <Grid xs={2}>{instruction.frequency_per_day}</Grid>
                             <Grid xs={2}>Dosage Per Serving:</Grid>
                             <Grid xs={2}>
-                              {instructions.dosage_per_serving}
+                              {instruction.dosage_per_serving}
                             </Grid>
                           </Grid>
                           <Grid
@@ -159,7 +159,7 @@ export function ListDiagnosis() {
                             sx={{ marginTop: 2, marginBottom: 2 }}
                           >
                             <Grid xs={2}>Drug Remarks:</Grid>
-                            <Grid xs={10}>{instructions.drug_remarks}</Grid>
+                            <Grid xs={10}>{instruction.drug_remarks}</Grid>
                           </Grid>
                           <Divider />
                           <Grid
@@ -168,15 +168,15 @@ export function ListDiagnosis() {
                           >
                             <Grid xs={2}>Total Quantity:</Grid>
                             <Grid xs={2}>
-                              <Chip label={instructions.total_quantity} />
+                              <Chip label={instruction.total_quantity} />
                             </Grid>
                             <Grid xs={2}>Taken Count:</Grid>
                             <Grid xs={2}>
-                              <Chip label={instructions.taken_count} />
+                              <Chip label={instruction.taken_count} />
                             </Grid>
                             <Grid xs={2}>Taken Count Today:</Grid>
                             <Grid xs={2}>
-                              <Chip label={instructions.taken_count_today} />
+                              <Chip label={instruction.taken_count_today} />
                             </Grid>
                           </Grid>
                         </Paper>
