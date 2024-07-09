@@ -1,5 +1,5 @@
 import { Knex } from "knex";
-import { pgClient } from "../pgCLients";
+
 
 export class MedicineService {
   constructor(private knex: Knex) {}
