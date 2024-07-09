@@ -7,7 +7,6 @@ import PatientLogin from "./pages/patientpages/PatientLogin";
 import PatientHome from "./pages/patientpages/PatientHomePage";
 import Patient from "./pages/doctorpages/Patient";
 import Medicine from "./pages/doctorpages/Medicine";
-import Notification from "./pages/patientpages/Notification";
 import Profile from "./pages/patientpages/ProfilePage";
 import Setting from "./pages/patientpages/Setting";
 
@@ -20,6 +19,7 @@ import PatientInfo from "./pages/doctorpages/PatientInfo";
 import { useThemeContext } from "./theme/ThemeContextProvider";
 
 import { CssBaseline, ThemeProvider } from "@mui/material";
+import NotificationPage from "./pages/patientpages/NotificationPage";
 
 // hahahahaha
 const queryClient = new QueryClient();
@@ -59,7 +59,7 @@ function App() {
 
               <Route path="/patient" element={<PatientAuthGuard />}>
                 <Route path="home" element={<PatientHome />} />
-                <Route path="notification" element={<Notification />} />
+                <Route path="notification" element={<NotificationPage />} />
                 <Route path="profile" element={<Profile hkid={hkid} />} />
                 <Route path="setting" element={<Setting />} />
               </Route>

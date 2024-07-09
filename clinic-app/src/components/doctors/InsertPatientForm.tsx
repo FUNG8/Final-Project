@@ -35,7 +35,7 @@ import { MuiTelInput } from "mui-tel-input";
 const genderOptions = ["male", "female"];
 const bloodOptions = ["A", "B", "AB", "O"];
 
-export default function CreatePatientModal() {
+export default function InsertPatientModal() {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);

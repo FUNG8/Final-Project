@@ -79,21 +79,21 @@ const colorOptions = [
   "Orange - 橙色",
 ];
 
-export default function InsertMedicineModal() {
+export default function InsertDiagnosisModal() {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const defaultTheme = createTheme();
 
-  const [medicineNameInput, setMedicineNameInput] = useState("");
-  const [genericDrugInput, setGenericDrugInput] = useState("");
-  const [descriptionInput, setDescriptionInput] = useState("");
-  const [dosageInput, setDosageInput] = useState("");
-  const [unitInput, setUnitInput] = useState("");
+  const [medicineNameInput, setMedicineNameInput] = useState("gg");
+  const [genericDrugInput, setGenericDrugInput] = useState("g1g");
+  const [descriptionInput, setDescriptionInput] = useState("g2g");
+  const [dosageInput, setDosageInput] = useState("123");
+  const [unitInput, setUnitInput] = useState("g4g");
   const [unit, setUnit] = React.useState<string | null>(unitOptions[0]);
-  const [typeInput, setTypeInput] = useState("");
+  const [typeInput, setTypeInput] = useState("213");
   const [type, setType] = React.useState<string | null>(typeOptions[0]);
-  const [colorInput, setColorInput] = useState("");
+  const [colorInput, setColorInput] = useState("Analgesics (painkillers)");
   const [color, setColor] = React.useState<string | null>(colorOptions[0]);
   const [drugInput, setDrugInput] = useState("");
   const drug = GetDrugShape();
@@ -175,8 +175,11 @@ export default function InsertMedicineModal() {
         xs={12}
         sx={{ display: "flex", justifyContent: "center", margin: 2 }}
       >
-        <TriggerButton onClick={handleOpen}>Insert Medicines</TriggerButton>
+        <TriggerButton onClick={handleOpen}>
+          Insert Diagnosis Information
+        </TriggerButton>
       </Grid>
+
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
