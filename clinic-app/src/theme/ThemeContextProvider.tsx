@@ -1,6 +1,4 @@
-// hahahahaha
 import { createTheme, Theme } from "@mui/material";
-
 import { createContext, FC, PropsWithChildren, useContext } from "react";
 import { useColorTheme } from "./use-color-theme";
 

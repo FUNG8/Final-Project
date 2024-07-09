@@ -1,30 +1,17 @@
-// hahahahaha
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { createTheme } from '@mui/material';
-import { BrowserRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ThemeContextProvider } from './theme/ThemeContextProvider';
-
 
 
 
 export const queryClient = new QueryClient()
 
 
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: "#0f0f0f"
-    },
-    secondary: {
-      main: "#f0f0f0"
-    }
-  }
-})
+
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -33,13 +20,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <ThemeContextProvider>
-      <QueryClientProvider client={queryClient}>
-
-
-        <App />
-
-
-      </QueryClientProvider>
+    <QueryClientProvider client={queryClient}>
+      <App />
+    </QueryClientProvider>
     </ThemeContextProvider>
   </React.StrictMode>
 );

@@ -54,6 +54,7 @@ export class DiagnosisService {
                     'name', d.name,
                     'instructions', (
                         SELECT jsonb_agg(json_build_object(
+                            'instructon_id', d.id,
                             'medicine_name', m."name",
                             'medicine_id', di.medicine_id,
                             'unit_measurement', di.unit_measurement,
@@ -73,7 +74,7 @@ export class DiagnosisService {
                     )
                 )) AS diagnosisdetail
             FROM diagnosis d
-            WHERE d.patient_id = ${ patient_id }
+            WHERE d.patient_id = ${patient_id}
             GROUP BY d.patient_id;
         `);
         return result.rows[0].diagnosisdetail

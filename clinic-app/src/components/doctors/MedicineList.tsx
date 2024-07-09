@@ -1,8 +1,7 @@
-// hahahahaha
 import { useMedicineInfo } from '../../api/medicineAPI';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Box, Pagination, Grid } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Box, Pagination } from '@mui/material';
 import { SetStateAction, useEffect, useState } from 'react';
-import { SearchBar } from "./SearchBar";
+import { SearchBar } from './SearchBar';
 import InsertMedicineModal from './InsertMedicineForm';
 
 
@@ -30,11 +29,13 @@ export function ListMedicine() {
 
     return (
         <div>
-            <SearchBar onSearch={handleSearch} />
+            <div>
+                <SearchBar onSearch={handleSearch} />
+            </div>
             <Box justifyContent="center" mt={4}>
                 <div>
                     <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '0.5rem' }}>
-                        <h2>Medicine</h2><InsertMedicineModal />
+                        <h2>Medicine</h2> <InsertMedicineModal/>
                     </div>
                     <TableContainer component={Paper}>
                         <Table>
@@ -55,15 +56,15 @@ export function ListMedicine() {
                             </TableHead>
                             <TableBody>
                                 {medicine && medicine.status === "success" && (medicine as any).medicineResult?.map((medicine: any) => (
-                                    <TableRow key={medicine.id}>
-                                        <TableCell>{medicine.id}</TableCell>
+                                    <TableRow key={medicine.medicine_id}>
+                                        <TableCell>{medicine.medicine_id}</TableCell>
                                         <TableCell>{medicine.name}</TableCell>
                                         <TableCell>{medicine.generic_drug}</TableCell>
                                         <TableCell>{medicine.description}</TableCell>
                                         <TableCell>{medicine.dosage}</TableCell>
                                         <TableCell>{medicine.unit_measurement}</TableCell>
                                         <TableCell>{medicine.type}</TableCell>
-                                        <TableCell>{medicine.drug_shape_id}</TableCell>
+                                        <TableCell>{medicine.shape}</TableCell>
                                         <TableCell>{medicine.color}</TableCell>
                                         <TableCell>{medicine.updated_at}</TableCell>
                                         <TableCell>{medicine.created_at}</TableCell>

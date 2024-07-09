@@ -1,20 +1,22 @@
 // hahahahaha
-import './Home.scss';
-import TemporaryDrawer from '../../components/doctors/DoctorNavBar';
-import * as React from 'react';
-import { useState, useEffect } from 'react';
-import Box from '@mui/material/Box';
-import ConsultTable from '../../components/patients/ConsultingTable'
-import styled from 'styled-components';
-import { FormControlLabel, Paper, Slide, Switch, Typography } from '@mui/material';
-import Grid from '@mui/material/Grid';
-import { Username } from '../../components/patients/Username';
-import ManyContainer from './ManyContainer';
-import HomeTable from '../../components/patients/HomeTable';
-import MedicineConsumption from '../../components/doctors/MedicineConsumption';
-import PatientNumber from '../../components/doctors/PatientNumber';
-import { useNumberWaitingList } from '../../api/patientAPI';
-
+import "./Home.scss";
+import TemporaryDrawer from "../../components/doctors/DoctorNavBar";
+import * as React from "react";
+import { useState, useEffect } from "react";
+import Box from "@mui/material/Box";
+import ConsultTable from "../../components/patients/ConsultingTable";
+import styled from "styled-components";
+import { FormControlLabel, Paper, Slide, Switch, Typography } from "@mui/material";
+import Grid from "@mui/material/Grid";
+import { Username } from "../../components/patients/Username";
+import ManyContainer from "./ManyContainer";
+import HomeTable from "../../components/patients/HomeTable";
+import { BarChart } from "@mui/x-charts/BarChart";
+import { LineChart } from "@mui/x-charts";
+import MedicineConsumption from "../../components/doctors/MedicineConsumption";
+import PatientNumber from "../../components/doctors/PatientNumber";
+import { Margin } from "@mui/icons-material";
+import { useNumberWaitingList } from "../../api/patientAPI";
 
 const icon = (
   <Paper sx={{ m: 1, width: 100, height: 100 }} elevation={4}>
@@ -47,11 +49,11 @@ export default function Home() {
     };
 
     // Add event listener for window resize
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
 
     // Clean up event listener on component unmount
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 
@@ -83,7 +85,7 @@ export default function Home() {
                 </div>
                 <Item>
                   <Typography variant="h5" fontWeight="bold">
-                  {(totalQueue as any).result?.count}
+                    {(totalQueue as any).result?.count}
                   </Typography>
                 </Item>
               </Item>
@@ -123,6 +125,14 @@ export default function Home() {
           </Grid>
         </Box>
       </Grid>
+      <Paper>
+        <p>Number of Patients</p>
+        <PatientNumber />
+      </Paper>
+      <Paper>
+        <p>Medicine Consumption</p>
+        <MedicineConsumption />
+      </Paper>
     </Grid >
   );
 }
