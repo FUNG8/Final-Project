@@ -3,16 +3,12 @@ import "./Home.scss";
 import { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import ConsultTable from "../../components/patients/ConsultingTable";
-import styled from "styled-components";
-import { FormControlLabel, Paper, Slide, Switch, Typography } from "@mui/material";
+import { Paper, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import { Username } from "../../components/patients/Username";
-
 import HomeTable from "../../components/patients/HomeTable";
-
 import MedicineConsumption from "../../components/doctors/MedicineConsumption";
 import PatientNumber from "../../components/doctors/PatientNumber";
-import { Margin } from "@mui/icons-material";
 import { useNumberWaitingList } from "../../api/patientAPI";
 
 const icon = (

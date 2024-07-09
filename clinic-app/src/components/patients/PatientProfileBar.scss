@@ -26,8 +26,37 @@
     justify-content: flex-end;
 }
 
-.icon{
+.switchButton{
+display:flex;
+justify-content: space-evenly;
 margin-right: 25px;
-color:#646869
+color:#646869;
+font-size:20px;
+align-content: center;
+border-radius: 10px;
+width: 40%;
+padding:2px
 }
 
+.switchListItem{
+display:flex;
+justify-content: space-evenly;
+font-weight: bold;
+font-size:15px;
+align-items: center;
+padding:2px
+}
+
+.switchBox{
+font-size: 20px;
+font-weight: bold;
+}
+.switchAccForm{
+padding: 5px;
+width: 40%;
+}
+
+.switchAccButt{
+border-radius: 5px;
+margin:5px
+}

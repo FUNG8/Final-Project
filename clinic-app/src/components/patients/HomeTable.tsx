@@ -75,13 +75,13 @@ export default function HomeTable() {
                 </TableHead>
                 <TableBody>
                   {patientWaitingList.result?.map((row: any, index: number) => (
-                    <Draggable key={index} draggableId={`patient-${index}`} index={index} >
+                    <Draggable key={index} draggableId={`patient-${row.id}`} index={index} >
                       {(provided: any) => (
                         <TableRow
                           {...provided.draggableProps}
                           {...provided.dragHandleProps}
                           ref={provided.innerRef}
-                          sx={{ '&:last-child td, &:last-child th': { border: 0,height:20 } }}
+                          sx={{ '&:last-child td, &:last-child th': { border: 0, height: 20 } }}
                         >
                           <TableCell component="th" scope="row">
                             {row.firstName}

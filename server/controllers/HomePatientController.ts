@@ -74,7 +74,7 @@ export class HomePatientController {
 
   patientWaitingList = async (req: Request, res: Response) => {
     try {
-      const waitingQueueName = (await pgClient.query('select "firstName","lastName","timestamp","ticket_number",tickets.id from patient right join tickets on patient.id = tickets.patient_id;')).rows
+      const waitingQueueName = (await pgClient.query('select "firstName","lastName","timestamp","ticket_number",tickets.id,queue_position from patient join tickets on patient.id = tickets.patient_id join queue on queue.ticket_id = tickets.id ;')).rows
       console.log("this is patient Name on the ticket table", waitingQueueName)
 
       if (!waitingQueueName) {

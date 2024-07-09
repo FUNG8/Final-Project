@@ -8,6 +8,7 @@ export default function Patient() {
 
   return (
     <div className="App">
+        <InsertPatientModal />
 
       <InsertPatientModal/>
 

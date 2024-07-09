@@ -15,7 +15,7 @@ import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
-import { queryClient } from '../..';
+import { useQueryClient } from '@tanstack/react-query';
 import { FormEvent, useState } from 'react';
 import { login } from "../../api/patientAuthAPI";
 
@@ -39,18 +39,28 @@ export default function PatientLoginForm() {
   const [hkidInput, sethkidInput] = useState("Y1234568");
   const [passwordInput, setPasswordInput] = useState("t2");
 
+  const queryClient = useQueryClient()
   const navigate = useNavigate();
- const [ErrorMessage, setErrorMessage] = useState('');
- 
+  const [ErrorMessage, setErrorMessage] = useState('');
+
   const onLogin = useMutation({
     mutationFn: async (data: { hkid: string; password: string }) =>
       login(data.hkid, data.password),
     onSuccess: (data) => {
       console.log("On success checking", data);
       localStorage.setItem("patientToken", data);
-      
+      let tokenArrayString: string | null = localStorage.getItem("tokenArray")
+      if (tokenArrayString) {
+        console.log("tokenArray exist", tokenArrayString)
+        let tokenArray: Array<string> = JSON.parse(tokenArrayString)
+        localStorage.setItem("tokenArray", JSON.stringify([...tokenArray, data]))
+      } else {
+        console.log("tokenArray not exist")
+        let tokenArrayString: string = JSON.stringify([data])
+        localStorage.setItem("tokenArray", tokenArrayString)
+      }
       queryClient.invalidateQueries({ queryKey: ["authStatus"] });
-      navigate('/patient/home')
+      navigate('/patient/profile')
     },
     onError: (e) => {
       console.log("On error!!", e);
@@ -97,10 +107,10 @@ export default function PatientLoginForm() {
             <Typography component="h1" variant="h5">
               Sign in
             </Typography>
-            <Box component="form" noValidate  sx={{ mt: 1 }}>
+            <Box component="form" noValidate sx={{ mt: 1 }}>
               <TextField
-               value={hkidInput}
-               onChange={(e) => sethkidInput(e.target.value)}
+                value={hkidInput}
+                onChange={(e) => sethkidInput(e.target.value)}
                 margin="normal"
                 required
                 fullWidth
@@ -111,8 +121,8 @@ export default function PatientLoginForm() {
                 autoFocus
               />
               <TextField
-               value={passwordInput}
-               onChange={(e) => setPasswordInput(e.target.value)}
+                value={passwordInput}
+                onChange={(e) => setPasswordInput(e.target.value)}
                 margin="normal"
                 required
                 fullWidth
@@ -135,13 +145,9 @@ export default function PatientLoginForm() {
                 Sign In
               </Button>
               <Grid container>
-                <Grid item xs>
-                  <Link href="#" variant="body2">
-                    Forgot password?
-                  </Link>
-                </Grid>
+
                 <Grid item>
-                 
+
                 </Grid>
               </Grid>
               <Copyright sx={{ mt: 5 }} />

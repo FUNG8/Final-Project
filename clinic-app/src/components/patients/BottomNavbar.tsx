@@ -1,4 +1,3 @@
-// hahahahaha
 import * as React from "react";
 import HouseIcon from "@mui/icons-material/House";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
@@ -24,32 +23,7 @@ export default function BottomNavbar() {
   const navigate = useNavigate();
   const [value, setValue] = React.useState(0);
 
-  // const location = useLocation();
-
-
-  // const getPathValue = (path: string) => {
-  //   switch (path) {
-  //     case "/home":
-  //       return 0;
-  //     case "/history":
-  //       return 1;
-  //     case "/favourite":
-  //       return 2;
-  //     default:
-  //       return 0;
-  //   }
-  // };
-
-  // const [value, setValue] = React.useState(getPathValue(location.pathname));
-
-  // React.useEffect(() => {
-  //   setValue(getPathValue(location.pathname));
-  // }, [location.pathname]);
-
-  // const handleChange = (newValue: any) => {
-  //   setValue(newValue);
-  // };
-
+ 
   return (
     
     <Box sx={{ width: 500 }}>
@@ -64,13 +38,7 @@ export default function BottomNavbar() {
             setValue(newValue);
           }}
         >
-          <BottomNavigationAction
-            label="Home"
-            onClick={() => {
-              navigate("/patient/home");
-            }}
-            icon={<HouseIcon />}
-          />
+          
           <BottomNavigationAction
             label="Profile"
             onClick={() => {

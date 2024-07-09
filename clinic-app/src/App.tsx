@@ -4,7 +4,6 @@ import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import Home from "./pages/doctorpages/Home";
 import DoctorLogin from "./pages/doctorpages/DoctorLogin";
 import PatientLogin from "./pages/patientpages/PatientLogin";
-import PatientHome from "./pages/patientpages/PatientHomePage";
 import Patient from "./pages/doctorpages/Patient";
 import Medicine from "./pages/doctorpages/Medicine";
 import Profile from "./pages/patientpages/ProfilePage";
@@ -25,7 +24,7 @@ import NotificationPage from "./pages/patientpages/NotificationPage";
 const queryClient = new QueryClient();
 
 function App() {
-  const hkid = "Z1234574"
+  
   const parsedPatientId: number | undefined = 123;
   const { theme } = useThemeContext();
 
@@ -58,9 +57,8 @@ function App() {
 
 
               <Route path="/patient" element={<PatientAuthGuard />}>
-                <Route path="home" element={<PatientHome />} />
                 <Route path="notification" element={<NotificationPage />} />
-                <Route path="profile" element={<Profile hkid={hkid} />} />
+                <Route path="profile" element={<Profile  />} />
                 <Route path="setting" element={<Setting />} />
               </Route>
             </Routes>
