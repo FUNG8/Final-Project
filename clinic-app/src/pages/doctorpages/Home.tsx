@@ -1,7 +1,5 @@
 // hahahahaha
 import "./Home.scss";
-import TemporaryDrawer from "../../components/doctors/DoctorNavBar";
-import * as React from "react";
 import { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import ConsultTable from "../../components/patients/ConsultingTable";
@@ -9,10 +7,9 @@ import styled from "styled-components";
 import { FormControlLabel, Paper, Slide, Switch, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import { Username } from "../../components/patients/Username";
-import ManyContainer from "./ManyContainer";
+
 import HomeTable from "../../components/patients/HomeTable";
-import { BarChart } from "@mui/x-charts/BarChart";
-import { LineChart } from "@mui/x-charts";
+
 import MedicineConsumption from "../../components/doctors/MedicineConsumption";
 import PatientNumber from "../../components/doctors/PatientNumber";
 import { Margin } from "@mui/icons-material";
@@ -57,70 +54,70 @@ export default function Home() {
     };
   }, []);
 
-  const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-    margin: 8
-  }));
+  // const Paper = styled(Paper)(({ theme }) => ({
+  //   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+  //   ...theme.typography.body2,
+  //   padding: theme.spacing(1),
+  //   textAlign: 'center',
+  //   color: theme.palette.text.secondary,
+  //   margin: 8
+  // }));
 
   const totalQueue: TotalQueue = useNumberWaitingList()
 
   return (
     <Grid container justifyContent="center" alignItems="center" height="50vh">
       <Grid item xs={12} >
-        <Item>
+        <Paper>
           <Username />
-        </Item>
+        </Paper>
         <Box sx={{ flexGrow: 1 }} marginTop={15}>
           <Grid container spacing={6} justifyContent="center">
             <Grid item xs={6}>
-              <Item>
+              <Paper>
                 <div className="waitingList">
                   <Typography variant="h4" fontWeight="bold">
                     Pending
                   </Typography>
                 </div>
-                <Item>
+                <Paper>
                   <Typography variant="h5" fontWeight="bold">
                     {(totalQueue as any).result?.count}
                   </Typography>
-                </Item>
-              </Item>
+                </Paper>
+              </Paper>
             </Grid>
             <Grid item xs={6}>
-              <Item>
+              <Paper>
                 <div className="waitingList">
                   <Typography variant="h4" fontWeight="bold">
                     Completed
                   </Typography>
                 </div>
-                <Item>
+                <Paper>
                   <Typography variant="h5" fontWeight="bold">
                     100
                   </Typography>
-                </Item>
-              </Item>
+                </Paper>
+              </Paper>
             </Grid>
             <Grid item xs={12}>
-              <Item>
+              <Paper>
                 <div className="waitingList">
                   <Typography variant="h4" fontWeight="bold">
                     Consulting
                   </Typography>
                 </div>
                 <ConsultTable />
-              </Item>
-              <Item>
+              </Paper>
+              <Paper>
                 <div className="waitingList">
                   <Typography variant="h4" fontWeight="bold">
                     Waiting List
                   </Typography>
                 </div>
                 <HomeTable />
-              </Item>
+              </Paper>
             </Grid>
           </Grid>
         </Box>
