@@ -7,6 +7,7 @@ export async function seed(knex: Knex): Promise<void> {
   // await knex.raw("CREATE EXTENSION pg_trgm;");
 
   // Deletes ALL existing entries
+  faker.seed(1)
   await knex("notification").del();
 
   await knex("drug_instruction").del();
