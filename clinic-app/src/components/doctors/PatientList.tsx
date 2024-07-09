@@ -20,7 +20,6 @@ import SendIcon from "@mui/icons-material/Send";
 import { useNavigate } from "react-router-dom";
 import { SearchBar } from "./SearchBar";
 import { SendPatient } from "./SendPatient";
-import { useSnackbar } from 'notistack'; // Correct hook from notistack
 import QueueButton from "./QueueButton";
 
 

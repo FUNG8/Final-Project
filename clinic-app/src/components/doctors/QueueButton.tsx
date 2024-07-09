@@ -1,7 +1,7 @@
 import React from 'react';
 import Button from '@mui/material/Button';
 import SendIcon from '@mui/icons-material/Send';
-import { useSnackbar } from 'notistack';
+// import { useSnackbar } from 'notistack';
 import { SendPatient } from './SendPatient';
 
 interface QueueButtonProps {
