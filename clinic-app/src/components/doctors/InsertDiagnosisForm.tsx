@@ -26,6 +26,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { insertMedicine } from "../../api/medicineAPI";
 import { GetDrugShape } from "../../api/drugAPI";
+import { DrugInstruction } from "./DrugInstruction";
 
 const unitOptions = [
   "毫克 mg",
@@ -85,16 +86,9 @@ export default function InsertDiagnosisModal() {
   const handleClose = () => setOpen(false);
   const defaultTheme = createTheme();
 
-  const [medicineNameInput, setMedicineNameInput] = useState("gg");
-  const [genericDrugInput, setGenericDrugInput] = useState("g1g");
-  const [descriptionInput, setDescriptionInput] = useState("g2g");
-  const [dosageInput, setDosageInput] = useState("123");
-  const [unitInput, setUnitInput] = useState("g4g");
-  const [unit, setUnit] = React.useState<string | null>(unitOptions[0]);
-  const [typeInput, setTypeInput] = useState("213");
-  const [type, setType] = React.useState<string | null>(typeOptions[0]);
-  const [colorInput, setColorInput] = useState("Analgesics (painkillers)");
-  const [color, setColor] = React.useState<string | null>(colorOptions[0]);
+  const [symptomsInput, setSymptomsInput] = useState("");
+  const [remarksInput, setRemarksInput] = useState("");
+  
   const [drugInput, setDrugInput] = useState("");
   const drug = GetDrugShape();
   const queryClient = useQueryClient();
@@ -155,18 +149,18 @@ export default function InsertDiagnosisModal() {
     const currentTime = dayjs().format("YYYY-MM-DD HH:mm:ss");
     console.log("current time is" + currentTime);
 
-    onSubmit.mutate({
-      name: medicineNameInput,
-      generic_drug: genericDrugInput,
-      description: descriptionInput,
-      dosage: dosageInput,
-      unit_measurement: unitInput,
-      type: typeInput,
-      drug_shape_id: drugInput,
-      color: colorInput,
-      created_at: currentTime,
-      updated_at: currentTime,
-    });
+    // onSubmit.mutate({
+    //   name: medicineNameInput,
+    //   generic_drug: genericDrugInput,
+    //   description: descriptionInput,
+    //   dosage: dosageInput,
+    //   unit_measurement: unitInput,
+    //   type: typeInput,
+    //   drug_shape_id: drugInput,
+    //   color: colorInput,
+    //   created_at: currentTime,
+    //   updated_at: currentTime,
+    // });
   };
 
   return (
@@ -206,7 +200,7 @@ export default function InsertDiagnosisModal() {
                   }}
                 >
                   <Typography component="h1" variant="h5">
-                    Insert New Medicine
+                    Diagnosis
                   </Typography>
                   <Box
                     component="form"
@@ -214,162 +208,36 @@ export default function InsertDiagnosisModal() {
                     sx={{ mt: 0 }}
                     onSubmit={handleSubmit}
                   >
-                    {/* medicine name */}
+                    {/* Symptoms */}
                     <TextField
-                      value={medicineNameInput}
-                      onChange={(e) => setMedicineNameInput(e.target.value)}
+                      value={symptomsInput}
+                      onChange={(e) => setSymptomsInput(e.target.value)}
                       margin="normal"
                       required
                       fullWidth
-                      id="medicineName"
-                      label="Medicine Name"
-                      autoComplete="medicineName"
+                      id="symptoms"
+                      label="Symptoms"
+                      autoComplete="symptoms"
                       autoFocus
                     />
-                    {/* Generic Drug */}
+                    {/* Remarks */}
                     <TextField
-                      value={genericDrugInput}
-                      onChange={(e) => setGenericDrugInput(e.target.value)}
-                      name="genericDrug"
+                      value={remarksInput}
+                      onChange={(e) => setRemarksInput(e.target.value)}
+                      name="remarks"
                       margin="normal"
                       required
                       fullWidth
-                      id="genericDrug"
-                      label="Generic Drug"
-                      autoComplete="genericDrug"
+                      id="remarks"
+                      label="Remarks"
+                      autoComplete="remarks"
                       autoFocus
                     />
-                    {/* description */}
-                    <TextField
-                      value={descriptionInput}
-                      onChange={(e) => setDescriptionInput(e.target.value)}
-                      name="description"
-                      margin="normal"
-                      required
-                      fullWidth
-                      id="description"
-                      label="Description"
-                      autoComplete="description"
-                      autoFocus
-                    />
-                    {/* dosage and unit */}
-                    <Grid
-                      sx={{
-                        mt: 2,
-                        display: "flex",
-                        justifyContent: "space-between",
-                      }}
-                    >
-                      {/* doseage */}
-                      <TextField
-                        name="dosage"
-                        sx={{ width: 300, mt: 0 }}
-                        value={dosageInput}
-                        onChange={(e) => setDosageInput(e.target.value)}
-                        margin="normal"
-                        required
-                        id="dosage"
-                        label="Dosage"
-                        autoComplete="dosage"
-                        autoFocus
-                        type="number"
-                        inputProps={{ maxLength: 8 }}
-                      />
-                      {/* unit */}
-                      <Autocomplete
-                        value={unit}
-                        onChange={(event: any, newunit: string | null) => {
-                          setUnit(newunit);
-                        }}
-                        inputValue={unitInput}
-                        onInputChange={(event, newInputValue) => {
-                          setUnitInput(newInputValue);
-                        }}
-                        id="controllable-states-demo"
-                        options={unitOptions}
-                        sx={{ width: 300 }}
-                        renderInput={(params) => (
-                          <TextField {...params} label="Unit" />
-                        )}
-                      />
-                    </Grid>
-                    {/* type and color */}
-                    <Grid
-                      sx={{
-                        mt: 2,
-                        display: "flex",
-                        justifyContent: "space-between",
-                      }}
-                    >
-                      {/* type */}
-                      <Autocomplete
-                        sx={{ width: 300, mt: 0 }}
-                        value={type}
-                        onChange={(event: any, newtype: string | null) => {
-                          setType(newtype);
-                        }}
-                        inputValue={typeInput}
-                        onInputChange={(event, newInputValue) => {
-                          setTypeInput(newInputValue);
-                        }}
-                        id="controllable-states-demo"
-                        options={typeOptions}
-                        fullWidth
-                        renderInput={(params) => (
-                          <TextField {...params} label="Medicine Type" />
-                        )}
-                      />
-                      {/* color */}
-                      <Autocomplete
-                        sx={{ width: 300, mt: 0 }}
-                        value={color}
-                        onChange={(event: any, newcolor: string | null) => {
-                          setColor(newcolor);
-                        }}
-                        inputValue={colorInput}
-                        onInputChange={(event, newInputValue) => {
-                          setColorInput(newInputValue);
-                        }}
-                        id="controllable-states-demo"
-                        options={colorOptions}
-                        fullWidth
-                        renderInput={(params) => (
-                          <TextField {...params} label="Medicine Color" />
-                        )}
-                      />
-                    </Grid>
-                    {/* Drug Shape */}
-                    <Grid
-                      sx={{
-                        mt: 2,
-                      }}
-                    >
-                      <FormLabel id="demo-row-radio-buttons-group-label">
-                        Medicine Shape
-                      </FormLabel>
-                      <Grid>
-                        <RadioGroup
-                          row
-                          aria-labelledby="demo-row-radio-buttons-group-label"
-                          name="row-radio-buttons-group"
-                          value={drugInput}
-                          onChange={handleDrugChange}
-                        >
-                          {drug.status === "success" &&
-                            (drug as any).data.map(
-                              (drug: any, index: number) => (
-                                <FormControlLabel
-                                  key={index}
-                                  value={parseInt(drug.id)}
-                                  control={<Radio />}
-                                  label={drug.shape}
-                                />
-                              )
-                            )}
-                        </RadioGroup>
-                      </Grid>
-                    </Grid>
-                    {/* Submit Button */}
+
+                    {/* ------------------- Instruction------------------- */}
+                    <DrugInstruction/>
+                   
+                    {/*------------------- Submit Button------------------- */}
                     <Grid
                       sx={{
                         my: 4,
@@ -501,12 +369,7 @@ const Modal = React.forwardRef(function Modal(
 
   return (
     <Portal ref={portalRef} container={container} disablePortal={disablePortal}>
-      {/*
-       * Marking an element with the role presentation indicates to assistive technology
-       * that this element should be ignored; it exists to support the web application and
-       * is not meant for humans to interact with directly.
-       * https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/no-static-element-interactions.md
-       */}
+      
       <CustomModalRoot {...rootProps}>
         {!hideBackdrop ? <CustomModalBackdrop {...backdropProps} /> : null}
         <FocusTrap

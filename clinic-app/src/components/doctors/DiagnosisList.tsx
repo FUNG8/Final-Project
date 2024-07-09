@@ -48,7 +48,7 @@ interface Instructions {
   drug_remarks: string;
   medicine_name: string;
   total_quantity: number;
-  unit_measurement: number;
+  unit_measurement: string;
   frequency_per_day: number;
   taken_count_today: number;
   dosage_per_serving: number;

@@ -2,6 +2,7 @@ import React from 'react';
 import Button from '@mui/material/Button';
 import SendIcon from '@mui/icons-material/Send';
 import { SendPatient } from './SendPatient';
+import { useSnackbar } from 'notistack';
 
 interface QueueButtonProps {
   patientId: string;
@@ -40,7 +41,7 @@ export default QueueButton;
 
 
 
-function useSnackbar(): { enqueueSnackbar: any; } {
-  throw new Error('Function not implemented.');
-}
+// function useSnackbar(): { enqueueSnackbar: any; } {
+//   throw new Error('Function not implemented.');
+// }
 
