@@ -162,6 +162,20 @@ export async function seed(knex: Knex): Promise<void> {
     },
     {
       medicine_id: 2,
+      diagnosis_id: 1,
+      unit_measurement: 1,
+      total_quantity: 777,
+      method: "Oral",
+      taken_count_today: 0,
+      taken_count: 3,
+      period_day: 365,
+      period_hr: 0,
+      frequency_per_day: 2,
+      dosage_per_serving: 1,
+      remarks: "Take 1 tablet 3 times a day with food.",
+    },
+    {
+      medicine_id: 2,
       diagnosis_id: 2,
       unit_measurement: 1,
       total_quantity: 60,
@@ -174,6 +188,7 @@ export async function seed(knex: Knex): Promise<void> {
       dosage_per_serving: 1,
       remarks: "Take 1 tablet once a day with food.",
     },
+
   ]);
 
   await knex("notification").insert([

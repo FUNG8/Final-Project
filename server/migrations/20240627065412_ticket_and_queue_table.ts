@@ -19,9 +19,9 @@ export async function up(knex: Knex): Promise<void> {
   
     // Insert data into the tables
     await knex('tickets').insert([
-      { patient_id: 1, ticket_number: 100, status: 'waiting' },
-      { patient_id: 2, ticket_number: 101, status: 'waiting' },
-      { patient_id: 3, ticket_number: 102, status: 'waiting' },
+      { patient_id: 1, ticket_number: 1, status: 'waiting' },
+      { patient_id: 2, ticket_number: 2, status: 'waiting' },
+      { patient_id: 3, ticket_number: 3, status: 'waiting' },
     ]);
   
     await knex('queue').insert([

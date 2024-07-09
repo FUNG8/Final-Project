@@ -26,61 +26,69 @@ interface PatientWaitingList {
   }[];
 }
 
+interface PatientWaitingTime {
+  status: string;
+  result?: {
+    timestamp: string;
+  }[];
+}
+
+
 
 export default function HomeTable() {
   const patientWaitingList: PatientWaitingList = usePatientWaitingList();
   console.log(patientWaitingList.result?.[0]?.firstName);
+
 
   const handleDragEnd = (result: DropResult, provided: any) => {
     if (!result.destination) {
       return;
     }
 
-    const updatedPatientList = Array.from(patientWaitingList.result || []);
-    const [removed] = updatedPatientList.splice(result.source.index, 1);
-    updatedPatientList.splice(result.destination.index, 0, removed);
+    const updatedPatientList = patientWaitingList.result
+      ? Array.from(patientWaitingList.result)
+      : [];
 
-    // setPatientWaitingList({
-    //   result: updatedPatientList,
-    // });
+    if (updatedPatientList.length > 0) {
+      const [removed] = updatedPatientList.splice(result.source.index, 1);
+      updatedPatientList.splice(result.destination.index, 0, removed);
+
+      // setPatientWaitingList({
+      //   result: updatedPatientList,
+      // });
+    }
   };
 
   return (
     <DragDropContext onDragEnd={handleDragEnd}>
       <Droppable droppableId="patientList" type="group" >
         {(provided: any) => (
-          <div ref={provided.innerRef} {...provided.droppableProps}>
-            <TableContainer component={Paper} style={{ maxHeight: 450 }}>
+          <div ref={provided.innerRef} {...provided.droppableProps} >
+            <TableContainer component={Paper} style={{ maxHeight: 600 }}>
               <Table stickyHeader sx={{ minWidth: 100 }} aria-label="simple table">
                 <TableHead>
                   <TableRow>
                     <TableCell>First Name</TableCell>
                     <TableCell>Last Name</TableCell>
                     <TableCell>Check In Time</TableCell>
-                    <TableCell>Consult</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {patientWaitingList.result?.map((row: any, index: number) => (
-                    <Draggable key={index} draggableId={`patient-${index}`} index={index} >
+                    <Draggable key={index} draggableId={`patient-${row.id}`} index={index} >
                       {(provided: any) => (
                         <TableRow
                           {...provided.draggableProps}
                           {...provided.dragHandleProps}
                           ref={provided.innerRef}
-                          sx={{ '&:last-child td, &:last-child th': { border: 0,height:20 } }}
+                          sx={{ '&:last-child td, &:last-child th': { border: 0, height: 20 } }}
                         >
                           <TableCell component="th" scope="row">
                             {row.firstName}
                           </TableCell>
                           <TableCell>{row.lastName}</TableCell>
                           <TableCell>
-                            <TimeAgo date={new Date()} />
-                          </TableCell>
-                          <TableCell>
-                            
-                          <Button variant="contained" size="small">Check In</Button>
-                            
+                            <TimeAgo date={row.timestamp} />
                           </TableCell>
                         </TableRow>
                       )}

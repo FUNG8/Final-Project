@@ -30,7 +30,7 @@ export async function up(knex: Knex): Promise<void> {
     table.foreign('drug_shape_id').references('id').inTable('drug_shape');
 
   });
-  
+
   await knex.schema.createTable('patient', (table) => {
     table.increments('id')
     // table.bigInteger('register_id').notNullable().unique();
@@ -46,7 +46,7 @@ export async function up(knex: Knex): Promise<void> {
     table.string('emergency_contact', 255);
     table.timestamp('updated_at');
     table.timestamp('created_at');
-   
+
   });
 
   await knex.schema.createTable('diagnosis', (table) => {
@@ -98,12 +98,11 @@ export async function up(knex: Knex): Promise<void> {
 
 export async function down(knex: Knex): Promise<void> {
   await knex.schema.dropTableIfExists('notification');
-
   await knex.schema.dropTableIfExists('drug_instruction');
-  await knex.schema.dropTableIfExists('patient');
   await knex.schema.dropTableIfExists('medicine');
   await knex.schema.dropTableIfExists('drug_shape');
   await knex.schema.dropTableIfExists('diagnosis');
+  await knex.schema.dropTableIfExists('patient');
   await knex.schema.dropTableIfExists('doctor');
 
 

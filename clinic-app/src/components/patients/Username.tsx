@@ -1,5 +1,5 @@
 // hahahahaha
-import { Paper, styled } from '@mui/material';
+import { Box, Paper, styled, Typography } from '@mui/material';
 import { jwtDecode } from 'jwt-decode';
 import React, { useEffect, useState } from 'react';
 
@@ -15,8 +15,10 @@ export function Username() {
   }, []);
 
   return (
-    <div>
-      <h2>Welcome, {name}!</h2>
-    </div>
+    <Box textAlign="center">
+      <Typography variant="h2" fontWeight="bold" fontFamily="Arial, sans-serif">
+        Welcome, {name}!
+      </Typography>
+    </Box>
   );
 }

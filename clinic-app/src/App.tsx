@@ -14,10 +14,11 @@ import PatientAuthGuard from "./pages/patientpages/PatientAuthGuard";
 import { DoctorAuthGuard } from "./pages/doctorpages/AuthGuard";
 import { LandingPage } from "./LandingPage";
 import { ShowPatientInfo } from "./components/ShowPatientInfo";
-import { ThemeProvider } from "styled-components";
+// import { ThemeProvider } from "styled-components";
 import PatientInfo from "./pages/doctorpages/PatientInfo";
 import { useThemeContext } from "./theme/ThemeContextProvider";
 
+import { CssBaseline, ThemeProvider } from "@mui/material";
 
 // hahahahaha
 const queryClient = new QueryClient();
@@ -30,10 +31,13 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
+      <CssBaseline />
+
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
           <div className="App">
             {/* <TemporaryDrawer /> */}
+
 
             <Routes>
               <Route index element={<LandingPage />} />
@@ -51,17 +55,17 @@ function App() {
                 <Route path="medicine" element={<Medicine />} />
               </Route>
 
+
               <Route path="/patient" element={<PatientAuthGuard />}>
                 <Route path="notification" element={<Notification />} />
                 <Route path="profile" element={<Profile  />} />
                 <Route path="setting" element={<Setting />} />
               </Route>
-
             </Routes>
           </div>
         </BrowserRouter>
       </QueryClientProvider>
-    // </ThemeProvider>
+    </ThemeProvider>
   );
 }
 

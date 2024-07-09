@@ -35,7 +35,7 @@ export class PatientController {
             if (searchTerm) {
                 if (isNaN(searchTerm)) {
                     console.log("query is string")
-                    queryString += ` WHERE SIMILARITY("firstName",'${searchTerm}') > 0.1 OR SIMILARITY("hkid",'${searchTerm}') > 0.65`
+                    queryString += ` WHERE SIMILARITY("firstName",'${searchTerm}') > 0.1 OR SIMILARITY("hkid",'${searchTerm}') > 0.60`
                     totalPatients = `SELECT COUNT(*) FROM patient WHERE SIMILARITY("firstName",'${searchTerm}') > 0.1`
                     totalPages = Math.ceil(totalPatients / perPage);
                     console.log(totalPages)
@@ -46,6 +46,7 @@ export class PatientController {
             queryString += ` OFFSET $1 LIMIT $2`
             console.log(queryString)
             let patientResult = (await pgClient.query(queryString, [startIndex, perPage])).rows;
+            console.log("show me the result from patient search bar",patientResult)
             const response = {
                 patientResult,
                 totalPages: totalPages,

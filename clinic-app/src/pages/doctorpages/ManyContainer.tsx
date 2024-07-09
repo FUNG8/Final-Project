@@ -1,4 +1,6 @@
+import Grid from "@mui/material/Grid"
 import { useNumberWaitingList } from "../../api/patientAPI"
+import Typography from "@mui/material/Typography"
 
 
 
@@ -13,6 +15,7 @@ export default function ManyContainer() {
 
 
     return (
+
         <div className='manyContainer'>
             <div className='smallContainer'>Pending
                 <div className='inSmContainer'>{(totalQueue as any).result?.count}</div>
@@ -24,3 +27,5 @@ export default function ManyContainer() {
 
     )
 }
+
+

@@ -1,19 +1,15 @@
 // hahahahaha
-import './Home.scss';
-import TemporaryDrawer from '../../components/doctors/DoctorNavBar';
-import * as React from 'react';
-import { useState, useEffect } from 'react';
-import Box from '@mui/material/Box';
-import ConsultTable from '../../components/patients/ConsultingTable'
-import styled from 'styled-components';
-import { FormControlLabel, Paper, Slide, Switch } from '@mui/material';
-import Grid from '@mui/material/Grid';
-import { Username } from '../../components/patients/Username';
-import ManyContainer from './ManyContainer';
-import HomeTable from '../../components/patients/HomeTable';
-import MedicineConsumption from '../../components/doctors/MedicineConsumption';
-import PatientNumber from '../../components/doctors/PatientNumber';
-import { Margin } from '@mui/icons-material';
+import "./Home.scss";
+import { useState, useEffect } from "react";
+import Box from "@mui/material/Box";
+import ConsultTable from "../../components/patients/ConsultingTable";
+import { Paper, Typography } from "@mui/material";
+import Grid from "@mui/material/Grid";
+import { Username } from "../../components/patients/Username";
+import HomeTable from "../../components/patients/HomeTable";
+import MedicineConsumption from "../../components/doctors/MedicineConsumption";
+import PatientNumber from "../../components/doctors/PatientNumber";
+import { useNumberWaitingList } from "../../api/patientAPI";
 
 const icon = (
   <Paper sx={{ m: 1, width: 100, height: 100 }} elevation={4}>
@@ -31,6 +27,10 @@ const icon = (
   </Paper>
 );
 
+interface TotalQueue {
+  status: string
+  result?: string[]
+}
 
 export default function Home() {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -42,60 +42,90 @@ export default function Home() {
     };
 
     // Add event listener for window resize
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
 
     // Clean up event listener on component unmount
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 
-  const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-    margin: 8
-  }));
+  // const Paper = styled(Paper)(({ theme }) => ({
+  //   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+  //   ...theme.typography.body2,
+  //   padding: theme.spacing(1),
+  //   textAlign: 'center',
+  //   color: theme.palette.text.secondary,
+  //   margin: 8
+  // }));
 
-
+  const totalQueue: TotalQueue = useNumberWaitingList()
 
   return (
-
-    <div>
-      <Grid sx={{ paddingLeft: 20 }}>
-        <Username />
-      </Grid>
-      <Box sx={{ flexGrow: 1 }}>
-        <Grid container spacing={2}>
-
-          <Grid item xs={8}>
-
-            <Grid sx={{ display: "flex" }}>
-              <Item>
-                <p>Number of Patients</p>
-                <PatientNumber />
-              </Item>
-              <Item>
-                <p>Medicine Consumption</p>
-                <MedicineConsumption />
-              </Item>
+    <Grid container justifyContent="center" alignItems="center" height="50vh">
+      <Grid item xs={12} >
+        <Paper>
+          <Username />
+        </Paper>
+        <Box sx={{ flexGrow: 1 }} marginTop={15}>
+          <Grid container spacing={6} justifyContent="center">
+            <Grid item xs={6}>
+              <Paper>
+                <div className="waitingList">
+                  <Typography variant="h4" fontWeight="bold">
+                    Pending
+                  </Typography>
+                </div>
+                <Paper>
+                  <Typography variant="h5" fontWeight="bold">
+                    {(totalQueue as any).result?.count}
+                  </Typography>
+                </Paper>
+              </Paper>
             </Grid>
-
+            <Grid item xs={6}>
+              <Paper>
+                <div className="waitingList">
+                  <Typography variant="h4" fontWeight="bold">
+                    Completed
+                  </Typography>
+                </div>
+                <Paper>
+                  <Typography variant="h5" fontWeight="bold">
+                    100
+                  </Typography>
+                </Paper>
+              </Paper>
+            </Grid>
+            <Grid item xs={12}>
+              <Paper>
+                <div className="waitingList">
+                  <Typography variant="h4" fontWeight="bold">
+                    Consulting
+                  </Typography>
+                </div>
+                <ConsultTable />
+              </Paper>
+              <Paper>
+                <div className="waitingList">
+                  <Typography variant="h4" fontWeight="bold">
+                    Waiting List
+                  </Typography>
+                </div>
+                <HomeTable />
+              </Paper>
+            </Grid>
           </Grid>
-          <Grid item xs={4}>
-            <Item> <div className="waitingList">Consulting</div>
-              <ConsultTable />
-              <div className="waitingList">Waiting List</div>
-              <HomeTable />
-            </Item>
-          </Grid>
-
-        </Grid>
-      </Box>
-
-    </div>
-
+        </Box>
+      </Grid>
+      <Paper>
+        <p>Number of Patients</p>
+        <PatientNumber />
+      </Paper>
+      <Paper>
+        <p>Medicine Consumption</p>
+        <MedicineConsumption />
+      </Paper>
+    </Grid >
   );
 }

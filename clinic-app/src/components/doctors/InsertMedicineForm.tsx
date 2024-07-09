@@ -1,4 +1,3 @@
-// hahahahaha
 import * as React from "react";
 import clsx from "clsx";
 import { styled, css } from "@mui/system";
@@ -10,12 +9,12 @@ import { ThemeProvider } from "styled-components";
 import {
   Autocomplete,
   Box,
-  Checkbox,
-  Container,
   CssBaseline,
   FormControlLabel,
-  FormGroup,
+  FormLabel,
   Grid,
+  Radio,
+  RadioGroup,
   TextField,
   Typography,
   createTheme,
@@ -26,6 +25,7 @@ import Button from "@mui/material/Button";
 import { useMutation } from "@tanstack/react-query";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { insertMedicine } from "../../api/medicineAPI";
+import { GetDrugShape } from "../../api/drugAPI";
 
 const unitOptions = [
   "毫克 mg",
@@ -49,7 +49,7 @@ const typeOptions = [
   "Chemotherapeutics (cancer)",
   "Immunosuppressants",
   "Agonists",
-  "Antagonists", 
+  "Antagonists",
   "Enzyme inhibitors",
   "Receptor modulators",
   "Natural/herbal",
@@ -66,7 +66,17 @@ const typeOptions = [
   "Short-acting vs long-acting",
   "Immediate release vs extended release",
   "High therapeutic index (wide safety margin)",
-  "Low therapeutic index (narrow safety margin)"
+  "Low therapeutic index (narrow safety margin)",
+];
+const colorOptions = [
+  "White - 白色",
+  "Yellow - 黃色",
+  "Red - 紅色",
+  "Blue - 藍色",
+  "Green - 綠色",
+  "Brown - 棕色",
+  "Pink - 粉色",
+  "Orange - 橙色",
 ];
 
 export default function InsertMedicineModal() {
@@ -75,25 +85,33 @@ export default function InsertMedicineModal() {
   const handleClose = () => setOpen(false);
   const defaultTheme = createTheme();
 
-  const [medicineNameInput, setMedicineNameInput] = useState("");
-  const [genericDrugInput, setGenericDrugInput] = useState("");
-  const [descriptionInput, setDescriptionInput] = useState("");
-  const [dosageInput, setDosageInput] = useState("");
-  const [unitInput, setUnitInput] = useState("");
+  const [medicineNameInput, setMedicineNameInput] = useState("gg");
+  const [genericDrugInput, setGenericDrugInput] = useState("g1g");
+  const [descriptionInput, setDescriptionInput] = useState("g2g");
+  const [dosageInput, setDosageInput] = useState("123");
+  const [unitInput, setUnitInput] = useState("g4g");
   const [unit, setUnit] = React.useState<string | null>(unitOptions[0]);
-  const [typeInput, setTypeInput] = useState("");
-  const [type, setType] = React.useState <string | null>(typeOptions[0]);
-
-
+  const [typeInput, setTypeInput] = useState("213");
+  const [type, setType] = React.useState<string | null>(typeOptions[0]);
+  const [colorInput, setColorInput] = useState("Analgesics (painkillers)");
+  const [color, setColor] = React.useState<string | null>(colorOptions[0]);
+  const [drugInput, setDrugInput] = useState("");
+  const drug = GetDrugShape();
   const queryClient = useQueryClient();
 
-  const handleAddPatient = async () => {
+  const handleAddMedicine = async () => {
     try {
-      queryClient.invalidateQueries({ queryKey: ["PatientInfo"] });
+      queryClient.invalidateQueries({ queryKey: ["MedicineInfo"] });
     } catch (error) {
-      console.error("Error adding Patient:", error);
+      console.error("Error adding Medicine:", error);
     }
   };
+
+  const handleDrugChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setDrugInput((event.target as HTMLInputElement).value);
+  };
+
+  //step1 set up mutation
   const onSubmit = useMutation({
     mutationFn: async (data: {
       name: string;
@@ -122,10 +140,8 @@ export default function InsertMedicineModal() {
     onSuccess: (data) => {
       console.log("mutate on success");
       console.log("On Insert Medicine", data);
-      handleAddPatient();
+      handleAddMedicine();
       handleClose();
-
-      //   queryClient.invalidateQueries({ queryKey: ["authStatus"] });
     },
     onError: (e) => {
       console.log("mutate on error");
@@ -133,26 +149,29 @@ export default function InsertMedicineModal() {
     },
   });
 
+  //step 2 trigger the mutation by action
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    // console.log(e.target[0]);
-    // @ts-ignore
-    console.log("G9G", medicineNameInput!.current);
-    // console.log("GG", e.target.querySelector(".hihi > div > div > input").value);
     const currentTime = dayjs().format("YYYY-MM-DD HH:mm:ss");
     console.log("current time is" + currentTime);
 
-    // onSubmit.mutate({
-
-    //   name:medicineName
-    // });
+    onSubmit.mutate({
+      name: medicineNameInput,
+      generic_drug: genericDrugInput,
+      description: descriptionInput,
+      dosage: dosageInput,
+      unit_measurement: unitInput,
+      type: typeInput,
+      drug_shape_id: drugInput,
+      color: colorInput,
+      created_at: currentTime,
+      updated_at: currentTime,
+    });
   };
 
   return (
     <div>
-      <Grid xs={12} sx={{display:"flex",justifyContent:"center",margin:2}}>
-      <TriggerButton onClick={handleOpen}>Insert Medicine</TriggerButton>
-      </Grid>
+      <TriggerButton onClick={handleOpen}>Create Patients</TriggerButton>
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
@@ -266,8 +285,7 @@ export default function InsertMedicineModal() {
                         )}
                       />
                     </Grid>
-
-                    {/* type */}
+                    {/* type and color */}
                     <Grid
                       sx={{
                         mt: 2,
@@ -275,9 +293,9 @@ export default function InsertMedicineModal() {
                         justifyContent: "space-between",
                       }}
                     >
-                      
-                      
+                      {/* type */}
                       <Autocomplete
+                        sx={{ width: 300, mt: 0 }}
                         value={type}
                         onChange={(event: any, newtype: string | null) => {
                           setType(newtype);
@@ -293,8 +311,55 @@ export default function InsertMedicineModal() {
                           <TextField {...params} label="Medicine Type" />
                         )}
                       />
+                      {/* color */}
+                      <Autocomplete
+                        sx={{ width: 300, mt: 0 }}
+                        value={color}
+                        onChange={(event: any, newcolor: string | null) => {
+                          setColor(newcolor);
+                        }}
+                        inputValue={colorInput}
+                        onInputChange={(event, newInputValue) => {
+                          setColorInput(newInputValue);
+                        }}
+                        id="controllable-states-demo"
+                        options={colorOptions}
+                        fullWidth
+                        renderInput={(params) => (
+                          <TextField {...params} label="Medicine Color" />
+                        )}
+                      />
                     </Grid>
-
+                    {/* Drug Shape */}
+                    <Grid
+                      sx={{
+                        mt: 2,
+                      }}
+                    >
+                      <FormLabel id="demo-row-radio-buttons-group-label">
+                        Medicine Shape
+                      </FormLabel>
+                      <Grid>
+                        <RadioGroup
+                          row
+                          aria-labelledby="demo-row-radio-buttons-group-label"
+                          name="row-radio-buttons-group"
+                          value={drugInput}
+                          onChange={handleDrugChange}
+                        >
+                          {drug.status === "success" &&
+                            (drug as any).data.map((drug: any, index: number) => (
+                              <FormControlLabel
+                                key={index}
+                                value={parseInt(drug.id)}
+                                control={<Radio />}
+                                label={drug.shape}
+                              />
+                            ))}
+                        </RadioGroup>
+                      </Grid>
+                    </Grid>
+                    {/* Submit Button */}
                     <Grid
                       sx={{
                         my: 4,
@@ -306,7 +371,7 @@ export default function InsertMedicineModal() {
                       <Button
                         sx={{ position: "absolute", width: 400 }}
                         variant="contained"
-                        type="submit"
+                        onClick={handleSubmit}
                       >
                         Submit
                       </Button>

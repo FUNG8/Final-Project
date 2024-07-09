@@ -16,7 +16,7 @@ const NightModeToggle = () => {
                 justifyContent: "center",
                 bgcolor: "background.default",
                 color: "text.primary",
-              
+
                 border: "1px solid",
                 borderRadius: 25,
                 height: 12,

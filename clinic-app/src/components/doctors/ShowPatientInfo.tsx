@@ -10,6 +10,10 @@ import {
   AccordionSummary,
   AccordionDetails,
   Divider,
+  Alert,
+  AlertTitle,
+  Snackbar,
+  IconButton,
 } from "@mui/material";
 import { ChangeEvent, SetStateAction, useEffect, useState } from "react";
 import Stack from "@mui/material/Stack";
@@ -21,6 +25,7 @@ import { MuiTelInput, MuiTelInputInfo } from "mui-tel-input";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useQueryClient } from "@tanstack/react-query";
 import { useMutation } from "@tanstack/react-query";
+import CloseIcon from '@mui/icons-material/Close';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -50,24 +55,23 @@ interface Patient {
 
 export function ShowPatientInfo() {
   let { patientId } = useParams();
+  const [open, setOpen] = React.useState(false);
 
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
   // console.log("param is", patientId);
 
   const onEditItem = useMutation({
-    mutationFn: async (data: { patientId: number, editedInfo: any }) =>
+    mutationFn: async (data: { patientId: number; editedInfo: any }) =>
       editPatientInfo(data.patientId, data.editedInfo),
     onSuccess: (message: any) => {
-      console.log(message)
-      // invalidate query
-      queryClient.invalidateQueries({ queryKey: ["showPatientsInfo"] })
-    }
-  }
-  )
+      console.log(message);
+
+      queryClient.invalidateQueries({ queryKey: ["showPatientsInfo"] });
+    },
+  });
 
   let [isEditing, setIsEditing] = useState(false);
   let [editedPatient, setEditedPatient] = useState<Patient | null>(null);
-
 
   const response = useShowPatientInfo(parseInt(patientId!));
 
@@ -77,12 +81,25 @@ export function ShowPatientInfo() {
     setEditedPatient((response as any).result[0]);
   };
 
-
-
   const handleSaveClick = async () => {
-    console.log("edited info", editedPatient)
-    onEditItem.mutate({ patientId: parseInt(patientId!), editedInfo: editedPatient })
+    console.log("edited info", editedPatient);
+    onEditItem.mutate({
+      patientId: parseInt(patientId!),
+      editedInfo: editedPatient,
+    });
     setIsEditing(false);
+    setOpen(true);
+  };
+
+  const handleClose = (
+    event: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
   };
 
   // Function to handle input change
@@ -97,14 +114,32 @@ export function ShowPatientInfo() {
   const genderOptions = ["male", "female"];
   const [genderInput, setGenderInput] = useState("");
   const [gender, setGender] = React.useState<string | null>(genderOptions[0]);
-  const [phoneNumberInput, setPhoneNumberInput] = React.useState(editedPatient?.phone_number || "");
-  const [emergencyContactInput, setEmergencyContactInput] = React.useState(editedPatient?.emergency_contact || "");
+  const [phoneNumberInput, setPhoneNumberInput] = React.useState(
+    editedPatient?.phone_number || ""
+  );
+  const [emergencyContactInput, setEmergencyContactInput] = React.useState(
+    editedPatient?.emergency_contact || ""
+  );
+  const action = (
+    <React.Fragment>
+      <Button color="secondary" size="small" onClick={handleClose}>
+        UNDO
+      </Button>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleClose}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
 
   useEffect(() => {
     setPhoneNumberInput(editedPatient?.phone_number || "");
     setEmergencyContactInput(editedPatient?.emergency_contact || "");
   }, [editedPatient]);
-
 
   return (response as any)?.result?.map((patient: any) => (
     <div>
@@ -113,9 +148,7 @@ export function ShowPatientInfo() {
           sx={{
             margin: 2,
             "&.Mui-expanded": {
-              // Styles for the expanded accordion
               boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
-              backgroundColor: "#f5f5f5",
               margin: 2,
             },
           }}
@@ -133,9 +166,7 @@ export function ShowPatientInfo() {
             </Grid>
           </AccordionSummary>
           <AccordionDetails>
-
             <Container maxWidth={"lg"}>
-
               <Grid
                 container
                 rowSpacing={0}
@@ -171,7 +202,6 @@ export function ShowPatientInfo() {
                     {patient.hkid}
                   </Grid>
                   <Divider />
-
                 </Grid>
 
                 {/* 2　row */}
@@ -405,13 +435,21 @@ export function ShowPatientInfo() {
                   >
                     SAVE
                   </Button>
+                  <Snackbar
+                    open={open}
+                    autoHideDuration={6000}
+                    onClose={handleClose}
+                    message="Note archived"
+                    action={action}
+                  />
 
                   <Button variant="contained" disableElevation>
                     HISTORY
                   </Button>
                 </Stack>
               </Grid>
-            </Container></AccordionDetails>
+            </Container>
+          </AccordionDetails>
         </Accordion>
       ) : (
         <Accordion
@@ -420,7 +458,7 @@ export function ShowPatientInfo() {
             "&.Mui-expanded": {
               // Styles for the expanded accordion
               boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
-              backgroundColor: "#f5f5f5",
+
               margin: 2,
             },
           }}
