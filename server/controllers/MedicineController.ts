@@ -93,16 +93,7 @@ export class MedicineController {
       updated_at,
     } = req.body;
     console.log("MED CON")
-    console.log("med controller",name,
-      generic_drug,
-      description,
-      dosage,
-      unit_measurement,
-      type,
-      drug_shape_id,
-      color,
-      created_at,
-      updated_at)
+
     try {
       let insertMedsResult = await this.medicineService.insertMedicine(
         name,

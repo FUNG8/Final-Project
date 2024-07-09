@@ -52,20 +52,23 @@ export default function Home() {
     };
   }, []);
 
-  const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-    margin: 8
-  }));
+  // const Item = styled(Paper)(({ theme }) => {
+  //   console.log(theme)
+  //  return  {
+  //   // backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+  //   backgroundColor: "#1A2027",
+  //   ...theme.typography.body2,
+  //   padding: theme.spacing(1),
+  //   textAlign: 'center',
+  //   color: theme.palette.text.secondary,
+  //   margin: 8
+  // }});
 
 
 
   return (
 
-    <div>
+    <div className="App">
       <Grid sx={{ paddingLeft: 20 }}>
         <Username />
       </Grid>
@@ -75,23 +78,23 @@ export default function Home() {
           <Grid item xs={8}>
 
             <Grid sx={{ display: "flex" }}>
-              <Item>
+              <Paper>
                 <p>Number of Patients</p>
                 <PatientNumber />
-              </Item>
-              <Item>
+              </Paper>
+              <Paper>
                 <p>Medicine Consumption</p>
                 <MedicineConsumption />
-              </Item>
+              </Paper>
             </Grid>
 
           </Grid>
           <Grid item xs={4}>
-            <Item> <div className="waitingList">Consulting</div>
+            <Paper> <div className="waitingList">Consulting</div>
               <ConsultTable />
               <div className="waitingList">Waiting List</div>
               <HomeTable />
-            </Item>
+            </Paper>
           </Grid>
 
         </Grid>

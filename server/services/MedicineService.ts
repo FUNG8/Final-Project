@@ -25,8 +25,21 @@ export class MedicineService {
     created_at: string,
     updated_at: string
   ) {
+    console.log( {
+      name,
+      generic_drug,
+      description,
+      dosage,
+      unit_measurement,
+      type,
+      drug_shape_id,
+      color,
+      created_at,
+      updated_at,
+    })
+    const trx = await this.knex.transaction()
+
     try {
-      return this.knex.transaction(async (trx) => {
         // Insert the medicine first
         console.log("Med Service Inserting")
         let medInsertResult = await trx
@@ -42,7 +55,7 @@ export class MedicineService {
             created_at: created_at,
             updated_at: updated_at,
           })
-          .into("Medicine")
+          .into("medicine")
           .returning("id");
   
         if (medInsertResult.length > 0) {
@@ -62,13 +75,14 @@ export class MedicineService {
               .into("drug_shape");
           }
   
+          await trx.commit()
           return medInsertResult[0].id;
         } else {
           throw new Error("Failed to insert Medicine");
         }
-      });
     } catch (error) {
       console.log("Error insert Medicine", error);
+      trx.rollback()
       throw error;
     }
   }

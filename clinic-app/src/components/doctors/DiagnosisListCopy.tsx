@@ -32,7 +32,7 @@ import {
   
   
   
-  export function ListDiagnosis() {
+  export function ListDiagnosisCopy() {
     let { patientId } = useParams();
     const diagnosis = useShowDiagnosis(parseInt(patientId!));
   
