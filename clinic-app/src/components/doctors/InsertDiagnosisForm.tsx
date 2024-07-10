@@ -24,7 +24,7 @@ import dayjs from "dayjs";
 import Button from "@mui/material/Button";
 import { useMutation } from "@tanstack/react-query";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { insertMedicine } from "../../api/medicineAPI";
+import { insertMedicine, useAllMedicineInfo } from "../../api/medicineAPI";
 import { GetDrugShape } from "../../api/drugAPI";
 import { DrugInstruction } from "./DrugInstruction";
 
@@ -88,21 +88,47 @@ export default function InsertDiagnosisModal() {
 
   const [symptomsInput, setSymptomsInput] = useState("");
   const [remarksInput, setRemarksInput] = useState("");
-  
-  const [drugInput, setDrugInput] = useState("");
-  const drug = GetDrugShape();
-  const queryClient = useQueryClient();
 
-  const handleAddMedicine = async () => {
+  const medicineinfo = useAllMedicineInfo();
+  const meds = (medicineinfo as any)?.medicineResult;
+  const [demoInstructions, setDemoInstructions] = useState<any[]>([]);
+
+  console.log("demooo", demoInstructions);
+  // const drug = GetDrugShape();
+  // const queryClient = useQueryClient();
+
+  const handleAddInstruction = async () => {
     try {
-      queryClient.invalidateQueries({ queryKey: ["MedicineInfo"] });
+      // queryClient.invalidateQueries({ queryKey: ["MedicineInfo"] });
+      console.log("ggg99ggg")
+      let instruction = {
+        index: demoInstructions.length,
+        medicine_id: null,
+        medicine_name: null,
+        total_quantity: null,
+      };
+
+      setDemoInstructions([...demoInstructions, instruction]);
     } catch (error) {
       console.error("Error adding Medicine:", error);
     }
   };
 
-  const handleDrugChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setDrugInput((event.target as HTMLInputElement).value);
+  const handleInstructionChange = (
+    targetIndex: number,
+    medicineName: string
+  ) => {
+    console.log("check!!!", targetIndex, medicineName);
+    let newDemoInstructions = demoInstructions.map((entry) => {
+      console.log(entry.index);
+      if (entry.index == targetIndex)
+        return { ...entry, medicine_name: medicineName, };
+      else return entry;
+    });
+
+    console.log("check new Demo instructions", newDemoInstructions);
+
+    setDemoInstructions(newDemoInstructions);
   };
 
   //step1 set up mutation
@@ -134,7 +160,7 @@ export default function InsertDiagnosisModal() {
     onSuccess: (data) => {
       console.log("mutate on success");
       console.log("On Insert Medicine", data);
-      handleAddMedicine();
+      // handleAddInstruction();
       handleClose();
     },
     onError: (e) => {
@@ -235,8 +261,16 @@ export default function InsertDiagnosisModal() {
                     />
 
                     {/* ------------------- Instruction------------------- */}
-                    <DrugInstruction/>
-                   
+                    {demoInstructions.map((entry, idx) => (
+                      <DrugInstruction
+                        idx={idx}
+                        changeFn={handleInstructionChange}
+                        medicineOptions={meds}
+                      />
+                    ))}
+                    <button onClick={handleAddInstruction}>
+                      Add Medicine/Instruction
+                    </button>
                     {/*------------------- Submit Button------------------- */}
                     <Grid
                       sx={{
@@ -369,7 +403,6 @@ const Modal = React.forwardRef(function Modal(
 
   return (
     <Portal ref={portalRef} container={container} disablePortal={disablePortal}>
-      
       <CustomModalRoot {...rootProps}>
         {!hideBackdrop ? <CustomModalBackdrop {...backdropProps} /> : null}
         <FocusTrap

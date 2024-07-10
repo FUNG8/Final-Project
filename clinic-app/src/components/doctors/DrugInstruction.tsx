@@ -2,46 +2,50 @@ import { Autocomplete, Button, TextField } from "@mui/material";
 import React, { useState } from "react";
 import { useAllMedicineInfo } from "../../api/medicineAPI";
 
-function handleAddInstruction() {}
-
-export function DrugInstruction() {
+export function DrugInstruction(props: {
+  idx: number;
+  changeFn: (targetIndex: number, medicineName: string) => void;
+  medicineOptions: any;
+}) {
   // get the array of medicines
-  const medicineinfo = useAllMedicineInfo();
-  const meds = (medicineinfo as any)?.medicineResult;
-  // map the medicine id into the medicineOptions array
-  const medicineOptions = meds?.map((medicine: any) => `${medicine.id}`) || [];
-  console.log(medicineOptions);
 
   const [medicineInput, setMedicineInput] = useState("");
-  const [selectedMedicine, setSelectedMedicine] = React.useState<string | null>(
-    medicineOptions[0] || null
-  );
+  const [selectedMedicine, setSelectedMedicine] = React.useState<any>();
 
   const handleMedicineChange = (
     event: React.SyntheticEvent<Element, Event>,
-    newValue: string | null
+    newValue: any
   ) => {
+    console.log("hihihi", newValue);
     setSelectedMedicine(newValue);
+    props.changeFn(props.idx, newValue.name);
   };
+
+  const handleFrequencyChange = (newValue:any)=>{
+
+    // setFrequency()
+    // props.changeFn(props.idx,selectedMedicine.name)
+  }
 
   const handleInputChange = (
     event: React.SyntheticEvent<Element, Event>,
     newInputValue: string
   ) => {
     setMedicineInput(newInputValue);
-    console.log('Handle Input Change', newInputValue)
+    console.log("Handle Input Change", newInputValue);
   };
-
+  console.log("selectedMedicine", selectedMedicine);
   return (
     <div>
+      <h1>Index {props.idx}</h1>
       <Autocomplete
         value={selectedMedicine}
         onChange={handleMedicineChange}
         inputValue={medicineInput}
         onInputChange={handleInputChange}
         id="controllable-states-demo"
-        options={medicineOptions}
-        
+        options={props.medicineOptions}
+        getOptionLabel={(entry: any) => `${entry.generic_drug}`}
         sx={{ width: 300 }}
         renderInput={(params) => <TextField {...params} label="Medicine" />}
       />
