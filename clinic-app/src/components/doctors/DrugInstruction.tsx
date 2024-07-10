@@ -17,7 +17,18 @@ const unitOptions = [
 export function DrugInstruction(props: {
   //step 1 props from the insertDIagnosisForm
   idx: number;
-  changeFn: (targetIndex: number, medicineName: string, unit:string ) => void;
+  changeFn: (
+    targetIndex: number,
+    medicineId: number,
+    unit: number,
+    quantity: any,
+    method: any,
+    periodDay: any,
+    periodHour: any,
+    frequencyPerDay: any,
+    dosagePerServing: any,
+    remarks: any
+  ) => any;
   medicineOptions: any;
 }) {
   const [medicineInput, setMedicineInput] = useState("");
@@ -26,27 +37,49 @@ export function DrugInstruction(props: {
   const [unitInput, setUnitInput] = useState("");
   const [unit, setUnit] = React.useState<any>();
 
-  const [totalQuantityInput, setTotalQuantityInput] = useState("");
+  const [quantityInput, setQuantityInput] = useState("");
+  const [quantity, setQuantity] = React.useState<any>();
+
   const [methodInput, setMethodInput] = useState("");
+  const [method, setMethod] = React.useState<any>();
+
   const [periodDayInput, setPeriodDayInput] = useState("");
+  const [periodDay, setPeriodDay] = React.useState<any>();
+
   const [periodHourInput, setPeriodHourInput] = useState("");
+  const [periodHour, setPeriodHOur] = React.useState<any>();
+
   const [frequencyPerDayInput, setFrequencyPerDayInput] = useState("");
+  const [frequencyPerDay, setFrequencyPerDay] = React.useState<any>();
+
   const [dosagePerServingInput, setDosagePerServingInput] = useState("");
+  const [dosagePerServing, setDosagePerServing] = React.useState<any>();
+
   const [remarksInput, setRemarksInput] = useState("");
+  const [remarks, setRemarks] = React.useState<any>();
+
   ///////////////////////////////////////////////////////////////////////////////////
   //step 3 The value from input field gets here onchange to newValue
   const handleMedChange = (
     event: React.SyntheticEvent<Element, Event>,
-    newMedicine: any,
-    newUnit: any
-
+    newMedicine: any
   ) => {
     console.log("MedicineChange", newMedicine);
     //step 4 internal state for value display
     setMedicine(newMedicine);
-    setUnit(newUnit);
     //step 5 bring back value to insertDiagnosisForm (to the IDF 4a)
-    props.changeFn(props.idx, newMedicine.id, newUnit);
+    props.changeFn(
+      props.idx,
+      newMedicine.id, //
+      unit,
+      quantity,
+      method,
+      periodDay,
+      periodHour,
+      frequencyPerDay,
+      dosagePerServing,
+      remarks
+    );
   };
 
   const handleUnitChange = (
@@ -55,7 +88,145 @@ export function DrugInstruction(props: {
   ) => {
     console.log("UnitChange", newUnit);
     setUnit(newUnit);
-    props.changeFn(props.idx, medicine.id, newUnit);
+    props.changeFn(
+      props.idx,
+      medicine.id,
+      newUnit,//
+      quantity,
+      method,
+      periodDay,
+      periodHour,
+      frequencyPerDay,
+      dosagePerServing,
+      remarks
+    );
+  };
+
+  const handleQuantityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newQuantity = event.target.value;
+    setQuantityInput(newQuantity);
+    props.changeFn(
+      props.idx,
+      medicine.id,
+      unit,
+      newQuantity,//
+      method, 
+      periodDay,
+      periodHour,
+      frequencyPerDay,
+      dosagePerServing,
+      remarks
+    );
+  };
+
+  const handleMethodChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newMethod = event.target.value;
+    setMethodInput(newMethod);
+    props.changeFn(
+      props.idx,
+      medicine.id,
+      unit,
+      quantity,
+      newMethod,//
+      periodDay,
+      periodHour,
+      frequencyPerDay,
+      dosagePerServing,
+      remarks
+    );
+  };
+
+  const handlePeriodDayChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const newPeriodDay = event.target.value;
+    setPeriodDayInput(newPeriodDay);
+    props.changeFn(
+      props.idx,
+      medicine.id,
+      unit,
+      quantity,
+      method,
+      newPeriodDay,//
+      periodHour,
+      frequencyPerDay,
+      dosagePerServing,
+      remarks
+    );
+  };
+
+  const handlePeriodHourChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const newPeriodHour = event.target.value;
+    setPeriodHourInput(newPeriodHour);
+    props.changeFn(
+      props.idx,
+      medicine.id,
+      unit,
+      quantity,
+      method,
+      periodDay,
+      newPeriodHour,//
+      frequencyPerDay,
+      dosagePerServing,
+      remarks
+    );
+  };
+
+  const handleFrequencyPerDayChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const newFrequencyPerDay = event.target.value;
+    setFrequencyPerDayInput(newFrequencyPerDay);
+    props.changeFn(
+      props.idx,
+      medicine.id,
+      unit,
+      quantity,
+      method,
+      periodDay,
+      periodHour,
+      newFrequencyPerDay,//
+      dosagePerServing,
+      remarks
+    );
+  };
+
+  const handleDosagePerServingChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const newDosagePerServing = event.target.value;
+    setDosagePerServingInput(newDosagePerServing);
+    props.changeFn(
+      props.idx,
+      medicine.id,
+      unit,
+      quantity,
+      method,
+      periodDay,
+      periodHour,
+      frequencyPerDay,
+      newDosagePerServing,//
+      remarks
+    );
+  };
+
+  const handleRemarksChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newRemarks = event.target.value;
+    setRemarksInput(newRemarks);
+    props.changeFn(
+      props.idx,
+      medicine.id,
+      unit,
+      quantity,
+      method,
+      periodDay,
+      periodHour,
+      frequencyPerDay,
+      dosagePerServing,
+      newRemarks//
+    );
   };
 
   return (
@@ -90,11 +261,11 @@ export function DrugInstruction(props: {
         renderInput={(params) => <TextField {...params} label="Unit" />}
       />
       <TextField
-        size={"small"}
+        size="small"
         name="totalQuantity"
         sx={{ width: 300, my: 0 }}
-        value={totalQuantityInput}
-        onChange={(e) => setTotalQuantityInput(e.target.value)}
+        value={quantityInput}
+        onChange={handleQuantityChange}
         margin="normal"
         required
         id="totalQuantity"
@@ -104,10 +275,11 @@ export function DrugInstruction(props: {
         type="number"
         inputProps={{ maxLength: 8 }}
       />
+      ;
       <TextField
         size={"small"}
         value={methodInput}
-        onChange={(e) => setMethodInput(e.target.value)}
+        onChange={handleMethodChange}
         name="methodInput"
         margin="normal"
         required
@@ -122,7 +294,7 @@ export function DrugInstruction(props: {
         name="periodDay"
         sx={{ width: 300, my: 0, mx: 0 }}
         value={periodDayInput}
-        onChange={(e) => setPeriodDayInput(e.target.value)}
+        onChange={handlePeriodDayChange}
         margin="normal"
         required
         id="periodDay"
@@ -137,7 +309,7 @@ export function DrugInstruction(props: {
         name="periodHour"
         sx={{ width: 300, my: 0 }}
         value={periodHourInput}
-        onChange={(e) => setPeriodHourInput(e.target.value)}
+        onChange={handlePeriodHourChange}
         margin="normal"
         required
         id="periodHour"
@@ -152,7 +324,7 @@ export function DrugInstruction(props: {
         name="frequencyPerDay"
         sx={{ width: 300, my: 0 }}
         value={frequencyPerDayInput}
-        onChange={(e) => setFrequencyPerDayInput(e.target.value)}
+        onChange={handleFrequencyPerDayChange}
         margin="normal"
         required
         id="frequencyPerDay"
@@ -167,7 +339,7 @@ export function DrugInstruction(props: {
         name="dosagePerServing"
         sx={{ width: 300, my: 0 }}
         value={dosagePerServingInput}
-        onChange={(e) => setDosagePerServingInput(e.target.value)}
+        onChange={handleDosagePerServingChange}
         margin="normal"
         required
         id="dosagePerServing"
@@ -180,7 +352,7 @@ export function DrugInstruction(props: {
       <TextField
         size={"small"}
         value={remarksInput}
-        onChange={(e) => setRemarksInput(e.target.value)}
+        onChange={handleRemarksChange}
         name="remarksInput"
         margin="normal"
         required
