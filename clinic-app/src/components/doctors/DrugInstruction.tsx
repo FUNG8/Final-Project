@@ -47,7 +47,7 @@ export function DrugInstruction(props: {
   const [periodDay, setPeriodDay] = React.useState<any>();
 
   const [periodHourInput, setPeriodHourInput] = useState("");
-  const [periodHour, setPeriodHOur] = React.useState<any>();
+  const [periodHour, setPeriodHour] = React.useState<any>();
 
   const [frequencyPerDayInput, setFrequencyPerDayInput] = useState("");
   const [frequencyPerDay, setFrequencyPerDay] = React.useState<any>();
@@ -105,11 +105,12 @@ export function DrugInstruction(props: {
   const handleQuantityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newQuantity = event.target.value;
     setQuantityInput(newQuantity);
+    setQuantity(newQuantity); 
     props.changeFn(
       props.idx,
       medicine.id,
       unit,
-      newQuantity,//
+      newQuantity,  //
       method, 
       periodDay,
       periodHour,
@@ -122,6 +123,8 @@ export function DrugInstruction(props: {
   const handleMethodChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newMethod = event.target.value;
     setMethodInput(newMethod);
+    setMethod(newMethod); 
+
     props.changeFn(
       props.idx,
       medicine.id,
@@ -141,6 +144,7 @@ export function DrugInstruction(props: {
   ) => {
     const newPeriodDay = event.target.value;
     setPeriodDayInput(newPeriodDay);
+    setPeriodDay(newPeriodDay)
     props.changeFn(
       props.idx,
       medicine.id,
@@ -160,6 +164,7 @@ export function DrugInstruction(props: {
   ) => {
     const newPeriodHour = event.target.value;
     setPeriodHourInput(newPeriodHour);
+    setPeriodHour(newPeriodHour)
     props.changeFn(
       props.idx,
       medicine.id,
@@ -179,6 +184,7 @@ export function DrugInstruction(props: {
   ) => {
     const newFrequencyPerDay = event.target.value;
     setFrequencyPerDayInput(newFrequencyPerDay);
+    setFrequencyPerDay(newFrequencyPerDay);
     props.changeFn(
       props.idx,
       medicine.id,
@@ -198,6 +204,7 @@ export function DrugInstruction(props: {
   ) => {
     const newDosagePerServing = event.target.value;
     setDosagePerServingInput(newDosagePerServing);
+    setDosagePerServing(newDosagePerServing);
     props.changeFn(
       props.idx,
       medicine.id,
@@ -215,6 +222,7 @@ export function DrugInstruction(props: {
   const handleRemarksChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newRemarks = event.target.value;
     setRemarksInput(newRemarks);
+    setRemarks(newRemarks)
     props.changeFn(
       props.idx,
       medicine.id,
@@ -266,6 +274,7 @@ export function DrugInstruction(props: {
         sx={{ width: 300, my: 0 }}
         value={quantityInput}
         onChange={handleQuantityChange}
+        
         margin="normal"
         required
         id="totalQuantity"
