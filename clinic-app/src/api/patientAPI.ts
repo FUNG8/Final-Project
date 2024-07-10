@@ -202,6 +202,25 @@ export function useNumberWaitingList() {
     return data
 }
 
+export function useCompletedPatientNumber() {
+
+
+    const { isLoading, error, data, isFetching } = useQuery({
+        queryKey: ["CompletedPatientNumber"],
+        queryFn: async () => {
+            const res = await fetch(`${process.env.REACT_APP_API_SERVER}/homePatient/completedPatientNumber`);
+            const result = await res.json();
+            console.log("this is patient waiting List",result.data)
+            return { status: "success", result: result.data };
+        },
+    });
+    if (isLoading || isFetching || error || !data) {
+        return { status: "loading" }
+    }
+
+    return data
+}
+
 
 export function usePatientWaitingList() {
 
@@ -239,4 +258,24 @@ export function useWaitingTime() {
     }
 
     return data
+}
+
+
+
+export async function NextConsultingPatient() {
+
+    let updateResponse = await fetch(`${process.env.REACT_APP_API_SERVER}/homePatient/consultingPatient`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        }
+    })
+
+    if (!updateResponse.ok) {
+        throw new Error(`HTTP error ${updateResponse.status}`);
+    }
+
+    const result = await updateResponse.json();
+    console.log("what's the result aaaaaa",result)
+    return result.message;
 }

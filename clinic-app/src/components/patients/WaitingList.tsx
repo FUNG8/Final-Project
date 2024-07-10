@@ -17,6 +17,30 @@ import { Button } from '@mui/material';
 
 JavascriptTimeAgo.addDefaultLocale(en);
 
+// interface PatientWaitingList {
+//   status: string;
+//   result?: {
+//     waitingList: {
+//       firstName: string,
+//       lastName: string,
+//       timestamp: string,
+//     },
+//     nextPatient: {
+//       id: number,
+//       firstName: string,
+//       lastName: string,
+//       status: string
+//     }
+//   }[];
+// }
+
+interface PatientWaitingTime {
+  status: string;
+  result?: {
+    timestamp: string;
+  }[];
+}
+
 interface PatientWaitingList {
   status: string;
   result?: {
@@ -26,18 +50,11 @@ interface PatientWaitingList {
   }[];
 }
 
-interface PatientWaitingTime {
-  status: string;
-  result?: {
-    timestamp: string;
-  }[];
-}
-
 
 
 export default function WaitingList() {
   const patientWaitingList: PatientWaitingList = usePatientWaitingList();
-  console.log(patientWaitingList.result?.[0]?.firstName);
+  console.log("this is patient waiting list", (patientWaitingList as any));
 
 
   const [waitingList, setWaitingList] = React.useState([
@@ -101,26 +118,29 @@ export default function WaitingList() {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {/* {patientWaitingList.result?.map((row: any) => ( */}
-                  {waitingList.map((row: any) => (
-                    <Draggable key={row.id} draggableId={`patient-${row.id}`} index={row.queue_position} >
-                      {(provided: any) => (
-                        <TableRow
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                          ref={provided.innerRef}
-                          sx={{ '&:last-child td, &:last-child th': { border: 0, height: 20 } }}
-                        >
-                          <TableCell component="th" scope="row">
-                            {row.firstName}
-                          </TableCell>
-                          <TableCell>{row.lastName}</TableCell>
-                          <TableCell>
-                            <TimeAgo date={row.timestamp} />
-                          </TableCell>
-                        </TableRow>
-                      )}
-                    </Draggable>
+
+                  {/* {waitingList.map((row: any) => ( */}
+                  {patientWaitingList.result?.map((row: any) => (
+                    row.status === "waiting" ? (
+                      <Draggable key={row.id} draggableId={`patient-${row.id}`} index={row.queue_position}>
+                        {(provided: any) => (
+                          <TableRow
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                            ref={provided.innerRef}
+                            sx={{ '&:last-child td, &:last-child th': { border: 0, height: 20 } }}
+                          >
+                            <TableCell component="th" scope="row">
+                              {row.firstName}
+                            </TableCell>
+                            <TableCell>{row.lastName}</TableCell>
+                            <TableCell>
+                              <TimeAgo date={row.timestamp} />
+                            </TableCell>
+                          </TableRow>
+                        )}
+                      </Draggable>
+                    ) : null
                   ))}
                 </TableBody>
               </Table>

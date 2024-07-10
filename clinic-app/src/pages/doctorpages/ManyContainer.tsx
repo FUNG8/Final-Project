@@ -21,7 +21,7 @@ export default function ManyContainer() {
                 <div className='inSmContainer'>{(totalQueue as any).result?.count}</div>
             </div>
             <div className='smallContainer'>Completed
-                <div className='inSmContainer'>6</div>
+                <div className='inSmContainer'>123</div>
             </div>
         </div>
 
