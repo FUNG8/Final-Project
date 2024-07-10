@@ -8,30 +8,58 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Button } from '@mui/material';
+import { NextConsultingPatient, usePatientWaitingList } from '../../api/patientAPI';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { TabUnselected } from '@mui/icons-material';
+import { useState } from 'react';
 
 
 
 
-function createData(
-  first_name: string,
-  last_name: string,
-) {
-  return { first_name, last_name ,status: 'Consulting'};
+interface PatientWaitingList {
+  status: string;
+  consulting?: {
+    id: string;
+    firstName: string;
+    lastName: string;
+    status: string;
+  }[];
 }
 
-const initialRows = [
-    createData('Sunny', 'Bay'),
-    createData('Mary', 'Lam'),
-  ];
+export default function ConsultingList() {
+  const [isButtonClicked, setIsButtonClicked] = useState(false);
+  const [showCompleted, setShowCompleted] = useState(false);
 
-export default function BasicTable() {
-    const [rows, setRows] = React.useState(initialRows);
+  const patientWaitingList: PatientWaitingList = usePatientWaitingList();
+  console.log("showmeeeee showmeeee showwww showww meeee", (patientWaitingList as any));
 
-    const handleStatusChange = (index: number) => {
-      const newRows = [...rows];
-      newRows[index].status = 'Complete';
-      setRows(newRows);
-    };
+  const queryClient = useQueryClient()
+
+  const updatingNextPatient = useMutation({
+    mutationFn: async () => NextConsultingPatient(),
+    onSuccess: (message: any) => {
+      console.log(message);
+      // invalidate query so to update the page immediately
+      queryClient.invalidateQueries({ queryKey: ["PatientWaitingList"] });
+      queryClient.invalidateQueries({ queryKey: ["NumberWaitingList"] });
+      queryClient.invalidateQueries({ queryKey: ["CompletedPatientNumber"] });
+
+    },
+  });
+  console.log("this is the updating Next Patient message:", updatingNextPatient)
+
+  React.useEffect(() => {
+    if (isButtonClicked) {
+      const interval = setInterval(() => {
+        console.log('Interval callback');
+        clearInterval(interval);
+      }, 2000);
+
+      return () => {
+        clearInterval(interval);
+      };
+    }
+  }, [isButtonClicked]);
 
   return (
     <TableContainer component={Paper} style={{ maxHeight: 400 }}>
@@ -44,27 +72,43 @@ export default function BasicTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row, index) => (
-            <TableRow
-              key={row.last_name}
-              sx={{ '&:last-child td, &:last-child th': { border: 0,height:20 } }}
-            >
-              
-              <TableCell component="th" scope="row">
-                {row.first_name}
-              </TableCell>
-              <TableCell>{row.last_name}</TableCell>
-              <TableCell>
-              {row.status === 'Consulting' ? (
-                  <Button sx={{margin:0}} variant="contained" size="small" onClick={() => handleStatusChange(index)}>Consulting</Button>
-                ) : (
-                  'Complete'
-                )}
-              </TableCell>
-            </TableRow>
+          {(patientWaitingList as any).result?.map((patient: any) => (
+            patient.status === "consulting" ? (
+              <TableRow
+                key={patient.id}
+                sx={{ '&:last-child td, &:last-child th': { border: 0, height: 20 } }}
+              >
+                <TableCell component="th" scope="row">
+                  {patient.firstName}
+                </TableCell>
+                <TableCell>{patient.lastName}</TableCell>
+                <TableCell>
+                  <TableCell>
+                    {showCompleted ? (
+                      <span>Completed</span>
+                    ) : (
+                      <Button
+                        sx={{ margin: 0 }}
+                        variant="contained"
+                        size="small"
+                        onClick={() => {
+                          updatingNextPatient.mutate();
+                          setIsButtonClicked(true);
+                          setShowCompleted(true);
+                          setTimeout(() => setShowCompleted(false), 2000);
+                        }}
+                      >
+                        Consulting
+                      </Button>
+                    )}
+                  </TableCell>
+                </TableCell>
+              </TableRow>
+            ) : null
           ))}
         </TableBody>
       </Table>
     </TableContainer>
   );
 }
+

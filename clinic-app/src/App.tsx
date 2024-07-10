@@ -6,14 +6,15 @@ import DoctorLogin from "./pages/doctorpages/DoctorLogin";
 import PatientLogin from "./pages/patientpages/PatientLogin";
 import Patient from "./pages/doctorpages/Patient";
 import Medicine from "./pages/doctorpages/Medicine";
+import Notification from "./pages/patientpages/Notification";
+import MedicineConfirmation from "./pages/patientpages/MedicineConfirmation";
 import Profile from "./pages/patientpages/ProfilePage";
-import Setting from "./pages/patientpages/Setting";
+
 
 import PatientAuthGuard from "./pages/patientpages/PatientAuthGuard";
 import { DoctorAuthGuard } from "./pages/doctorpages/AuthGuard";
 import { LandingPage } from "./LandingPage";
 import { ShowPatientInfo } from "./components/ShowPatientInfo";
-// import { ThemeProvider } from "styled-components";
 import PatientInfo from "./pages/doctorpages/PatientInfo";
 import { useThemeContext } from "./theme/ThemeContextProvider";
 
@@ -54,8 +55,8 @@ function App() {
 
               <Route path="/patient" element={<PatientAuthGuard />}>
                 <Route path="notification" element={<NotificationPage />} />
+                <Route path="MedicineConfirmation" element={<MedicineConfirmation />} />
                 <Route path="profile" element={<Profile  />} />
-                <Route path="setting" element={<Setting />} />
               </Route>
             </Routes>
           </div>

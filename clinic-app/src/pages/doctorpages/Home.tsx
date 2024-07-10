@@ -9,7 +9,7 @@ import { Username } from "../../components/patients/Username";
 import HomeTable from "../../components/patients/HomeTable";
 import MedicineConsumption from "../../components/doctors/MedicineConsumption";
 import PatientNumber from "../../components/doctors/PatientNumber";
-import { useNumberWaitingList } from "../../api/patientAPI";
+import { useCompletedPatientNumber, useNumberWaitingList } from "../../api/patientAPI";
 
 const icon = (
   <Paper sx={{ m: 1, width: 100, height: 100 }} elevation={4}>
@@ -28,6 +28,11 @@ const icon = (
 );
 
 interface TotalQueue {
+  status: string
+  result?: string[]
+}
+
+interface CompletedQueue {
   status: string
   result?: string[]
 }
@@ -60,6 +65,8 @@ export default function Home() {
   // }));
 
   const totalQueue: TotalQueue = useNumberWaitingList()
+  const completedQueue: CompletedQueue = useCompletedPatientNumber()
+  console.log("this is completed Queue number", completedQueue)
 
   return (
     <Grid container justifyContent="center" alignItems="center" height="50vh">
@@ -92,7 +99,7 @@ export default function Home() {
                 </div>
                 <Paper>
                   <Typography variant="h5" fontWeight="bold">
-                    100
+                    {(completedQueue as any).result?.count}
                   </Typography>
                 </Paper>
               </Paper>

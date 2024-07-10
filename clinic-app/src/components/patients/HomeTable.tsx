@@ -57,7 +57,7 @@ export default function WaitingList() {
     }
 
     const updatedList = Array.from(waitingList.result!);
-    
+
     const [removed] = updatedList.splice(result.source.index, 1);
     console.log("check removed", removed, result.source.index);
     console.log(result.destination.index);
@@ -92,8 +92,8 @@ export default function WaitingList() {
                 </TableRow>
               </TableHead>
               <TableBody ref={provided.innerRef} {...provided.droppableProps}>
-                {waitingList.result!.map((row, index) => (
-                  <Draggable
+                {waitingList.result!.map((row: any, index) => (
+                  row.status == "waiting" ? <Draggable
                     key={row.ticket_id}
                     draggableId={`patient-${row.ticket_id}`}
                     index={index}
@@ -119,7 +119,7 @@ export default function WaitingList() {
                         </TableCell>
                       </TableRow>
                     )}
-                  </Draggable>
+                  </Draggable> : <></>
                 ))}
                 {provided.placeholder}
               </TableBody>

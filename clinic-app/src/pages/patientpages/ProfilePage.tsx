@@ -39,11 +39,15 @@ export default function Profile() {
     ? formatDate(profileDetails.result.birth_date)
     : 'Date not available';
 
+    const formattedDiagnosisDate = diagnosisDetails && diagnosisDetails.created_at
+    ? formatDate(diagnosisDetails.created_at)
+    : 'Date not available';
+
   return (
     <div>
       <PatientBanner />
       <PatientProfileBar />
-      <div className="ticketContainer">Your Ticket Number : ticket_number </div>
+      <div className="ticketContainer">Your Ticket Number : 10 </div>
       {profileDetails.status === "success" ?
         <Grid container spacing={2} sx={{ mt: 1 }}>
           <Grid item xs={12} md={6}>
@@ -99,7 +103,8 @@ export default function Profile() {
               <Grid container spacing={3} sx={{ padding: 1, fontFamily: "monospace", fontSize: 18, ml: 1 }}>
                 <Grid item xs={12} sm={6}>
                   <div className="detailsContainer">
-                    Date: {diagnosisDetails ? diagnosisDetails.created_at : " "}
+                    Date: {formattedDiagnosisDate}
+                    {/* Date: {diagnosisDetails ? diagnosisDetails.created_at : " "} */}
                   </div>
                 </Grid>
                 <Grid item xs={12} sm={6}>

@@ -1,5 +1,5 @@
 import express from 'express'
-import { pgClient } from './pgCLients';
+
 import Knex from 'knex';
 
 
@@ -76,6 +76,7 @@ app.use("/patientProfile",patientProfileController.router)
 app.use("/drugShape",drugShapeController.router)
 app.use("/diagnosis",diagnosisController.router)
 app.use("/homePatient", homePatientController.router)
+app.use("/patientDiagnosis", patientDiagnosisController.router)
 
 
 

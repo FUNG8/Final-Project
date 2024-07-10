@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./PatientProfileBar.scss";
 import { Dropdown } from "@mui/base/Dropdown";
 import { Menu } from "@mui/base/Menu";
@@ -10,14 +10,27 @@ import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import { Unstable_Popup as BasePopup } from '@mui/base/Unstable_Popup';
 import { login } from "../../api/patientAuthAPI";
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { Token } from "@mui/icons-material";
+import { jwtDecode } from "jwt-decode";
+import ProfileChangeBox from "./ProfileChangeBox";
 
+
+interface User {
+    firstName: string;
+    lastName: string;
+}
+
+interface DecodedToken {
+    userId: number;
+    firstName: string;
+    lastName: string;
+    hkid: string;
+}
 
 export default function PatientProfileBar() {
     const [hkidInput, setHkidInput] = useState("");
     const [passwordInput, setPasswordInput] = useState("");
-    const [users, setUsers] = useState([{ firstName: '', lastName: '', token: '' }]);
-    const [currentUser, setCurrentUser] = useState({ Token });
+    const [users, setUsers] = useState<User[]>([]);;
+    const [currentUser, setCurrentUser] = useState<User | null>(null);;
     const [errorMessage, setErrorMessage] = useState('');
     const [anchor, setAnchor] = useState<null | HTMLElement>(null);
     const queryClient = useQueryClient();
@@ -26,7 +39,7 @@ export default function PatientProfileBar() {
     const onLogin = useMutation({
         mutationFn: async (data: { hkid: string; password: string }) =>
             login(data.hkid, data.password),
-        onSuccess: (data) => {
+        onSuccess: (data: string) => {
             console.log("On success checking", data);
             localStorage.setItem("patientToken", data);
             let tokenArrayString: string | null = localStorage.getItem("tokenArray")
@@ -35,10 +48,15 @@ export default function PatientProfileBar() {
                 let tokenArray: Array<string> = JSON.parse(tokenArrayString)
                 localStorage.setItem("tokenArray", JSON.stringify([...tokenArray, data]))
             }
+            const decoded: DecodedToken = jwtDecode(data);
+            setUsers((prevUsers) => [
+                ...prevUsers,
+                {
+                    firstName: decoded.firstName,
+                    lastName: decoded.lastName,
+                },
+            ]);
 
-            setUsers([...users, {
-                firstName: '', lastName: '', token: ''
-            }]);
 
             queryClient.invalidateQueries({ queryKey: ["authStatus", "profileData"] });
             setHkidInput('');
@@ -59,11 +77,7 @@ export default function PatientProfileBar() {
         onLogin.mutate({ hkid: hkidInput, password: passwordInput });
     };
 
-    const handleSwitchAccount = (user: { firstName: string, lastName: string }) => {
-        setCurrentUser({ Token });
-        // localStorage.setItem("patientToken",Token );
-        console.log(`Switched to ${user.firstName + user.lastName}`);
-    };
+
 
     const simplePopUp = (event: React.MouseEvent<HTMLElement>) => {
         setAnchor(anchor ? null : event.currentTarget);
@@ -72,6 +86,7 @@ export default function PatientProfileBar() {
     const open = Boolean(anchor);
     const id = open ? 'simple-popup' : undefined;
 
+    
     return (
         <div id="mainContainer">
             <div className="profileBox">PROFILE</div>
@@ -81,9 +96,13 @@ export default function PatientProfileBar() {
                         Switch Account<VpnKeyIcon sx={{ iconSize }} />
                     </MenuButton>
                     <Menu slots={{ listbox: Listbox }}>
+
+                        <ProfileChangeBox />
+
                         <MenuItem className="switchListItem" onClick={simplePopUp}>
                             Add Account<PersonAddIcon />
                         </MenuItem>
+
                         <BasePopup id={id} open={open} anchor={anchor}>
                             <PopupBody>
                                 <form onSubmit={handleFormSubmit}>
@@ -110,23 +129,14 @@ export default function PatientProfileBar() {
                                     </div>
                                     <button className="switchAccButt" type="submit">Submit</button>
                                 </form>
+                                {errorMessage && <div>{errorMessage}</div>}
                             </PopupBody>
                         </BasePopup>
-                        {users.map((user, index) => (
-                            user.firstName && user.lastName && (
-                                <MenuItem
-                                    className="switchListItem"
-                                    key={index}
-                                    onClick={() => handleSwitchAccount(user)}
-                                >
-                                    {`${user.firstName} ${user.lastName}`}
-                                </MenuItem>
-                            )
-                        ))}
+
                     </Menu>
                 </div>
             </Dropdown>
-            {errorMessage && <div className="error">{errorMessage}</div>}
+
         </div>
     );
 }
