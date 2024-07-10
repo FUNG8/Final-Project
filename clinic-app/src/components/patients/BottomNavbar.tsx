@@ -47,6 +47,13 @@ export default function BottomNavbar() {
             icon={<AccountCircleIcon />}
           />
           <BottomNavigationAction
+            label="Ticket"
+            onClick={() => {
+              navigate("/patient/ticket");
+            }}
+            icon={<AccountCircleIcon />}
+          />
+          <BottomNavigationAction
             label="Notification"
             onClick={() => {
               navigate("/patient/notification");

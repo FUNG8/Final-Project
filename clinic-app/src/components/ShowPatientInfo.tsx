@@ -398,7 +398,7 @@ export function ShowPatientInfo() {
                   </Button>
 
                   <Button variant="contained" disableElevation>
-                    HISTORY
+                    RECORD
                   </Button>
                 </Stack>
               </Grid>
@@ -623,7 +623,7 @@ export function ShowPatientInfo() {
                   </Button>
 
                   <Button variant="contained" disableElevation>
-                    HISTORY
+                    RECORD
                   </Button>
                 </Stack>
               </Grid>

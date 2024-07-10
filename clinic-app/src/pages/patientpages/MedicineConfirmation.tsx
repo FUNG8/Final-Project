@@ -1,7 +1,7 @@
 import React from 'react';
 import Checkbox from '@mui/material/Checkbox';
 import Grid from '@mui/material/Grid';
-import { makeStyles } from '@mui/styles';
+import { makeStyles } from '@mui/styles'
 
 
 const useStyles:any = makeStyles({

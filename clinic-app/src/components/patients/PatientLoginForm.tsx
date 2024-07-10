@@ -16,21 +16,12 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
 import { useQueryClient } from '@tanstack/react-query';
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { login } from "../../api/patientAuthAPI";
+import logo from "../../image/logo.jpeg";
+import background from "../../image/patientloginBg.jpeg"
 
-function Copyright(props: any) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+
 
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
@@ -82,8 +73,9 @@ export default function PatientLoginForm() {
           xs={false}
           sm={4}
           md={7}
+          
           sx={{
-            backgroundImage: 'url(https://source.unsplash.com/random?wallpapers)',
+            backgroundImage: `url(${background})`,
             backgroundRepeat: 'no-repeat',
             backgroundColor: (t) =>
               t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
@@ -94,15 +86,15 @@ export default function PatientLoginForm() {
         <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
           <Box
             sx={{
-              my: 8,
-              mx: 4,
+              my: 18,
+              mx: 1,
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
             }}
           >
-            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-              <LockOutlinedIcon />
+            <Avatar sx={{ m: 1, bgcolor: 'secondary.main',width: '40%', height: '40%'  }}>
+            <img src={logo} alt="Logo" style={{ width: '100%', height: '100%' }} />
             </Avatar>
             <Typography component="h1" variant="h5">
               Sign in
@@ -150,7 +142,7 @@ export default function PatientLoginForm() {
 
                 </Grid>
               </Grid>
-              <Copyright sx={{ mt: 5 }} />
+              
             </Box>
           </Box>
         </Grid>

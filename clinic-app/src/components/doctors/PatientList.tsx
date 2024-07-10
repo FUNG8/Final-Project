@@ -10,7 +10,6 @@ import {
   Box,
   Button,
   styled,
-  makeStyles,
   Grid,
 } from "@mui/material";
 import Pagination from "@mui/material/Pagination";
@@ -96,6 +95,7 @@ export function ListPatients() {
               <TableBody>
                 {patients.status === "success" &&
                   (patients as any).patientResult.map((patient: any) => (
+                    
                     <TableRow
                       key={patient.id}
                       style={{

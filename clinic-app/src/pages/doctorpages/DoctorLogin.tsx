@@ -13,7 +13,6 @@ export default function DoctorLogin() {
   return (
     <div className="App">
       <header className="App-header">
-
       </header>
       <DoctorLogInForm />
     </div>

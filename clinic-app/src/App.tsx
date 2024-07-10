@@ -9,7 +9,7 @@ import Medicine from "./pages/doctorpages/Medicine";
 import Notification from "./pages/patientpages/Notification";
 import MedicineConfirmation from "./pages/patientpages/MedicineConfirmation";
 import Profile from "./pages/patientpages/ProfilePage";
-
+import TicketNumber from "./pages/patientpages/TicketNumber";
 
 import PatientAuthGuard from "./pages/patientpages/PatientAuthGuard";
 import { DoctorAuthGuard } from "./pages/doctorpages/AuthGuard";
@@ -57,6 +57,8 @@ function App() {
                 <Route path="notification" element={<NotificationPage />} />
                 <Route path="MedicineConfirmation" element={<MedicineConfirmation />} />
                 <Route path="profile" element={<Profile  />} />
+                <Route path="ticket" element={<TicketNumber  />} />
+
               </Route>
             </Routes>
           </div>

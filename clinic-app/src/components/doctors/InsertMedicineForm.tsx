@@ -16,6 +16,7 @@ import {
   Radio,
   RadioGroup,
   TextField,
+  Tooltip,
   Typography,
   createTheme,
 } from "@mui/material";
@@ -175,7 +176,9 @@ export default function InsertMedicineModal() {
         xs={12}
         sx={{ display: "flex", justifyContent: "center", margin: 2 }}
       >
+        <Tooltip title="Press here to insert new type of medicine">
         <TriggerButton onClick={handleOpen}>Insert Medicines</TriggerButton>
+        </Tooltip>
       </Grid>
       <Modal
         aria-labelledby="transition-modal-title"
