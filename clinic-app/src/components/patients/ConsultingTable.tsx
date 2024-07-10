@@ -51,10 +51,7 @@ export default function ConsultingList() {
   React.useEffect(() => {
     if (isButtonClicked) {
       const interval = setInterval(() => {
-        // Perform any desired actions here
         console.log('Interval callback');
-
-        // Clear the interval after 3 seconds
         clearInterval(interval);
       }, 2000);
 

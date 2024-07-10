@@ -1,7 +1,6 @@
 import React from 'react';
 import Button from '@mui/material/Button';
 import SendIcon from '@mui/icons-material/Send';
-
 import { SendPatient } from './SendPatient';
 import { useSnackbar } from 'notistack';
 
@@ -40,9 +39,4 @@ const QueueButton: React.FC<QueueButtonProps> = ({ patientId }) => {
 
 export default QueueButton;
 
-
-
-// function useSnackbar(): { enqueueSnackbar: any; } {
-//   throw new Error('Function not implemented.');
-// }
 

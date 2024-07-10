@@ -6,7 +6,7 @@ import ConsultTable from "../../components/patients/ConsultingTable";
 import { Paper, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import { Username } from "../../components/patients/Username";
-import WaitingList from "../../components/patients/WaitingList";
+import HomeTable from "../../components/patients/HomeTable";
 import MedicineConsumption from "../../components/doctors/MedicineConsumption";
 import PatientNumber from "../../components/doctors/PatientNumber";
 import { useCompletedPatientNumber, useNumberWaitingList } from "../../api/patientAPI";
@@ -66,7 +66,7 @@ export default function Home() {
 
   const totalQueue: TotalQueue = useNumberWaitingList()
   const completedQueue: CompletedQueue = useCompletedPatientNumber()
-  console.log("this is completed Queue number",completedQueue)
+  console.log("this is completed Queue number", completedQueue)
 
   return (
     <Grid container justifyContent="center" alignItems="center" height="50vh">
@@ -119,15 +119,12 @@ export default function Home() {
                     Waiting List
                   </Typography>
                 </div>
-                <WaitingList />
+                <HomeTable />
               </Paper>
             </Grid>
           </Grid>
         </Box>
       </Grid>
-
-      <br></br>
-      <br></br>
       <Paper>
         <p>Number of Patients</p>
         <PatientNumber />

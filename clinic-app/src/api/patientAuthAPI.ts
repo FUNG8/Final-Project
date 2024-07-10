@@ -78,9 +78,13 @@ export async function login(hkidInput: string, passwordInput: string) {
     }
   );
 
-  let result = await res.json();
+  if(res.ok)
 
-  return result.token as string;
+{  let result = await res.json();
+
+  return result.token as string;}else{
+    throw Error("Login Failed")
+  }
 }
 
 export function logout() {

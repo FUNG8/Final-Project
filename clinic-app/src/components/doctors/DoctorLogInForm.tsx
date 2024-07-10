@@ -21,15 +21,13 @@ import { login } from "../../api/doctorAuthAPI";
 import landingpage from '../../image/landingpage.jpg'
 import { WidthFull } from '@mui/icons-material';
 
-function Copyright(props: any) {
+function PatientLoginLink(props: any) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
+
+      <Link color="inherit" href="https://localhost/8080/patientLogin">
+      Click here to our Patient site
       </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
     </Typography>
   );
 }
@@ -144,19 +142,7 @@ export default function DoctorLogInForm() {
               >
                 Sign In
               </Button>
-              <Grid container>
-                <Grid item xs>
-                  <Link href="#" variant="body2">
-                    Forgot password?
-                  </Link>
-                </Grid>
-                <Grid item>
-                  <Link href="#" variant="body2">
-                    {"Don't have an account? Sign Up"}
-                  </Link>
-                </Grid>
-              </Grid>
-              <Copyright sx={{ mt: 5 }} />
+              <PatientLoginLink sx={{ mt: 5 }} />
             </Box>
           </Box>
         </Grid>
