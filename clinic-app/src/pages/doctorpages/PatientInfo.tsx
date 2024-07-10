@@ -16,11 +16,13 @@ import InsertDiagnosisModal from "../../components/doctors/InsertDiagnosisForm";
 export default function PatientInfo() {
   return (
     <div className="App">
-      <InsertDiagnosisModal />
+      <Grid mx={5}>
+        <InsertDiagnosisModal />
 
-      <ShowPatientInfo />
+        <ShowPatientInfo />
 
-      <ListDiagnosis />
+        <ListDiagnosis />
+      </Grid>
     </div>
   );
 }

@@ -1,3 +1,4 @@
+import { BorderAll } from "@mui/icons-material";
 import { PaletteMode } from "@mui/material";
 import { amber, blue, deepOrange, grey } from "@mui/material/colors";
 
@@ -13,6 +14,7 @@ export const getDesignTokens = (mode: PaletteMode) => ({
     ...(mode === "light"
       ? {
           // palette values for light mode
+          
           primary: {
             main: "#1976d2", // a deeper blue
             light: "#63a4ff", // a lighter blue
@@ -26,12 +28,16 @@ export const getDesignTokens = (mode: PaletteMode) => ({
           divider: "#e0e0e0", // a light grey
           background: {
             default: "#f5f5f5", // a very light grey
+            main: "#1976d2", // a deeper blue
             paper: "#ffffff", // pure white
           },
           text: {
             primary: "#212121", // a dark grey
             secondary: "#757575", // a medium grey
           },
+          BorderAll:{
+            
+          }
         }
       : {
           // palette values for dark mode

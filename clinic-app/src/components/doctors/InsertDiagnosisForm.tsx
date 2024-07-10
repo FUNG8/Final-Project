@@ -158,9 +158,9 @@ export default function InsertDiagnosisModal() {
       <Grid
         sx={{ display: "flex", justifyContent: "center", margin: 2 }}
       >
-        <TriggerButton onClick={handleOpen}>
+        <Button variant="contained" onClick={handleOpen}>
           Insert Diagnosis Information
-        </TriggerButton>
+        </Button>
       </Grid>
 
       <Modal

@@ -7,7 +7,8 @@ import {
   TableHead,
   TableRow,
   Paper,
-  Box
+  Box,
+  Tooltip
 } from "@mui/material";
 import Pagination from "@mui/material/Pagination";
 import { useEffect, useState } from "react";
@@ -90,7 +91,7 @@ export function ListPatients() {
               <TableBody>
                 {patients.status === "success" &&
                   (patients as any).patientResult.map((patient: any) => (
-                    
+                    <Tooltip title="Click to see patient's diagnosis record" >
                     <TableRow
                       key={patient.id}
                       style={{
@@ -185,6 +186,7 @@ export function ListPatients() {
                         <QueueButton patientId={patient.id} />
                       </TableCell>
                     </TableRow>
+                    </Tooltip>
                   ))}
               </TableBody>
             </Table>

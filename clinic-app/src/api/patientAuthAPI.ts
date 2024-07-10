@@ -30,7 +30,7 @@ export default function useAuthStatusPatient() {
   return { status: "success", data: data };
 }
 
-export async function createPatient( hkid: string,
+export async function createPatient(hkid: string,
   password: string,
   firstName: string,
   lastName: string,
@@ -40,17 +40,17 @@ export async function createPatient( hkid: string,
   phone_number: string,
   emergency_name: string,
   emergency_contact: string,
-  created_at:string,
-  updated_at:string){
-    console.log("Ready to fetch,HKID is:" + hkid)
-    try{
+  created_at: string,
+  updated_at: string) {
+  console.log("Ready to fetch,HKID is:" + hkid)
+  try {
     let res = await fetch(` ${process.env.REACT_APP_API_SERVER}/patientAuth/createPatient`,
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ hkid,password,firstName,lastName,gender,blood,birth_date,phone_number,emergency_name,emergency_contact,created_at,updated_at }),
+        body: JSON.stringify({ hkid, password, firstName, lastName, gender, blood, birth_date, phone_number, emergency_name, emergency_contact, created_at, updated_at }),
       }
     )
     let result = await res.json();
@@ -59,11 +59,11 @@ export async function createPatient( hkid: string,
       throw new Error(result.message)
     }
     return result;
-  }catch(e){
+  } catch (e) {
     throw e
   }
-    
-  };
+
+};
 
 export async function login(hkidInput: string, passwordInput: string) {
   console.log("authAPI try to log in");
@@ -78,11 +78,11 @@ export async function login(hkidInput: string, passwordInput: string) {
     }
   );
 
-  if(res.ok)
+  if (res.ok) {
+    let result = await res.json();
 
-{  let result = await res.json();
-
-  return result.token as string;}else{
+    return result.token as string;
+  } else {
     throw Error("Login Failed")
   }
 }

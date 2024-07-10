@@ -1,4 +1,5 @@
 import * as React from "react";
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import clsx from "clsx";
 import { styled, css } from "@mui/system";
 import { Portal } from "@mui/base/Portal";
@@ -177,7 +178,7 @@ export default function InsertMedicineModal() {
         sx={{ display: "flex", justifyContent: "center", margin: 2 }}
       >
         <Tooltip title="Press here to insert new type of medicine">
-        <TriggerButton onClick={handleOpen}>Insert Medicines</TriggerButton>
+        <Button  variant={"contained"} onClick={handleOpen}><AddCircleOutlineIcon />  Insert Medicines</Button>
         </Tooltip>
       </Grid>
       <Modal

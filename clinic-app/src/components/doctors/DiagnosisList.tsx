@@ -100,7 +100,8 @@ export function ListDiagnosis() {
                     sx={{
                       marginBottom: 2,
                       padding: 2,
-                      backgroundColor: "#9a9ca1"
+                      backgroundColor: "#9a9ca1",
+                      color:"white"
                     }}
                   >
                     <Grid container sx={{ marginTop: 2, marginBottom: 2 }}>

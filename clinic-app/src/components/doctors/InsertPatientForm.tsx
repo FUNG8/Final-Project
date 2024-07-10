@@ -1,5 +1,7 @@
 // hahahahaha
 import * as React from "react";
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+
 import clsx from "clsx";
 import { styled, css } from "@mui/system";
 import { Portal } from "@mui/base/Portal";
@@ -26,7 +28,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import Button from "@mui/material/Button";
 import { useMutation } from "@tanstack/react-query";
 import { createPatient } from "../../api/patientAuthAPI";
-import {  useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import { MuiTelInput } from "mui-tel-input";
 
 const genderOptions = ["male", "female"];
@@ -54,7 +56,6 @@ export default function InsertPatientModal() {
     setPhoneNumberInput(newPhoneNumberInput);
   };
   const [emergencyNameInput, setEmergencyNameInput] = useState("");
-  //emergencyContact
   const [emergencyContactInput, setEmergencyContactInput] = React.useState("");
   const emergencyContactChange = (newEmergencyContactInput: React.SetStateAction<string>) => {
     setEmergencyContactInput(newEmergencyContactInput);
@@ -132,10 +133,10 @@ export default function InsertPatientModal() {
 
   return (
     <div>
-      <Grid xs={12} sx={{display:"flex",justifyContent:"center",margin:2}}>
-      <Tooltip title = "Are there new patients? create their first profile here!">
-      <TriggerButton onClick={handleOpen}>Create Patients</TriggerButton>
-      </Tooltip>
+      <Grid xs={12} sx={{ display: "flex", justifyContent: "center", margin: 2 }}>
+        <Tooltip title="Are there new patients? Create their first profile here!">
+          <Button variant={"contained"} onClick={handleOpen}><AddCircleOutlineIcon />Create Patients</Button>
+        </Tooltip>
       </Grid>
       <Modal
         aria-labelledby="transition-modal-title"
