@@ -105,6 +105,7 @@ export default function InsertDiagnosisModal() {
         medicine_id: null,
         medicine_name: null,
         total_quantity: null,
+        
       };
       //step 6b it will add the empty space to the step 3 constructed demoInstruction,
       //adding the object instruction into the array

@@ -21,10 +21,11 @@ export function DrugInstruction(props: {
   medicineOptions: any;
 }) {
   const [medicineInput, setMedicineInput] = useState("");
-  const [selectedMedicine, setSelectedMedicine] = React.useState<any>();
-  
+  const [medicine, setMedicine] = React.useState<any>();
+
   const [unitInput, setUnitInput] = useState("");
-  const [unit, setUnit] = React.useState<string | null>(unitOptions[0]);
+  const [unit, setUnit] = React.useState<any>();
+
   const [totalQuantityInput, setTotalQuantityInput] = useState("");
   const [methodInput, setMethodInput] = useState("");
   const [periodDayInput, setPeriodDayInput] = useState("");
@@ -32,34 +33,26 @@ export function DrugInstruction(props: {
   const [frequencyPerDayInput, setFrequencyPerDayInput] = useState("");
   const [dosagePerServingInput, setDosagePerServingInput] = useState("");
   const [remarksInput, setRemarksInput] = useState("");
-
-
-
-  
-
+  ///////////////////////////////////////////////////////////////////////////////////
   //step 3 The value from input field gets here onchange to newValue
   const handleMedicineChange = (
     event: React.SyntheticEvent<Element, Event>,
-    newValue: any
+    newMedicine: any
   ) => {
-    console.log("hihihi", newValue);
+    console.log("MedicineChange", newMedicine);
     //step 4 internal state for value display
-    setSelectedMedicine(newValue);
+    setMedicine(newMedicine);
     //step 5 bring back value to insertDiagnosisForm (to the IDF 4a)
-    props.changeFn(props.idx, newValue.id);
+    props.changeFn(props.idx, newMedicine.id);
   };
 
-  const handleFrequencyChange = (newValue: any) => {
-    // setFrequency()
-    // props.changeFn(props.idx,selectedMedicine.name)
-  };
-
-  const handleInputChange = (
+  const handleUnitChange = (
     event: React.SyntheticEvent<Element, Event>,
-    newInputValue: string
+    newUnit: any
   ) => {
-    setMedicineInput(newInputValue);
-    console.log("Handle Input Change", newInputValue);
+    console.log("UnitChange", newUnit);
+    setUnit(newUnit);
+    props.changeFn(props.idx, newUnit);
   };
 
   return (
@@ -67,10 +60,13 @@ export function DrugInstruction(props: {
       {/* step 2 get the props and make input fields, when value onchange it calls the handleMedChange function */}
       <h1>Index {props.idx}</h1>
       <Autocomplete
-        value={selectedMedicine}
+        size={"small"}
+        value={medicine}
         onChange={handleMedicineChange}
         inputValue={medicineInput}
-        onInputChange={handleInputChange}
+        onInputChange={(event, newInputValue) => {
+          setMedicineInput(newInputValue);
+        }}
         id="controllable-states-demo"
         options={props.medicineOptions}
         getOptionLabel={(entry: any) => `${entry.name}`}
@@ -78,10 +74,9 @@ export function DrugInstruction(props: {
         renderInput={(params) => <TextField {...params} label="Medicine" />}
       />
       <Autocomplete
+        size={"small"}
         value={unit}
-        onChange={(event: any, newunit: string | null) => {
-          setUnit(newunit);
-        }}
+        onChange={handleUnitChange}
         inputValue={unitInput}
         onInputChange={(event, newInputValue) => {
           setUnitInput(newInputValue);
@@ -92,8 +87,9 @@ export function DrugInstruction(props: {
         renderInput={(params) => <TextField {...params} label="Unit" />}
       />
       <TextField
+        size={"small"}
         name="totalQuantity"
-        sx={{ width: 300, mt: 0 }}
+        sx={{ width: 300, my: 0 }}
         value={totalQuantityInput}
         onChange={(e) => setTotalQuantityInput(e.target.value)}
         margin="normal"
@@ -106,20 +102,22 @@ export function DrugInstruction(props: {
         inputProps={{ maxLength: 8 }}
       />
       <TextField
+        size={"small"}
         value={methodInput}
         onChange={(e) => setMethodInput(e.target.value)}
         name="methodInput"
         margin="normal"
         required
-        fullWidth
         id="methodInput"
         label="Method"
         autoComplete="methodInput"
         autoFocus
+        sx={{ width: 300, my: 0 }}
       />
       <TextField
+        size={"small"}
         name="periodDay"
-        sx={{ width: 300, mt: 0 }}
+        sx={{ width: 300, my: 0, mx: 0 }}
         value={periodDayInput}
         onChange={(e) => setPeriodDayInput(e.target.value)}
         margin="normal"
@@ -130,10 +128,11 @@ export function DrugInstruction(props: {
         autoFocus
         type="number"
         inputProps={{ maxLength: 8 }}
-      />{" "}
+      />
       <TextField
+        size={"small"}
         name="periodHour"
-        sx={{ width: 300, mt: 0 }}
+        sx={{ width: 300, my: 0 }}
         value={periodHourInput}
         onChange={(e) => setPeriodHourInput(e.target.value)}
         margin="normal"
@@ -144,10 +143,11 @@ export function DrugInstruction(props: {
         autoFocus
         type="number"
         inputProps={{ maxLength: 8 }}
-      />{" "}
+      />
       <TextField
+        size={"small"}
         name="frequencyPerDay"
-        sx={{ width: 300, mt: 0 }}
+        sx={{ width: 300, my: 0 }}
         value={frequencyPerDayInput}
         onChange={(e) => setFrequencyPerDayInput(e.target.value)}
         margin="normal"
@@ -158,10 +158,11 @@ export function DrugInstruction(props: {
         autoFocus
         type="number"
         inputProps={{ maxLength: 8 }}
-      />{" "}
+      />
       <TextField
+        size={"small"}
         name="dosagePerServing"
-        sx={{ width: 300, mt: 0 }}
+        sx={{ width: 300, my: 0 }}
         value={dosagePerServingInput}
         onChange={(e) => setDosagePerServingInput(e.target.value)}
         margin="normal"
@@ -174,6 +175,7 @@ export function DrugInstruction(props: {
         inputProps={{ maxLength: 8 }}
       />
       <TextField
+        size={"small"}
         value={remarksInput}
         onChange={(e) => setRemarksInput(e.target.value)}
         name="remarksInput"
@@ -184,6 +186,7 @@ export function DrugInstruction(props: {
         label="Remarks"
         autoComplete="remarksInput"
         autoFocus
+        sx={{ width: 300, my: 0 }}
       />
     </div>
   );
