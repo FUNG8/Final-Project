@@ -54,13 +54,6 @@ export default function BottomNavbar() {
             icon={<NotificationsActiveIcon />}
           />
           <BottomNavigationAction
-            label="Settings"
-            onClick={() => {
-              navigate("/patient/setting");
-            }}
-            icon={<SettingsIcon />}
-          />
-          <BottomNavigationAction
             label="Log Out"
             onClick={logout}
             icon={<LogoutIcon />}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./PatientProfileBar.scss";
 import { Dropdown } from "@mui/base/Dropdown";
 import { Menu } from "@mui/base/Menu";
@@ -10,8 +10,9 @@ import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import { Unstable_Popup as BasePopup } from '@mui/base/Unstable_Popup';
 import { login } from "../../api/patientAuthAPI";
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { Token } from "@mui/icons-material";
 import { jwtDecode } from "jwt-decode";
+import ProfileChangeBox from "./ProfileChangeBox";
+
 
 interface User {
     firstName: string;
@@ -76,34 +77,7 @@ export default function PatientProfileBar() {
         onLogin.mutate({ hkid: hkidInput, password: passwordInput });
     };
 
-    const handleSwitchAccount = (user: User) => {
-        const tokenArrayString = localStorage.getItem("tokenArray");
-        if (tokenArrayString) {
-            const tokenArray: string[] = JSON.parse(tokenArrayString);
-            const userToken = tokenArray.find((data) => {
-                const decoded: DecodedToken = jwtDecode(data);
-                return (
-                    decoded.firstName === user.firstName &&
-                    decoded.lastName === user.lastName
-                );
-            });
-            if (userToken) {
-                const decoded: DecodedToken = jwtDecode(userToken);
-                const newUser = {
-                    firstName: decoded.firstName,
-                    lastName: decoded.lastName,
-                };
-                setCurrentUser(newUser);
-                localStorage.setItem("patientToken", userToken);
-                console.log(`Switched to ${newUser.firstName} ${newUser.lastName}`);
-                window.location.reload();
-            } else {
-                console.error("User not found in token array.");
-            }
-        } else {
-            console.error("Token array not found in localStorage.");
-        }
-    };
+
 
     const simplePopUp = (event: React.MouseEvent<HTMLElement>) => {
         setAnchor(anchor ? null : event.currentTarget);
@@ -112,6 +86,7 @@ export default function PatientProfileBar() {
     const open = Boolean(anchor);
     const id = open ? 'simple-popup' : undefined;
 
+    
     return (
         <div id="mainContainer">
             <div className="profileBox">PROFILE</div>
@@ -121,9 +96,13 @@ export default function PatientProfileBar() {
                         Switch Account<VpnKeyIcon sx={{ iconSize }} />
                     </MenuButton>
                     <Menu slots={{ listbox: Listbox }}>
+
+                        <ProfileChangeBox />
+
                         <MenuItem className="switchListItem" onClick={simplePopUp}>
                             Add Account<PersonAddIcon />
                         </MenuItem>
+
                         <BasePopup id={id} open={open} anchor={anchor}>
                             <PopupBody>
                                 <form onSubmit={handleFormSubmit}>
@@ -153,15 +132,7 @@ export default function PatientProfileBar() {
                                 {errorMessage && <div>{errorMessage}</div>}
                             </PopupBody>
                         </BasePopup>
-                        {users.map((user) => (
-                            <MenuItem
-                                className="switchListItem"
-                                onClick={() => handleSwitchAccount(user)}
-                                key={`${user.firstName}-${user.lastName}`}
-                            >
-                                {`${user.firstName} ${user.lastName}`}
-                            </MenuItem>
-                        ))}
+
                     </Menu>
                 </div>
             </Dropdown>

@@ -123,7 +123,7 @@ export async function seed(knex: Knex): Promise<void> {
     {
       name: "High Blood Pressure",
       doctor_id: 2,
-      patient_id: 1,
+      patient_id: 3,
       remarks: "Patient has elevated blood pressure, monitoring required.",
       created_at: new Date(),
       updated_at: new Date(),
