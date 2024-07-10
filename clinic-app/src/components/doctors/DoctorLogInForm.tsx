@@ -18,14 +18,13 @@ import { useMutation } from '@tanstack/react-query';
 import { queryClient } from '../..';
 import { FormEvent, useState } from 'react';
 import { login } from "../../api/doctorAuthAPI";
-import landingpage from '../../image/landingpage.jpg'
-import { WidthFull } from '@mui/icons-material';
+import DesignerImage from '../../image/Designer.jpeg';
 
 function PatientLoginLink(props: any) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
 
-      <Link color="inherit" href="https://localhost/8080/patientLogin">
+      <Link color="inherit" href="http://localhost:3000/patientLogin">
       Click here to our Patient site
       </Link>{' '}
     </Typography>
@@ -78,7 +77,7 @@ export default function DoctorLogInForm() {
           sm={4}
           md={7}
           sx={{
-            backgroundImage: 'url(/src/image/landingpage.jpg)',
+            backgroundImage: `url(${DesignerImage})`,
             backgroundRepeat: 'no-repeat',
             backgroundColor: (t) =>
               t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
@@ -90,8 +89,8 @@ export default function DoctorLogInForm() {
         <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
           <Box
             sx={{
-              my: 8,
-              mx: 4,
+              my: 20,
+              mx: 5,
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
