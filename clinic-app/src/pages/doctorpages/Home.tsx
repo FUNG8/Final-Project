@@ -55,18 +55,9 @@ export default function Home() {
     };
   }, []);
 
-  // const Paper = styled(Paper)(({ theme }) => ({
-  //   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-  //   ...theme.typography.body2,
-  //   padding: theme.spacing(1),
-  //   textAlign: 'center',
-  //   color: theme.palette.text.secondary,
-  //   margin: 8
-  // }));
-
   const totalQueue: TotalQueue = useNumberWaitingList()
   const completedQueue: CompletedQueue = useCompletedPatientNumber()
-  console.log("this is completed Queue number", completedQueue)
+  console.log("this is completed Queue number", (totalQueue as any).result)
 
   return (
     <Grid container justifyContent="center" alignItems="center" height="50vh">

@@ -202,6 +202,7 @@ export function useNumberWaitingList() {
     return data
 }
 
+
 export function useCompletedPatientNumber() {
 
 

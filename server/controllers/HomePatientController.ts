@@ -23,6 +23,7 @@ export class HomePatientController {
 
   allWaitingList = async (req: Request, res: Response) => {
     try {
+
       const waitingQueue = (await pgClient.query('SELECT COUNT(status) FROM tickets WHERE status = $1;', ['waiting'])).rows[0]
 
       if (!waitingQueue) {
@@ -44,7 +45,7 @@ export class HomePatientController {
   CompletedPatientNumber = async (req: Request, res: Response) => {
     try {
       const completedQueue = (await pgClient.query('SELECT COUNT(status) FROM tickets WHERE status = $1;', ['completed'])).rows[0]
-      console.log("showmeeee what's that", completedQueue)
+      // console.log("showmeeee what's that", completedQueue)
 
       if (!completedQueue) {
         res.status(404).json({ message: "No patient details found" });
@@ -66,43 +67,22 @@ export class HomePatientController {
   InsertIntoWaitingList = async (req: Request, res: Response) => {
     try {
       const { patientId } = req.body;
-      console.log("what's that broooo finallll", patientId);
 
       //find out the MAX number of the ticket Number of the tickets table at the moment so to increase one to insert into the next patient ticket number.
       let ticketNumber = (
         await pgClient.query(`SELECT MAX(ticket_number) from tickets`)
       ).rows[0].max;
-      console.log("what is the ticketnumber at the moment:", ticketNumber);
       let NewTicketNumber = ticketNumber + 1;
-      console.log("can you show me the new ticket number:", NewTicketNumber);
-      let AssigningTicket = await pgClient.query(
+      await pgClient.query(
         `INSERT INTO tickets (patient_id, ticket_number) VALUES ($1,$2);`,
         [patientId, NewTicketNumber]
       );
-      console.log("you've inserted into queue!!!!", AssigningTicket);
 
       // find out how many patients that the status are waiting and consulting at the moment, then inserting into queue position
       let theLastTicketNumebr = (await pgClient.query(`SELECT COUNT(*) from tickets where status = 'waiting' OR status = 'consulting';`)).rows[0].count
       let ticketId = (await pgClient.query(`SELECT MAX(id) from tickets;`)).rows[0].max
       let newTicketId = + ticketId
       let queuePosition = await pgClient.query(`INSERT INTO queue (ticket_id,queue_position) VALUES ($1,$2);`, [newTicketId, theLastTicketNumebr])
-      console.log("does it successully insert into queuePosition????", queuePosition)
-      // let theLastTicketNumebr = (
-      //   await pgClient.query(
-      //     `SELECT COUNT(*) from tickets where status = 'waiting' OR status = 'consulting';`
-      //   )
-      // ).rows[0].count;
-      // let ticketId = (await pgClient.query(`SELECT MAX(id) from tickets;`))
-      //   .rows[0].max;
-      // let newTicketId = +ticketId;
-      // let queuePosition = await pgClient.query(
-      //   `INSERT INTO queue (ticket_id,queue_position) VALUES ($1,$2);`,
-      //   [newTicketId, theLastTicketNumebr]
-      // );
-      // console.log(
-      //   "does it successully insert into queuePosition????",
-      //   queuePosition
-      // );
 
       const response = {
         message: "Patient inserted successfully",
@@ -210,15 +190,3 @@ export class HomePatientController {
 
   }
 }
-
-
-
-
-
-
-// patientWaitingTime = async (req: Request, res: Response) => {
-//   try {
-//     const waitingTime = (await pgClient.query('select "timestamp" from tickets;')).rows
-//     console.log("this is patient waitingTime on the queue",waitingTime)
-
-
