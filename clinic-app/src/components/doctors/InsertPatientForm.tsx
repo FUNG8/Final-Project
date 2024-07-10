@@ -10,11 +10,7 @@ import { ThemeProvider } from "styled-components";
 import {
   Autocomplete,
   Box,
-  Checkbox,
-  Container,
   CssBaseline,
-  FormControlLabel,
-  FormGroup,
   Grid,
   TextField,
   Tooltip,
@@ -30,7 +26,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import Button from "@mui/material/Button";
 import { useMutation } from "@tanstack/react-query";
 import { createPatient } from "../../api/patientAuthAPI";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import {  useQueryClient } from "@tanstack/react-query";
 import { MuiTelInput } from "mui-tel-input";
 
 const genderOptions = ["male", "female"];

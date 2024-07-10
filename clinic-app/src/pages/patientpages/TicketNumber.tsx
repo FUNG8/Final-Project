@@ -1,5 +1,5 @@
-import { Box, Container, Grid } from "@mui/material";
-import ticket from "../../image/ticket.jpg"
+import { Box, Container } from "@mui/material";
+// import ticket from "../../image/ticket.jpg"
 import PatientBanner from "../../components/patients/PatientBanner";
 
 export default function TicketNumber() {

@@ -1,6 +1,5 @@
-import { Autocomplete, Button, TextField } from "@mui/material";
+import { Autocomplete,  TextField } from "@mui/material";
 import React, { useState } from "react";
-import { useAllMedicineInfo } from "../../api/medicineAPI";
 
 const unitOptions = [
   "毫克 mg",
@@ -20,7 +19,7 @@ export function DrugInstruction(props: {
   changeFn: (
     targetIndex: number,
     medicineId: number,
-    unit: number,
+    unit: any,
     quantity: any,
     method: any,
     periodDay: any,

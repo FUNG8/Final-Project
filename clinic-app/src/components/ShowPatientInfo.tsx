@@ -21,19 +21,6 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useQueryClient } from "@tanstack/react-query";
 import { useMutation } from "@tanstack/react-query";
 
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  margin: 8,
-  textAlign: "center",
-  justifyContent: "flex-start",
-  color: theme.palette.text.secondary,
-  flexGrow: 1,
-}));
-
-const CustonTextField = styled(TextField)(({ theme }) => ({}));
-
 interface Patient {
   id: string;
   gender: string;
@@ -51,14 +38,11 @@ export function ShowPatientInfo() {
   let { patientId } = useParams();
 
   const queryClient = useQueryClient()
-  // console.log("param is", patientId);
-
   const onEditItem = useMutation({
     mutationFn: async (data: { patientId: number, editedInfo: any }) =>
       editPatientInfo(data.patientId, data.editedInfo),
     onSuccess: (message: any) => {
       console.log(message)
-      // invalidate query
       queryClient.invalidateQueries({ queryKey: ["showPatientsInfo"] })
     }
   }
@@ -94,14 +78,10 @@ export function ShowPatientInfo() {
 
   //set input usestate
   const genderOptions = ["male", "female"];
-  // const [firstNameInput, setFirstNameInput] = useState("");
-  // const [lastNameInput, setLastNameInput] = useState("");
   const [genderInput, setGenderInput] = useState("");
   const [gender, setGender] = React.useState<string | null>(genderOptions[0]);
   const [phoneNumberInput, setPhoneNumberInput] = React.useState(editedPatient?.phone_number || "");
-  // const [emergencyNameInput, setEmergencyNameInput] = useState("");
   const [emergencyContactInput, setEmergencyContactInput] = React.useState(editedPatient?.emergency_contact || "");
-  // const [editedEmergencyContactInput, setEditedEmergencyContactInput] = useState(emergencyContactInput);
 
   useEffect(() => {
     setPhoneNumberInput(editedPatient?.phone_number || "");

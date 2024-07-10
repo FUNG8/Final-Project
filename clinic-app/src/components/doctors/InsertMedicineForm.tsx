@@ -24,7 +24,7 @@ import { useState } from "react";
 import dayjs from "dayjs";
 import Button from "@mui/material/Button";
 import { useMutation } from "@tanstack/react-query";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import {  useQueryClient } from "@tanstack/react-query";
 import { insertMedicine } from "../../api/medicineAPI";
 import { GetDrugShape } from "../../api/drugAPI";
 

@@ -7,17 +7,12 @@ import {
   TableHead,
   TableRow,
   Paper,
-  Box,
-  Button,
-  styled,
-  Grid,
+  Box
 } from "@mui/material";
 import Pagination from "@mui/material/Pagination";
 import { useEffect, useState } from "react";
-import SendIcon from "@mui/icons-material/Send";
 import { useNavigate } from "react-router-dom";
 import { SearchBar } from "./SearchBar";
-import { SendPatient } from "./SendPatient";
 import QueueButton from "./QueueButton";
 
 interface Patient {
