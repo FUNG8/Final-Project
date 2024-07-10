@@ -20,7 +20,6 @@ export async function SendPatient(patientId: string) {
     );
 
     let result = await res.json();
-    console.log("showmeee the click result!!", result);
     return result;
 }
 

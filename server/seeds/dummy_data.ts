@@ -46,7 +46,7 @@ export async function seed(knex: Knex): Promise<void> {
       generic_drug: "Acetylsalicylic Acid",
       description: "Pain reliever and anti-inflammatory.",
       dosage: 325,
-      unit_measurement: 1,
+      unit_measurement: "毫克 mg",
       type: "Oral",
       drug_shape_id: 4,
       color: "White",
@@ -58,7 +58,7 @@ export async function seed(knex: Knex): Promise<void> {
       generic_drug: "Atorvastatin Calcium",
       description: "Lowers cholesterol levels.",
       dosage: 10,
-      unit_measurement: 1,
+      unit_measurement: "毫克 mg",
       type: "Oral",
       drug_shape_id: 4,
       color: "Blue",
@@ -150,7 +150,6 @@ export async function seed(knex: Knex): Promise<void> {
     {
       medicine_id: 1,
       diagnosis_id: 1,
-      unit_measurement: 1,
       total_quantity: 30,
       method: "Oral",
       taken_count_today: 1,
@@ -164,7 +163,6 @@ export async function seed(knex: Knex): Promise<void> {
     {
       medicine_id: 2,
       diagnosis_id: 1,
-      unit_measurement: 1,
       total_quantity: 777,
       method: "Oral",
       taken_count_today: 0,
@@ -178,7 +176,6 @@ export async function seed(knex: Knex): Promise<void> {
     {
       medicine_id: 2,
       diagnosis_id: 2,
-      unit_measurement: 1,
       total_quantity: 60,
       method: "Oral",
       taken_count_today: 1,
