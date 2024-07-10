@@ -17,6 +17,7 @@ import {
   FormGroup,
   Grid,
   TextField,
+  Tooltip,
   Typography,
   createTheme,
 } from "@mui/material";
@@ -136,8 +137,9 @@ export default function InsertPatientModal() {
   return (
     <div>
       <Grid xs={12} sx={{display:"flex",justifyContent:"center",margin:2}}>
-
+      <Tooltip title = "Are there new patients? create their first profile here!">
       <TriggerButton onClick={handleOpen}>Create Patients</TriggerButton>
+      </Tooltip>
       </Grid>
       <Modal
         aria-labelledby="transition-modal-title"
@@ -284,6 +286,7 @@ export default function InsertPatientModal() {
                         label="Phone Number"
                         value={phoneNumberInput}
                         onChange={phoneChange}
+                        defaultCountry="HK"
                       />
                     </Grid>
 
@@ -316,6 +319,7 @@ export default function InsertPatientModal() {
                         label="Emergency Contact Person Number"
                         value={emergencyContactInput}
                         onChange={emergencyContactChange}
+                        defaultCountry="HK"
                       />
                     </Grid>
 

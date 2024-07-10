@@ -3,6 +3,7 @@ import Button from '@mui/material/Button';
 import SendIcon from '@mui/icons-material/Send';
 import { SendPatient } from './SendPatient';
 import { useSnackbar } from 'notistack';
+import { Tooltip } from '@mui/material';
 
 interface QueueButtonProps {
   patientId: string;
@@ -25,6 +26,7 @@ const QueueButton: React.FC<QueueButtonProps> = ({ patientId }) => {
   };
 
   return (
+    <Tooltip title="Press here to start queuing for this patients">
     <Button
       sx={{ zIndex: 2 }}
       variant="contained"
@@ -34,6 +36,7 @@ const QueueButton: React.FC<QueueButtonProps> = ({ patientId }) => {
     >
       Queue
     </Button>
+    </Tooltip>
   );
 };
 
