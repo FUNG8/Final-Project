@@ -2,10 +2,7 @@ import Card from "@mui/material/Card";
 import PatientProfileBar from "../../components/patients/PatientProfileBar"
 import Grid from "@mui/material/Grid";
 import PatientBanner from "../../components/patients/PatientBanner"
-import { StyleContainer } from "./PatientPageConatinerStyle";
 import { useFetchDataToDiagnosis, useFetchDataToProfile } from "../../api/patientAPI";
-import { timeStamp } from "console";
-import useAuthStatusPatient from "../../api/patientAuthAPI";
 import { jwtDecode } from "jwt-decode";
 import "./ProfilePage.scss"
 

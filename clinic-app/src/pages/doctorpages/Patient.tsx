@@ -1,16 +1,13 @@
-
-// hahahahaha
-import { SnackbarProvider } from "notistack";
-import CreatePatientModal from "../../components/doctors/CreatePatientForm";
 import { ListDiagnosis } from "../../components/doctors/DiagnosisList";
 import { ListPatients } from "../../components/doctors/PatientList";
+import InsertPatientModal from "../../components/doctors/InsertPatientForm";
+import { SnackbarProvider } from "notistack";
 
 export default function Patient() {
-
   return (
     <div className="App">
       <SnackbarProvider maxSnack={3}>
-        <CreatePatientModal />
+        <InsertPatientModal />
 
         <ListPatients />
         <ListDiagnosis />
@@ -18,4 +15,3 @@ export default function Patient() {
     </div>
   );
 }
-

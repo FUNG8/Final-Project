@@ -57,7 +57,7 @@ export class DiagnosisService {
                             'instructon_id', d.id,
                             'medicine_name', m."name",
                             'medicine_id', di.medicine_id,
-                            'unit_measurement', di.unit_measurement,
+                            'unit_measurement', m.unit_measurement,
                             'total_quantity', di.total_quantity,
                             'method', di."method",
                             'taken_count_today', di.taken_count_today,

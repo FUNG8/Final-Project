@@ -19,15 +19,14 @@ import PatientInfo from "./pages/doctorpages/PatientInfo";
 import { useThemeContext } from "./theme/ThemeContextProvider";
 
 import { CssBaseline, ThemeProvider } from "@mui/material";
+import NotificationPage from "./pages/patientpages/NotificationPage";
 
 // hahahahaha
 const queryClient = new QueryClient();
 
 function App() {
-  
   const parsedPatientId: number | undefined = 123;
   const { theme } = useThemeContext();
-
 
   return (
     <ThemeProvider theme={theme}>
@@ -37,7 +36,6 @@ function App() {
         <BrowserRouter>
           <div className="App">
             {/* <TemporaryDrawer /> */}
-
 
             <Routes>
               <Route index element={<LandingPage />} />
@@ -50,14 +48,13 @@ function App() {
                 {/* <Route path="patientDetail/:patientId" element={<ShowPatientInfo />} /> */}
                 <Route
                   path="patientDetail/:patientId"
-                  element={<PatientInfo/>}
+                  element={<PatientInfo />}
                 />
                 <Route path="medicine" element={<Medicine />} />
               </Route>
 
-
               <Route path="/patient" element={<PatientAuthGuard />}>
-                <Route path="notification" element={<Notification />} />
+                <Route path="notification" element={<NotificationPage />} />
                 <Route path="MedicineConfirmation" element={<MedicineConfirmation />} />
                 <Route path="profile" element={<Profile  />} />
                 <Route path="setting" element={<Setting />} />
