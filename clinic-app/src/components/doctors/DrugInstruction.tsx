@@ -22,6 +22,7 @@ export function DrugInstruction(props: {
 }) {
   const [medicineInput, setMedicineInput] = useState("");
   const [selectedMedicine, setSelectedMedicine] = React.useState<any>();
+  
   const [unitInput, setUnitInput] = useState("");
   const [unit, setUnit] = React.useState<string | null>(unitOptions[0]);
   const [totalQuantityInput, setTotalQuantityInput] = useState("");
