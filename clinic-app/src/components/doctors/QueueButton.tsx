@@ -43,4 +43,3 @@ const QueueButton: React.FC<QueueButtonProps> = ({ patientId }) => {
 export default QueueButton;
 
 
-
