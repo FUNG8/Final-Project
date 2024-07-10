@@ -10,6 +10,8 @@ export class MedicineController {
   constructor(private medicineService: MedicineService) {
     this.router = Router();
     this.router.get("/allMedicines", this.allMedicines);
+    this.router.get("/infoMedicines", this.infoMedicines);
+
     this.router.post("/insertMedicines", this.insertMedicines);
     medicineRouter.use("/", this.router);
   }
@@ -79,6 +81,13 @@ export class MedicineController {
     }
   };
 
+  infoMedicines = async (req: Request, res: Response) => {
+    try {
+      const infoMedicines = await this.medicineService.infoMedicines();
+      res.json(infoMedicines)
+    } catch (e) {console.log("ERROR info medicines")}
+  };
+
   insertMedicines = async (req: Request, res: Response) => {
     let {
       name,
@@ -92,7 +101,7 @@ export class MedicineController {
       created_at,
       updated_at,
     } = req.body;
-    console.log("MED CON")
+    console.log("MED CON");
 
     try {
       let insertMedsResult = await this.medicineService.insertMedicine(

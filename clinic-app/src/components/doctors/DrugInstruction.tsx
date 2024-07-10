@@ -1,36 +1,50 @@
-import { Autocomplete, TextField } from "@mui/material";
+import { Autocomplete, Button, TextField } from "@mui/material";
 import React, { useState } from "react";
-import medicine from "../../pages/doctorpages/Medicine";
+import { useAllMedicineInfo } from "../../api/medicineAPI";
 
-const unitOptions = [
-    "毫克 mg",
-    "微克 μg",
-    "克 g",
-    "國際單位 IU",
-    "毫升 mL",
-    "液量盎司 fl oz",
-    "滴 gtt",
-    "泰瑟 tsp",
-    "湯匙 tbsp",
-  ];
+function handleAddInstruction() {}
 
 export function DrugInstruction() {
+  // get the array of medicines
+  const medicineinfo = useAllMedicineInfo();
+  const meds = (medicineinfo as any)?.medicineResult;
+  // map the medicine id into the medicineOptions array
+  const medicineOptions = meds?.map((medicine: any) => `${medicine.id}`) || [];
+  console.log(medicineOptions);
+
   const [medicineInput, setMedicineInput] = useState("");
-  const [medicine, setMedicine] = React.useState<string | null>(unitOptions[0]);
+  const [selectedMedicine, setSelectedMedicine] = React.useState<string | null>(
+    medicineOptions[0] || null
+  );
+
+  const handleMedicineChange = (
+    event: React.SyntheticEvent<Element, Event>,
+    newValue: string | null
+  ) => {
+    setSelectedMedicine(newValue);
+  };
+
+  const handleInputChange = (
+    event: React.SyntheticEvent<Element, Event>,
+    newInputValue: string
+  ) => {
+    setMedicineInput(newInputValue);
+    console.log('Handle Input Change', newInputValue)
+  };
+
   return (
-    <Autocomplete
-      value={medicine}
-      onChange={(event: any, newunit: string | null) => {
-        setMedicine(newunit);
-      }}
-      inputValue={medicineInput}
-      onInputChange={(event, newInputValue) => {
-        setMedicineInput(newInputValue);
-      }}
-      id="controllable-states-demo"
-      options={unitOptions}
-      sx={{ width: 300 }}
-      renderInput={(params) => <TextField {...params} label="Medicine" />}
-    />
+    <div>
+      <Autocomplete
+        value={selectedMedicine}
+        onChange={handleMedicineChange}
+        inputValue={medicineInput}
+        onInputChange={handleInputChange}
+        id="controllable-states-demo"
+        options={medicineOptions}
+        
+        sx={{ width: 300 }}
+        renderInput={(params) => <TextField {...params} label="Medicine" />}
+      />
+    </div>
   );
 }
