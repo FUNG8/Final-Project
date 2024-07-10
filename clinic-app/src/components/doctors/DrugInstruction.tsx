@@ -2,30 +2,56 @@ import { Autocomplete, Button, TextField } from "@mui/material";
 import React, { useState } from "react";
 import { useAllMedicineInfo } from "../../api/medicineAPI";
 
+const unitOptions = [
+  "毫克 mg",
+  "微克 μg",
+  "克 g",
+  "國際單位 IU",
+  "毫升 mL",
+  "液量盎司 fl oz",
+  "滴 gtt",
+  "泰瑟 tsp",
+  "湯匙 tbsp",
+];
+
 export function DrugInstruction(props: {
+  //step 1 props from the insertDIagnosisForm
   idx: number;
   changeFn: (targetIndex: number, medicineName: string) => void;
   medicineOptions: any;
 }) {
-  // get the array of medicines
-
   const [medicineInput, setMedicineInput] = useState("");
   const [selectedMedicine, setSelectedMedicine] = React.useState<any>();
+  const [unitInput, setUnitInput] = useState("");
+  const [unit, setUnit] = React.useState<string | null>(unitOptions[0]);
+  const [totalQuantityInput, setTotalQuantityInput] = useState("");
+  const [methodInput, setMethodInput] = useState("");
+  const [periodDayInput, setPeriodDayInput] = useState("");
+  const [periodHourInput, setPeriodHourInput] = useState("");
+  const [frequencyPerDayInput, setFrequencyPerDayInput] = useState("");
+  const [dosagePerServingInput, setDosagePerServingInput] = useState("");
+  const [remarksInput, setRemarksInput] = useState("");
 
+
+
+  
+
+  //step 3 The value from input field gets here onchange to newValue
   const handleMedicineChange = (
     event: React.SyntheticEvent<Element, Event>,
     newValue: any
   ) => {
     console.log("hihihi", newValue);
+    //step 4 internal state for value display
     setSelectedMedicine(newValue);
-    props.changeFn(props.idx, newValue.name);
+    //step 5 bring back value to insertDiagnosisForm (to the IDF 4a)
+    props.changeFn(props.idx, newValue.id);
   };
 
-  const handleFrequencyChange = (newValue:any)=>{
-
+  const handleFrequencyChange = (newValue: any) => {
     // setFrequency()
     // props.changeFn(props.idx,selectedMedicine.name)
-  }
+  };
 
   const handleInputChange = (
     event: React.SyntheticEvent<Element, Event>,
@@ -34,9 +60,10 @@ export function DrugInstruction(props: {
     setMedicineInput(newInputValue);
     console.log("Handle Input Change", newInputValue);
   };
-  console.log("selectedMedicine", selectedMedicine);
+
   return (
     <div>
+      {/* step 2 get the props and make input fields, when value onchange it calls the handleMedChange function */}
       <h1>Index {props.idx}</h1>
       <Autocomplete
         value={selectedMedicine}
@@ -45,9 +72,117 @@ export function DrugInstruction(props: {
         onInputChange={handleInputChange}
         id="controllable-states-demo"
         options={props.medicineOptions}
-        getOptionLabel={(entry: any) => `${entry.generic_drug}`}
+        getOptionLabel={(entry: any) => `${entry.name}`}
         sx={{ width: 300 }}
         renderInput={(params) => <TextField {...params} label="Medicine" />}
+      />
+      <Autocomplete
+        value={unit}
+        onChange={(event: any, newunit: string | null) => {
+          setUnit(newunit);
+        }}
+        inputValue={unitInput}
+        onInputChange={(event, newInputValue) => {
+          setUnitInput(newInputValue);
+        }}
+        id="controllable-states-demo"
+        options={unitOptions}
+        sx={{ width: 300 }}
+        renderInput={(params) => <TextField {...params} label="Unit" />}
+      />
+      <TextField
+        name="totalQuantity"
+        sx={{ width: 300, mt: 0 }}
+        value={totalQuantityInput}
+        onChange={(e) => setTotalQuantityInput(e.target.value)}
+        margin="normal"
+        required
+        id="totalQuantity"
+        label="Total Quantity"
+        autoComplete="totalQuantity"
+        autoFocus
+        type="number"
+        inputProps={{ maxLength: 8 }}
+      />
+      <TextField
+        value={methodInput}
+        onChange={(e) => setMethodInput(e.target.value)}
+        name="methodInput"
+        margin="normal"
+        required
+        fullWidth
+        id="methodInput"
+        label="Method"
+        autoComplete="methodInput"
+        autoFocus
+      />
+      <TextField
+        name="periodDay"
+        sx={{ width: 300, mt: 0 }}
+        value={periodDayInput}
+        onChange={(e) => setPeriodDayInput(e.target.value)}
+        margin="normal"
+        required
+        id="periodDay"
+        label="Period Day"
+        autoComplete="periodDay"
+        autoFocus
+        type="number"
+        inputProps={{ maxLength: 8 }}
+      />{" "}
+      <TextField
+        name="periodHour"
+        sx={{ width: 300, mt: 0 }}
+        value={periodHourInput}
+        onChange={(e) => setPeriodHourInput(e.target.value)}
+        margin="normal"
+        required
+        id="periodHour"
+        label="Period Hour"
+        autoComplete="periodHour"
+        autoFocus
+        type="number"
+        inputProps={{ maxLength: 8 }}
+      />{" "}
+      <TextField
+        name="frequencyPerDay"
+        sx={{ width: 300, mt: 0 }}
+        value={frequencyPerDayInput}
+        onChange={(e) => setFrequencyPerDayInput(e.target.value)}
+        margin="normal"
+        required
+        id="frequencyPerDay"
+        label="Frequency Per Day"
+        autoComplete="frequencyPerDay"
+        autoFocus
+        type="number"
+        inputProps={{ maxLength: 8 }}
+      />{" "}
+      <TextField
+        name="dosagePerServing"
+        sx={{ width: 300, mt: 0 }}
+        value={dosagePerServingInput}
+        onChange={(e) => setDosagePerServingInput(e.target.value)}
+        margin="normal"
+        required
+        id="dosagePerServing"
+        label="Dosage Per Serving"
+        autoComplete="dosagePerServing"
+        autoFocus
+        type="number"
+        inputProps={{ maxLength: 8 }}
+      />
+      <TextField
+        value={remarksInput}
+        onChange={(e) => setRemarksInput(e.target.value)}
+        name="remarksInput"
+        margin="normal"
+        required
+        fullWidth
+        id="remarksInput"
+        label="Remarks"
+        autoComplete="remarksInput"
+        autoFocus
       />
     </div>
   );

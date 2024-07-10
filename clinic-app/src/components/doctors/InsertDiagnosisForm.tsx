@@ -89,14 +89,15 @@ export default function InsertDiagnosisModal() {
   const [symptomsInput, setSymptomsInput] = useState("");
   const [remarksInput, setRemarksInput] = useState("");
 
+  //step 1 get the med info at the form ,later use in instruction
   const medicineinfo = useAllMedicineInfo();
+  //step 2 map them in meds
   const meds = (medicineinfo as any)?.medicineResult;
+  //step 3 setup demoinstruction to store the array of input values(key value pair)
   const [demoInstructions, setDemoInstructions] = useState<any[]>([]);
-
   console.log("demooo", demoInstructions);
-  // const drug = GetDrugShape();
-  // const queryClient = useQueryClient();
 
+  // step 5b clicked button will make empty space for the value to store
   const handleAddInstruction = async () => {
     try {
       // queryClient.invalidateQueries({ queryKey: ["MedicineInfo"] });
@@ -107,22 +108,25 @@ export default function InsertDiagnosisModal() {
         medicine_name: null,
         total_quantity: null,
       };
-
+  //step 6b it will add the empty space to the step 3 constructed demoInstruction,
+  //adding the object instruction into the array
       setDemoInstructions([...demoInstructions, instruction]);
     } catch (error) {
       console.error("Error adding Medicine:", error);
     }
   };
 
+  //Step 5a While value from instruction input fields are back it locates the object in array by idx
   const handleInstructionChange = (
     targetIndex: number,
-    medicineName: string
+    medicineId: any
   ) => {
-    console.log("check!!!", targetIndex, medicineName);
+    console.log("check!!!", targetIndex, medicineId);
     let newDemoInstructions = demoInstructions.map((entry) => {
       console.log(entry.index);
       if (entry.index == targetIndex)
-        return { ...entry, medicine_name: medicineName, };
+        //using values to return and re-set into demoInstruction instruction
+        return { ...entry, medicineId: medicineId, };
       else return entry;
     });
 
@@ -131,7 +135,7 @@ export default function InsertDiagnosisModal() {
     setDemoInstructions(newDemoInstructions);
   };
 
-  //step1 set up mutation
+  //mutation and submit 
   const onSubmit = useMutation({
     mutationFn: async (data: {
       name: string;
@@ -168,8 +172,6 @@ export default function InsertDiagnosisModal() {
       console.log("On error!!", e);
     },
   });
-
-  //step 2 trigger the mutation by action
   const handleSubmit = (e: any) => {
     e.preventDefault();
     const currentTime = dayjs().format("YYYY-MM-DD HH:mm:ss");
@@ -261,6 +263,8 @@ export default function InsertDiagnosisModal() {
                     />
 
                     {/* ------------------- Instruction------------------- */}
+{/* Step 4a map the instruction input fields giving them idx as mark and give it meds as options for medicine input field
+if the changeFn is called from the instruction it will bring back value to handleinstructionchange() */}
                     {demoInstructions.map((entry, idx) => (
                       <DrugInstruction
                         idx={idx}
@@ -268,6 +272,7 @@ export default function InsertDiagnosisModal() {
                         medicineOptions={meds}
                       />
                     ))}
+{/* Step 4b clicking button call add instruction()  */}
                     <button onClick={handleAddInstruction}>
                       Add Medicine/Instruction
                     </button>
