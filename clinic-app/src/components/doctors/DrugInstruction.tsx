@@ -17,7 +17,7 @@ const unitOptions = [
 export function DrugInstruction(props: {
   //step 1 props from the insertDIagnosisForm
   idx: number;
-  changeFn: (targetIndex: number, medicineName: string) => void;
+  changeFn: (targetIndex: number, medicineName: string, unit:string ) => void;
   medicineOptions: any;
 }) {
   const [medicineInput, setMedicineInput] = useState("");
@@ -35,15 +35,18 @@ export function DrugInstruction(props: {
   const [remarksInput, setRemarksInput] = useState("");
   ///////////////////////////////////////////////////////////////////////////////////
   //step 3 The value from input field gets here onchange to newValue
-  const handleMedicineChange = (
+  const handleMedChange = (
     event: React.SyntheticEvent<Element, Event>,
-    newMedicine: any
+    newMedicine: any,
+    newUnit: any
+
   ) => {
     console.log("MedicineChange", newMedicine);
     //step 4 internal state for value display
     setMedicine(newMedicine);
+    setUnit(newUnit);
     //step 5 bring back value to insertDiagnosisForm (to the IDF 4a)
-    props.changeFn(props.idx, newMedicine.id);
+    props.changeFn(props.idx, newMedicine.id, newUnit);
   };
 
   const handleUnitChange = (
@@ -52,7 +55,7 @@ export function DrugInstruction(props: {
   ) => {
     console.log("UnitChange", newUnit);
     setUnit(newUnit);
-    props.changeFn(props.idx, newUnit);
+    props.changeFn(props.idx, medicine.id, newUnit);
   };
 
   return (
@@ -62,7 +65,7 @@ export function DrugInstruction(props: {
       <Autocomplete
         size={"small"}
         value={medicine}
-        onChange={handleMedicineChange}
+        onChange={handleMedChange}
         inputValue={medicineInput}
         onInputChange={(event, newInputValue) => {
           setMedicineInput(newInputValue);

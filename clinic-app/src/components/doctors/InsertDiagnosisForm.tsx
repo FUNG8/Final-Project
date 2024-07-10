@@ -115,13 +115,13 @@ export default function InsertDiagnosisModal() {
     }
   };
   //Step 5a While value from instruction input fields are back it locates the object in array by idx
-  const handleInstructionChange = (targetIndex: number, medicineId: any) => {
-    console.log("check!!!", targetIndex, medicineId);
+  const handleInstructionChange = (targetIndex: number, medicineId: any,unit:any) => {
+    console.log("check!!!", targetIndex, medicineId,unit);
     let newDemoInstructions = demoInstructions.map((entry) => {
       console.log(entry.index);
       if (entry.index == targetIndex)
         //using values to return and re-set into demoInstruction instruction
-        return { ...entry, medicineId: medicineId };
+        return { ...entry, medicineId: medicineId,unit:unit };
       else return entry;
     });
 
