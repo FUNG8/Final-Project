@@ -9,6 +9,7 @@ import { ThemeProvider } from "styled-components";
 import {
   Box,
   CssBaseline,
+  Divider,
   Grid,
   TextField,
   Typography,
@@ -18,18 +19,24 @@ import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import Button from "@mui/material/Button";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { insertMedicine, useAllMedicineInfo } from "../../api/medicineAPI";
+import { useAllMedicineInfo } from "../../api/medicineAPI";
 import { DrugInstruction } from "./DrugInstruction";
 import { insertDiagnosis } from "../../api/diagnosisAPI";
 import { useParams } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
 export default function InsertDiagnosisModal() {
   const queryClient = useQueryClient();
 
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setOpen(false);
+    setDemoInstructions([]);
+    setSymptomsInput("");
+    setRemarksInput("");
+  };
   const defaultTheme = createTheme();
   const [symptomsInput, setSymptomsInput] = useState("");
   const [remarksInput, setRemarksInput] = useState("");
@@ -61,6 +68,14 @@ export default function InsertDiagnosisModal() {
     } catch (error) {
       console.error("Error adding Medicine:", error);
     }
+  };
+
+  const handleDeleteInstruction = (targetIndex: number) => {
+    console.log("targetidx",targetIndex)
+    let deletedDemoInstructions = demoInstructions.filter(
+      (entry) => (entry.index !== targetIndex)
+    );
+    setDemoInstructions(deletedDemoInstructions);
   };
   //Step 5a While value from instruction input fields are back it locates the object in array by idx
   const handleInstructionChange = (
@@ -128,7 +143,6 @@ export default function InsertDiagnosisModal() {
       setSymptomsInput("");
       setRemarksInput("");
       queryClient.invalidateQueries({ queryKey: ["showDiagnosis"] });
-
     },
     onError: (e) => {
       console.log("mutate on error");
@@ -138,14 +152,15 @@ export default function InsertDiagnosisModal() {
 
   //get patient and doctor id
   let { patientId } = useParams();
-  const [drid, setDrid] = useState('');
+  const [drid, setDrid] = useState("");
   useEffect(() => {
-    const drToken = localStorage.getItem('clinicToken');
+    const drToken = localStorage.getItem("clinicToken");
     if (drToken) {
       let decoded: any = jwtDecode(drToken);
       const doctorId = decoded["userId"];
-      setDrid(doctorId)
-    }},[])
+      setDrid(doctorId);
+    }
+  }, []);
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
@@ -167,7 +182,7 @@ export default function InsertDiagnosisModal() {
     <div>
       <Grid sx={{ display: "flex", justifyContent: "center", margin: 2 }}>
         <Button variant="contained" onClick={handleOpen}>
-          Insert Diagnosis Information
+          <AddCircleOutlineIcon /> Insert Diagnosis Information
         </Button>
       </Grid>
 
@@ -183,86 +198,79 @@ export default function InsertDiagnosisModal() {
           <ModalContent sx={style}>
             <ThemeProvider theme={defaultTheme}>
               <Grid
+                className="modalheight"
                 container
                 component="main"
                 sx={{ height: "80vh", justifyContent: "center" }}
               >
-                <CssBaseline />
-                <Box
-                  sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                  }}
-                >
-                  <Typography component="h1" variant="h5">
+                <Grid className="nigga" mx={4}>
+                  <Typography component="h1" variant="h4">
                     Diagnosis
                   </Typography>
-                  <Box
-                    component="form"
-                    noValidate
-                    sx={{ mt: 0 }}
-                    // onSubmit={handleSubmit}
-                  >
-                    {/* Symptoms */}
-                    <TextField
-                      value={symptomsInput}
-                      onChange={(e) => setSymptomsInput(e.target.value)}
-                      margin="normal"
-                      required
-                      fullWidth
-                      id="symptoms"
-                      label="Symptoms"
-                      autoComplete="symptoms"
-                      autoFocus
-                    />
-                    {/* Remarks */}
-                    <TextField
-                      value={remarksInput}
-                      onChange={(e) => setRemarksInput(e.target.value)}
-                      name="remarks"
-                      margin="normal"
-                      required
-                      fullWidth
-                      id="remarks"
-                      label="Remarks"
-                      autoComplete="remarks"
-                      autoFocus
-                    />
+                  {/* -------------------Symptoms and Remarks------------------- */}
 
-                    {/* ------------------- Instruction------------------- */}
-                    {/* Step 4a map the instruction input fields giving them idx as mark and give it meds as options for medicine input field
+                  {/* Symptoms */}
+                  <TextField
+                    value={symptomsInput}
+                    onChange={(e) => setSymptomsInput(e.target.value)}
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="symptoms"
+                    label="Symptoms"
+                    autoComplete="symptoms"
+                    autoFocus
+                  />
+                  {/* Remarks */}
+                  <TextField
+                    value={remarksInput}
+                    onChange={(e) => setRemarksInput(e.target.value)}
+                    name="remarks"
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="remarks"
+                    label="Remarks"
+                    autoComplete="remarks"
+                  />
+                  {/* -------------------Drug Instruction------------------- */}
+
+                  {/* Step 4a map the instruction input fields giving them idx as mark and give it meds as options for medicine input field
 if the changeFn is called from the instruction it will bring back value to handleinstructionchange() */}
-                    {demoInstructions.map((entry, idx) => (
-                      <DrugInstruction
-                        idx={idx}
-                        changeFn={handleInstructionChange}
-                        medicineOptions={meds}
-                      />
-                    ))}
-                    {/* Step 4b clicking button call add instruction()  */}
-                    <button onClick={handleAddInstruction}>
-                      Add Medicine/Instruction
-                    </button>
-                    {/*------------------- Submit Button------------------- */}
-                    <Grid
-                      sx={{
-                        my: 4,
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
+                  {demoInstructions.map((entry, idx) => (
+                    <DrugInstruction
+                      idx={idx}
+                      changeFn={handleInstructionChange}
+                      deleteFn={handleDeleteInstruction}
+                      medicineOptions={meds}
+                    />
+                  ))}
+                  {/* Step 4b clicking button call add instruction()  */}
+                  <Button
+                    onClick={handleAddInstruction}
+                    sx={{ alignItems: "center" }}
+                  >
+                    <AddCircleOutlineIcon />
+                    Add Medicine/Instruction
+                  </Button>
+                  {/*------------------- Submit Button------------------- */}
+                  <Grid
+                    sx={{
+                      my: 4,
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Button
+                      sx={{ position: "absolute", width: 400 }}
+                      variant="contained"
+                      onClick={handleSubmit}
                     >
-                      <Button
-                        sx={{ position: "absolute", width: 400 }}
-                        variant="contained"
-                        onClick={handleSubmit}
-                      >
-                        Submit
-                      </Button>
-                    </Grid>
-                  </Box>
-                </Box>
+                      Submit
+                    </Button>
+                  </Grid>
+                </Grid>
               </Grid>
             </ThemeProvider>
           </ModalContent>

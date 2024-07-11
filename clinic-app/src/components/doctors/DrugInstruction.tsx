@@ -1,5 +1,6 @@
-import { Autocomplete,  TextField } from "@mui/material";
+import { Autocomplete, Button, Grid, TextField } from "@mui/material";
 import React, { useState } from "react";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
 const unitOptions = [
   "毫克 mg",
@@ -28,6 +29,7 @@ export function DrugInstruction(props: {
     dosagePerServing: any,
     remarks: any
   ) => any;
+  deleteFn: (targetIndex: number) => any;
   medicineOptions: any;
 }) {
   const [medicineInput, setMedicineInput] = useState("");
@@ -56,6 +58,11 @@ export function DrugInstruction(props: {
 
   const [remarksInput, setRemarksInput] = useState("");
   const [remarks, setRemarks] = React.useState<any>();
+
+  const handleDeleteInstruction = (
+  ) => {
+    props.deleteFn(props.idx);
+  };
 
   ///////////////////////////////////////////////////////////////////////////////////
   //step 3 The value from input field gets here onchange to newValue
@@ -90,7 +97,7 @@ export function DrugInstruction(props: {
     props.changeFn(
       props.idx,
       medicine.id,
-      newUnit,//
+      newUnit, //
       quantity,
       method,
       periodDay,
@@ -104,13 +111,13 @@ export function DrugInstruction(props: {
   const handleQuantityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newQuantity = event.target.value;
     setQuantityInput(newQuantity);
-    setQuantity(newQuantity); 
+    setQuantity(newQuantity);
     props.changeFn(
       props.idx,
       medicine.id,
       unit,
-      newQuantity,  //
-      method, 
+      newQuantity, //
+      method,
       periodDay,
       periodHour,
       frequencyPerDay,
@@ -122,14 +129,14 @@ export function DrugInstruction(props: {
   const handleMethodChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newMethod = event.target.value;
     setMethodInput(newMethod);
-    setMethod(newMethod); 
+    setMethod(newMethod);
 
     props.changeFn(
       props.idx,
       medicine.id,
       unit,
       quantity,
-      newMethod,//
+      newMethod, //
       periodDay,
       periodHour,
       frequencyPerDay,
@@ -143,14 +150,14 @@ export function DrugInstruction(props: {
   ) => {
     const newPeriodDay = event.target.value;
     setPeriodDayInput(newPeriodDay);
-    setPeriodDay(newPeriodDay)
+    setPeriodDay(newPeriodDay);
     props.changeFn(
       props.idx,
       medicine.id,
       unit,
       quantity,
       method,
-      newPeriodDay,//
+      newPeriodDay, //
       periodHour,
       frequencyPerDay,
       dosagePerServing,
@@ -163,7 +170,7 @@ export function DrugInstruction(props: {
   ) => {
     const newPeriodHour = event.target.value;
     setPeriodHourInput(newPeriodHour);
-    setPeriodHour(newPeriodHour)
+    setPeriodHour(newPeriodHour);
     props.changeFn(
       props.idx,
       medicine.id,
@@ -171,7 +178,7 @@ export function DrugInstruction(props: {
       quantity,
       method,
       periodDay,
-      newPeriodHour,//
+      newPeriodHour, //
       frequencyPerDay,
       dosagePerServing,
       remarks
@@ -192,7 +199,7 @@ export function DrugInstruction(props: {
       method,
       periodDay,
       periodHour,
-      newFrequencyPerDay,//
+      newFrequencyPerDay, //
       dosagePerServing,
       remarks
     );
@@ -213,7 +220,7 @@ export function DrugInstruction(props: {
       periodDay,
       periodHour,
       frequencyPerDay,
-      newDosagePerServing,//
+      newDosagePerServing, //
       remarks
     );
   };
@@ -221,7 +228,7 @@ export function DrugInstruction(props: {
   const handleRemarksChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newRemarks = event.target.value;
     setRemarksInput(newRemarks);
-    setRemarks(newRemarks)
+    setRemarks(newRemarks);
     props.changeFn(
       props.idx,
       medicine.id,
@@ -232,145 +239,158 @@ export function DrugInstruction(props: {
       periodHour,
       frequencyPerDay,
       dosagePerServing,
-      newRemarks//
+      newRemarks //
     );
   };
+
+  
 
   return (
     <div>
       {/* step 2 get the props and make input fields, when value onchange it calls the handleMedChange function */}
-      <h1>Index {props.idx}</h1>
-      <Autocomplete
-        size={"small"}
-        value={medicine}
-        onChange={handleMedChange}
-        inputValue={medicineInput}
-        onInputChange={(event, newInputValue) => {
-          setMedicineInput(newInputValue);
-        }}
-        id="controllable-states-demo"
-        options={props.medicineOptions}
-        getOptionLabel={(entry: any) => `${entry.name}`}
-        sx={{ width: 300 }}
-        renderInput={(params) => <TextField {...params} label="Medicine" />}
-      />
-      <Autocomplete
-        size={"small"}
-        value={unit}
-        onChange={handleUnitChange}
-        inputValue={unitInput}
-        onInputChange={(event, newInputValue) => {
-          setUnitInput(newInputValue);
-        }}
-        id="controllable-states-demo"
-        options={unitOptions}
-        sx={{ width: 300 }}
-        renderInput={(params) => <TextField {...params} label="Unit" />}
-      />
-      <TextField
-        size="small"
-        name="totalQuantity"
-        sx={{ width: 300, my: 0 }}
-        value={quantityInput}
-        onChange={handleQuantityChange}
-        
-        margin="normal"
-        required
-        id="totalQuantity"
-        label="Total Quantity"
-        autoComplete="totalQuantity"
-        autoFocus
-        type="number"
-        inputProps={{ maxLength: 8 }}
-      />
-      ;
-      <TextField
-        size={"small"}
-        value={methodInput}
-        onChange={handleMethodChange}
-        name="methodInput"
-        margin="normal"
-        required
-        id="methodInput"
-        label="Method"
-        autoComplete="methodInput"
-        autoFocus
-        sx={{ width: 300, my: 0 }}
-      />
-      <TextField
-        size={"small"}
-        name="periodDay"
-        sx={{ width: 300, my: 0, mx: 0 }}
-        value={periodDayInput}
-        onChange={handlePeriodDayChange}
-        margin="normal"
-        required
-        id="periodDay"
-        label="Period Day"
-        autoComplete="periodDay"
-        autoFocus
-        type="number"
-        inputProps={{ maxLength: 8 }}
-      />
-      <TextField
-        size={"small"}
-        name="periodHour"
-        sx={{ width: 300, my: 0 }}
-        value={periodHourInput}
-        onChange={handlePeriodHourChange}
-        margin="normal"
-        required
-        id="periodHour"
-        label="Period Hour"
-        autoComplete="periodHour"
-        autoFocus
-        type="number"
-        inputProps={{ maxLength: 8 }}
-      />
-      <TextField
-        size={"small"}
-        name="frequencyPerDay"
-        sx={{ width: 300, my: 0 }}
-        value={frequencyPerDayInput}
-        onChange={handleFrequencyPerDayChange}
-        margin="normal"
-        required
-        id="frequencyPerDay"
-        label="Frequency Per Day"
-        autoComplete="frequencyPerDay"
-        autoFocus
-        type="number"
-        inputProps={{ maxLength: 8 }}
-      />
-      <TextField
-        size={"small"}
-        name="dosagePerServing"
-        sx={{ width: 300, my: 0 }}
-        value={dosagePerServingInput}
-        onChange={handleDosagePerServingChange}
-        margin="normal"
-        required
-        id="dosagePerServing"
-        label="Dosage Per Serving"
-        autoComplete="dosagePerServing"
-        autoFocus
-        type="number"
-        inputProps={{ maxLength: 8 }}
-      />
-      <TextField
-        size={"small"}
-        value={remarksInput}
-        onChange={handleRemarksChange}
-        name="remarksInput"
-        margin="normal"
-        required
-        fullWidth
-        id="remarksInput"
-        label="Remarks"
-        autoComplete="remarksInput"
-        autoFocus
-        sx={{ width: 300, my: 0 }}
-      />
+
+      <Grid
+        container
+        spacing={0}
+        sx={{ display: "flex", justifyContent: "space-between" }}
+      >
+        <h3>Medicine {props.idx + 1}</h3>
+        {/* Delete Button */}
+        <Button size="small" color="error" onClick={handleDeleteInstruction}>
+          <DeleteOutlineIcon />
+        </Button>
+      </Grid>
+
+      <Grid
+        container
+        spacing={0}
+        sx={{ display: "flex", justifyContent: "space-between" }}
+      >
+        <Autocomplete
+          size={"small"}
+          value={medicine}
+          onChange={handleMedChange}
+          inputValue={medicineInput}
+          onInputChange={(event, newInputValue) => {
+            setMedicineInput(newInputValue);
+          }}
+          id="controllable-states-demo"
+          options={props.medicineOptions}
+          getOptionLabel={(entry: any) => `${entry.name}`}
+          sx={{ width: 300, mb: 1 }}
+          renderInput={(params) => <TextField {...params} label="Medicine" />}
+        />
+        <Autocomplete
+          size={"small"}
+          value={unit}
+          onChange={handleUnitChange}
+          inputValue={unitInput}
+          onInputChange={(event, newInputValue) => {
+            setUnitInput(newInputValue);
+          }}
+          id="controllable-states-demo"
+          options={unitOptions}
+          sx={{ width: 300, mb: 1 }}
+          renderInput={(params) => <TextField {...params} label="Unit" />}
+        />
+        <TextField
+          size="small"
+          name="totalQuantity"
+          sx={{ width: 300, my: 0, mb: 1 }}
+          value={quantityInput}
+          onChange={handleQuantityChange}
+          margin="normal"
+          required
+          id="totalQuantity"
+          label="Total Quantity"
+          autoComplete="totalQuantity"
+          type="number"
+          inputProps={{ maxLength: 8 }}
+        />
+
+        <TextField
+          size={"small"}
+          value={methodInput}
+          onChange={handleMethodChange}
+          name="methodInput"
+          margin="normal"
+          required
+          id="methodInput"
+          label="Method"
+          autoComplete="methodInput"
+          sx={{ width: 300, my: 0, mb: 1 }}
+        />
+        <TextField
+          size={"small"}
+          name="periodDay"
+          sx={{ width: 300, my: 0, mx: 0, mb: 1 }}
+          value={periodDayInput}
+          onChange={handlePeriodDayChange}
+          margin="normal"
+          required
+          id="periodDay"
+          label="Period Day"
+          autoComplete="periodDay"
+          type="number"
+          inputProps={{ maxLength: 8 }}
+        />
+        <TextField
+          size={"small"}
+          name="periodHour"
+          sx={{ width: 300, my: 0, mb: 1 }}
+          value={periodHourInput}
+          onChange={handlePeriodHourChange}
+          margin="normal"
+          required
+          id="periodHour"
+          label="Period Hour"
+          autoComplete="periodHour"
+          type="number"
+          inputProps={{ maxLength: 8 }}
+        />
+        <TextField
+          size={"small"}
+          name="frequencyPerDay"
+          sx={{ width: 300, my: 0, mb: 1 }}
+          value={frequencyPerDayInput}
+          onChange={handleFrequencyPerDayChange}
+          margin="normal"
+          required
+          id="frequencyPerDay"
+          label="Frequency Per Day"
+          autoComplete="frequencyPerDay"
+          type="number"
+          inputProps={{ maxLength: 8 }}
+        />
+        <TextField
+          size={"small"}
+          name="dosagePerServing"
+          fullWidth
+          sx={{ width: 300, my: 0, mb: 1 }}
+          value={dosagePerServingInput}
+          onChange={handleDosagePerServingChange}
+          margin="normal"
+          required
+          id="dosagePerServing"
+          label="Dosage Per Serving"
+          autoComplete="dosagePerServing"
+          type="number"
+          inputProps={{ maxLength: 8 }}
+        />
+        <TextField
+          size={"small"}
+          value={remarksInput}
+          onChange={handleRemarksChange}
+          name="remarksInput"
+          margin="normal"
+          fullWidth
+          required
+          id="remarksInput"
+          label="Remarks"
+          autoComplete="remarksInput"
+          sx={{ my: 0, mb: 1 }}
+        />
+      </Grid>
     </div>
   );
 }
