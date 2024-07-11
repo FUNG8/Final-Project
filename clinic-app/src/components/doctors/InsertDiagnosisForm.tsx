@@ -20,6 +20,7 @@ import Button from "@mui/material/Button";
 import { useMutation } from "@tanstack/react-query";
 import { insertMedicine, useAllMedicineInfo } from "../../api/medicineAPI";
 import { DrugInstruction } from "./DrugInstruction";
+import { insertDiagnosis } from "../../api/diagnosisAPI";
 
 
 export default function InsertDiagnosisModal() {
@@ -72,7 +73,6 @@ export default function InsertDiagnosisModal() {
     dosagePerServing: number,
     remarks: string
   ) => {
-    console.log("check!!!", targetIndex, medicineId, unit,quantity);
     let newDemoInstructions = demoInstructions.map((entry) => {
       console.log(entry.index);
       if (entry.index == targetIndex)
@@ -100,28 +100,44 @@ export default function InsertDiagnosisModal() {
   //mutation and submit
   const onSubmit = useMutation({
     mutationFn: async (data: {
-      name: string;
-      generic_drug: string;
-      description: string;
-      dosage: string;
-      unit_measurement: string;
-      type: string;
-      drug_shape_id: string;
-      color: string;
-      created_at: string;
-      updated_at: string;
+      d_name: string;
+      d_doctor_id:number;
+      d_patient_id:number;
+      d_remarks:string;
+      d_created_at: string;
+      d_updated_at: string;
+      di_medicine_id:number;
+      di_diagnosis_id:number;
+      di_unit_measurement:string;
+      di_total_quantity:number;
+      di_method:string;
+      di_taken_count_today:number;
+      di_taken_count:number;
+      di_period_day:number;
+      di_period_hour:number;
+      di_frequency_per_day:number;
+      di_dosage_per_serving:number;
+      di_remarks:string;
     }) =>
-      insertMedicine(
-        data.name,
-        data.generic_drug,
-        data.description,
-        data.dosage,
-        data.unit_measurement,
-        data.type,
-        data.drug_shape_id,
-        data.color,
-        data.created_at,
-        data.updated_at
+      insertDiagnosis(
+        data.d_name,
+        data.d_doctor_id,
+        data.d_patient_id,
+        data.d_remarks,
+        data.d_created_at,
+        data.d_updated_at,
+        data.di_medicine_id,
+        data.di_diagnosis_id,
+        data.di_unit_measurement,
+        data. di_total_quantity,
+        data.di_method,
+        data.di_taken_count_today,
+        data.di_taken_count,
+        data.di_period_day,
+        data.di_period_hour,
+        data.di_frequency_per_day,
+        data. di_dosage_per_serving,
+        data.di_remarks
       ),
     onSuccess: (data) => {
       console.log("mutate on success");
@@ -134,24 +150,19 @@ export default function InsertDiagnosisModal() {
       console.log("On error!!", e);
     },
   });
-  const handleSubmit = (e: any) => {
-    e.preventDefault();
-    const currentTime = dayjs().format("YYYY-MM-DD HH:mm:ss");
-    console.log("current time is" + currentTime);
 
-    // onSubmit.mutate({
-    //   name: medicineNameInput,
-    //   generic_drug: genericDrugInput,
-    //   description: descriptionInput,
-    //   dosage: dosageInput,
-    //   unit_measurement: unitInput,
-    //   type: typeInput,
-    //   drug_shape_id: drugInput,
-    //   color: colorInput,
-    //   created_at: currentTime,
-    //   updated_at: currentTime,
-    // });
-  };
+  // const handleSubmit = (e: any) => {
+  //   e.preventDefault();
+  //   const currentTime = dayjs().format("YYYY-MM-DD HH:mm:ss");
+  //   console.log("current time is" + currentTime);
+  //   onSubmit.mutate({
+  //     d_name:"ss",
+  //     d_doctor_id :1,
+  //     d_patient_id:1,
+  //     d_created_at: currentTime,
+  //     d_updated_at: currentTime,
+  //   });
+  // };
 
   return (
     <div>
@@ -182,8 +193,7 @@ export default function InsertDiagnosisModal() {
                 <CssBaseline />
                 <Box
                   sx={{
-                    my: 2,
-                    mx: 2,
+                   
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
@@ -196,7 +206,7 @@ export default function InsertDiagnosisModal() {
                     component="form"
                     noValidate
                     sx={{ mt: 0 }}
-                    onSubmit={handleSubmit}
+                    // onSubmit={handleSubmit}
                   >
                     {/* Symptoms */}
                     <TextField
@@ -250,7 +260,7 @@ if the changeFn is called from the instruction it will bring back value to handl
                       <Button
                         sx={{ position: "absolute", width: 400 }}
                         variant="contained"
-                        onClick={handleSubmit}
+                        // onClick={handleSubmit}
                       >
                         Submit
                       </Button>

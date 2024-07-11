@@ -35,21 +35,63 @@ export function useShowDiagnosis(id: number) {
 }
 
 
-// export function useEditPatientInfo(patientId: number) {
-//     console.log("show patient with ID so to Edit:", patientId)
-
-//     const { isLoading, error, data, isFetching } = useQuery({
-//         queryKey: ["editPatientsInfo", patientId],
-//         queryFn: async () => {
-//             const res = await fetch(`${process.env.REACT_APP_API_SERVER}/patients/editPatients?patientId=${patientId}`);
-//             const result = await res.json();
-//             return { status: "success", editPatientId: result.patientId};
-//         },
-//     });
-//     if (isLoading || isFetching || error || !data) {
-//         return { status: "loading" }
-//     }
-//     console.log(data)
-//     return data
-// }
-
+export async function insertDiagnosis(
+    name: string,
+    generic_drug: string,
+    description: string,
+    dosage: string,
+    unit_measurement: string,
+    type: string,
+    drug_shape_id: string,
+    color: string,
+    created_at: string,
+    updated_at: string
+  ) {
+    try {
+      let res = await fetch(
+        `${process.env.REACT_APP_API_SERVER}/medicines/insertMedicines`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name,
+            generic_drug,
+            description,
+            dosage,
+            unit_measurement,
+            type,
+            drug_shape_id,
+            color,
+            created_at,
+            updated_at,
+          }),
+        }
+      );
+      console.log("medicineAPI.ts ready to fetch");
+      console.log(
+        "API DATA",
+        name,
+        generic_drug,
+        description,
+        dosage,
+        unit_measurement,
+        type,
+        drug_shape_id,
+        color,
+        created_at,
+        updated_at
+      );
+  
+      let insertResult = await res.json();
+      if (!res.ok) {
+        console.log(insertResult);
+        throw new Error(insertResult.message);
+      }
+      return insertResult;
+    } catch (error) {
+      console.error("Error inserting medicine:", error);
+      throw error;
+    }
+  }
