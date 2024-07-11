@@ -16,7 +16,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
 import { queryClient } from '../..';
-import { FormEvent, useState } from 'react';
+import {  useState } from 'react';
 import { login } from "../../api/doctorAuthAPI";
 import DesignerImage from '../../image/Designer.jpeg';
 

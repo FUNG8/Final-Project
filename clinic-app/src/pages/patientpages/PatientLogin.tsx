@@ -1,9 +1,3 @@
-// hahahahaha
-import React from 'react';
-import style from './App.module.scss';
-import TemporaryDrawer from '../../components/doctors/DoctorNavBar';
-
-import { Margin } from '@mui/icons-material';
 
 import PatientLoginForm from '../../components/patients/PatientLoginForm';
 

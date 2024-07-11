@@ -6,17 +6,17 @@ import { useFetchDataToDiagnosis, useFetchDataToProfile } from "../../api/patien
 import { jwtDecode } from "jwt-decode";
 import "./ProfilePage.scss"
 
-interface ProfileDetails {
-  firstName: string;
-  lastName: string;
-  birth_date: string;
-  gender: string;
-  phone_number: string;
-  emergency_contact: number;
-  emergency_name: string;
-  created_at: Date;
-  name: string;
-};
+// interface ProfileDetails {
+//   firstName: string;
+//   lastName: string;
+//   birth_date: string;
+//   gender: string;
+//   phone_number: string;
+//   emergency_contact: number;
+//   emergency_name: string;
+//   created_at: Date;
+//   name: string;
+// };
 
 
 

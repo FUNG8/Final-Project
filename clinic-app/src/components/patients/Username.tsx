@@ -1,7 +1,7 @@
 // hahahahaha
-import { Box, Paper, styled, Typography } from '@mui/material';
+import { Box,  Typography } from '@mui/material';
 import { jwtDecode } from 'jwt-decode';
-import React, { useEffect, useState } from 'react';
+import  { useEffect, useState } from 'react';
 
 export function Username() {
   const [name, setName] = useState('');

@@ -1,31 +1,17 @@
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
+
   Paper,
   Box,
-  Pagination,
   Grid,
-  CssBaseline,
   Divider,
-  List,
-  ListItemIcon,
-  ListItemButton,
-  ListItemText,
   Chip,
 } from "@mui/material";
-import { SetStateAction, useEffect, useState } from "react";
-import { SearchBar } from "./SearchBar";
 import { useShowDiagnosis } from "../../api/diagnosisAPI";
 import { useParams } from "react-router-dom";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
-import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import AOS from "aos";
 import "aos/dist/aos.css";
@@ -59,19 +45,13 @@ interface DiagnosisResponse {
   diagnosisResult?: Diagnosis[];
 }
 
-interface InstructionResponse {
-  status: string;
-  instructionsResult?: Instructions[];
-}
+
 
 export function ListDiagnosis() {
   let { patientId } = useParams();
   const allDiagnosis: DiagnosisResponse | null = useShowDiagnosis(
     parseInt(patientId!)
   );
-  // const instructions: InstructionResponse | null = useShowDiagnosis(
-  //   parseInt(patientId!)
-  // );
 
   return (
     <Box justifyContent="center" mt={4}>
@@ -120,7 +100,8 @@ export function ListDiagnosis() {
                     sx={{
                       marginBottom: 2,
                       padding: 2,
-                      backgroundColor: "#9a9ca1"
+                      backgroundColor: "#9a9ca1",
+                      color:"white"
                     }}
                   >
                     <Grid container sx={{ marginTop: 2, marginBottom: 2 }}>
@@ -172,7 +153,4 @@ export function ListDiagnosis() {
         ))}
     </Box>
   );
-}
-function setSearchTerm(input: string) {
-  throw new Error("Function not implemented.");
 }
