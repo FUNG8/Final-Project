@@ -38,9 +38,9 @@ function App() {
             {/* <TemporaryDrawer /> */}
 
             <Routes>
-              <Route index element={<LandingPage />} />
+              <Route index element={<PatientLogin />} />
               <Route path="/doctorlogin" element={<DoctorLogin />} />
-              <Route path="/patientlogin" element={<PatientLogin />} />
+              {/* <Route path="/patientlogin" element={<PatientLogin />} /> */}
 
               <Route path="/doctor" element={<DoctorAuthGuard />}>
                 <Route path="home" element={<Home />} />

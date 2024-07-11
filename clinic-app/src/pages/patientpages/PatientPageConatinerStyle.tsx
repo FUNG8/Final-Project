@@ -1,6 +1,5 @@
 // hahahahaha
 import { Box, BoxProps } from '@mui/material';
-import { ReactNode } from 'react';
 
 interface ContainerProps extends BoxProps {
   title: string;

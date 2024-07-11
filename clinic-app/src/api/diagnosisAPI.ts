@@ -31,7 +31,6 @@ export function useShowDiagnosis(id: number) {
     return data
 }
 
-
 export async function insertDiagnosis(
     d_name: string,
     d_doctor_id:number,

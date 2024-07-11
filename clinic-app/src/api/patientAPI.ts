@@ -1,7 +1,6 @@
 // hahahahaha
 import { useQuery } from "@tanstack/react-query";
 
-
 export enum Gender {
     Male = 'male',
     Female = 'female',
@@ -102,8 +101,6 @@ export async function addPatientInfo(
 }
 
 export function useShowPatientInfo(patientId: number) {
-
-
     const { isLoading, error, data, isFetching } = useQuery({
         queryKey: ["showPatientsInfo", patientId],
         queryFn: async () => {
@@ -137,7 +134,7 @@ export async function editPatientInfo(patientId: number, editedInfo: Patient) {
     return result.message;
 }
 
-
+/////////////not working
 export function useFetchDataToDiagnosis(hkid: string) {
     const { isLoading, error, data, isFetching } = useQuery({
         queryKey: ["diagnosisData", hkid],
@@ -159,11 +156,7 @@ export function useFetchDataToDiagnosis(hkid: string) {
     return data
 }
 
-
-
 export function useNumberWaitingList() {
-
-
     const { isLoading, error, data, isFetching } = useQuery({
         queryKey: ["NumberWaitingList"],
         queryFn: async () => {
@@ -180,10 +173,7 @@ export function useNumberWaitingList() {
     return data
 }
 
-
 export function useCompletedPatientNumber() {
-
-
     const { isLoading, error, data, isFetching } = useQuery({
         queryKey: ["CompletedPatientNumber"],
         queryFn: async () => {
@@ -200,10 +190,7 @@ export function useCompletedPatientNumber() {
     return data
 }
 
-
 export function usePatientWaitingList() {
-
-
     const { isLoading, error, data, isFetching } = useQuery({
         queryKey: ["PatientWaitingList"],
         queryFn: async () => {
@@ -221,8 +208,6 @@ export function usePatientWaitingList() {
 }
 
 export function useWaitingTime() {
-
-
     const { isLoading, error, data, isFetching } = useQuery({
         queryKey: ["WaitingTime"],
         queryFn: async () => {
