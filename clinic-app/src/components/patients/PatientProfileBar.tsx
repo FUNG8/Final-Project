@@ -1,4 +1,4 @@
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import "./PatientProfileBar.scss";
 import { Dropdown } from "@mui/base/Dropdown";
 import { Menu } from "@mui/base/Menu";
@@ -12,6 +12,7 @@ import { login } from "../../api/patientAuthAPI";
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { jwtDecode } from "jwt-decode";
 import ProfileChangeBox from "./ProfileChangeBox";
+import { Typography } from "@mui/material";
 
 
 interface User {
@@ -86,14 +87,14 @@ export default function PatientProfileBar() {
     const open = Boolean(anchor);
     const id = open ? 'simple-popup' : undefined;
 
-    
+
     return (
         <div id="mainContainer">
             <div className="profileBox">PROFILE</div>
             <Dropdown>
                 <div id="iconBox">
-                    <MenuButton className="switchButton">
-                        Switch Account<VpnKeyIcon sx={{ iconSize }} />
+                    <MenuButton  className="switchButton" sx={{display:"flex"}}>
+                        <Typography >Account</Typography><VpnKeyIcon sx={{ iconSize }} />
                     </MenuButton>
                     <Menu slots={{ listbox: Listbox }}>
 

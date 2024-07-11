@@ -35,48 +35,50 @@ export default function PatientPersonalInfo() {
 
       {profileDetails.status === "success" ?
         <Grid container spacing={2} sx={{ mt: 1 }}>
-            {/* title */}
-            <Grid sx={{ fontSize: 30, padding: 2, fontFamily: "monospace" }}>
-              Personal Details
-            </Grid>
-            {/* content */}
-            <Grid container spacing={3} sx={{ padding: 1, fontFamily: "monospace", fontSize: 18, ml: 1 }}>
+          {/* title */}
+          <Grid sx={{ fontSize: 30, padding: 2 }}>
+            {profileDetails.result.firstName}{profileDetails.result.lastName}
+            <br/>
+            Personal Details
+          </Grid>
+          {/* content */}
+          <Grid typography={"body2"} container spacing={3} sx={{ padding: 1, fontSize: 18, ml: 1 }}>
 
-              <Grid item xs={12} sm={8} >
-                <div className="detailsContainer">
-                  First Name: {profileDetails.result.firstName}
-                </div>
-              </Grid>
-              <Grid item xs={12} sm={8}>
-                <div className="detailsContainer">
-                  Last Name : {profileDetails.result.lastName}
-                </div>
-              </Grid>
-              <Grid item xs={12} sm={8}>
-                <div className="detailsContainer">
-                  Birth: {formattedBirthDate}
-                </div>
-              </Grid>
-              <Grid item xs={12} sm={8}>
-                <div className="detailsContainer">
-                  Gender : {profileDetails.result.gender}
-                </div>
-              </Grid>
-              <Grid item xs={12} sm={8}>
-                <div className="detailsContainer">
-                  Phone Number : {profileDetails.result.phone_number}
-                </div>
-              </Grid>
-              <Grid item xs={12} sm={8}>
-                <div className="detailsContainer">
-                  Emergency Name : {profileDetails.result.emergency_name}
-                </div>
-              </Grid>
-              <Grid item xs={12} sm={8}>
-                <div className="detailsContainer">
-                  Emergency Contact : {profileDetails.result.emergency_contact}
-                </div>
-              </Grid>
+            <Grid item xs={12} sm={8} >
+              <div className="detailsContainer">
+                First Name: {profileDetails.result.firstName}
+              </div>
+            </Grid>
+            <Grid item xs={12} sm={8}>
+              <div className="detailsContainer">
+                Last Name : {profileDetails.result.lastName}
+              </div>
+            </Grid>
+            <Grid item xs={12} sm={8}>
+              <div className="detailsContainer">
+                Birth: {formattedBirthDate}
+              </div>
+            </Grid>
+            <Grid item xs={12} sm={8}>
+              <div className="detailsContainer">
+                Gender : {profileDetails.result.gender}
+              </div>
+            </Grid>
+            <Grid item xs={12} sm={8}>
+              <div className="detailsContainer">
+                Phone Number : {profileDetails.result.phone_number}
+              </div>
+            </Grid>
+            <Grid item xs={12} sm={8}>
+              <div className="detailsContainer">
+                Emergency Name : {profileDetails.result.emergency_name}
+              </div>
+            </Grid>
+            <Grid item xs={12} sm={8}>
+              <div className="detailsContainer">
+                Emergency Contact : {profileDetails.result.emergency_contact}
+              </div>
+            </Grid>
           </Grid>
         </Grid> : <></>}
 

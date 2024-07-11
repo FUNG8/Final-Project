@@ -65,101 +65,107 @@ export function PatientDiagnosisList() {
   );
 
   return (
-    <Box justifyContent="center" mt={1} sx={{zIndex:-2,height:"auto", "&.Mui-expanded": {height:"auto"}}}>
+    <Box justifyContent="center" mt={1} sx={{ zIndex: -2, height: "auto", "&.Mui-expanded": { height: "auto" } }}>
       {allDiagnosis?.status === "success" &&
         allDiagnosis.diagnosisResult?.map((diagnosis) => (
           <div>
-          <Accordion 
-            key={diagnosis.id}
-            sx={{
-              zIndex:0,
-              "&.Mui-expanded": {
-                // Styles for the expanded accordion
-                boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
-                marginBottom:10,
-              },
-            }}
-          >
-            <AccordionSummary
-              expandIcon={<ArrowDropDownIcon />}
-              aria-controls="panel2-content"
-              id="panel2-header"
+            <Accordion
+              key={diagnosis.id}
+              sx={{
+                zIndex: 0,
+                "&.Mui-expanded": {
+                  // Styles for the expanded accordion
+                  boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
+                  marginBottom: 10,
+                },
+              }}
             >
-              <Grid xs={12} mx={2} >
-                <Typography> {diagnosis.name}</Typography>
-                <Typography variant="overline" display="block" gutterBottom>
-                  {diagnosis.created_at}
-                </Typography>
-              </Grid>
-            </AccordionSummary>
-
-            <Divider />
-
-            <AccordionDetails>
-              <Grid xs={12} mx={2} >
-
-                <Typography variant="body2" gutterBottom>
-                  {diagnosis.remarks}
-                </Typography>
-
-                <Divider />
-
-                <Grid xs={12}>Medicine Instructions</Grid>
+              <AccordionSummary
+                expandIcon={<ArrowDropDownIcon />}
+                aria-controls="panel2-content"
+                id="panel2-header"
+              >
+                <Grid xs={12} mx={2} >
+                  <Typography> {diagnosis.name}</Typography>
+                  <Typography variant="overline" display="block" gutterBottom>
+                    {diagnosis.created_at}
+                  </Typography>
+                </Grid>
+              </AccordionSummary>
 
 
-                {/* mapping instructions */}
-                {diagnosis.instructions?.map((instruction: any) => (
-                  <Paper
-                    key={instruction.instruction_id}
-                    sx={{
-                      marginBottom: 0,
-                      padding: 1,
-                      backgroundColor: "#8CDBD3",
-                      color: "black"
-                    }}
-                  >
+              <AccordionDetails>
+                <Grid xs={12} mx={2} >
 
-                    <Grid typography="body2" container sx={{ marginTop: 2, marginBottom: 2 }}>
+                  <Typography variant="body2" gutterBottom>
+                    <Typography >
+                      Remarks
+                    </Typography>
+                    {diagnosis.remarks}
+                  </Typography>
 
-                      <Grid xs={8} fontWeight="bold">Medicine Name</Grid>
-                      <Grid xs={4}>{instruction.medicine_name}</Grid>
-                      <Grid xs={8} fontWeight="bold">Take In Method</Grid>
-                      <Grid xs={4}>{instruction.method}</Grid>
-                      <Grid xs={8} fontWeight="bold">Take In Period Days</Grid>
-                      <Grid xs={4}>{instruction.period_day}</Grid>
-                      <Grid xs={8} fontWeight="bold">Take In Period Hours</Grid>
-                      <Grid xs={4}>{instruction.period_hr}</Grid>
-                      <Grid xs={8} fontWeight="bold">Unit Measurement</Grid>
-                      <Grid xs={4}>{instruction.unit_measurement}</Grid>
-                      <Grid xs={8} fontWeight="bold">Frequency Per Day</Grid>
-                      <Grid xs={4}>{instruction.frequency_per_day}</Grid>
-                      <Grid xs={8} fontWeight="bold">Dosage Per Serving</Grid>
-                      <Grid xs={4}>{instruction.dosage_per_serving}</Grid>
-                      <Divider />
+                  <Divider />
+
+                  <Grid my={2} xs={12} justifyContent="center">
+                    <Typography style={{ textAlign: "center" }}>
+                      Medicine Instructions
+                    </Typography>
+                  </Grid>
 
 
-                      <Grid container xs={12}>
-                        <Grid xs={12} fontWeight="bold">Drug Count</Grid>
-                        <Grid xs={2}>Total</Grid>
-                        <Grid xs={2}>{instruction.total_quantity}
+                  {/* mapping instructions */}
+                  {diagnosis.instructions?.map((instruction: any) => (
+                    <Paper
+                      key={instruction.instruction_id}
+                      sx={{
+                        marginBottom: 0,
+                        padding: 1,
+                        backgroundColor: "#8CDBD3",
+                        color: "black"
+                      }}
+                    >
+
+                      <Grid typography="body2" container sx={{ marginTop: 2, marginBottom: 2 }}>
+
+                        <Grid xs={8} fontWeight="bold">Medicine Name</Grid>
+                        <Grid xs={4}>{instruction.medicine_name}</Grid>
+                        <Grid xs={8} fontWeight="bold">Take In Method</Grid>
+                        <Grid xs={4}>{instruction.method}</Grid>
+                        <Grid xs={8} fontWeight="bold">Take In Period Days</Grid>
+                        <Grid xs={4}>{instruction.period_day}</Grid>
+                        <Grid xs={8} fontWeight="bold">Take In Period Hours</Grid>
+                        <Grid xs={4}>{instruction.period_hr}</Grid>
+                        <Grid xs={8} fontWeight="bold">Unit Measurement</Grid>
+                        <Grid xs={4}>{instruction.unit_measurement}</Grid>
+                        <Grid xs={8} fontWeight="bold">Frequency Per Day</Grid>
+                        <Grid xs={4}>{instruction.frequency_per_day}</Grid>
+                        <Grid xs={8} fontWeight="bold">Dosage Per Serving</Grid>
+                        <Grid xs={4}>{instruction.dosage_per_serving}</Grid>
+                        <Divider />
+
+
+                        <Grid container xs={12}>
+                          <Grid xs={12} fontWeight="bold">Drug Count</Grid>
+                          <Grid xs={2}>Total</Grid>
+                          <Grid xs={2}>{instruction.total_quantity}
+                          </Grid>
+                          <Grid xs={2}>Taken</Grid>
+                          <Grid xs={2}>{instruction.taken_count}
+                          </Grid>
+                          <Grid xs={2}>Today:</Grid>
+                          <Grid xs={2}>{instruction.taken_count_today}
+                          </Grid>
                         </Grid>
-                        <Grid xs={2}>Taken</Grid>
-                        <Grid xs={2}>{instruction.taken_count}
-                        </Grid>
-                        <Grid xs={2}>Today:</Grid>
-                        <Grid xs={2}>{instruction.taken_count_today}
-                        </Grid>
+
+                        <Grid xs={12} fontWeight="bold">Drug Remarks:</Grid>
+                        <Grid xs={12}>{instruction.drug_remarks}</Grid>
+
                       </Grid>
-
-                      <Grid xs={12} fontWeight="bold">Drug Remarks:</Grid>
-                      <Grid xs={12}>{instruction.drug_remarks}</Grid>
-
-                    </Grid>
-                  </Paper>
-                ))}
-              </Grid>
-            </AccordionDetails>
-          </Accordion>
+                    </Paper>
+                  ))}
+                </Grid>
+              </AccordionDetails>
+            </Accordion>
           </div>
         ))}
     </Box>

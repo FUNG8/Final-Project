@@ -1,16 +1,17 @@
 // hahahahaha
-#mainContainer{
-    display:flex;
+#mainContainer {
+    display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     position: relative;
-    right: -15%;
+    left: 50%;
+    transform: translateX(-50%);
     top: -40px;
     background-color: rgba(236, 236, 236, 0.658);
     height: 80px;
-    width: 70%;
+    width: 90%;
     border-radius: 30px;
-}
+  }
 
 .profileBox{
     margin-left: 30px;
@@ -27,15 +28,10 @@
 }
 
 .switchButton{
-display:flex;
-justify-content: space-evenly;
-margin-right: 25px;
 color:#646869;
 font-size:20px;
 align-content: center;
-border-radius: 10px;
-width: 40%;
-padding:2px
+border-radius: 55px;
 }
 
 .switchListItem{
