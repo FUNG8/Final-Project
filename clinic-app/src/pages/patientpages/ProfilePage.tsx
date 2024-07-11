@@ -6,17 +6,17 @@ import { useFetchDataToDiagnosis, useFetchDataToProfile } from "../../api/patien
 import { jwtDecode } from "jwt-decode";
 import "./ProfilePage.scss"
 
-interface ProfileDetails {
-  firstName: string;
-  lastName: string;
-  birth_date: string;
-  gender: string;
-  phone_number: string;
-  emergency_contact: number;
-  emergency_name: string;
-  created_at: Date;
-  name: string;
-};
+// interface ProfileDetails {
+//   firstName: string;
+//   lastName: string;
+//   birth_date: string;
+//   gender: string;
+//   phone_number: string;
+//   emergency_contact: number;
+//   emergency_name: string;
+//   created_at: Date;
+//   name: string;
+// };
 
 
 
@@ -47,7 +47,6 @@ export default function Profile() {
     <div>
       <PatientBanner />
       <PatientProfileBar />
-
       {profileDetails.status === "success" ?
         <Grid container spacing={2} sx={{ mt: 1 }}>
           <Grid item xs={12} md={6}>

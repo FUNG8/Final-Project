@@ -10,7 +10,6 @@ import Paper from '@mui/material/Paper';
 import { Button } from '@mui/material';
 import { NextConsultingPatient, usePatientWaitingList } from '../../api/patientAPI';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { TabUnselected } from '@mui/icons-material';
 import { useState } from 'react';
 
 

@@ -8,17 +8,12 @@ import {
   TableRow,
   Paper,
   Box,
-  Button,
-  styled,
-  makeStyles,
-  Grid,
+  Tooltip
 } from "@mui/material";
 import Pagination from "@mui/material/Pagination";
 import { useEffect, useState } from "react";
-import SendIcon from "@mui/icons-material/Send";
 import { useNavigate } from "react-router-dom";
 import { SearchBar } from "./SearchBar";
-import { SendPatient } from "./SendPatient";
 import QueueButton from "./QueueButton";
 
 interface Patient {
@@ -96,7 +91,7 @@ export function ListPatients() {
               <TableBody>
                 {patients.status === "success" &&
                   (patients as any).patientResult.map((patient: any) => (
-                    
+                    <Tooltip title="Click to see patient's diagnosis record" >
                     <TableRow
                       key={patient.id}
                       style={{
@@ -191,6 +186,7 @@ export function ListPatients() {
                         <QueueButton patientId={patient.id} />
                       </TableCell>
                     </TableRow>
+                    </Tooltip>
                   ))}
               </TableBody>
             </Table>

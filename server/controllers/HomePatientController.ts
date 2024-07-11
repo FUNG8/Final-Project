@@ -16,13 +16,13 @@ export class HomePatientController {
     this.router.get("/completedPatientNumber", this.CompletedPatientNumber);
     this.router.put("/consultingPatient", this.ConsultingPatient);
     this.router.put("/patientQueue", this.queueRearrange);
-    // this.router.get("/patientWaitingTime", this.patientWaitingTime);
   }
 
 
 
   allWaitingList = async (req: Request, res: Response) => {
     try {
+
       const waitingQueue = (await pgClient.query('SELECT COUNT(status) FROM tickets WHERE status = $1;', ['waiting'])).rows[0]
 
       if (!waitingQueue) {
@@ -44,7 +44,7 @@ export class HomePatientController {
   CompletedPatientNumber = async (req: Request, res: Response) => {
     try {
       const completedQueue = (await pgClient.query('SELECT COUNT(status) FROM tickets WHERE status = $1;', ['completed'])).rows[0]
-      console.log("showmeeee what's that", completedQueue)
+      // console.log("showmeeee what's that", completedQueue)
 
       if (!completedQueue) {
         res.status(404).json({ message: "No patient details found" });
@@ -66,43 +66,22 @@ export class HomePatientController {
   InsertIntoWaitingList = async (req: Request, res: Response) => {
     try {
       const { patientId } = req.body;
-      console.log("what's that broooo finallll", patientId);
 
       //find out the MAX number of the ticket Number of the tickets table at the moment so to increase one to insert into the next patient ticket number.
       let ticketNumber = (
         await pgClient.query(`SELECT MAX(ticket_number) from tickets`)
       ).rows[0].max;
-      console.log("what is the ticketnumber at the moment:", ticketNumber);
       let NewTicketNumber = ticketNumber + 1;
-      console.log("can you show me the new ticket number:", NewTicketNumber);
-      let AssigningTicket = await pgClient.query(
+      await pgClient.query(
         `INSERT INTO tickets (patient_id, ticket_number) VALUES ($1,$2);`,
         [patientId, NewTicketNumber]
       );
-      console.log("you've inserted into queue!!!!", AssigningTicket);
 
       // find out how many patients that the status are waiting and consulting at the moment, then inserting into queue position
       let theLastTicketNumebr = (await pgClient.query(`SELECT COUNT(*) from tickets where status = 'waiting' OR status = 'consulting';`)).rows[0].count
       let ticketId = (await pgClient.query(`SELECT MAX(id) from tickets;`)).rows[0].max
       let newTicketId = + ticketId
       let queuePosition = await pgClient.query(`INSERT INTO queue (ticket_id,queue_position) VALUES ($1,$2);`, [newTicketId, theLastTicketNumebr])
-      console.log("does it successully insert into queuePosition????", queuePosition)
-      // let theLastTicketNumebr = (
-      //   await pgClient.query(
-      //     `SELECT COUNT(*) from tickets where status = 'waiting' OR status = 'consulting';`
-      //   )
-      // ).rows[0].count;
-      // let ticketId = (await pgClient.query(`SELECT MAX(id) from tickets;`))
-      //   .rows[0].max;
-      // let newTicketId = +ticketId;
-      // let queuePosition = await pgClient.query(
-      //   `INSERT INTO queue (ticket_id,queue_position) VALUES ($1,$2);`,
-      //   [newTicketId, theLastTicketNumebr]
-      // );
-      // console.log(
-      //   "does it successully insert into queuePosition????",
-      //   queuePosition
-      // );
 
       const response = {
         message: "Patient inserted successfully",
@@ -122,18 +101,21 @@ export class HomePatientController {
   patientWaitingList = async (req: Request, res: Response) => {
     try {
       const waitingQueueName = (await pgClient.query('select "firstName","lastName","timestamp","ticket_number",tickets.id as ticket_id,queue_position,status from patient join tickets on patient.id = tickets.patient_id join queue on queue.ticket_id = tickets.id ORDER BY queue_position;')).rows
-      // const waitingQueueName = (
-      //   await pgClient.query(
-      //     'select "firstName","lastName","timestamp","ticket_number",tickets.id as ticket_id,queue_position from patient join tickets on patient.id = tickets.patient_id join queue on queue.ticket_id = tickets.id order by queue_position;'
-      //   )
-      // ).rows;
-      console.log("this is patient Name on the ticket table", waitingQueueName);
-
-      if (!waitingQueueName) {
-        res.status(404).json({ message: "No patient details found" });
+      
+      if (waitingQueueName.length === 0) {
+        res.status(200).json({
+          message: "success",
+          data: waitingQueueName,
+        });
         return;
       }
-
+    
+      const theFirstOnWaitingListId = waitingQueueName[0].ticket_id;
+    
+      if (waitingQueueName[0].status === 'waiting') {
+        await pgClient.query('UPDATE tickets SET status = $1 WHERE id = $2', ["consulting", theFirstOnWaitingListId]);
+      }
+    
       res.status(200).json({
         message: "success",
         data: waitingQueueName,
@@ -173,8 +155,6 @@ export class HomePatientController {
 
       const theFirstPatientIdFromWaitingList = NextConsultingPatient[0].id
 
-
-
       // Remove the ticket from the queue if there are patients in the waiting list
       if (NextConsultingPatient[0].status = 'consulting') {
         await pgClient.query('UPDATE tickets SET status = $1 WHERE id = $2', ["completed", theFirstPatientIdFromWaitingList]);
@@ -194,14 +174,8 @@ export class HomePatientController {
 
       }
 
-      // if (!NextConsultingPatient) {
-      //   res.status(404).json({ message: "No patient details found" });
-      //   return;
-      // }
-
       res.status(200).json({
         message: "success",
-        // NextConsultingPatient
       });
     } catch (error) {
       console.error("Error fetching waiting list:", error);
@@ -209,16 +183,5 @@ export class HomePatientController {
     }
 
   }
+
 }
-
-
-
-
-
-
-// patientWaitingTime = async (req: Request, res: Response) => {
-//   try {
-//     const waitingTime = (await pgClient.query('select "timestamp" from tickets;')).rows
-//     console.log("this is patient waitingTime on the queue",waitingTime)
-
-

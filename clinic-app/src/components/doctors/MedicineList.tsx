@@ -35,7 +35,7 @@ export function ListMedicine() {
             <Box justifyContent="center" mt={4}>
                 <div>
                     <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '0.5rem' }}>
-                        <h2>Medicine</h2> <InsertMedicineModal/>
+                        <h2>Medicine</h2> 
                     </div>
                     <TableContainer component={Paper}>
                         <Table>

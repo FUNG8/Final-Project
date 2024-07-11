@@ -1,6 +1,4 @@
-import * as React from 'react';
 import { BarChart } from '@mui/x-charts/BarChart';
-import { Paper, styled } from '@mui/material';
 
 export default function ChartsOverviewDemo() {
 
@@ -32,17 +30,4 @@ export default function ChartsOverviewDemo() {
 
 
 
-          {/* <Grid item xs={8}>
-
-            <Grid sx={{ display: "flex" }}>
-              <Item>
-                <p>Number of Patients</p>
-                <PatientNumber />
-              </Item>
-              <Item>
-                <p>Medicine Consumption</p>
-                <MedicineConsumption />
-              </Item>
-            </Grid>
-
-          </Grid> */}
+        

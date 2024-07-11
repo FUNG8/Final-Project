@@ -137,28 +137,6 @@ export async function editPatientInfo(patientId: number, editedInfo: Patient) {
     return result.message;
 }
 
-export function useFetchDataToProfile(hkid: string) {
-    const { isLoading, error, data, isFetching } = useQuery({
-        queryKey: ["profileData", hkid],
-        queryFn: async () => {
-            const res = await fetch(`${process.env.REACT_APP_API_SERVER}/patientProfile/profilePage/`, {
-                headers: {
-                    "Authorization": `Bearer ${localStorage.getItem("patientToken")}`
-                }
-            });
-            const result = await res.json();
-            console.log(result)
-            return { status: "success", result: result.data }
-        },
-    });
-    if (isLoading || isFetching || error || !data) {
-        return { status: "loading" }
-    }
-
-
-    return data
-}
-
 
 export function useFetchDataToDiagnosis(hkid: string) {
     const { isLoading, error, data, isFetching } = useQuery({
@@ -191,7 +169,7 @@ export function useNumberWaitingList() {
         queryFn: async () => {
             const res = await fetch(`${process.env.REACT_APP_API_SERVER}/homePatient/allWaitingList`);
             const result = await res.json();
-            console.log("this is patient waiting List",result.data)
+            console.log("this is patient waiting List", result.data)
             return { status: "success", result: result.data };
         },
     });
@@ -202,6 +180,7 @@ export function useNumberWaitingList() {
     return data
 }
 
+
 export function useCompletedPatientNumber() {
 
 
@@ -210,7 +189,7 @@ export function useCompletedPatientNumber() {
         queryFn: async () => {
             const res = await fetch(`${process.env.REACT_APP_API_SERVER}/homePatient/completedPatientNumber`);
             const result = await res.json();
-            console.log("this is patient waiting List",result.data)
+            console.log("this is patient waiting List", result.data)
             return { status: "success", result: result.data };
         },
     });
@@ -230,7 +209,7 @@ export function usePatientWaitingList() {
         queryFn: async () => {
             const res = await fetch(`${process.env.REACT_APP_API_SERVER}/homePatient/patientWaitingList`);
             const result = await res.json();
-            console.log("this is usePatientWaitingList",result.data)
+            console.log("this is usePatientWaitingList", result.data)
             return { status: "success", result: result.data };
         },
     });
@@ -249,7 +228,7 @@ export function useWaitingTime() {
         queryFn: async () => {
             const res = await fetch(`${process.env.REACT_APP_API_SERVER}/homePatient/patientWaitingTime`);
             const result = await res.json();
-            console.log("this is patientWaitingTime",result.data)
+            console.log("this is patientWaitingTime", result.data)
             return { status: "success", result: result.data };
         },
     });
@@ -276,6 +255,51 @@ export async function NextConsultingPatient() {
     }
 
     const result = await updateResponse.json();
-    console.log("what's the result aaaaaa",result)
+    console.log("what's the result aaaaaa", result)
     return result.message;
+}
+
+export function usePatientTicketNumber(hkid: string) {
+
+    const { isLoading, error, data, isFetching } = useQuery({
+        queryKey: ["PatientTicketNumber", hkid],
+        queryFn: async () => {
+            const res = await fetch(`${process.env.REACT_APP_API_SERVER}/patientProfile/patientTicketNumber`, {
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem("patientToken")}`
+                }
+            });;
+            const result = await res.json();
+            console.log("this is patientTicketNumber", result)
+            return { status: "success", result: result };
+        },
+    });
+    if (isLoading || isFetching || error || !data) {
+        return { status: "loading" }
+    }
+
+    return data
+}
+
+
+export function useFetchDataToProfile(hkid: string) {
+    const { isLoading, error, data, isFetching } = useQuery({
+        queryKey: ["profileData", hkid],
+        queryFn: async () => {
+            const res = await fetch(`${process.env.REACT_APP_API_SERVER}/patientProfile/profilePage/`, {
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem("patientToken")}`
+                }
+            });
+            const result = await res.json();
+            console.log(result)
+            return { status: "success", result: result.data }
+        },
+    });
+    if (isLoading || isFetching || error || !data) {
+        return { status: "loading" }
+    }
+
+
+    return data
 }

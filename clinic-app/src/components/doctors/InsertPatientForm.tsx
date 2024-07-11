@@ -1,5 +1,7 @@
 // hahahahaha
 import * as React from "react";
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+
 import clsx from "clsx";
 import { styled, css } from "@mui/system";
 import { Portal } from "@mui/base/Portal";
@@ -10,11 +12,7 @@ import { ThemeProvider } from "styled-components";
 import {
   Autocomplete,
   Box,
-  Checkbox,
-  Container,
   CssBaseline,
-  FormControlLabel,
-  FormGroup,
   Grid,
   TextField,
   Tooltip,
@@ -30,7 +28,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import Button from "@mui/material/Button";
 import { useMutation } from "@tanstack/react-query";
 import { createPatient } from "../../api/patientAuthAPI";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import { MuiTelInput } from "mui-tel-input";
 
 const genderOptions = ["male", "female"];
@@ -46,9 +44,9 @@ export default function InsertPatientModal() {
   const [firstNameInput, setFirstNameInput] = useState("");
   const [lastNameInput, setLastNameInput] = useState("");
   const [genderInput, setGenderInput] = useState("");
-  const [gender, setGender] = React.useState<string | null>(genderOptions[0]);
+  const [gender, setGender] = React.useState<string | null>("");
   const [bloodInput, setBLoodInput] = useState("");
-  const [blood, setBlood] = React.useState<string | null>(bloodOptions[0]);
+  const [blood, setBlood] = React.useState<string | null>("");
   const [birthDateInput, setBirthDateInput] = React.useState<Dayjs | null>(
     dayjs("2000-01-01")
   );
@@ -58,7 +56,6 @@ export default function InsertPatientModal() {
     setPhoneNumberInput(newPhoneNumberInput);
   };
   const [emergencyNameInput, setEmergencyNameInput] = useState("");
-  //emergencyContact
   const [emergencyContactInput, setEmergencyContactInput] = React.useState("");
   const emergencyContactChange = (newEmergencyContactInput: React.SetStateAction<string>) => {
     setEmergencyContactInput(newEmergencyContactInput);
@@ -106,8 +103,7 @@ export default function InsertPatientModal() {
       console.log("On Creating Patient", data);
       handleAddPatient();
       handleClose();
-
-      //   queryClient.invalidateQueries({ queryKey: ["authStatus"] });
+        queryClient.invalidateQueries({ queryKey: ["authStatus"] });
     },
     onError: (e) => {
       console.log("mutate on error");
@@ -136,10 +132,10 @@ export default function InsertPatientModal() {
 
   return (
     <div>
-      <Grid xs={12} sx={{display:"flex",justifyContent:"center",margin:2}}>
-      <Tooltip title = "Are there new patients? create their first profile here!">
-      <TriggerButton onClick={handleOpen}>Create Patients</TriggerButton>
-      </Tooltip>
+      <Grid xs={12} sx={{ display: "flex", justifyContent: "center", margin: 2 }}>
+        <Tooltip title="Are there new patients? Create their first profile here!">
+          <Button variant={"contained"} onClick={handleOpen}><AddCircleOutlineIcon />Create Patients</Button>
+        </Tooltip>
       </Grid>
       <Modal
         aria-labelledby="transition-modal-title"
@@ -181,7 +177,6 @@ export default function InsertPatientModal() {
                       label="HKID"
                       name="hkid"
                       autoComplete="hkid"
-                      autoFocus
                     />
                     {/* first name */}
                     <TextField
@@ -194,7 +189,6 @@ export default function InsertPatientModal() {
                       label="First Name"
                       name="firstName"
                       autoComplete="firstName"
-                      autoFocus
                     />
                     {/* last name */}
                     <TextField
@@ -207,7 +201,6 @@ export default function InsertPatientModal() {
                       label="Last Name"
                       name="lastName"
                       autoComplete="lastName"
-                      autoFocus
                     />
                     {/* Blood and Gender */}
                     <Grid
@@ -309,7 +302,6 @@ export default function InsertPatientModal() {
                         label="Emergency Contact Person"
                         name="emergencyNameInput"
                         autoComplete="emergencyNameInput"
-                        autoFocus
                       />
 
                       {/* emergency contact Number */}
@@ -381,7 +373,7 @@ const Modal = React.forwardRef(function Modal(
     disableEscapeKeyDown = false,
     disablePortal = false,
     disableRestoreFocus = false,
-    disableScrollLock = false,
+    disableScrollLock = true,
     hideBackdrop = false,
     keepMounted = false,
     onClose,

@@ -3,13 +3,14 @@ import "./Home.scss";
 import { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import ConsultTable from "../../components/patients/ConsultingTable";
-import { Paper, Typography } from "@mui/material";
+import { Card, Container, Divider, Paper, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import { Username } from "../../components/patients/Username";
-import HomeTable from "../../components/patients/HomeTable";
 import MedicineConsumption from "../../components/doctors/MedicineConsumption";
 import PatientNumber from "../../components/doctors/PatientNumber";
 import { useCompletedPatientNumber, useNumberWaitingList } from "../../api/patientAPI";
+import WaitingList from "../../components/patients/WaitingList";
+import { StyledToggle } from "../../components/global/StyledToogle";
 
 const icon = (
   <Paper sx={{ m: 1, width: 100, height: 100 }} elevation={4}>
@@ -38,101 +39,123 @@ interface CompletedQueue {
 }
 
 export default function Home() {
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  // const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
-  useEffect(() => {
-    // Handler to call on window resize
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
+  // useEffect(() => {
+  //   const handleResize = () => {
+  //     setWindowWidth(window.innerWidth);
+  //   };
 
-    // Add event listener for window resize
-    window.addEventListener("resize", handleResize);
+  // window.addEventListener("resize", handleResize);
 
-    // Clean up event listener on component unmount
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-
-  // const Paper = styled(Paper)(({ theme }) => ({
-  //   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-  //   ...theme.typography.body2,
-  //   padding: theme.spacing(1),
-  //   textAlign: 'center',
-  //   color: theme.palette.text.secondary,
-  //   margin: 8
-  // }));
+  //   return () => {
+  //     window.removeEventListener("resize", handleResize);
+  //   };
+  // }, []);
 
   const totalQueue: TotalQueue = useNumberWaitingList()
   const completedQueue: CompletedQueue = useCompletedPatientNumber()
-  console.log("this is completed Queue number", completedQueue)
+  console.log("this is completed Queue number", (totalQueue as any).result)
 
   return (
-    <Grid container justifyContent="center" alignItems="center" height="50vh">
-      <Grid item xs={12} >
-        <Paper>
-          <Username />
-        </Paper>
-        <Box sx={{ flexGrow: 1 }} marginTop={15}>
-          <Grid container spacing={6} justifyContent="center">
-            <Grid item xs={6}>
-              <Paper>
-                <div className="waitingList">
-                  <Typography variant="h4" fontWeight="bold">
-                    Pending
-                  </Typography>
-                </div>
-                <Paper>
-                  <Typography variant="h5" fontWeight="bold">
-                    {(totalQueue as any).result?.count}
-                  </Typography>
-                </Paper>
-              </Paper>
-            </Grid>
-            <Grid item xs={6}>
-              <Paper>
-                <div className="waitingList">
-                  <Typography variant="h4" fontWeight="bold">
-                    Completed
-                  </Typography>
-                </div>
-                <Paper>
-                  <Typography variant="h5" fontWeight="bold">
-                    {(completedQueue as any).result?.count}
-                  </Typography>
-                </Paper>
-              </Paper>
-            </Grid>
-            <Grid item xs={12}>
-              <Paper>
-                <div className="waitingList">
-                  <Typography variant="h4" fontWeight="bold">
-                    Consulting
-                  </Typography>
-                </div>
-                <ConsultTable />
-              </Paper>
-              <Paper>
-                <div className="waitingList">
-                  <Typography variant="h4" fontWeight="bold">
-                    Waiting List
-                  </Typography>
-                </div>
-                <HomeTable />
-              </Paper>
-            </Grid>
-          </Grid>
-        </Box>
+    <Container maxWidth="xl">
+
+    <Grid mb={5} container  justifyContent="center" alignItems="center" >
+
+      <Grid my={5}>
+        <Username />
       </Grid>
-      <Paper>
-        <p>Number of Patients</p>
-        <PatientNumber />
-      </Paper>
-      <Paper>
-        <p>Medicine Consumption</p>
-        <MedicineConsumption />
-      </Paper>
+
+      {/* ------------------------------------- pending complete consulting waitinglist ------------------------------------- */}
+
+      <Grid container spacing={2} mx={5} justifyContent="center">
+
+        {/* ------------------------------------- pending------------------------------------- */}
+        <Grid item xs={6}>
+          <Paper sx={{ display: "flex", justifyContent: "center", padding: 2 }}>
+            <Grid xs={6} sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+              <Typography variant="h4" fontWeight="bold" >
+                Pending
+              </Typography>
+            </Grid>
+            <Divider orientation="vertical" flexItem />
+            <Grid xs={6} sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+
+              <Typography variant="h5" fontWeight="bold">
+                {(totalQueue as any).result?.count}
+              </Typography>
+            </Grid>
+
+          </Paper>
+        </Grid>
+        {/* ------------------------------------- completed------------------------------------- */}
+
+        <Grid item xs={6} spacing={5}>
+          <Paper sx={{ display: "flex", justifyContent: "center", padding: 2 }}>
+            <Grid xs={6} sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+              <Typography variant="h4" fontWeight="bold">
+                Completed
+              </Typography>
+            </Grid>
+
+            <Divider orientation="vertical" flexItem />
+            <Grid xs={6} sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+
+              <Typography variant="h5" fontWeight="bold">
+                {(completedQueue as any).result?.count}
+              </Typography>
+            </Grid>
+
+          </Paper>
+        </Grid>
+
+        {/* ------------------------------------- consulting ------------------------------------- */}
+
+
+        <Grid item xs={12} spacing={5}>
+          <Grid sx={{ display: "flex", justifyContent: "center", padding: 2 }}>
+
+
+            <Typography variant="h4" fontWeight="bold">
+              Consulting
+            </Typography>
+          </Grid>
+          <ConsultTable />
+
+        </Grid>
+        {/* ------------------------------------- waiting list------------------------------------- */}
+
+        <Grid item xs={12} spacing={5}>
+          <Grid sx={{ display: "flex", justifyContent: "center", padding: 2 }}>
+          
+            <Typography variant="h4" fontWeight="bold">
+              Waiting List
+            </Typography>
+          </Grid>
+          <WaitingList />
+
+        </Grid>
+        {/* ------------------------------------- graphs------------------------------------- */}
+
+        <Grid item xs={6} spacing={5} justifyContent="center" alignItems="center">
+          <Card sx={{ justifyContent: "center", alignItems: "center", padding: 2 }}>
+            <h2 >Number of Patients</h2>
+          <PatientNumber />
+
+          </Card>
+
+        </Grid>
+        <Grid item xs={6} spacing={5} justifyContent="center" alignItems="center">
+          <Card sx={{ justifyContent: "center", alignItems: "center", padding: 2 }}>
+
+            <h2 >Medicine Consumption</h2>
+            <MedicineConsumption />
+          </Card>
+          
+
+        </Grid>
+      </Grid>
     </Grid >
+    </Container>
   );
 }

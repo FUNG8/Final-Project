@@ -21,5 +21,13 @@ export class PatientProfileService {
          
     }
 
+    // async PatientTicket(hkid: string) {
+    //     return this.knex
+    //     .select('*')
+    //     .from('tickets')
+    //     .join('patient', 'tickets.patient_id', '=', 'patient.id')
+    //     .where('hkid', hkid);
+    //   }
+
 }
 
