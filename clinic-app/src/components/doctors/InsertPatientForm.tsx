@@ -103,8 +103,7 @@ export default function InsertPatientModal() {
       console.log("On Creating Patient", data);
       handleAddPatient();
       handleClose();
-
-      //   queryClient.invalidateQueries({ queryKey: ["authStatus"] });
+        queryClient.invalidateQueries({ queryKey: ["authStatus"] });
     },
     onError: (e) => {
       console.log("mutate on error");

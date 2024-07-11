@@ -65,10 +65,11 @@ export async function up(knex: Knex): Promise<void> {
     table.increments('id')
     table.bigInteger('medicine_id').notNullable();
     table.bigInteger('diagnosis_id').notNullable();
+    table.string('unit_measurement').notNullable();
     table.bigInteger('total_quantity').notNullable();
     table.string('method', 255).notNullable();
-    table.bigInteger('taken_count_today').notNullable();
-    table.bigInteger('taken_count').notNullable();
+    table.bigInteger('taken_count_today');
+    table.bigInteger('taken_count');
     table.bigInteger('period_day').notNullable();
     table.bigInteger('period_hr').notNullable();
     table.bigInteger('frequency_per_day').notNullable();

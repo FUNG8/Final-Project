@@ -150,6 +150,7 @@ export async function seed(knex: Knex): Promise<void> {
     {
       medicine_id: 1,
       diagnosis_id: 1,
+      unit_measurement:"g" ,
       total_quantity: 30,
       method: "Oral",
       taken_count_today: 1,
@@ -163,6 +164,7 @@ export async function seed(knex: Knex): Promise<void> {
     {
       medicine_id: 2,
       diagnosis_id: 1,
+      unit_measurement:"g" ,
       total_quantity: 777,
       method: "Oral",
       taken_count_today: 0,
@@ -176,6 +178,7 @@ export async function seed(knex: Knex): Promise<void> {
     {
       medicine_id: 2,
       diagnosis_id: 2,
+      unit_measurement:"g" ,
       total_quantity: 60,
       method: "Oral",
       taken_count_today: 1,

@@ -14,16 +14,19 @@ import {
   Typography,
   createTheme,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import Button from "@mui/material/Button";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { insertMedicine, useAllMedicineInfo } from "../../api/medicineAPI";
 import { DrugInstruction } from "./DrugInstruction";
 import { insertDiagnosis } from "../../api/diagnosisAPI";
-
+import { useParams } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 
 export default function InsertDiagnosisModal() {
+  const queryClient = useQueryClient();
+
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -38,20 +41,19 @@ export default function InsertDiagnosisModal() {
   const [demoInstructions, setDemoInstructions] = useState<any[]>([]);
   console.log("demooo", demoInstructions);
   // step 5b clicked button will make empty space for the value to store
-  const handleAddInstruction = async () => {
+  const handleAddInstruction = async (e: any) => {
+    e.preventDefault();
     try {
       // queryClient.invalidateQueries({ queryKey: ["MedicineInfo"] });
       let instruction = {
         index: demoInstructions.length,
-        medicine_id: null,
-        medicine_name: null,
         quantity: null,
         method: null,
-        periodDay:null,
-        periodHour:null,
-        frequencyPerDay:null,
-        dosagePerServing:null,
-        remarks:null
+        periodDay: null,
+        periodHour: null,
+        frequencyPerDay: null,
+        dosagePerServing: null,
+        remarks: null,
       };
       //step 6b it will add the empty space to the step 3 constructed demoInstruction,
       //adding the object instruction into the array
@@ -101,23 +103,12 @@ export default function InsertDiagnosisModal() {
   const onSubmit = useMutation({
     mutationFn: async (data: {
       d_name: string;
-      d_doctor_id:number;
-      d_patient_id:number;
-      d_remarks:string;
+      d_doctor_id: number;
+      d_patient_id: number;
+      d_remarks: string;
       d_created_at: string;
       d_updated_at: string;
-      di_medicine_id:number;
-      di_diagnosis_id:number;
-      di_unit_measurement:string;
-      di_total_quantity:number;
-      di_method:string;
-      di_taken_count_today:number;
-      di_taken_count:number;
-      di_period_day:number;
-      di_period_hour:number;
-      di_frequency_per_day:number;
-      di_dosage_per_serving:number;
-      di_remarks:string;
+      demoInstructions: any;
     }) =>
       insertDiagnosis(
         data.d_name,
@@ -126,24 +117,18 @@ export default function InsertDiagnosisModal() {
         data.d_remarks,
         data.d_created_at,
         data.d_updated_at,
-        data.di_medicine_id,
-        data.di_diagnosis_id,
-        data.di_unit_measurement,
-        data. di_total_quantity,
-        data.di_method,
-        data.di_taken_count_today,
-        data.di_taken_count,
-        data.di_period_day,
-        data.di_period_hour,
-        data.di_frequency_per_day,
-        data. di_dosage_per_serving,
-        data.di_remarks
+        data.demoInstructions
       ),
     onSuccess: (data) => {
       console.log("mutate on success");
       console.log("On Insert Medicine", data);
       // handleAddInstruction();
       handleClose();
+      setDemoInstructions([]);
+      setSymptomsInput("");
+      setRemarksInput("");
+      queryClient.invalidateQueries({ queryKey: ["showDiagnosis"] });
+
     },
     onError: (e) => {
       console.log("mutate on error");
@@ -151,24 +136,36 @@ export default function InsertDiagnosisModal() {
     },
   });
 
-  // const handleSubmit = (e: any) => {
-  //   e.preventDefault();
-  //   const currentTime = dayjs().format("YYYY-MM-DD HH:mm:ss");
-  //   console.log("current time is" + currentTime);
-  //   onSubmit.mutate({
-  //     d_name:"ss",
-  //     d_doctor_id :1,
-  //     d_patient_id:1,
-  //     d_created_at: currentTime,
-  //     d_updated_at: currentTime,
-  //   });
-  // };
+  //get patient and doctor id
+  let { patientId } = useParams();
+  const [drid, setDrid] = useState('');
+  useEffect(() => {
+    const drToken = localStorage.getItem('clinicToken');
+    if (drToken) {
+      let decoded: any = jwtDecode(drToken);
+      const doctorId = decoded["userId"];
+      setDrid(doctorId)
+    }},[])
+
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+
+    const currentTime = dayjs().format("YYYY-MM-DD HH:mm:ss");
+    console.log("current time is" + currentTime);
+    onSubmit.mutate({
+      d_name: symptomsInput,
+      d_doctor_id: parseInt(drid!),
+      d_patient_id: parseInt(patientId!),
+      d_remarks: remarksInput,
+      d_created_at: currentTime,
+      d_updated_at: currentTime,
+      demoInstructions: demoInstructions,
+    });
+  };
 
   return (
     <div>
-      <Grid
-        sx={{ display: "flex", justifyContent: "center", margin: 2 }}
-      >
+      <Grid sx={{ display: "flex", justifyContent: "center", margin: 2 }}>
         <Button variant="contained" onClick={handleOpen}>
           Insert Diagnosis Information
         </Button>
@@ -193,7 +190,6 @@ export default function InsertDiagnosisModal() {
                 <CssBaseline />
                 <Box
                   sx={{
-                   
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
@@ -260,7 +256,7 @@ if the changeFn is called from the instruction it will bring back value to handl
                       <Button
                         sx={{ position: "absolute", width: 400 }}
                         variant="contained"
-                        // onClick={handleSubmit}
+                        onClick={handleSubmit}
                       >
                         Submit
                       </Button>

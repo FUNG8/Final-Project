@@ -33,7 +33,7 @@ export default function Notification() {
             disableGutters
             secondaryAction={
               <IconButton aria-label="comment">
-                <CommentIcon />
+                {/* <CommentIcon /> */}
               </IconButton>
             }
           >
