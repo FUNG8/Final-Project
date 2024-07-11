@@ -47,7 +47,6 @@ export default function Profile() {
     <div>
       <PatientBanner />
       <PatientProfileBar />
-      <div className="ticketContainer">Your Ticket Number : 10 </div>
       {profileDetails.status === "success" ?
         <Grid container spacing={2} sx={{ mt: 1 }}>
           <Grid item xs={12} md={6}>
