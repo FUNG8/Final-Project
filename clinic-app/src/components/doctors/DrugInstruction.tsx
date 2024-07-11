@@ -17,6 +17,7 @@ const unitOptions = [
 export function DrugInstruction(props: {
   //step 1 props from the insertDIagnosisForm
   idx: number;
+  index:string
   changeFn: (
     targetIndex: number,
     medicineId: number,
@@ -29,7 +30,7 @@ export function DrugInstruction(props: {
     dosagePerServing: any,
     remarks: any
   ) => any;
-  deleteFn: (targetIndex: number) => any;
+  deleteFn: (targetIndex: string) => any;
   medicineOptions: any;
 }) {
   const [medicineInput, setMedicineInput] = useState("");
@@ -61,7 +62,7 @@ export function DrugInstruction(props: {
 
   const handleDeleteInstruction = (
   ) => {
-    props.deleteFn(props.idx);
+    props.deleteFn(props.index);
   };
 
   ///////////////////////////////////////////////////////////////////////////////////

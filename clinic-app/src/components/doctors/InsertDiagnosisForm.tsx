@@ -53,7 +53,7 @@ export default function InsertDiagnosisModal() {
     try {
       // queryClient.invalidateQueries({ queryKey: ["MedicineInfo"] });
       let instruction = {
-        index: demoInstructions.length,
+        index: new Date().toString(),
         quantity: null,
         method: null,
         periodDay: null,
@@ -70,8 +70,25 @@ export default function InsertDiagnosisModal() {
     }
   };
 
-  const handleDeleteInstruction = (targetIndex: number) => {
+  const handleDeleteInstruction = (targetIndex: string) => {
     console.log("targetidx",targetIndex)
+    // let emptyDemoInstructions = demoInstructions.map((entry)=>{
+    //   if (entry.index == targetIndex){
+    //     return {
+    //       ...entry,
+    //       medicineId: "",
+    //       unit: "",
+    //       quantity: "",
+    //       method: "",
+    //       periodDay: "",
+    //       periodHour: "",
+    //       frequencyPerDay: "",
+    //       dosagePerServing: "",
+    //       remarks: "",
+    //     };
+    //   }
+    // });
+
     let deletedDemoInstructions = demoInstructions.filter(
       (entry) => (entry.index !== targetIndex)
     );
@@ -240,6 +257,7 @@ if the changeFn is called from the instruction it will bring back value to handl
                   {demoInstructions.map((entry, idx) => (
                     <DrugInstruction
                       idx={idx}
+                      index={entry.index}
                       changeFn={handleInstructionChange}
                       deleteFn={handleDeleteInstruction}
                       medicineOptions={meds}
