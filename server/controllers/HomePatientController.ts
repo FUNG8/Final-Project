@@ -16,7 +16,6 @@ export class HomePatientController {
     this.router.get("/completedPatientNumber", this.CompletedPatientNumber);
     this.router.put("/consultingPatient", this.ConsultingPatient);
     this.router.put("/patientQueue", this.queueRearrange);
-    // this.router.get("/patientWaitingTime", this.patientWaitingTime);
   }
 
 
@@ -102,18 +101,21 @@ export class HomePatientController {
   patientWaitingList = async (req: Request, res: Response) => {
     try {
       const waitingQueueName = (await pgClient.query('select "firstName","lastName","timestamp","ticket_number",tickets.id as ticket_id,queue_position,status from patient join tickets on patient.id = tickets.patient_id join queue on queue.ticket_id = tickets.id ORDER BY queue_position;')).rows
-      // const waitingQueueName = (
-      //   await pgClient.query(
-      //     'select "firstName","lastName","timestamp","ticket_number",tickets.id as ticket_id,queue_position from patient join tickets on patient.id = tickets.patient_id join queue on queue.ticket_id = tickets.id order by queue_position;'
-      //   )
-      // ).rows;
-      console.log("this is patient Name on the ticket table", waitingQueueName);
-
-      if (!waitingQueueName) {
-        res.status(404).json({ message: "No patient details found" });
+      
+      if (waitingQueueName.length === 0) {
+        res.status(200).json({
+          message: "success",
+          data: waitingQueueName,
+        });
         return;
       }
-
+    
+      const theFirstOnWaitingListId = waitingQueueName[0].ticket_id;
+    
+      if (waitingQueueName[0].status === 'waiting') {
+        await pgClient.query('UPDATE tickets SET status = $1 WHERE id = $2', ["consulting", theFirstOnWaitingListId]);
+      }
+    
       res.status(200).json({
         message: "success",
         data: waitingQueueName,
@@ -153,8 +155,6 @@ export class HomePatientController {
 
       const theFirstPatientIdFromWaitingList = NextConsultingPatient[0].id
 
-
-
       // Remove the ticket from the queue if there are patients in the waiting list
       if (NextConsultingPatient[0].status = 'consulting') {
         await pgClient.query('UPDATE tickets SET status = $1 WHERE id = $2', ["completed", theFirstPatientIdFromWaitingList]);
@@ -174,14 +174,8 @@ export class HomePatientController {
 
       }
 
-      // if (!NextConsultingPatient) {
-      //   res.status(404).json({ message: "No patient details found" });
-      //   return;
-      // }
-
       res.status(200).json({
         message: "success",
-        // NextConsultingPatient
       });
     } catch (error) {
       console.error("Error fetching waiting list:", error);
