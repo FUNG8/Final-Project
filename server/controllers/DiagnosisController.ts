@@ -1,5 +1,4 @@
 import { Router, Request, Response } from "express";
-import { pgClient } from "../pgCLients";
 import { DiagnosisService } from "../services/diagnosisService";
 
 export const diagnosisRouter = Router();
