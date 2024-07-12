@@ -4,6 +4,9 @@ import { useEffect, useState } from "react"
 import { MenuItem as BaseMenuItem, menuItemClasses } from "@mui/base/MenuItem";
 import { styled } from "@mui/system";
 import "./PatientProfileBar.scss";
+import LogoutIcon from '@mui/icons-material/Logout';
+import { Grid } from "@mui/material";
+import { logout } from "../../api/patientAuthAPI";
 
 interface DecodedToken {
     userId: number;
@@ -54,10 +57,70 @@ export default function ProfileChangeBox() {
     console.log(profiles)
 
     return (<>
-        {profiles.length > 0 ? profiles.map((entry: any) => <MenuItem className="switchListItem" onClick={() => handleSwitchAccount(entry.token)}> {entry.firstName} {entry.lastName}</MenuItem>) : <></>}
+        {profiles.length > 0 ? profiles.map((entry: any) =>  <><MenuItem className="switchListItem"> <Grid onClick={() => handleSwitchAccount(entry.token)}>{entry.firstName} {entry.lastName}</Grid><Grid onClick={() => logout()}><LogoutIcon /></Grid></MenuItem></>) : <></>}
+        
     </>)
    
 }
+
+
+
+// interface Profile {
+//   firstName: string;
+//   lastName: string;
+//   token: string;
+//   [key: string]: any; // In case there are other properties from jwtDecode
+// }
+
+// export default function ProfileChangeBox() {
+//   const handleSwitchAccount = (token: string) => {
+//       localStorage.setItem("patientToken", token);
+//       window.location.reload();
+//   };
+
+//   const removeToken = (token: string) => {
+//       const tokenArrayString = localStorage.getItem("tokenArray");
+//       if (tokenArrayString) {
+//           const tokenArray: string[] = JSON.parse(tokenArrayString);
+//           const updatedTokenArray = tokenArray.filter(t => t !== token);
+//           localStorage.setItem("tokenArray", JSON.stringify(updatedTokenArray));
+//           setProfiles(profiles.filter(profile => profile.token !== token));
+//       }
+//   };
+
+//   const [profiles, setProfiles] = useState<Profile[]>([]);
+
+//   useEffect(() => {
+//       const tokenArrayString = localStorage.getItem("tokenArray");
+//       if (tokenArrayString) {
+//           const tokenArray: string[] = JSON.parse(tokenArrayString);
+//           let tmpArray: Profile[] = tokenArray.map(entry => ({
+//               ...jwtDecode(entry),
+//               token: entry
+//           }));
+//           setProfiles(tmpArray);
+//       }
+//   }, []);
+
+//   const currentToken = localStorage.getItem("patientToken");
+
+//   return (
+//       <>
+//           {profiles.length > 0 ? profiles
+//               .filter(profile => profile.token !== currentToken)
+//               .map((entry) => (
+//                   <MenuItem className="switchListItem" key={entry.token}>
+//                       <Grid onClick={() => handleSwitchAccount(entry.token)}>
+//                           {entry.firstName} {entry.lastName}
+//                       </Grid>
+//                       <Grid onClick={() => removeToken(entry.token)}>
+//                           <LogoutIcon />
+//                       </Grid>
+//                   </MenuItem>
+//               )) : null}
+//       </>
+//   );
+// }
 
 const blue = {
     50: '#F0F7FF',

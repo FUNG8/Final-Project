@@ -51,7 +51,7 @@ export async function login(usernameInput: string, passwordInput: string) {
 }
 
 //simply remove token from local storage, and redirect page
-export function logout() {
+export function logout(token: any) {
   console.log("remove token");
   localStorage.removeItem("clinicToken");
 
