@@ -53,7 +53,7 @@ export function ListDiagnosis() {
   );
 
   return (
-    <Box justifyContent="center" mt={4}>
+    <Box justifyContent="center" my={4}>
       {allDiagnosis?.status === "success" &&
         allDiagnosis.diagnosisResult?.map((diagnosis) => (
           <Accordion
@@ -61,10 +61,7 @@ export function ListDiagnosis() {
             sx={{
               margin: 2,
               "&.Mui-expanded": {
-                // Styles for the expanded accordion
                 boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
-                // backgroundColor: "#9a9ca1",
-
                 margin: 2,
               },
             }}

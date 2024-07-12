@@ -11,8 +11,9 @@ import { Unstable_Popup as BasePopup } from '@mui/base/Unstable_Popup';
 import { login } from "../../api/patientAuthAPI";
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { jwtDecode } from "jwt-decode";
-import ProfileChangeBox from "./ProfileChangeBox";
+// import ProfileChangeBox from "./ProfileChangeBox";
 import { Typography } from "@mui/material";
+import ProfileChangeBox from "./ProfileChangeBox";
 
 
 interface User {
@@ -88,6 +89,10 @@ export default function PatientProfileBar() {
     const id = open ? 'simple-popup' : undefined;
 
 
+    /////////mobile drawer
+    
+
+
     return (
         <div id="mainContainer">
             <div className="profileBox">PROFILE</div>
@@ -104,6 +109,8 @@ export default function PatientProfileBar() {
                             Add Account<PersonAddIcon />
                         </MenuItem>
 
+
+{/* login form input */}
                         <BasePopup id={id} open={open} anchor={anchor}>
                             <PopupBody>
                                 <form onSubmit={handleFormSubmit}>

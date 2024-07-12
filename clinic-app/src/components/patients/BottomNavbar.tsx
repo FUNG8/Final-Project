@@ -44,7 +44,7 @@ export default function BottomNavbar() {
             bottom: 0,
             left: 0,
             right: 0,
-            zIndex: 9999, // Set a higher z-index value
+            zIndex: 8888, // Set a higher z-index value
           }}
           elevation={3}
         >
