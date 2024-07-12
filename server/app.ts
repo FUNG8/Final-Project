@@ -68,6 +68,11 @@ import { DrugShapeController } from './controllers/DrugShapeController';
 const drugService = new DrugService(knex);
 const drugShapeController = new DrugShapeController(drugService);
 
+import { NotificationService } from './services/NotificationService';
+import { NotificationController } from './controllers/NotificationController';
+const notiService = new NotificationService(knex);
+const notiController = new NotificationController(notiService);
+
 app.use("/doctorAuth", doctorAuthController.router)
 app.use("/patientAuth", patientAuthController.router)
 app.use("/patients", patientController.router);
@@ -77,6 +82,8 @@ app.use("/drugShape",drugShapeController.router)
 app.use("/diagnosis",diagnosisController.router)
 app.use("/homePatient", homePatientController.router)
 app.use("/patientDiagnosis", patientDiagnosisController.router)
+app.use("/notification", notiController.router)
+
 
 
 

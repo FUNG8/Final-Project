@@ -33,9 +33,11 @@ interface Patient {
 }
 
 export function usePatientsInfo(pageNumber = 1, pageSize = 20, searchTerm = "") {
+    console.log("hihihih", searchTerm)
     let paramString = `pageNumber=${pageNumber}&pageSize=${pageSize}`
     console.log("check searchTerm", searchTerm)
     if (searchTerm !== null && searchTerm !== "" && searchTerm !== undefined) {
+        console.log("helloooooo")
         paramString += `&searchTerm=${searchTerm}`
     }
     const { isLoading, error, data, isFetching } = useQuery({
