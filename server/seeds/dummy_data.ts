@@ -46,7 +46,7 @@ export async function seed(knex: Knex): Promise<void> {
       generic_drug: "Acetylsalicylic Acid",
       description: "Pain reliever and anti-inflammatory.",
       dosage: 325,
-      unit_measurement: "毫克 mg",
+      unit_measurement: "mg",
       type: "Oral",
       drug_shape_id: 4,
       color: "White",
@@ -58,7 +58,7 @@ export async function seed(knex: Knex): Promise<void> {
       generic_drug: "Atorvastatin Calcium",
       description: "Lowers cholesterol levels.",
       dosage: 10,
-      unit_measurement: "毫克 mg",
+      unit_measurement: "mg",
       type: "Oral",
       drug_shape_id: 4,
       color: "Blue",
@@ -67,12 +67,12 @@ export async function seed(knex: Knex): Promise<void> {
     },
   ]);
 
-  for (let i = 0; i < 2; i++) {
+  for (let i = 0; i < 100; i++) {
     const firstName_data = faker.person.firstName();
     const lastName_data = faker.person.lastName();
     const gender_data = faker.person.sex();
     const phone_data = faker.phone.number();
-
+    
     const fakeId = faker.number.int();
     await knex("patient").insert([
       {
@@ -91,25 +91,25 @@ export async function seed(knex: Knex): Promise<void> {
       },
     ]);
   }
-
-  let phone_data = faker.phone.number();
-
-  await knex("patient").insert([
-    {
-      firstName: "test1",
-      lastName: "test1",
-      gender: "male",
-      blood: "O",
-      password: await hashPassword("t2"),
-      hkid: "Y1234568",
-      birth_date: new Date("1980-01-01"),
-      phone_number: phone_data,
-      emergency_name: "Jane Doe",
-      emergency_contact: phone_data,
-      created_at: new Date(),
-      updated_at: new Date(),
-    },
-  ]);
+  
+  // let phone_data = faker.phone.number();
+  
+  // await knex("patient").insert([
+  //   {
+  //     firstName: "test1",
+  //     lastName: "test1",
+  //     gender: "male",
+  //     blood: "O",
+  //     password: await hashPassword("t2"),
+  //     hkid: "Y1234568",
+  //     birth_date: new Date("1980-01-01"),
+  //     phone_number: phone_data,
+  //     emergency_name: "Jane Doe",
+  //     emergency_contact: phone_data,
+  //     created_at: new Date(),
+  //     updated_at: new Date(),
+  //   },
+  // ]);
 
   await knex("diagnosis").insert([
     {

@@ -35,8 +35,8 @@ function PatientLoginLink(props: any) {
 const defaultTheme = createTheme();
 
 export default function DoctorLogInForm() {
-  const [usernameInput, setUsernameInput] = useState("doctor1");
-  const [passwordInput, setPasswordInput] = useState("password1");
+  const [usernameInput, setUsernameInput] = useState("");
+  const [passwordInput, setPasswordInput] = useState("");
   const navigate = useNavigate();
 
   //submit button get the username and pw from handle login to here

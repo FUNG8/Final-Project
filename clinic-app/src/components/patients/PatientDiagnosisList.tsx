@@ -65,18 +65,19 @@ export function PatientDiagnosisList() {
   );
 
   return (
-    <Box justifyContent="center" mt={1} sx={{ zIndex: -2, height: "auto", "&.Mui-expanded": { height: "auto" } }}>
+    <Box justifyContent="center" my={1} sx={{ zIndex: -2, height: "auto", "&.Mui-expanded": { height: "auto" } }}>
       {allDiagnosis?.status === "success" &&
         allDiagnosis.diagnosisResult?.map((diagnosis) => (
-          <div>
             <Accordion
               key={diagnosis.id}
+              
               sx={{
+                marginBottom:2,
                 zIndex: 0,
                 "&.Mui-expanded": {
                   // Styles for the expanded accordion
                   boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
-                  marginBottom: 10,
+                  marginBottom: 2,
                 },
               }}
             >
@@ -166,7 +167,6 @@ export function PatientDiagnosisList() {
                 </Grid>
               </AccordionDetails>
             </Accordion>
-          </div>
         ))}
     </Box>
   );

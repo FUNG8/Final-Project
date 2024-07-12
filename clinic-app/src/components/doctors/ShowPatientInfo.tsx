@@ -25,7 +25,7 @@ import { MuiTelInput, MuiTelInputInfo } from "mui-tel-input";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useQueryClient } from "@tanstack/react-query";
 import { useMutation } from "@tanstack/react-query";
-import CloseIcon from '@mui/icons-material/Close';
+import CloseIcon from "@mui/icons-material/Close";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -56,10 +56,7 @@ interface Patient {
 export function ShowPatientInfo() {
   let { patientId } = useParams();
   const [open, setOpen] = React.useState(false);
-
   const queryClient = useQueryClient();
-  // console.log("param is", patientId);
-
   const onEditItem = useMutation({
     mutationFn: async (data: { patientId: number; editedInfo: any }) =>
       editPatientInfo(data.patientId, data.editedInfo),
@@ -69,18 +66,14 @@ export function ShowPatientInfo() {
       queryClient.invalidateQueries({ queryKey: ["showPatientsInfo"] });
     },
   });
-
   let [isEditing, setIsEditing] = useState(false);
   let [editedPatient, setEditedPatient] = useState<Patient | null>(null);
-
   const response = useShowPatientInfo(parseInt(patientId!));
-
   const handleEditClick = () => {
     setIsEditing(true);
     console.log("check response result", (response as any).result);
     setEditedPatient((response as any).result[0]);
   };
-
   const handleSaveClick = async () => {
     console.log("edited info", editedPatient);
     onEditItem.mutate({
@@ -90,7 +83,10 @@ export function ShowPatientInfo() {
     setIsEditing(false);
     setOpen(true);
   };
-
+  const handleCancelCLick = async ()=>{
+    setIsEditing(false);
+    setOpen(false);
+  }
   const handleClose = (
     event: React.SyntheticEvent | Event,
     reason?: string
@@ -98,10 +94,8 @@ export function ShowPatientInfo() {
     if (reason === "clickaway") {
       return;
     }
-
     setOpen(false);
   };
-
   // Function to handle input change
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const target = e.target as HTMLInputElement;
@@ -109,7 +103,6 @@ export function ShowPatientInfo() {
     updatedPatient.id = target.value;
     setEditedPatient(updatedPatient as SetStateAction<Patient | null>);
   };
-
   //set input usestate
   const genderOptions = ["male", "female"];
   const [genderInput, setGenderInput] = useState("");
@@ -443,8 +436,8 @@ export function ShowPatientInfo() {
                     action={action}
                   />
 
-                  <Button variant="contained" disableElevation>
-                    HISTORY
+                  <Button variant="contained" disableElevation onClick={handleCancelCLick}>
+                    Cancel
                   </Button>
                 </Stack>
               </Grid>
@@ -679,9 +672,9 @@ export function ShowPatientInfo() {
                     EDIT
                   </Button>
 
-                  <Button variant="contained" disableElevation>
+                  {/* <Button variant="contained" disableElevation>
                     HISTORY
-                  </Button>
+                  </Button> */}
                 </Stack>
               </Grid>
             </Container>
