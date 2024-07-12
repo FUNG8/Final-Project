@@ -4,6 +4,8 @@ import { MenuItem as BaseMenuItem, menuItemClasses } from "@mui/base/MenuItem";
 import { styled } from "@mui/system";
 import "./PatientProfileBar.scss";
 import { Box, Button, Grid, Paper } from "@mui/material";
+import LogoutIcon from "@mui/icons-material/Logout";
+import { logout } from "../../api/patientAuthAPI";
 
 interface DecodedToken {
   userId: number;
@@ -54,22 +56,26 @@ export default function ProfileChangeBox() {
   return (
     <>
       {profiles.length > 0 ? (
-
-        
         profiles.map((entry: any) => (
-            <Button
-            sx={{marginBottom:1}}
-              variant="outlined"
-              className="switchListItem"
-              onClick={() => handleSwitchAccount(entry.token)}
-            >
-              {" "}
-              {entry.firstName} {entry.lastName}
-            </Button>
-          
+          <Grid container display={"flex"} alignItems={"center"}>
+            <Grid xs={10}>
+              <Button
+                sx={{ width: "100%",marginBottom: 1}}
+                variant="outlined"
+                className="switchListItem"
+                onClick={() => handleSwitchAccount(entry.token)}
+              >
+                {" "}
+                {entry.firstName} {entry.lastName}
+              </Button>
+            </Grid>
+            <Grid xs={2} alignItems={"center"}>
+              <Button onClick={() => logout()}>
+                <LogoutIcon />
+              </Button>
+            </Grid>
+          </Grid>
         ))
-
-
       ) : (
         <></>
       )}

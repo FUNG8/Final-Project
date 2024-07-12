@@ -1,4 +1,4 @@
-import { Knex } from "knex";
+
 import { PatientProfileService } from "../services/patientProfileService";
 import express, { Router, Request, Response, response } from "express";
 import { checkToken } from "../utils/patientGuard";
