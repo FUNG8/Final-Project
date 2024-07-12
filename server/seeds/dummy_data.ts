@@ -67,7 +67,7 @@ export async function seed(knex: Knex): Promise<void> {
     },
   ]);
 
-  for (let i = 0; i < 2; i++) {
+  for (let i = 0; i < 100; i++) {
     const firstName_data = faker.person.firstName();
     const lastName_data = faker.person.lastName();
     const gender_data = faker.person.sex();

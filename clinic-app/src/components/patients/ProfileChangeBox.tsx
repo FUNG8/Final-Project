@@ -1,23 +1,22 @@
-
 import { jwtDecode } from "jwt-decode";
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 import { MenuItem as BaseMenuItem, menuItemClasses } from "@mui/base/MenuItem";
 import { styled } from "@mui/system";
 import "./PatientProfileBar.scss";
-import LogoutIcon from '@mui/icons-material/Logout';
-import { Grid } from "@mui/material";
+import { Box, Button, Grid, Paper } from "@mui/material";
+import LogoutIcon from "@mui/icons-material/Logout";
 import { logout } from "../../api/patientAuthAPI";
 
 interface DecodedToken {
-    userId: number;
-    firstName: string;
-    lastName: string;
-    hkid: string;
+  userId: number;
+  firstName: string;
+  lastName: string;
+  hkid: string;
 }
 
 interface User {
-    firstName: string;
-    lastName: string;
+  firstName: string;
+  lastName: string;
 }
 // {users.map((user) => (
 //     <MenuItem
@@ -30,125 +29,87 @@ interface User {
 // ))}
 
 export default function ProfileChangeBox() {
+  const handleSwitchAccount = (token: string) => {
+    localStorage.setItem("patientToken", token);
+    window.location.reload();
+  };
 
-    const handleSwitchAccount = (token: string) => {
-        localStorage.setItem("patientToken", token)
-        window.location.reload()
-    };
+  const [profiles, setProfiles] = useState([]);
+  useEffect(() => {
+    const tokenArrayString = localStorage.getItem("tokenArray");
+    const tokenArray: string[] = JSON.parse(tokenArrayString!);
+    console.log(tokenArray);
 
-    const [profiles, setProfiles] = useState([])
-    useEffect(() => {
+    let tmpArray: any = [];
+    tokenArray.map((entry) => {
+      console.log(jwtDecode(entry));
+      tmpArray.push({ ...jwtDecode(entry), token: entry });
+    });
 
-        const tokenArrayString = localStorage.getItem("tokenArray");
-        const tokenArray: string[] = JSON.parse(tokenArrayString!);
-        console.log(tokenArray)
+    console.log("check tmp array", tmpArray);
 
-        let tmpArray: any = []
-        tokenArray.map((entry) => {
-            console.log(jwtDecode(entry))
-            tmpArray.push({ ...jwtDecode(entry), token: entry })
-        })
+    setProfiles(tmpArray);
+  }, []);
 
-        console.log("check tmp array", tmpArray)
+  console.log(profiles);
 
-        setProfiles(tmpArray)
-    }, [])
-
-    console.log(profiles)
-
-    return (<>
-        {profiles.length > 0 ? profiles.map((entry: any) =>  <><MenuItem className="switchListItem"> <Grid onClick={() => handleSwitchAccount(entry.token)}>{entry.firstName} {entry.lastName}</Grid><Grid onClick={() => logout()}><LogoutIcon /></Grid></MenuItem></>) : <></>}
-        
-    </>)
-   
+  return (
+    <>
+      {profiles.length > 0 ? (
+        profiles.map((entry: any) => (
+          <Grid container display={"flex"} alignItems={"center"}>
+            <Grid xs={10}>
+              <Button
+                sx={{ width: "100%",marginBottom: 1}}
+                variant="outlined"
+                className="switchListItem"
+                onClick={() => handleSwitchAccount(entry.token)}
+              >
+                {" "}
+                {entry.firstName} {entry.lastName}
+              </Button>
+            </Grid>
+            <Grid xs={2} alignItems={"center"}>
+              <Button onClick={() => logout()}>
+                <LogoutIcon />
+              </Button>
+            </Grid>
+          </Grid>
+        ))
+      ) : (
+        <></>
+      )}
+    </>
+  );
 }
 
-
-
-// interface Profile {
-//   firstName: string;
-//   lastName: string;
-//   token: string;
-//   [key: string]: any; // In case there are other properties from jwtDecode
-// }
-
-// export default function ProfileChangeBox() {
-//   const handleSwitchAccount = (token: string) => {
-//       localStorage.setItem("patientToken", token);
-//       window.location.reload();
-//   };
-
-//   const removeToken = (token: string) => {
-//       const tokenArrayString = localStorage.getItem("tokenArray");
-//       if (tokenArrayString) {
-//           const tokenArray: string[] = JSON.parse(tokenArrayString);
-//           const updatedTokenArray = tokenArray.filter(t => t !== token);
-//           localStorage.setItem("tokenArray", JSON.stringify(updatedTokenArray));
-//           setProfiles(profiles.filter(profile => profile.token !== token));
-//       }
-//   };
-
-//   const [profiles, setProfiles] = useState<Profile[]>([]);
-
-//   useEffect(() => {
-//       const tokenArrayString = localStorage.getItem("tokenArray");
-//       if (tokenArrayString) {
-//           const tokenArray: string[] = JSON.parse(tokenArrayString);
-//           let tmpArray: Profile[] = tokenArray.map(entry => ({
-//               ...jwtDecode(entry),
-//               token: entry
-//           }));
-//           setProfiles(tmpArray);
-//       }
-//   }, []);
-
-//   const currentToken = localStorage.getItem("patientToken");
-
-//   return (
-//       <>
-//           {profiles.length > 0 ? profiles
-//               .filter(profile => profile.token !== currentToken)
-//               .map((entry) => (
-//                   <MenuItem className="switchListItem" key={entry.token}>
-//                       <Grid onClick={() => handleSwitchAccount(entry.token)}>
-//                           {entry.firstName} {entry.lastName}
-//                       </Grid>
-//                       <Grid onClick={() => removeToken(entry.token)}>
-//                           <LogoutIcon />
-//                       </Grid>
-//                   </MenuItem>
-//               )) : null}
-//       </>
-//   );
-// }
-
 const blue = {
-    50: '#F0F7FF',
-    100: '#C2E0FF',
-    200: '#99CCF3',
-    300: '#66B2FF',
-    400: '#3399FF',
-    500: '#007FFF',
-    600: '#0072E6',
-    700: '#0059B3',
-    800: '#004C99',
-    900: '#003A75',
+  50: "#F0F7FF",
+  100: "#C2E0FF",
+  200: "#99CCF3",
+  300: "#66B2FF",
+  400: "#3399FF",
+  500: "#007FFF",
+  600: "#0072E6",
+  700: "#0059B3",
+  800: "#004C99",
+  900: "#003A75",
 };
 
 const grey = {
-    50: '#F3F6F9',
-    100: '#E5EAF2',
-    200: '#DAE2ED',
-    300: '#C7D0DD',
-    400: '#B0B8C4',
-    500: '#9DA8B7',
-    600: '#6B7A90',
-    700: '#434D5B',
-    800: '#303740',
-    900: '#1C2025',
+  50: "#F3F6F9",
+  100: "#E5EAF2",
+  200: "#DAE2ED",
+  300: "#C7D0DD",
+  400: "#B0B8C4",
+  500: "#9DA8B7",
+  600: "#6B7A90",
+  700: "#434D5B",
+  800: "#303740",
+  900: "#1C2025",
 };
 const MenuItem = styled(BaseMenuItem)(
-    ({ theme }) => `
+  ({ theme }) => `
   list-style: none;
   padding: 8px;
   border-radius: 8px;
@@ -163,13 +124,13 @@ const MenuItem = styled(BaseMenuItem)(
   }
 
   &:focus {
-    outline: 3px solid ${theme.palette.mode === 'dark' ? blue[600] : blue[200]};
-    background-color: ${theme.palette.mode === 'dark' ? grey[800] : grey[100]};
-    color: ${theme.palette.mode === 'dark' ? grey[300] : grey[900]};
+    outline: 3px solid ${theme.palette.mode === "dark" ? blue[600] : blue[200]};
+    background-color: ${theme.palette.mode === "dark" ? grey[800] : grey[100]};
+    color: ${theme.palette.mode === "dark" ? grey[300] : grey[900]};
   }
 
   &.${menuItemClasses.disabled} {
-    color: ${theme.palette.mode === 'dark' ? grey[700] : grey[400]};
+    color: ${theme.palette.mode === "dark" ? grey[700] : grey[400]};
   }
-  `,
+  `
 );

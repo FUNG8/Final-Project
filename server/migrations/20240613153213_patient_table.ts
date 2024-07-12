@@ -65,6 +65,7 @@ export async function up(knex: Knex): Promise<void> {
     table.increments('id')
     table.bigInteger('medicine_id')
     table.bigInteger('diagnosis_id')
+    table.string('unit_measurement')
     table.bigInteger('total_quantity')
     table.string('method', 255)
     table.bigInteger('taken_count_today')
@@ -74,6 +75,7 @@ export async function up(knex: Knex): Promise<void> {
     table.bigInteger('frequency_per_day')
     table.bigInteger('dosage_per_serving')
     table.text('remarks')
+
     table.foreign('diagnosis_id').references('id').inTable('diagnosis');
     table.foreign('medicine_id').references('id').inTable('medicine');
   });

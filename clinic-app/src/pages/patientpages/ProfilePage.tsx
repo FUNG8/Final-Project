@@ -4,6 +4,7 @@ import Grid from "@mui/material/Grid";
 import PatientBanner from "../../components/patients/PatientBanner";
 import PatientPersonalInfo from "../../components/patients/PatientPersonalInfo";
 import { PatientDiagnosisList } from "../../components/patients/PatientDiagnosisList";
+import PatientProfileBarAdvanced from "../../components/patients/PatientProfileBarAdvanced";
 
 export default function Profile() {
 
@@ -11,7 +12,8 @@ export default function Profile() {
   return (
     <Grid sx={{ height: "auto" }}>
       <PatientBanner />
-      <PatientProfileBar />
+      {/* <PatientProfileBar /> */}
+      <PatientProfileBarAdvanced/>
       <Card
         sx={{
           height: 500,
