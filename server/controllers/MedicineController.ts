@@ -1,7 +1,7 @@
 // controller
 import { Router, Request, Response } from "express";
 import { MedicineService } from "../services/MedicineService";
-import { pgClient } from "../pgCLients";
+import { pgClient } from "../pgClients";
 
 export const medicineRouter = Router();
 

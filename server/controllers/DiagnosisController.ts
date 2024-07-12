@@ -1,5 +1,5 @@
 import { Router, Request, Response } from "express";
-import { pgClient } from "../pgCLients";
+import { pgClient } from "../pgClients";
 import { DiagnosisService } from "../services/diagnosisService";
 
 export const diagnosisRouter = Router();
@@ -8,57 +8,76 @@ export class DiagnosisController {
   router = Router();
   constructor(private diagnosisServices: DiagnosisService) {
     this.router.get("/getDiagnosis/:id", this.getDiagnosis);
-    this.router.post("/postDiagnosis/:id", this.PostDiagnosis);
-
+    this.router.post("/postDiagnosis/:id", this.postDiagnosis);
   }
 
   getDiagnosis = async (req: Request, res: Response) => {
     try {
       let patient_id = req.params.id;
-      const diagnosisResult = await this.diagnosisServices.getDiagnosis(patient_id);
-      console.log(diagnosisResult)
+      const diagnosisResult = await this.diagnosisServices.getDiagnosis(
+        patient_id
+      );
+      console.log(diagnosisResult);
       res.json(diagnosisResult);
     } catch (e) {
-      res.status(500);
-      console.log("Error Getting Diagnosis History");
+      res.status(500).json({ message: "Error Getting Diagnosis History" });
+      console.error(e);
     }
   };
 
-  PostDiagnosis = async (req: Request, res: Response) => {
+  postDiagnosis = async (req: Request, res: Response) => {
+    console.log("reqbody", req.body);
     try {
-      let patient_id = req.params.id;
-
+      console.log("reqbody", req.body.d_name);
       let {
-        medicine_id,
-        symptoms,
-        diagnosis_remarks,
-        created_at,
-        unit_measurement,
-        total_quantity,
-        method,
-        period_day,
-        period_hr,
-        frequency_per_day,
-        dosage_per_serving,
-        remarks
-      } = req.body
+        d_name,
+        d_doctor_id,
+        d_patient_id,
+        d_remarks,
+        d_created_at,
+        d_updated_at,
+        demoInstructions,
+      } = req.body;
 
-      const diagnosisResult = await pgClient.query('INSERT INTO diagnosis (name,remarks,created_at,doctor_id,patient_id) VALUES($1,$2,$3,$4,$5)',[symptoms,diagnosis_remarks,created_at,'1',patient_id])
-      let NewDiagnosisId = diagnosisResult.rows[0].id
-      const instructionsResult = await pgClient.query('INSERT INTO drug_instruction (medicine_id,unit_measurement,diagnosis_id,total_quantity,method,period_day,period_hr,frequency_per_day,dosage_per_serving,remarks) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)',[medicine_id,unit_measurement,NewDiagnosisId,total_quantity,method,period_day,period_hr,frequency_per_day,dosage_per_serving,remarks] )
+      const diagnosisResult = await pgClient.query(
+        "INSERT INTO diagnosis (name, doctor_id, patient_id, remarks, updated_at, created_at) VALUES($1, $2, $3, $4, $5, $6) RETURNING *",
+        [
+          d_name,
+          d_doctor_id,
+          d_patient_id,
+          d_remarks,
+          d_created_at,
+          d_updated_at,
+        ]
+      );
+      console.log("id?",diagnosisResult.rows[0].id)
 
-      console.log("this is diagnosisResult!!",diagnosisResult)
-      console.log("this is instructionsResult!!!!",instructionsResult)
+      for (const instruction of demoInstructions) {
+        await pgClient.query(
+          "INSERT INTO drug_instruction (medicine_id,diagnosis_id,unit_measurement, total_quantity,method,period_day,period_hr,frequency_per_day,dosage_per_serving,remarks) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)",
+          [
+            instruction.medicineId,
+            diagnosisResult.rows[0].id,
+            instruction.unit,
+            instruction.quantity,
+            instruction.method,
+            instruction.periodDay,
+            instruction.periodHour,
+            instruction.frequencyPerDay,
+            instruction.dosagePerServing,
+            instruction.remarks,
 
-      res.json({messege: "Successfully Inserted"});
+          ]
+        );
+      }
+
+      res.json({
+        message: "Successfully Inserted",
+        diagnosisResult: diagnosisResult.rows[0],
+      });
     } catch (e) {
-      res.status(500);
-      console.log("Error Getting Diagnosis History");
+      res.status(500).json({ message: "Error Inserting Diagnosis" });
+      console.error(e);
     }
   };
-
-
-
-
-
 }

@@ -9,23 +9,34 @@ import { ThemeProvider } from "styled-components";
 import {
   Box,
   CssBaseline,
+  Divider,
   Grid,
   TextField,
   Typography,
   createTheme,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import Button from "@mui/material/Button";
-import { useMutation } from "@tanstack/react-query";
-import { insertMedicine, useAllMedicineInfo } from "../../api/medicineAPI";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useAllMedicineInfo } from "../../api/medicineAPI";
 import { DrugInstruction } from "./DrugInstruction";
-
+import { insertDiagnosis } from "../../api/diagnosisAPI";
+import { useParams } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
 export default function InsertDiagnosisModal() {
+  const queryClient = useQueryClient();
+
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setOpen(false);
+    setDemoInstructions([]);
+    setSymptomsInput("");
+    setRemarksInput("");
+  };
   const defaultTheme = createTheme();
   const [symptomsInput, setSymptomsInput] = useState("");
   const [remarksInput, setRemarksInput] = useState("");
@@ -37,20 +48,19 @@ export default function InsertDiagnosisModal() {
   const [demoInstructions, setDemoInstructions] = useState<any[]>([]);
   console.log("demooo", demoInstructions);
   // step 5b clicked button will make empty space for the value to store
-  const handleAddInstruction = async () => {
+  const handleAddInstruction = async (e: any) => {
+    e.preventDefault();
     try {
       // queryClient.invalidateQueries({ queryKey: ["MedicineInfo"] });
       let instruction = {
-        index: demoInstructions.length,
-        medicine_id: null,
-        medicine_name: null,
+        index: new Date().toString(),
         quantity: null,
         method: null,
-        periodDay:null,
-        periodHour:null,
-        frequencyPerDay:null,
-        dosagePerServing:null,
-        remarks:null
+        periodDay: null,
+        periodHour: null,
+        frequencyPerDay: null,
+        dosagePerServing: null,
+        remarks: null,
       };
       //step 6b it will add the empty space to the step 3 constructed demoInstruction,
       //adding the object instruction into the array
@@ -58,6 +68,31 @@ export default function InsertDiagnosisModal() {
     } catch (error) {
       console.error("Error adding Medicine:", error);
     }
+  };
+
+  const handleDeleteInstruction = (targetIndex: string) => {
+    console.log("targetidx",targetIndex)
+    // let emptyDemoInstructions = demoInstructions.map((entry)=>{
+    //   if (entry.index == targetIndex){
+    //     return {
+    //       ...entry,
+    //       medicineId: "",
+    //       unit: "",
+    //       quantity: "",
+    //       method: "",
+    //       periodDay: "",
+    //       periodHour: "",
+    //       frequencyPerDay: "",
+    //       dosagePerServing: "",
+    //       remarks: "",
+    //     };
+    //   }
+    // });
+
+    let deletedDemoInstructions = demoInstructions.filter(
+      (entry) => (entry.index !== targetIndex)
+    );
+    setDemoInstructions(deletedDemoInstructions);
   };
   //Step 5a While value from instruction input fields are back it locates the object in array by idx
   const handleInstructionChange = (
@@ -72,7 +107,6 @@ export default function InsertDiagnosisModal() {
     dosagePerServing: number,
     remarks: string
   ) => {
-    console.log("check!!!", targetIndex, medicineId, unit,quantity);
     let newDemoInstructions = demoInstructions.map((entry) => {
       console.log(entry.index);
       if (entry.index == targetIndex)
@@ -100,66 +134,72 @@ export default function InsertDiagnosisModal() {
   //mutation and submit
   const onSubmit = useMutation({
     mutationFn: async (data: {
-      name: string;
-      generic_drug: string;
-      description: string;
-      dosage: string;
-      unit_measurement: string;
-      type: string;
-      drug_shape_id: string;
-      color: string;
-      created_at: string;
-      updated_at: string;
+      d_name: string;
+      d_doctor_id: number;
+      d_patient_id: number;
+      d_remarks: string;
+      d_created_at: string;
+      d_updated_at: string;
+      demoInstructions: any;
     }) =>
-      insertMedicine(
-        data.name,
-        data.generic_drug,
-        data.description,
-        data.dosage,
-        data.unit_measurement,
-        data.type,
-        data.drug_shape_id,
-        data.color,
-        data.created_at,
-        data.updated_at
+      insertDiagnosis(
+        data.d_name,
+        data.d_doctor_id,
+        data.d_patient_id,
+        data.d_remarks,
+        data.d_created_at,
+        data.d_updated_at,
+        data.demoInstructions
       ),
     onSuccess: (data) => {
       console.log("mutate on success");
       console.log("On Insert Medicine", data);
       // handleAddInstruction();
       handleClose();
+      setDemoInstructions([]);
+      setSymptomsInput("");
+      setRemarksInput("");
+      queryClient.invalidateQueries({ queryKey: ["showDiagnosis"] });
     },
     onError: (e) => {
       console.log("mutate on error");
       console.log("On error!!", e);
     },
   });
+
+  //get patient and doctor id
+  let { patientId } = useParams();
+  const [drid, setDrid] = useState("");
+  useEffect(() => {
+    const drToken = localStorage.getItem("clinicToken");
+    if (drToken) {
+      let decoded: any = jwtDecode(drToken);
+      const doctorId = decoded["userId"];
+      setDrid(doctorId);
+    }
+  }, []);
+
   const handleSubmit = (e: any) => {
     e.preventDefault();
+
     const currentTime = dayjs().format("YYYY-MM-DD HH:mm:ss");
     console.log("current time is" + currentTime);
-
-    // onSubmit.mutate({
-    //   name: medicineNameInput,
-    //   generic_drug: genericDrugInput,
-    //   description: descriptionInput,
-    //   dosage: dosageInput,
-    //   unit_measurement: unitInput,
-    //   type: typeInput,
-    //   drug_shape_id: drugInput,
-    //   color: colorInput,
-    //   created_at: currentTime,
-    //   updated_at: currentTime,
-    // });
+    onSubmit.mutate({
+      d_name: symptomsInput,
+      d_doctor_id: parseInt(drid!),
+      d_patient_id: parseInt(patientId!),
+      d_remarks: remarksInput,
+      d_created_at: currentTime,
+      d_updated_at: currentTime,
+      demoInstructions: demoInstructions,
+    });
   };
 
   return (
     <div>
-      <Grid
-        sx={{ display: "flex", justifyContent: "center", margin: 2 }}
-      >
+      <Grid sx={{ display: "flex", justifyContent: "center", margin: 2 }}>
         <Button variant="contained" onClick={handleOpen}>
-          Insert Diagnosis Information
+          <AddCircleOutlineIcon /> Insert Diagnosis Information
         </Button>
       </Grid>
 
@@ -175,88 +215,80 @@ export default function InsertDiagnosisModal() {
           <ModalContent sx={style}>
             <ThemeProvider theme={defaultTheme}>
               <Grid
+                className="modalheight"
                 container
                 component="main"
                 sx={{ height: "80vh", justifyContent: "center" }}
               >
-                <CssBaseline />
-                <Box
-                  sx={{
-                    my: 2,
-                    mx: 2,
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                  }}
-                >
-                  <Typography component="h1" variant="h5">
+                <Grid className="nigga" mx={4}>
+                  <Typography component="h1" variant="h4">
                     Diagnosis
                   </Typography>
-                  <Box
-                    component="form"
-                    noValidate
-                    sx={{ mt: 0 }}
-                    onSubmit={handleSubmit}
-                  >
-                    {/* Symptoms */}
-                    <TextField
-                      value={symptomsInput}
-                      onChange={(e) => setSymptomsInput(e.target.value)}
-                      margin="normal"
-                      required
-                      fullWidth
-                      id="symptoms"
-                      label="Symptoms"
-                      autoComplete="symptoms"
-                      autoFocus
-                    />
-                    {/* Remarks */}
-                    <TextField
-                      value={remarksInput}
-                      onChange={(e) => setRemarksInput(e.target.value)}
-                      name="remarks"
-                      margin="normal"
-                      required
-                      fullWidth
-                      id="remarks"
-                      label="Remarks"
-                      autoComplete="remarks"
-                      autoFocus
-                    />
+                  {/* -------------------Symptoms and Remarks------------------- */}
 
-                    {/* ------------------- Instruction------------------- */}
-                    {/* Step 4a map the instruction input fields giving them idx as mark and give it meds as options for medicine input field
+                  {/* Symptoms */}
+                  <TextField
+                    value={symptomsInput}
+                    onChange={(e) => setSymptomsInput(e.target.value)}
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="symptoms"
+                    label="Symptoms"
+                    autoComplete="symptoms"
+                    autoFocus
+                  />
+                  {/* Remarks */}
+                  <TextField
+                    value={remarksInput}
+                    onChange={(e) => setRemarksInput(e.target.value)}
+                    name="remarks"
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="remarks"
+                    label="Remarks"
+                    autoComplete="remarks"
+                  />
+                  {/* -------------------Drug Instruction------------------- */}
+
+                  {/* Step 4a map the instruction input fields giving them idx as mark and give it meds as options for medicine input field
 if the changeFn is called from the instruction it will bring back value to handleinstructionchange() */}
-                    {demoInstructions.map((entry, idx) => (
-                      <DrugInstruction
-                        idx={idx}
-                        changeFn={handleInstructionChange}
-                        medicineOptions={meds}
-                      />
-                    ))}
-                    {/* Step 4b clicking button call add instruction()  */}
-                    <button onClick={handleAddInstruction}>
-                      Add Medicine/Instruction
-                    </button>
-                    {/*------------------- Submit Button------------------- */}
-                    <Grid
-                      sx={{
-                        my: 4,
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
+                  {demoInstructions.map((entry, idx) => (
+                    <DrugInstruction
+                      idx={idx}
+                      index={entry.index}
+                      changeFn={handleInstructionChange}
+                      deleteFn={handleDeleteInstruction}
+                      medicineOptions={meds}
+                    />
+                  ))}
+                  {/* Step 4b clicking button call add instruction()  */}
+                  <Button
+                    onClick={handleAddInstruction}
+                    sx={{ alignItems: "center" }}
+                  >
+                    <AddCircleOutlineIcon />
+                    Add Medicine/Instruction
+                  </Button>
+                  {/*------------------- Submit Button------------------- */}
+                  <Grid
+                    sx={{
+                      my: 4,
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Button
+                      sx={{ position: "absolute", width: 400 }}
+                      variant="contained"
+                      onClick={handleSubmit}
                     >
-                      <Button
-                        sx={{ position: "absolute", width: 400 }}
-                        variant="contained"
-                        onClick={handleSubmit}
-                      >
-                        Submit
-                      </Button>
-                    </Grid>
-                  </Box>
-                </Box>
+                      Submit
+                    </Button>
+                  </Grid>
+                </Grid>
               </Grid>
             </ThemeProvider>
           </ModalContent>

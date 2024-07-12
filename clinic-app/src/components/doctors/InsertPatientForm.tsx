@@ -44,9 +44,9 @@ export default function InsertPatientModal() {
   const [firstNameInput, setFirstNameInput] = useState("");
   const [lastNameInput, setLastNameInput] = useState("");
   const [genderInput, setGenderInput] = useState("");
-  const [gender, setGender] = React.useState<string | null>(genderOptions[0]);
+  const [gender, setGender] = React.useState<string | null>("");
   const [bloodInput, setBLoodInput] = useState("");
-  const [blood, setBlood] = React.useState<string | null>(bloodOptions[0]);
+  const [blood, setBlood] = React.useState<string | null>("");
   const [birthDateInput, setBirthDateInput] = React.useState<Dayjs | null>(
     dayjs("2000-01-01")
   );
@@ -103,8 +103,7 @@ export default function InsertPatientModal() {
       console.log("On Creating Patient", data);
       handleAddPatient();
       handleClose();
-
-      //   queryClient.invalidateQueries({ queryKey: ["authStatus"] });
+        queryClient.invalidateQueries({ queryKey: ["authStatus"] });
     },
     onError: (e) => {
       console.log("mutate on error");
@@ -178,7 +177,6 @@ export default function InsertPatientModal() {
                       label="HKID"
                       name="hkid"
                       autoComplete="hkid"
-                      autoFocus
                     />
                     {/* first name */}
                     <TextField
@@ -191,7 +189,6 @@ export default function InsertPatientModal() {
                       label="First Name"
                       name="firstName"
                       autoComplete="firstName"
-                      autoFocus
                     />
                     {/* last name */}
                     <TextField
@@ -204,7 +201,6 @@ export default function InsertPatientModal() {
                       label="Last Name"
                       name="lastName"
                       autoComplete="lastName"
-                      autoFocus
                     />
                     {/* Blood and Gender */}
                     <Grid
@@ -306,7 +302,6 @@ export default function InsertPatientModal() {
                         label="Emergency Contact Person"
                         name="emergencyNameInput"
                         autoComplete="emergencyNameInput"
-                        autoFocus
                       />
 
                       {/* emergency contact Number */}
@@ -378,7 +373,7 @@ const Modal = React.forwardRef(function Modal(
     disableEscapeKeyDown = false,
     disablePortal = false,
     disableRestoreFocus = false,
-    disableScrollLock = false,
+    disableScrollLock = true,
     hideBackdrop = false,
     keepMounted = false,
     onClose,

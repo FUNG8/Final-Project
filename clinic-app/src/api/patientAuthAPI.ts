@@ -93,7 +93,7 @@ export function logout() {
 
   try {
     console.log("logout success");
-    window.location.href = "/patientlogin";
+    window.location.href = "/";
   } catch (error) {
     console.error("logout failed", error);
   }

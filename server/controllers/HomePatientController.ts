@@ -1,6 +1,6 @@
 import { Router, Request, Response } from "express";
 import { HomePatientService } from "../services/HomePatientService";
-import { pgClient } from "../pgCLients";
+import { pgClient } from "../pgClients";
 
 export const HomePatient = Router();
 
