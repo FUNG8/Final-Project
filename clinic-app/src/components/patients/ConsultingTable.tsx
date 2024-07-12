@@ -67,6 +67,7 @@ export default function ConsultingList() {
           <TableRow >
             <TableCell>First Name</TableCell>
             <TableCell>Last Name</TableCell>
+            <TableCell>Ticket Number</TableCell>
             <TableCell>Status</TableCell>
           </TableRow>
         </TableHead>
@@ -81,6 +82,7 @@ export default function ConsultingList() {
                   {patient.firstName}
                 </TableCell>
                 <TableCell>{patient.lastName}</TableCell>
+                <TableCell>{patient.ticket_number}</TableCell>
                 <TableCell>
                   <TableCell>
                     {showCompleted ? (

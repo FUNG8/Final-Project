@@ -51,7 +51,10 @@ export class PatientProfileController {
         return;
       }
 
-      const patientTicketNumber = (await pgClient.query('select * from tickets join patient on tickets.patient_id = patient.id WHERE hkid = $1;', [hkid])).rows[0]
+      const patientTicketNumber = (await pgClient.query('select * from tickets join patient on tickets.patient_id = patient.id join queue on tickets.id = queue.ticket_id WHERE hkid = $1;', [hkid])).rows[0]
+
+      // const remainingTicketNumber = (await pgClient.query('select * from tickets join patient on tickets.patient_id = patient.id join queue on tickets.id = queue.ticket_id WHERE hkid = $1;', [hkid])).rows[0]
+
 
       res.json(patientTicketNumber)
     } catch (error) {

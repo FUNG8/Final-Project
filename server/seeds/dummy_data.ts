@@ -72,7 +72,7 @@ export async function seed(knex: Knex): Promise<void> {
     const lastName_data = faker.person.lastName();
     const gender_data = faker.person.sex();
     const phone_data = faker.phone.number();
-
+    
     const fakeId = faker.number.int();
     await knex("patient").insert([
       {
@@ -91,25 +91,25 @@ export async function seed(knex: Knex): Promise<void> {
       },
     ]);
   }
-
-  let phone_data = faker.phone.number();
-
-  await knex("patient").insert([
-    {
-      firstName: "test1",
-      lastName: "test1",
-      gender: "male",
-      blood: "O",
-      password: await hashPassword("t2"),
-      hkid: "Y1234568",
-      birth_date: new Date("1980-01-01"),
-      phone_number: phone_data,
-      emergency_name: "Jane Doe",
-      emergency_contact: phone_data,
-      created_at: new Date(),
-      updated_at: new Date(),
-    },
-  ]);
+  
+  // let phone_data = faker.phone.number();
+  
+  // await knex("patient").insert([
+  //   {
+  //     firstName: "test1",
+  //     lastName: "test1",
+  //     gender: "male",
+  //     blood: "O",
+  //     password: await hashPassword("t2"),
+  //     hkid: "Y1234568",
+  //     birth_date: new Date("1980-01-01"),
+  //     phone_number: phone_data,
+  //     emergency_name: "Jane Doe",
+  //     emergency_contact: phone_data,
+  //     created_at: new Date(),
+  //     updated_at: new Date(),
+  //   },
+  // ]);
 
   await knex("diagnosis").insert([
     {
