@@ -2,7 +2,7 @@
 import { PatientProfileService } from "../services/patientProfileService";
 import express, { Router, Request, Response, response } from "express";
 import { checkToken } from "../utils/patientGuard";
-import { pgClient } from "../pgCLients";
+import { pgClient } from "../pgClients";
 
 export class PatientProfileController {
   router = express.Router();
