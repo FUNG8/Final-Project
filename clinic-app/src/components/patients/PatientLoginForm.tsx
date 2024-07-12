@@ -24,8 +24,8 @@ import background from "../../image/patientloginBg.jpeg"
 const defaultTheme = createTheme();
 
 export default function PatientLoginForm() {
-  const [hkidInput, sethkidInput] = useState("Y1234568");
-  const [passwordInput, setPasswordInput] = useState("t2");
+  const [hkidInput, sethkidInput] = useState("");
+  const [passwordInput, setPasswordInput] = useState("");
 
   const queryClient = useQueryClient()
   const navigate = useNavigate();
