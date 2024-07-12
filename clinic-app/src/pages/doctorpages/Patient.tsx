@@ -9,7 +9,7 @@ export default function Patient() {
     <div className="App" >
 
       <SnackbarProvider maxSnack={3}>
-        <Grid mx={5}>
+        <Grid mx={0}>
           <InsertPatientModal />
 
           <ListPatients />

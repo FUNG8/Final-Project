@@ -8,7 +8,7 @@ import {
   TableRow,
   Paper,
   Box,
-  Tooltip
+  Tooltip,
 } from "@mui/material";
 import Pagination from "@mui/material/Pagination";
 import { useEffect, useState } from "react";
@@ -25,6 +25,30 @@ interface QueueButtonProps {
 }
 
 export function ListPatients() {
+
+
+
+
+
+    const [createdTime, setCreatedTime] = useState<string>('');
+
+  useEffect(() => {
+    const formatDate = (date: Date) => {
+      const day = String(date.getDate()).padStart(2, "0");
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const year = date.getFullYear();
+
+      const hours = String(date.getHours()).padStart(2, "0");
+      const minutes = String(date.getMinutes()).padStart(2, "0");
+      const seconds = String(date.getSeconds()).padStart(2, "0");
+
+      return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
+    };
+
+    const currentTime = formatDate(new Date());
+    setCreatedTime(currentTime);
+  }, []);
+
   const [currentPage, setCurrentPage] = useState(1);
   const perPage = 20;
   const [searchTerm, setSearchTerm] = useState("");
@@ -91,101 +115,101 @@ export function ListPatients() {
               <TableBody>
                 {patients.status === "success" &&
                   (patients as any).patientResult.map((patient: any) => (
-                    <Tooltip title="Click to see patient's diagnosis record" >
-                    <TableRow
-                      key={patient.id}
-                      style={{
-                        cursor: "pointer",
-                      }}
-                    >
-                      <TableCell
-                        onClick={() =>
-                          navigate(`/doctor/patientDetail/${patient.id}`)
-                        }
+                    <Tooltip title="Click to see patient's diagnosis record">
+                      <TableRow
+                        key={patient.id}
+                        style={{
+                          cursor: "pointer",
+                        }}
                       >
-                        {patient.id}
-                      </TableCell>
-                      <TableCell
-                        onClick={() =>
-                          navigate(`/doctor/patientDetail/${patient.id}`)
-                        }
-                      >
-                        {patient.firstName}
-                      </TableCell>
-                      <TableCell
-                        onClick={() =>
-                          navigate(`/doctor/patientDetail/${patient.id}`)
-                        }
-                      >
-                        {patient.lastName}
-                      </TableCell>
-                      <TableCell
-                        onClick={() =>
-                          navigate(`/doctor/patientDetail/${patient.id}`)
-                        }
-                      >
-                        {patient.gender}
-                      </TableCell>
-                      <TableCell
-                        onClick={() =>
-                          navigate(`/doctor/patientDetail/${patient.id}`)
-                        }
-                      >
-                        {patient.blood}
-                      </TableCell>
-                      <TableCell
-                        onClick={() =>
-                          navigate(`/doctor/patientDetail/${patient.id}`)
-                        }
-                      >
-                        {patient.hkid}
-                      </TableCell>
-                      <TableCell
-                        onClick={() =>
-                          navigate(`/doctor/patientDetail/${patient.id}`)
-                        }
-                      >
-                        {patient.birth_date}
-                      </TableCell>
-                      <TableCell
-                        onClick={() =>
-                          navigate(`/doctor/patientDetail/${patient.id}`)
-                        }
-                      >
-                        {patient.phone_number}
-                      </TableCell>
-                      <TableCell
-                        onClick={() =>
-                          navigate(`/doctor/patientDetail/${patient.id}`)
-                        }
-                      >
-                        {patient.emergency_name}
-                      </TableCell>
-                      <TableCell
-                        onClick={() =>
-                          navigate(`/doctor/patientDetail/${patient.id}`)
-                        }
-                      >
-                        {patient.emergency_contact}
-                      </TableCell>
-                      <TableCell
-                        onClick={() =>
-                          navigate(`/doctor/patientDetail/${patient.id}`)
-                        }
-                      >
-                        {patient.updated_at}
-                      </TableCell>
-                      <TableCell
-                        onClick={() =>
-                          navigate(`/doctor/patientDetail/${patient.id}`)
-                        }
-                      >
-                        {patient.created_at}
-                      </TableCell>
-                      <TableCell>
-                        <QueueButton patientId={patient.id} />
-                      </TableCell>
-                    </TableRow>
+                        <TableCell
+                          onClick={() =>
+                            navigate(`/doctor/patientDetail/${patient.id}`)
+                          }
+                        >
+                          {patient.id}
+                        </TableCell>
+                        <TableCell
+                          onClick={() =>
+                            navigate(`/doctor/patientDetail/${patient.id}`)
+                          }
+                        >
+                          {patient.firstName}
+                        </TableCell>
+                        <TableCell
+                          onClick={() =>
+                            navigate(`/doctor/patientDetail/${patient.id}`)
+                          }
+                        >
+                          {patient.lastName}
+                        </TableCell>
+                        <TableCell
+                          onClick={() =>
+                            navigate(`/doctor/patientDetail/${patient.id}`)
+                          }
+                        >
+                          {patient.gender}
+                        </TableCell>
+                        <TableCell
+                          onClick={() =>
+                            navigate(`/doctor/patientDetail/${patient.id}`)
+                          }
+                        >
+                          {patient.blood}
+                        </TableCell>
+                        <TableCell
+                          onClick={() =>
+                            navigate(`/doctor/patientDetail/${patient.id}`)
+                          }
+                        >
+                          {patient.hkid}
+                        </TableCell>
+                        <TableCell
+                          onClick={() =>
+                            navigate(`/doctor/patientDetail/${patient.id}`)
+                          }
+                        >
+                          {patient.birth_date}
+                        </TableCell>
+                        <TableCell
+                          onClick={() =>
+                            navigate(`/doctor/patientDetail/${patient.id}`)
+                          }
+                        >
+                          {patient.phone_number}
+                        </TableCell>
+                        <TableCell
+                          onClick={() =>
+                            navigate(`/doctor/patientDetail/${patient.id}`)
+                          }
+                        >
+                          {patient.emergency_name}
+                        </TableCell>
+                        <TableCell
+                          onClick={() =>
+                            navigate(`/doctor/patientDetail/${patient.id}`)
+                          }
+                        >
+                          {patient.emergency_contact}
+                        </TableCell>
+                        <TableCell
+                          onClick={() =>
+                            navigate(`/doctor/patientDetail/${patient.id}`)
+                          }
+                        >
+                          {patient.updated_at}
+                        </TableCell>
+                        <TableCell
+                          onClick={() =>
+                            navigate(`/doctor/patientDetail/${patient.id}`)
+                          }
+                        >
+                          {patient.created_at}
+                        </TableCell>
+                        <TableCell>
+                          <QueueButton patientId={patient.id} />
+                        </TableCell>
+                      </TableRow>
                     </Tooltip>
                   ))}
               </TableBody>
