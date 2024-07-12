@@ -1,6 +1,6 @@
 import { Knex } from "knex";
 import express, { Router, Request, Response, response } from "express";
-import { pgClient } from "../pgCLients";
+import { pgClient } from "../pgClients";
 import { NotificationService } from "../services/NotificationService";
 
 export class NotificationController {
