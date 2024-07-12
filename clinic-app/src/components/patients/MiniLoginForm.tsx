@@ -8,7 +8,7 @@ import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { jwtDecode } from "jwt-decode";
 import { login } from "../../api/patientAuthAPI";
-import { Grid } from "@mui/material";
+import { Grid, TextField } from "@mui/material";
 
 const style = {
   position: "absolute" as "absolute",
@@ -42,7 +42,6 @@ export default function MiniLoginForm() {
   const [errorMessage, setErrorMessage] = useState("");
   const [anchor, setAnchor] = useState<null | HTMLElement>(null);
   const queryClient = useQueryClient();
-  const iconSize = { fontSize: 20 };
 
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -108,30 +107,40 @@ export default function MiniLoginForm() {
       >
         <Box sx={style}>
           <form onSubmit={handleFormSubmit}>
-            <div className="switchBox">User Login :</div>
-            <div className="switchAccForm">
-              <label>HKID:</label>
-              <input
+            <Grid container justifyContent={"center"}>
+              <Typography mb={2} >
+                Log In to another Account
+              </Typography>
+              <TextField
+                fullWidth
+                size={"small"}
+                label="HKID"
                 type="text"
                 id="hkid"
                 value={hkidInput}
                 onChange={(e) => setHkidInput(e.target.value)}
                 required
+                sx={{ marginBottom: 2 }}
               />
-            </div>
-            <div className="switchAccForm">
-              <label>Password:</label>
-              <input
+              <TextField
+                fullWidth
+                label="PASSWORD"
+                size={"small"}
                 type="password"
                 id="password"
                 value={passwordInput}
                 onChange={(e) => setPasswordInput(e.target.value)}
                 required
+                sx={{ marginBottom: 2 }}
               />
-            </div>
-            <button className="switchAccButt" type="submit">
-              Submit
-            </button>
+              <Button
+                variant="contained"
+                className="switchAccButt"
+                type="submit"
+              >
+                Submit
+              </Button>
+            </Grid>
           </form>
           {errorMessage && <div>{errorMessage}</div>}
         </Box>
