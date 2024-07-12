@@ -290,3 +290,9 @@ export function useFetchDataToProfile(hkid: string) {
 
     return data
 }
+
+
+
+
+// const remainingTicketNumber = (await pgClient.query('select * from tickets join patient on tickets.patient_id = patient.id join queue on tickets.id = queue.ticket_id WHERE hkid = $1;', [hkid])).rows[0]
+// let currentRemainingTicket = remainingTicketNumber.queue_position
