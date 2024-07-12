@@ -166,7 +166,7 @@ export async function seed(knex: Knex): Promise<void> {
       total_quantity: 777,
       method: "Oral",
       taken_count_today: 0,
-      taken_count: 3,
+      taken_count: 10,
       period_day: 365,
       period_hr: 0,
       frequency_per_day: 2,

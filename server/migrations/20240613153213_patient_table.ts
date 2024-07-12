@@ -63,17 +63,17 @@ export async function up(knex: Knex): Promise<void> {
 
   await knex.schema.createTable('drug_instruction', (table) => {
     table.increments('id')
-    table.bigInteger('medicine_id').notNullable();
-    table.bigInteger('diagnosis_id').notNullable();
-    table.bigInteger('total_quantity').notNullable();
-    table.string('method', 255).notNullable();
-    table.bigInteger('taken_count_today').notNullable();
-    table.bigInteger('taken_count').notNullable();
-    table.bigInteger('period_day').notNullable();
-    table.bigInteger('period_hr').notNullable();
-    table.bigInteger('frequency_per_day').notNullable();
-    table.bigInteger('dosage_per_serving').notNullable();
-    table.text('remarks').notNullable();
+    table.bigInteger('medicine_id')
+    table.bigInteger('diagnosis_id')
+    table.bigInteger('total_quantity')
+    table.string('method', 255)
+    table.bigInteger('taken_count_today')
+    table.bigInteger('taken_count')
+    table.bigInteger('period_day')
+    table.bigInteger('period_hr')
+    table.bigInteger('frequency_per_day')
+    table.bigInteger('dosage_per_serving')
+    table.text('remarks')
     table.foreign('diagnosis_id').references('id').inTable('diagnosis');
     table.foreign('medicine_id').references('id').inTable('medicine');
   });

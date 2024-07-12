@@ -24,8 +24,8 @@ export default function Profile() {
   const hkid = (jwtDecode(localStorage.getItem("patientToken")!) as any).hkid
   const profileDetails: any = useFetchDataToProfile(hkid);
   const diagnosisDetails: any = useFetchDataToDiagnosis(hkid);
-  console.log(profileDetails)
-  console.log(diagnosisDetails)
+  // console.log(profileDetails)
+  // console.log(diagnosisDetails)
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
