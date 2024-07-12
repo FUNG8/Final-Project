@@ -65,6 +65,7 @@ export async function up(knex: Knex): Promise<void> {
     table.increments('id')
     table.bigInteger('medicine_id')
     table.bigInteger('diagnosis_id')
+    table.string('unit_measurement')
     table.bigInteger('total_quantity')
     table.string('method', 255)
     table.bigInteger('taken_count_today')
