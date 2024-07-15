@@ -13,7 +13,7 @@ export default function Patient() {
           <InsertPatientModal />
 
           <ListPatients />
-          <ListDiagnosis />
+          {/* <ListDiagnosis /> */}
         </Grid>
       </SnackbarProvider>
     </div>

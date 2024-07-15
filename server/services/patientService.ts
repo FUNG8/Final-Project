@@ -39,6 +39,7 @@ export class PatientService {
     totalPatients:any,
     totalPages:any
   ): Promise<any> {
+    console.log(searchTerm,startIndex,perPage)
     let queryString = `SELECT * FROM patient`;
     if (searchTerm) {
       if (isNaN(searchTerm)) {
@@ -48,11 +49,11 @@ export class PatientService {
         console.log(totalPages);
       }
     }
-    queryString += ` OFFSET $1 LIMIT $2`;
-
+    queryString += ` OFFSET ? LIMIT ?`;
+    console.log(queryString)
     const patientResult = await this.knex.raw(queryString, [
       startIndex,
-      perPage,
+      perPage
     ]);
     return patientResult.rows;
   }

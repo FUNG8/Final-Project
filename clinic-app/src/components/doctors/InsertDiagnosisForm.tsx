@@ -71,15 +71,15 @@ export default function InsertDiagnosisModal() {
   };
 
   const handleDeleteInstruction = (targetIndex: string) => {
-    console.log("targetidx",targetIndex)
+    console.log("targetidx", targetIndex);
     let deletedDemoInstructions = demoInstructions.filter(
-      (entry) => (entry.index !== targetIndex)
+      (entry) => entry.index !== targetIndex
     );
     setDemoInstructions(deletedDemoInstructions);
   };
   //Step 5a While value from instruction input fields are back it locates the object in array by idx
   const handleInstructionChange = (
-    targetIndex: number,
+    targetIndex: string,
     medicineId: number,
     unit: number,
     quantity: number,

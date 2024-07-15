@@ -18,7 +18,7 @@ export class MedicineController {
 
   allMedicines = async (req: Request, res: Response) => {
     try {
-      let queryString = `select medicine.id as medicine_id ,* from medicine join drug_shape on medicine.drug_shape_id = drug_shape.id order by medicine.id`;
+      let queryString = `select medicine.id as medicine_id ,* from medicine join drug_shape on medicine.drug_shape_id = drug_shape.id`;
       console.log("check req query", req.query);
       let pageNumber: number = parseInt(req.query.pageNumber as string);
       const perPage = 20;
@@ -35,7 +35,7 @@ export class MedicineController {
       if (searchTerm) {
         if (isNaN(searchTerm)) {
           console.log("query is string");
-          queryString += ` WHERE SIMILARITY("name",'${searchTerm}') > 0.1`;
+          queryString += ` WHERE SIMILARITY("name",'${searchTerm}') > 0.2`;
           totalMedicine = (
             await pgClient.query(
               `SELECT COUNT(*) FROM medicine WHERE SIMILARITY("name",'${searchTerm}') > 0.1`
@@ -59,7 +59,7 @@ export class MedicineController {
         }
       }
 
-      queryString += ` OFFSET $1 LIMIT $2`;
+      queryString += ` order by medicine.id OFFSET $1 LIMIT $2`;
 
       console.log("check query string", queryString);
       let medicineResult = (

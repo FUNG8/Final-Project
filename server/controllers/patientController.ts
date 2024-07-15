@@ -37,7 +37,7 @@ export class PatientController {
             // }
 
             // queryString += ` OFFSET $1 LIMIT $2`;
-
+            console.log(startIndex,perPage,searchTerm)
 
             // let patientResult = (await pgClient.query(queryString, [startIndex, perPage])).rows;
             let patientResult = await this.patientSerivice.patientResult(searchTerm,startIndex,perPage,totalPatients,totalPages);
@@ -49,6 +49,7 @@ export class PatientController {
 
             res.json(response);
         } catch (e) {
+            console.log(e)
             res.status(500);
             console.log("Error Getting Patient Info");
         }
@@ -64,6 +65,7 @@ export class PatientController {
 
             res.json(patient_soloInfo);
         } catch (e) {
+            console.log(e)
             res.status(500);
             console.log("Error showing Patient Info");
         }

@@ -19,7 +19,7 @@ export function DrugInstruction(props: {
   idx: number;
   index:string
   changeFn: (
-    targetIndex: number,
+    targetIndex: string,
     medicineId: number,
     unit: any,
     quantity: any,
@@ -76,7 +76,7 @@ export function DrugInstruction(props: {
     setMedicine(newMedicine);
     //step 5 bring back value to insertDiagnosisForm (to the IDF 4a)
     props.changeFn(
-      props.idx,
+      props.index,
       newMedicine.id, //
       unit,
       quantity,
@@ -96,7 +96,7 @@ export function DrugInstruction(props: {
     console.log("UnitChange", newUnit);
     setUnit(newUnit);
     props.changeFn(
-      props.idx,
+      props.index,
       medicine.id,
       newUnit, //
       quantity,
@@ -114,7 +114,7 @@ export function DrugInstruction(props: {
     setQuantityInput(newQuantity);
     setQuantity(newQuantity);
     props.changeFn(
-      props.idx,
+      props.index,
       medicine.id,
       unit,
       newQuantity, //
@@ -133,7 +133,7 @@ export function DrugInstruction(props: {
     setMethod(newMethod);
 
     props.changeFn(
-      props.idx,
+      props.index,
       medicine.id,
       unit,
       quantity,
@@ -153,7 +153,7 @@ export function DrugInstruction(props: {
     setPeriodDayInput(newPeriodDay);
     setPeriodDay(newPeriodDay);
     props.changeFn(
-      props.idx,
+      props.index,
       medicine.id,
       unit,
       quantity,
@@ -173,7 +173,7 @@ export function DrugInstruction(props: {
     setPeriodHourInput(newPeriodHour);
     setPeriodHour(newPeriodHour);
     props.changeFn(
-      props.idx,
+      props.index,
       medicine.id,
       unit,
       quantity,
@@ -193,7 +193,7 @@ export function DrugInstruction(props: {
     setFrequencyPerDayInput(newFrequencyPerDay);
     setFrequencyPerDay(newFrequencyPerDay);
     props.changeFn(
-      props.idx,
+      props.index,
       medicine.id,
       unit,
       quantity,
@@ -213,7 +213,7 @@ export function DrugInstruction(props: {
     setDosagePerServingInput(newDosagePerServing);
     setDosagePerServing(newDosagePerServing);
     props.changeFn(
-      props.idx,
+      props.index,
       medicine.id,
       unit,
       quantity,
@@ -231,7 +231,7 @@ export function DrugInstruction(props: {
     setRemarksInput(newRemarks);
     setRemarks(newRemarks);
     props.changeFn(
-      props.idx,
+      props.index,
       medicine.id,
       unit,
       quantity,
