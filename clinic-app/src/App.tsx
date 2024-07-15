@@ -33,9 +33,9 @@ function App() {
       <CssBaseline />
 
       <QueryClientProvider client={queryClient}>
+
         <BrowserRouter>
           <div className="App">
-            {/* <TemporaryDrawer /> */}
 
             <Routes>
               <Route index element={<PatientLogin />} />
