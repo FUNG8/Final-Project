@@ -10,7 +10,7 @@ import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import ProfileChangeBox from "./ProfileChangeBox";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import { useState } from "react";
-import { Grid } from "@mui/material";
+import { Divider, Grid } from "@mui/material";
 import { Unstable_Popup as BasePopup } from "@mui/base/Unstable_Popup";
 import VpnKeyIcon from "@mui/icons-material/VpnKey";
 import MiniLoginForm from "./MiniLoginForm";
@@ -67,7 +67,12 @@ export default function SwipeableEdgeDrawer(props: Props) {
         }}
       />
       <div id="mainContainer">
-        <Grid container alignItems={"center"} justifyContent={"space-between"} sx={{ display: "flex" }}>
+        <Grid
+          container
+          alignItems={"center"}
+          justifyContent={"space-between"}
+          sx={{ display: "flex" }}
+        >
           <Grid xs={6}>
             <div className="profileBox">PROFILE</div>
           </Grid>
@@ -96,10 +101,12 @@ export default function SwipeableEdgeDrawer(props: Props) {
         ModalProps={{
           keepMounted: true,
         }}
+        sx={{  borderTopLeftRadius: 8,
+            borderTopRightRadius: 8,}}
       >
         <StyledBox
           sx={{
-            position: "absolute",
+            
             top: -drawerBleeding,
             borderTopLeftRadius: 8,
             borderTopRightRadius: 8,
@@ -109,7 +116,7 @@ export default function SwipeableEdgeDrawer(props: Props) {
           }}
         >
           <Puller />
-          <Typography sx={{ p: 2, color: "text.secondary" }}>
+          <Typography sx={{ p: 2, color: "text.secondary",textAlign:"center" }}>
             Accounts
           </Typography>
         </StyledBox>
@@ -119,14 +126,22 @@ export default function SwipeableEdgeDrawer(props: Props) {
             pb: 2,
             height: "100%",
             overflow: "auto",
+            top: -drawerBleeding,
+            borderTopLeftRadius: 8,
+            borderTopRightRadius: 8,
+            visibility: "visible",
+            right: 0,
+            left: 0,
           }}
         >
+          
           <Grid
             sx={{
               display: "flex",
               justifyContent: "center",
               flexDirection: "column",
               marginBottom: 5,
+              marginTop:2
             }}
           >
             <ProfileChangeBox />

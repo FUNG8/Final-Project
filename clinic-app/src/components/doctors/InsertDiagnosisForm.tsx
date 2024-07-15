@@ -72,23 +72,6 @@ export default function InsertDiagnosisModal() {
 
   const handleDeleteInstruction = (targetIndex: string) => {
     console.log("targetidx",targetIndex)
-    // let emptyDemoInstructions = demoInstructions.map((entry)=>{
-    //   if (entry.index == targetIndex){
-    //     return {
-    //       ...entry,
-    //       medicineId: "",
-    //       unit: "",
-    //       quantity: "",
-    //       method: "",
-    //       periodDay: "",
-    //       periodHour: "",
-    //       frequencyPerDay: "",
-    //       dosagePerServing: "",
-    //       remarks: "",
-    //     };
-    //   }
-    // });
-
     let deletedDemoInstructions = demoInstructions.filter(
       (entry) => (entry.index !== targetIndex)
     );

@@ -88,6 +88,7 @@ export default function WaitingList() {
                 <TableRow>
                   <TableCell>First Name</TableCell>
                   <TableCell>Last Name</TableCell>
+                  <TableCell>Ticket Number</TableCell>
                   <TableCell>Check In Time</TableCell>
                 </TableRow>
               </TableHead>
@@ -114,6 +115,7 @@ export default function WaitingList() {
                           {row.firstName}
                         </TableCell>
                         <TableCell>{row.lastName}</TableCell>
+                        <TableCell>{row.ticket_number}</TableCell>
                         <TableCell>
                           <TimeAgo date={row.timestamp} />
                         </TableCell>
