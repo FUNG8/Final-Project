@@ -33,7 +33,7 @@ export class DoctorAuthController {
     let result = await this.authService.login(usernameInput, passwordInput);
 
     if (result.verified) {
-      const payload = { userId: result.userId, username: result.username };
+      const payload = { userId: result.userId, username: result.username, name: result.name };
       console.log("check payload", payload);
 
       const jwtToken = jwtSimple.encode(payload, process.env.JWT_SECRET!);

@@ -26,11 +26,12 @@ export class DoctorAuthService {
     }
   }
 
-  async login(usernameInput: string, passwordInput: string) {
+  async login(usernameInput: string, passwordInput: string,) {
     try {
       let queryResult = await this.table()
         .select("*")
-        .where("username", usernameInput);
+        .where("username", usernameInput
+        );
 
       if (queryResult.length > 0) {
         let passwordHash = queryResult[0].password;
@@ -42,6 +43,7 @@ export class DoctorAuthService {
             verified: compare,
             userId: queryResult[0].id,
             username: usernameInput,
+            name: queryResult[0].name
           };
         else return { verified: false, reason: "wrong password" };
       } else {
