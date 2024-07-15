@@ -5,7 +5,7 @@ import { styled } from "@mui/system";
 import "./PatientProfileBar.scss";
 import { Box, Button, Grid, Paper } from "@mui/material";
 import LogoutIcon from "@mui/icons-material/Logout";
-import { logout } from "../../api/patientAuthAPI";
+// import { smalllogout } from "../../api/patientAuthAPI";
 
 interface DecodedToken {
   userId: number;
@@ -35,23 +35,72 @@ export default function ProfileChangeBox() {
   };
 
   const [profiles, setProfiles] = useState([]);
+
+
+  const patientToken = localStorage.getItem("patientToken")
+
   useEffect(() => {
     const tokenArrayString = localStorage.getItem("tokenArray");
     const tokenArray: string[] = JSON.parse(tokenArrayString!);
-    console.log(tokenArray);
-
     let tmpArray: any = [];
     tokenArray.map((entry) => {
-      console.log(jwtDecode(entry));
       tmpArray.push({ ...jwtDecode(entry), token: entry });
     });
 
     console.log("check tmp array", tmpArray);
+    console.log("profiles ", profiles)
 
     setProfiles(tmpArray);
   }, []);
 
-  console.log(profiles);
+  console.log("profiles", profiles);
+
+  const handleGetProfiles = () => {
+    const tokenArrayString = localStorage.getItem("tokenArray");
+    const tokenArray: string[] = JSON.parse(tokenArrayString!);
+    let tmpArray: any = [];
+    tokenArray.map((entry) => {
+      tmpArray.push({ ...jwtDecode(entry), token: entry });
+    });
+
+    console.log("check tmp array", tmpArray);
+    console.log("profiles ", profiles)
+
+    setProfiles(tmpArray);
+  }
+
+  const handlelogout = (patientToken: any) => {
+    console.log(patientToken, "is gonna logout")
+
+    let valueToRemove = patientToken
+    const tokenArrayString = localStorage.getItem("tokenArray");
+    const tokenArray: string[] = JSON.parse(tokenArrayString!);
+    let indexToRemove = tokenArray.indexOf(valueToRemove);
+
+    if (indexToRemove !== -1) {
+      tokenArray.splice(indexToRemove, 1);
+
+      localStorage.setItem('tokenArray', JSON.stringify(tokenArray));
+      // localStorage.removeItem("patientToken");
+      localStorage.setItem("patientToken", tokenArray[0])
+      window.location.reload();
+
+
+
+      console.log("token array", tokenArray[0]);
+      console.log("remove token");
+
+      handleGetProfiles();
+
+
+      try {
+        console.log("logout success");
+      } catch (error) {
+        console.error("logout failed", error);
+      }
+    }
+  }
+
 
   return (
     <>
@@ -60,7 +109,7 @@ export default function ProfileChangeBox() {
           <Grid container display={"flex"} alignItems={"center"}>
             <Grid xs={10}>
               <Button
-                sx={{ width: "100%",marginBottom: 1}}
+                sx={{ width: "100%", marginBottom: 1 }}
                 variant="outlined"
                 className="switchListItem"
                 onClick={() => handleSwitchAccount(entry.token)}
@@ -70,7 +119,7 @@ export default function ProfileChangeBox() {
               </Button>
             </Grid>
             <Grid xs={2} alignItems={"center"}>
-              <Button onClick={() => logout()}>
+              <Button onClick={() => handlelogout(patientToken,)}>
                 <LogoutIcon />
               </Button>
             </Grid>

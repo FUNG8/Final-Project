@@ -98,3 +98,15 @@ export function logout() {
     console.error("logout failed", error);
   }
 }
+
+export function smalllogout() {
+  console.log("remove token");
+  localStorage.removeItem("patientToken");
+
+  try {
+    console.log("logout success");
+  } catch (error) {
+    console.error("logout failed", error);
+  }
+}
+
