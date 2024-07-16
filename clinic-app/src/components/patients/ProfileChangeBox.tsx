@@ -119,7 +119,7 @@ export default function ProfileChangeBox() {
               </Button>
             </Grid>
             <Grid xs={2} alignItems={"center"}>
-              <Button onClick={() => handlelogout(patientToken,)}>
+              <Button onClick={() => handlelogout(entry.token)}>
                 <LogoutIcon />
               </Button>
             </Grid>

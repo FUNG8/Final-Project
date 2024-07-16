@@ -1,5 +1,4 @@
 import Card from "@mui/material/Card";
-import PatientProfileBar from "../../components/patients/PatientProfileBar";
 import Grid from "@mui/material/Grid";
 import PatientBanner from "../../components/patients/PatientBanner";
 import PatientPersonalInfo from "../../components/patients/PatientPersonalInfo";
