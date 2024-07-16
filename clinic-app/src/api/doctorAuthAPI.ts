@@ -34,20 +34,30 @@ export function useAuthStatusDoctor() {
 //from the onLogin use mutation get the username and pw input then fetch the backend database
 export async function login(usernameInput: string, passwordInput: string) {
   console.log("authAPI try to log in");
-  let res = await fetch(
-    `${process.env.REACT_APP_API_SERVER}/doctorAuth/drLogin`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ usernameInput, passwordInput }),
+
+  try {
+    let res = await fetch(
+      `${process.env.REACT_APP_API_SERVER}/doctorAuth/drLogin`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ usernameInput, passwordInput }),
+      }
+    );
+
+    let result = await res.json();
+
+    if (!res.ok) {
+      throw new Error(result.message || 'Login failed');
     }
-  );
 
-  let result = await res.json();
-
-  return result.token as string;
+    return result.token as string;
+  } catch (error) {
+    console.error('Error during login:', error);
+    throw error;
+  }
 }
 
 //simply remove token from local storage, and redirect page
