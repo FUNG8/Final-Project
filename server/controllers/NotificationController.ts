@@ -56,15 +56,11 @@ export class NotificationController {
 
   NewNotificationInfo = async (req: Request, res: Response) => {
     console.log("into new notication controller:")
-   
     const diagnosisId = req.params.id;
- 
-
     try {
-      const selectQuery = 'SELECT * FROM drug_instruction JOIN medicine ON drug_instruction.medicine_id = medicine.id JOIN diagnosis ON drug_instruction.diagnosis_id = diagnosis.id WHERE diagnosis.id = $1';
-      const selectResult = await pgClient.query(selectQuery, [diagnosisId]);
+      const selectResult = await pgClient.query('SELECT * FROM drug_instruction JOIN medicine ON drug_instruction.medicine_id = medicine.id JOIN diagnosis ON drug_instruction.diagnosis_id = diagnosis.id WHERE diagnosis.id = $1', [diagnosisId]);
       let SelectedData = selectResult.rows;
-      // console.log("Selected data:", SelectedData);
+      console.log("Selected data:", SelectedData);
 
       for (let i = 0; i < SelectedData.length; i++) {
         const selectedRow = SelectedData[i];

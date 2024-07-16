@@ -6,7 +6,7 @@ import DoctorLogin from "./pages/doctorpages/DoctorLogin";
 import PatientLogin from "./pages/patientpages/PatientLogin";
 import Patient from "./pages/doctorpages/Patient";
 import Medicine from "./pages/doctorpages/Medicine";
-import Notification from "./pages/patientpages/Notification";
+// import Notification from "./pages/patientpages/Notification";
 import MedicineConfirmation from "./pages/patientpages/MedicineConfirmation";
 import Profile from "./pages/patientpages/ProfilePage";
 import TicketNumber from "./pages/patientpages/TicketNumber";

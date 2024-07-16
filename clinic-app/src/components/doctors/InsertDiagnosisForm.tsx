@@ -140,10 +140,10 @@ export default function InsertDiagnosisModal() {
       console.log("On Insert Medicine", data);
       // handleAddInstruction();
       CreatingNotificationInfo(data.diagnosisResult.id)
-      // handleClose();
-      // setDemoInstructions([]);
-      // setSymptomsInput("");
-      // setRemarksInput("");
+      handleClose();
+      setDemoInstructions([]);
+      setSymptomsInput("");
+      setRemarksInput("");
       queryClient.invalidateQueries({ queryKey: ["showDiagnosis"] });
     },
     onError: (e) => {

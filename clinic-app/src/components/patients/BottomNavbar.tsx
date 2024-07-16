@@ -55,7 +55,7 @@ export default function BottomNavbar() {
         >
           <BottomNavigation
             showLabels
-            value={location.pathname === "/patient/profile" ? 0 : location.pathname === "/patient/ticket" ? 1 : location.pathname === "/patient/notification" ? 2 : -1}
+            value={location.pathname === "/patient/profile" ? 0 : location.pathname === "/patient/diagnosishistory" ? 1: location.pathname === "/patient/ticket" ? 2 : location.pathname === "/patient/notification" ? 3 : -1}
             onChange={(event, newValue) => {
               handleNavigation(newValue);
             }}
