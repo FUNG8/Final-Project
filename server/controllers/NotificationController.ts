@@ -29,8 +29,9 @@ export class NotificationController {
   UpdatedNotificationInfo = async (req: Request, res: Response) => {
     try {
       const diagnosisPatientId = req.params.id;
-      const currentDate = new Date();
-      const UpdatedNewNotification = await pgClient.query('UPDATE notification SET send_at = $1, taken = $2, taken_at = $3 WHERE patient_id = $4', [currentDate, "true", currentDate, diagnosisPatientId]);
+      const send_at = new Date();
+      const taken_at = new Date();
+      const UpdatedNewNotification = await pgClient.query('UPDATE notification SET send_at = $1, taken = $2, taken_at = $3 WHERE patient_id = $4', [send_at, "true", taken_at, diagnosisPatientId]);
       console.log("New notification", UpdatedNewNotification);
       const TotalQuantity = (await pgClient.query('Select id,diagnosis_id,total_quantity,taken_count_today,taken_count,period_day,period_hr,frequency_per_day,dosage_per_serving from drug_instruction WHERE diagnosis_id = $1;', [diagnosisPatientId])).rows
 
@@ -54,72 +55,31 @@ export class NotificationController {
 
 
   NewNotificationInfo = async (req: Request, res: Response) => {
-    // const diagnosisId = req.params.id;
-    // let SelectedData = [];
-
-    // try {
-    //   const selectQuery = 'SELECT * FROM drug_instruction JOIN medicine ON drug_instruction.medicine_id = medicine.id JOIN diagnosis ON drug_instruction.diagnosis_id = diagnosis.id JOIN notification on drug_instruction.id = notification.drug_instruction_id WHERE diagnosis.id = $1';
-    //   const selectResult = await pgClient.query(selectQuery, [diagnosisId]);
-    //   let SelectedData = selectResult.rows;
-    //   console.log("Selected data:", SelectedData);
-
-    //   for (let i = 0; i < SelectedData.length; i++) {
-    //     const selectedRow = SelectedData[i];
-    //     const { medicine_id, diagnosis_id } = selectedRow;
-
-    //     const newData = {
-    //       medicine_id: medicine_id,
-    //       diagnosis_id: diagnosis_id,
-    //       send_at: null,
-    //       taken: null,
-    //       taken_at: null,
-    //     };
-
-    //     // Add code to retrieve notification data
-    //     const NotificationInfo = (await pgClient.query('SELECT send_at, taken, taken_at FROM notification WHERE patient_id = $1', [diagnosisId])).rows;
-
-    //     // Add notification data to the new row
-    //     newData.send_at = NotificationInfo[0].send_at;
-    //     newData.taken = NotificationInfo[0].taken;
-    //     newData.taken_at = NotificationInfo[0].taken_at;
-
-    //     const insertQuery = 'INSERT INTO drug_instruction (medicine_id, diagnosis_id, send_at, taken, taken_at) VALUES ($1, $2, $3, $4, $5)';
-    //     await pgClient.query(insertQuery, [newData.medicine_id, newData.diagnosis_id, newData.send_at, newData.taken, newData.taken_at]);
-    //     console.log("New data inserted:", newData);
-    //   }
-
-    //   console.log("Data insertion complete");
-    // } catch (error) {
-    //   console.error("Error retrieving or inserting data:", error);
-    // }
+    console.log("into new notication controller:")
+   
     const diagnosisId = req.params.id;
-    let SelectedData = [];
+ 
 
     try {
-      const selectQuery = 'SELECT * FROM drug_instruction JOIN medicine ON drug_instruction.medicine_id = medicine.id JOIN diagnosis ON drug_instruction.diagnosis_id = diagnosis.id JOIN notification on drug_instruction.id = notification.drug_instruction_id WHERE diagnosis.id = $1';
+      const selectQuery = 'SELECT * FROM drug_instruction JOIN medicine ON drug_instruction.medicine_id = medicine.id JOIN diagnosis ON drug_instruction.diagnosis_id = diagnosis.id WHERE diagnosis.id = $1';
       const selectResult = await pgClient.query(selectQuery, [diagnosisId]);
       let SelectedData = selectResult.rows;
-      console.log("Selected data:", SelectedData);
-      // const NotificationInfo = (await pgClient.query('Select send_at,taken,taken_at from notification Where patient_id = $1', [diagnosisPatientId])).rows
-      // console.log("what's that in notification???",NotificationInfo[0].send_at)
-      // console.log("what's that in notification???",NotificationInfo[0].taken)
-      // console.log("what's that in notification???",NotificationInfo[0].taken_at)
-      // const send_at = NotificationInfo[i].send_at
-      // const taken = NotificationInfo[i].taken
-      // const taken_at = NotificationInfo[i].taken_at
+      // console.log("Selected data:", SelectedData);
 
       for (let i = 0; i < SelectedData.length; i++) {
         const selectedRow = SelectedData[i];
-        const { medicine_id, diagnosis_id } = selectedRow;
+        const { id, patient_id } = selectedRow;
 
         const newData = {
-          medicine_id: medicine_id,
-          diagnosis_id: diagnosis_id,
+          patient_id: patient_id,
+          drug_instruction_id: id,
+          send_at: new Date(),
+          created_at: new Date()
         };
 
-        const insertQuery = 'INSERT INTO drug_instruction (medicine_id, diagnosis_id) VALUES ($1, $2)';
-        await pgClient.query(insertQuery, [newData.medicine_id, newData.diagnosis_id]);
-        console.log("New data inserted:", newData);
+        const insertQuery = 'INSERT INTO notification (patient_id, drug_instruction_id, send_at, created_at) VALUES ($1, $2, $3, $4)';
+        await pgClient.query(insertQuery, [newData.patient_id, newData.drug_instruction_id, newData.send_at, newData.created_at]);
+        // console.log("New data inserted!!!!!!!!:", newData);
       }
 
       console.log("Data insertion complete");

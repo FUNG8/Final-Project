@@ -37,7 +37,7 @@ export class PatientController {
             // }
 
             // queryString += ` OFFSET $1 LIMIT $2`;
-            console.log(startIndex,perPage,searchTerm)
+            // console.log(startIndex,perPage,searchTerm)
 
             // let patientResult = (await pgClient.query(queryString, [startIndex, perPage])).rows;
             let patientResult = await this.patientSerivice.patientResult(searchTerm,startIndex,perPage,totalPatients,totalPages);
@@ -61,7 +61,7 @@ export class PatientController {
             // console.log("what's the show button shown", req.query)
             const patientId = req.query.patientId
             const patient_soloInfo = (await pgClient.query(`SELECT * FROM patient WHERE id = ${patientId};`)).rows
-            console.log(patient_soloInfo)
+            // console.log(patient_soloInfo)
 
             res.json(patient_soloInfo);
         } catch (e) {

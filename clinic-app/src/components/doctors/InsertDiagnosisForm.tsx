@@ -25,6 +25,7 @@ import { insertDiagnosis } from "../../api/diagnosisAPI";
 import { useParams } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import { CreatingNotificationInfo } from "../../api/NotificationAPI";
 
 export default function InsertDiagnosisModal() {
   const queryClient = useQueryClient();
@@ -138,10 +139,11 @@ export default function InsertDiagnosisModal() {
       console.log("mutate on success");
       console.log("On Insert Medicine", data);
       // handleAddInstruction();
-      handleClose();
-      setDemoInstructions([]);
-      setSymptomsInput("");
-      setRemarksInput("");
+      CreatingNotificationInfo(data.diagnosisResult.id)
+      // handleClose();
+      // setDemoInstructions([]);
+      // setSymptomsInput("");
+      // setRemarksInput("");
       queryClient.invalidateQueries({ queryKey: ["showDiagnosis"] });
     },
     onError: (e) => {

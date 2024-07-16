@@ -17,7 +17,7 @@ export class DiagnosisController {
       const diagnosisResult = await this.diagnosisServices.getDiagnosis(
         patient_id
       );
-      console.log(diagnosisResult);
+      // console.log(diagnosisResult);
       res.json(diagnosisResult);
     } catch (e) {
       res.status(500).json({ message: "Error Getting Diagnosis History" });

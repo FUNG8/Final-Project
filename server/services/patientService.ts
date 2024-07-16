@@ -50,7 +50,7 @@ export class PatientService {
       }
     }
     queryString += ` OFFSET ? LIMIT ?`;
-    console.log(queryString)
+    // console.log(queryString)
     const patientResult = await this.knex.raw(queryString, [
       startIndex,
       perPage
