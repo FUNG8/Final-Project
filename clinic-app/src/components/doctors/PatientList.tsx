@@ -145,7 +145,7 @@ export function ListPatients() {
                           navigate(`/doctor/patientDetail/${patient.id}`)
                         }
                       >
-                        {patient.birth_date}
+                        {new Date(patient.birth_date).toLocaleDateString("en-GB")}
                       </TableCell>
                       <TableCell
                         onClick={() =>
