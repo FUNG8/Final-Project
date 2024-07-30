@@ -1,19 +1,20 @@
 // hahahahaha
-import * as React from 'react';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import { Button } from '@mui/material';
-import { NextConsultingPatient, usePatientWaitingList } from '../../api/patientAPI';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useState } from 'react';
-
-
-
+import * as React from "react";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import { Button } from "@mui/material";
+import {
+  NextConsultingPatient,
+  usePatientWaitingList,
+} from "../../api/patientAPI";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface PatientWaitingList {
   status: string;
@@ -30,9 +31,12 @@ export default function ConsultingList() {
   const [showCompleted, setShowCompleted] = useState(false);
 
   const patientWaitingList: PatientWaitingList = usePatientWaitingList();
-  console.log("showmeeeee showmeeee showwww showww meeee", (patientWaitingList as any));
+  console.log(
+    "showmeeeee showmeeee showwww showww meeee",
+    patientWaitingList as any
+  );
 
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
 
   const updatingNextPatient = useMutation({
     mutationFn: async () => NextConsultingPatient(),
@@ -42,15 +46,17 @@ export default function ConsultingList() {
       queryClient.invalidateQueries({ queryKey: ["PatientWaitingList"] });
       queryClient.invalidateQueries({ queryKey: ["NumberWaitingList"] });
       queryClient.invalidateQueries({ queryKey: ["CompletedPatientNumber"] });
-
     },
   });
-  console.log("this is the updating Next Patient message:", updatingNextPatient)
+  console.log(
+    "this is the updating Next Patient message:",
+    updatingNextPatient
+  );
 
   React.useEffect(() => {
     if (isButtonClicked) {
       const interval = setInterval(() => {
-        console.log('Interval callback');
+        console.log("Interval callback");
         clearInterval(interval);
       }, 2000);
 
@@ -60,11 +66,15 @@ export default function ConsultingList() {
     }
   }, [isButtonClicked]);
 
+  const navigate = useNavigate();
+
   return (
     <TableContainer component={Paper} style={{ maxHeight: 400 }}>
       <Table stickyHeader sx={{ minWidth: 100 }} aria-label="simple table">
-        <TableHead >
-          <TableRow >
+        <TableHead>
+          <TableRow
+            
+          >
             <TableCell>First Name</TableCell>
             <TableCell>Last Name</TableCell>
             <TableCell>Ticket Number</TableCell>
@@ -72,12 +82,16 @@ export default function ConsultingList() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {(patientWaitingList as any).result?.map((patient: any) => (
+          {(patientWaitingList as any).result?.map((patient: any) =>
             patient.status === "consulting" ? (
               <TableRow
                 key={patient.id}
-                sx={{ '&:last-child td, &:last-child th': { border: 0, height: 20 } }}
+                sx={{
+                  "&:last-child td, &:last-child th": { border: 0, height: 20 },
+                }}
+                onClick={() => navigate(`/doctor/patientDetail/${patient.id}`)}
               >
+                
                 <TableCell component="th" scope="row">
                   {patient.firstName}
                 </TableCell>
@@ -106,10 +120,9 @@ export default function ConsultingList() {
                 </TableCell>
               </TableRow>
             ) : null
-          ))}
+          )}
         </TableBody>
       </Table>
     </TableContainer>
   );
 }
-

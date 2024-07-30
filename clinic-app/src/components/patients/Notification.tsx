@@ -14,12 +14,16 @@ import {
 import { jwtDecode } from "jwt-decode";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
+import { Card, Grid, Typography } from "@mui/material";
 
 export default function Notification() {
   const [open, setOpen] = useState(true);
   const [checked, setChecked] = useState<number[]>([]);
-  const [intervalIds, setIntervalIds] = useState<Record<number, ReturnType<typeof setInterval>>>({});
-  const userId = (jwtDecode(localStorage.getItem("patientToken")!) as any).userId;
+  const [intervalIds, setIntervalIds] = useState<
+    Record<number, ReturnType<typeof setInterval>>
+  >({});
+  const userId = (jwtDecode(localStorage.getItem("patientToken")!) as any)
+    .userId;
   const diagnosisMessage: any = useNotificationMessages(userId);
 
   const queryClient = useQueryClient();
@@ -41,10 +45,10 @@ export default function Notification() {
     if (index === -1) {
       newChecked.push(value);
       startNotificationInterval(value);
-      setOpen(false); 
+      setOpen(false);
       setTimeout(() => {
-        setOpen(true); 
-      }, 4 * 60 * 60 * 1000); 
+        setOpen(true);
+      }, 4 * 60 * 60 * 1000);
     } else {
       newChecked.splice(index, 1);
       clearNotificationInterval(value);
@@ -55,7 +59,9 @@ export default function Notification() {
 
   const startNotificationInterval = (medicineId: number) => {
     const intervalId = setInterval(() => {
-      console.log(`Displaying notification for medicine ${medicineId} every 4 hours`);
+      console.log(
+        `Displaying notification for medicine ${medicineId} every 4 hours`
+      );
       // Add your notification logic here
     }, 4 * 60 * 60 * 1000); // 4 hours in milliseconds
     setIntervalIds((prevState) => ({
@@ -82,15 +88,25 @@ export default function Notification() {
   }, [intervalIds]);
 
   return (
+    <Grid>
+    <Card
+            sx={{
+              zIndex: -2,
+              height: "1000",
+              padding: 2,
+              backgroundColor: "rgb(140,219,211)",
+            }}
+          >
+            {" "}
+            <Typography textAlign={"center"}><b>
+              Notification</b></Typography>
+          </Card>
     <List
-      sx={{ width: "100%", bgcolor: "background.paper" }}
+      sx={{ width: "100%", bgcolor: "background.paper", }}
       component="nav"
       aria-labelledby="nested-list-subheader"
-      subheader={
-        <ListSubheader component="div" id="nested-list-subheader">
-          New Notification Messeges
-        </ListSubheader>
-      }
+      
+      
     >
       <List
         dense
@@ -110,7 +126,12 @@ export default function Notification() {
                 />
               }
               disablePadding
-              style={{ display: open || checked.indexOf(value.medicine_id) === -1 ? 'block' : 'none' }}
+              style={{
+                display:
+                  open || checked.indexOf(value.medicine_id) === -1
+                    ? "block"
+                    : "none",
+              }}
             >
               <ListItemButton>
                 <ListItemAvatar>
@@ -141,6 +162,7 @@ export default function Notification() {
         })}
       </List>
     </List>
+    </Grid>
   );
 }
 

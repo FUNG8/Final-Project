@@ -17,6 +17,7 @@ import {
   DropResult,
 } from "react-beautiful-dnd";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 
 interface PatientWaitingList {
   status: string;
@@ -71,6 +72,8 @@ export default function WaitingList() {
 
     rearrangeMutation.mutate(updatedPositions);
   };
+  const navigate = useNavigate();
+
 
   return waitingList.status === "loading" ? (
     <h1>Loading</h1>
@@ -110,6 +113,7 @@ export default function WaitingList() {
                             height: 20,
                           },
                         }}
+                        onClick={() => navigate(`/doctor/patientDetail/${row.id}`)}
                       >
                         <TableCell component="th" scope="row">
                           {row.firstName}
