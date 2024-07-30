@@ -12,41 +12,35 @@ export class PatientController {
         this.router.get("/searchPatients", this.searchPatients);
         this.router.get("/showPatients", this.showPatients);
         this.router.put("/editPatients", this.editPatients);
-
     }
 
     searchPatients = async (req: Request, res: Response) => {
         try {
             let queryString = `SELECT * FROM patient`
-            console.log("check req query", req.query)
             let pageNumber: number = parseInt(req.query.pageNumber as string);
             const perPage = 20;
 
-            let totalPatients = (await pgClient.query(`SELECT COUNT(*) FROM patient;`)).rows[0].count
+            let totalPatients = await this.patientSerivice.totalPatients();
             let totalPages = Math.ceil(totalPatients / perPage);
-
 
             const currentPage = pageNumber; 
             const startIndex = (currentPage - 1) * perPage;
-
             const searchTerm: any = req.query.searchTerm
 
+            // if (searchTerm) {
+            //     if (isNaN(searchTerm)) {
+            //         queryString += ` WHERE SIMILARITY("firstName",'${searchTerm}') > 0.1 OR SIMILARITY("hkid",'${searchTerm}') > 0.60`
+            //         totalPatients = `SELECT COUNT(*) FROM patient WHERE SIMILARITY("firstName",'${searchTerm}') > 0.1`
+            //         totalPages = Math.ceil(totalPatients / perPage);
+            //         console.log(totalPages)
+            //     }
+            // }
 
-            if (searchTerm) {
-                if (isNaN(searchTerm)) {
-                    console.log("query is string")
-                    queryString += ` WHERE SIMILARITY("firstName",'${searchTerm}') > 0.1 OR SIMILARITY("hkid",'${searchTerm}') > 0.60`
-                    totalPatients = `SELECT COUNT(*) FROM patient WHERE SIMILARITY("firstName",'${searchTerm}') > 0.1`
-                    totalPages = Math.ceil(totalPatients / perPage);
-                    console.log(totalPages)
-                }
+            // queryString += ` OFFSET $1 LIMIT $2`;
+            // console.log(startIndex,perPage,searchTerm)
 
-            }
-
-            queryString += ` OFFSET $1 LIMIT $2`
-            console.log(queryString)
-            let patientResult = (await pgClient.query(queryString, [startIndex, perPage])).rows;
-            console.log("show me the result from patient search bar",patientResult)
+            // let patientResult = (await pgClient.query(queryString, [startIndex, perPage])).rows;
+            let patientResult = await this.patientSerivice.patientResult(searchTerm,startIndex,perPage,totalPatients,totalPages);
             const response = {
                 patientResult,
                 totalPages: totalPages,
@@ -55,6 +49,7 @@ export class PatientController {
 
             res.json(response);
         } catch (e) {
+            console.log(e)
             res.status(500);
             console.log("Error Getting Patient Info");
         }
@@ -66,10 +61,11 @@ export class PatientController {
             // console.log("what's the show button shown", req.query)
             const patientId = req.query.patientId
             const patient_soloInfo = (await pgClient.query(`SELECT * FROM patient WHERE id = ${patientId};`)).rows
-            console.log(patient_soloInfo)
+            // console.log(patient_soloInfo)
 
             res.json(patient_soloInfo);
         } catch (e) {
+            console.log(e)
             res.status(500);
             console.log("Error showing Patient Info");
         }

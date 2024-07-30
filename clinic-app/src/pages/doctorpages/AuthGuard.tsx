@@ -7,6 +7,8 @@ import DoctorLogInForm from "../../components/doctors/DoctorLogInForm";
 import DoctorNavBar from "../../components/doctors/DoctorNavBar";
 // import PatientNavBar from "../../components/patients/PatientNavBar";
 import { LandingPage } from "../../LandingPage";
+import DoctorLogin from "./DoctorLogin";
+import { useSnackbar } from "notistack";
 
 
 //logic to determine if status is sucess it will show doctor's pages component
@@ -15,6 +17,7 @@ import { LandingPage } from "../../LandingPage";
 export function DoctorAuthGuard() {
   let authStatus = useAuthStatusDoctor();
   let navigate = useNavigate();
+
 
   if (authStatus.status === "success") {
     // Redirect to another page if authentication is successful
@@ -28,7 +31,8 @@ export function DoctorAuthGuard() {
   } else {
     return (
       <>
-        <LandingPage />
+        <DoctorLogin />
+       
       </>
     );
   }

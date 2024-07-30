@@ -53,7 +53,7 @@ const patientDiagnosisService = new PatientDiagnosisService(knex);
 const patientDiagnosisController = new PatientDiagnosisController(patientDiagnosisService)
 
 import { DiagnosisController } from './controllers/DiagnosisController';
-import { DiagnosisService } from './services/diagnosisService';
+import { DiagnosisService } from './services/DiagnosisService1';
 const diagnosisService = new DiagnosisService(knex);
 const diagnosisController = new DiagnosisController(diagnosisService);
 

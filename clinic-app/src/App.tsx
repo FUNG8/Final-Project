@@ -6,7 +6,7 @@ import DoctorLogin from "./pages/doctorpages/DoctorLogin";
 import PatientLogin from "./pages/patientpages/PatientLogin";
 import Patient from "./pages/doctorpages/Patient";
 import Medicine from "./pages/doctorpages/Medicine";
-import Notification from "./pages/patientpages/Notification";
+// import Notification from "./pages/patientpages/Notification";
 import MedicineConfirmation from "./pages/patientpages/MedicineConfirmation";
 import Profile from "./pages/patientpages/ProfilePage";
 import TicketNumber from "./pages/patientpages/TicketNumber";
@@ -20,6 +20,7 @@ import { useThemeContext } from "./theme/ThemeContextProvider";
 
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import NotificationPage from "./pages/patientpages/NotificationPage";
+import DiagnosisHistory from "./pages/patientpages/DiagnosisHistory";
 
 // hahahahaha
 const queryClient = new QueryClient();
@@ -33,9 +34,9 @@ function App() {
       <CssBaseline />
 
       <QueryClientProvider client={queryClient}>
+
         <BrowserRouter>
           <div className="App">
-            {/* <TemporaryDrawer /> */}
 
             <Routes>
               <Route index element={<PatientLogin />} />
@@ -55,6 +56,8 @@ function App() {
 
               <Route path="/patient" element={<PatientAuthGuard />}>
                 <Route path="notification" element={<NotificationPage />} />
+                <Route path="diagnosishistory" element={<DiagnosisHistory />} />
+
                 <Route path="MedicineConfirmation" element={<MedicineConfirmation />} />
                 <Route path="profile" element={<Profile  />} />
                 <Route path="ticket" element={<TicketNumber  />} />

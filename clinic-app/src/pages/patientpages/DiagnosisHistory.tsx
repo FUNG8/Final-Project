@@ -4,24 +4,29 @@ import PatientBanner from "../../components/patients/PatientBanner";
 import PatientPersonalInfo from "../../components/patients/PatientPersonalInfo";
 import { PatientDiagnosisList } from "../../components/patients/PatientDiagnosisList";
 import PatientProfileBarAdvanced from "../../components/patients/PatientProfileBarAdvanced";
+import { Typography } from "@mui/material";
 
-export default function Profile() {
+export default function DiagnosisHistory() {
 
 
   return (
     <Grid sx={{ height: "auto" }}>
-      <PatientBanner />
-      <PatientProfileBarAdvanced/>
-      <Card
-        sx={{
-          height: 500,
-          padding: 2,
-          backgroundColor: "rgb(232, 242, 252, 0.4)",
-        }}
+      {/* <PatientProfileBar /> */}
+
+      <Grid
+        container
+        alignItems={"center"}
+        justifyContent={"space-between"}
+        sx={{ display: "flex" }}
       >
-        <PatientPersonalInfo />
-      </Card>
-      {/* <Card
+        <Grid xs={12} alignItems={"center"}
+          justifyContent={"space-between"} >
+          <Typography textAlign={"center"}>Diagnosis History</Typography>
+
+        </Grid>
+
+      </Grid>
+      <Card
         sx={{
           zIndex: -2,
           height: "1000",
@@ -30,7 +35,7 @@ export default function Profile() {
         }}
       >
         <PatientDiagnosisList />
-      </Card> */}
+      </Card>
     </Grid>
   );
 }

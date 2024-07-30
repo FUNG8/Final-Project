@@ -148,13 +148,7 @@ export default function SwipeableEdgeDrawer(props: Props) {
 
             {/* open modal button */}
             <MiniLoginForm />
-            {/* <Button
-              variant="outlined"
-              onClick={simplePopUp}
-            >
-              Added Account
-              <PersonAddIcon />
-            </Button> */}
+          
 
             <Skeleton variant="rectangular" height="100%" />
           </Grid>

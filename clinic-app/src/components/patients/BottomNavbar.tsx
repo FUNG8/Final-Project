@@ -6,7 +6,9 @@ import BottomNavigationAction from "@mui/material/BottomNavigationAction";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 import LogoutIcon from "@mui/icons-material/Logout";
+import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
 import { useScrollTrigger } from "@mui/material";
+import MedicalServicesIcon from '@mui/icons-material/MedicalServices';
 import { useNavigate, useLocation } from "react-router-dom";
 import { logout } from "../../api/patientAuthAPI";
 
@@ -22,12 +24,15 @@ export default function BottomNavbar() {
         navigate("/patient/profile");
         break;
       case 1:
-        navigate("/patient/ticket");
+        navigate("/patient/diagnosishistory");
         break;
       case 2:
-        navigate("/patient/notification");
+        navigate("/patient/ticket");
         break;
       case 3:
+        navigate("/patient/notification");
+        break;
+      case 4:
         logout();
         break;
       default:
@@ -50,13 +55,14 @@ export default function BottomNavbar() {
         >
           <BottomNavigation
             showLabels
-            value={location.pathname === "/patient/profile" ? 0 : location.pathname === "/patient/ticket" ? 1 : location.pathname === "/patient/notification" ? 2 : -1}
+            value={location.pathname === "/patient/profile" ? 0 : location.pathname === "/patient/diagnosishistory" ? 1: location.pathname === "/patient/ticket" ? 2 : location.pathname === "/patient/notification" ? 3 : -1}
             onChange={(event, newValue) => {
               handleNavigation(newValue);
             }}
           >
             <BottomNavigationAction label="Profile" icon={<AccountCircleIcon />} />
-            <BottomNavigationAction label="Ticket" icon={<AccountCircleIcon />} />
+            <BottomNavigationAction label="Diagnosis" icon={<MedicalServicesIcon />} />
+            <BottomNavigationAction label="Ticket" icon={<ConfirmationNumberIcon />} />
             <BottomNavigationAction label="Notification" icon={<NotificationsActiveIcon />} />
             <BottomNavigationAction label="Log Out" icon={<LogoutIcon />} />
           </BottomNavigation>

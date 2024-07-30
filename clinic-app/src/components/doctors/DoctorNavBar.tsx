@@ -20,7 +20,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import { logout } from "../../api/doctorAuthAPI";
 import { useNavigate } from "react-router-dom";
-import { Grid, Tooltip } from "@mui/material";
+import { ClickAwayListener, Grid, Tooltip } from "@mui/material";
 import NightModeToggle from "../global/NightModeToggle";
 
 
@@ -86,9 +86,13 @@ export default function DoctorNavBar() {
     setOpen(false);
   };
 
+
+
   const navigate = useNavigate();
 
   return (
+    <ClickAwayListener onClickAway={handleDrawerClose}>
+
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
       <AppBar position="fixed" open={open}>
@@ -112,89 +116,92 @@ export default function DoctorNavBar() {
           </Grid>
         </Toolbar>
       </AppBar>
-      <Drawer
-        sx={{
-          width: drawerWidth,
-          flexShrink: 0,
-          "& .MuiDrawer-paper": {
+
+        <Drawer
+          sx={{
             width: drawerWidth,
-            boxSizing: "border-box",
-          },
-        }}
-        variant="persistent"
-        anchor="left"
-        open={open}
-      >
-        <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === "ltr" ? (
-              <ChevronLeftIcon />
-            ) : (
-              <ChevronRightIcon />
-            )}
-          </IconButton>
-        </DrawerHeader>
-        <Divider />
-        <List>
-          <Tooltip title="Home Page" placement="right">
+            flexShrink: 0,
+            "& .MuiDrawer-paper": {
+              width: drawerWidth,
+              boxSizing: "border-box",
+            },
+          }}
+          variant="persistent"
+          anchor="left"
+          open={open}
+        >
+          <DrawerHeader>
+            <IconButton onClick={handleDrawerClose}>
+              {theme.direction === "ltr" ? (
+                <ChevronLeftIcon />
+              ) : (
+                <ChevronRightIcon />
+              )}
+            </IconButton>
+          </DrawerHeader>
+          <Divider />
+          <List>
+            <Tooltip title="Home Page" placement="right">
 
-            <ListItemButton
-              onClick={() => {
-                navigate("/doctor/home");
-                handleDrawerClose();
+              <ListItemButton
+                onClick={() => {
+                  navigate("/doctor/home");
+                  handleDrawerClose();
 
-              }}
-            >
-              <ListItemIcon>
-                <HouseIcon />
-              </ListItemIcon>
-              <ListItemText primary="Home" />
-            </ListItemButton>
-          </Tooltip>
-          <Tooltip title="Patient List" placement="right">
-            <ListItemButton
-              onClick={() => {
-                navigate("/doctor/patient");
-                handleDrawerClose();
+                }}
+              >
+                <ListItemIcon>
+                  <HouseIcon />
+                </ListItemIcon>
+                <ListItemText primary="Home" />
+              </ListItemButton>
+            </Tooltip>
+            <Tooltip title="Patient List" placement="right">
+              <ListItemButton
+                onClick={() => {
+                  navigate("/doctor/patient");
+                  handleDrawerClose();
 
-              }}
-            >
-              <ListItemIcon>
-                <PeopleAltIcon />
-              </ListItemIcon>
-              <ListItemText primary="Patient" />
-            </ListItemButton>
-          </Tooltip>
-          <Tooltip title="Medicine List" placement="right">
+                }}
+              >
+                <ListItemIcon>
+                  <PeopleAltIcon />
+                </ListItemIcon>
+                <ListItemText primary="Patient" />
+              </ListItemButton>
+            </Tooltip>
+            <Tooltip title="Medicine List" placement="right">
 
-          <ListItemButton
-            onClick={() => {
-              navigate("/doctor/medicine");
-              handleDrawerClose();
+              <ListItemButton
+                onClick={() => {
+                  navigate("/doctor/medicine");
+                  handleDrawerClose();
 
-            }}
-          >
-            <ListItemIcon>
-              <MedicationIcon />
-            </ListItemIcon>
-            <ListItemText primary="Medicine" />
-          </ListItemButton>
-          </Tooltip>
-          <Tooltip title="Logout Doctor Account" placement="right">
+                }}
+              >
+                <ListItemIcon>
+                  <MedicationIcon />
+                </ListItemIcon>
+                <ListItemText primary="Medicine" />
+              </ListItemButton>
+            </Tooltip>
+            <Tooltip title="Logout Doctor Account" placement="right">
 
-          <ListItemButton onClick={logout} >
-            <ListItemIcon>
-              <LogoutIcon />
-            </ListItemIcon>
-            <ListItemText primary="Logout" />
-          </ListItemButton>
-          </Tooltip>
+              <ListItemButton onClick={logout} >
+                <ListItemIcon>
+                  <LogoutIcon />
+                </ListItemIcon>
+                <ListItemText primary="Logout" />
+              </ListItemButton>
+            </Tooltip>
 
-        </List>
-      </Drawer>
+          </List>
+        </Drawer>
+  
       <Main open={open}>
         <DrawerHeader />
       </Main>
     </Box>
+    </ClickAwayListener>
   );
 }

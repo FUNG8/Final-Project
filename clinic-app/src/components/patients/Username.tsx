@@ -9,8 +9,8 @@ export function Username() {
     const storedName = localStorage.getItem('clinicToken');
     if (storedName) {
       let decoded: any = jwtDecode(storedName);
-      const username = decoded["username"]
-      setName(username)
+      const name = decoded["name"]
+      setName(name)
     }
   }, []);
 

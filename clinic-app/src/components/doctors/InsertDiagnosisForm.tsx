@@ -25,6 +25,7 @@ import { insertDiagnosis } from "../../api/diagnosisAPI";
 import { useParams } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import { CreatingNotificationInfo } from "../../api/NotificationAPI";
 
 export default function InsertDiagnosisModal() {
   const queryClient = useQueryClient();
@@ -71,15 +72,15 @@ export default function InsertDiagnosisModal() {
   };
 
   const handleDeleteInstruction = (targetIndex: string) => {
-    console.log("targetidx",targetIndex)
+    console.log("targetidx", targetIndex);
     let deletedDemoInstructions = demoInstructions.filter(
-      (entry) => (entry.index !== targetIndex)
+      (entry) => entry.index !== targetIndex
     );
     setDemoInstructions(deletedDemoInstructions);
   };
   //Step 5a While value from instruction input fields are back it locates the object in array by idx
   const handleInstructionChange = (
-    targetIndex: number,
+    targetIndex: string,
     medicineId: number,
     unit: number,
     quantity: number,
@@ -138,6 +139,7 @@ export default function InsertDiagnosisModal() {
       console.log("mutate on success");
       console.log("On Insert Medicine", data);
       // handleAddInstruction();
+      CreatingNotificationInfo(data.diagnosisResult.id)
       handleClose();
       setDemoInstructions([]);
       setSymptomsInput("");

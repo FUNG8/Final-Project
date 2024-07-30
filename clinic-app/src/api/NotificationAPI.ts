@@ -49,16 +49,17 @@ export function useNotificationMessages(userId: string) {
     return data;
   }
 
-  export async function CreatingNotificationInfo(userId: string) {
+  export async function CreatingNotificationInfo(diagnosisId: string) {
+    console.log("thius is userId",diagnosisId)
     try {
       // Retrieve selected data
       const selectQuery = 'SELECT * FROM drug_instruction JOIN medicine ON drug_instruction.medicine_id = medicine.id JOIN diagnosis ON drug_instruction.diagnosis_id = diagnosis.id WHERE diagnosis.id = $1';
-      const selectResult = await fetch(`${process.env.REACT_APP_API_SERVER}/notification/newNotificationInfo/${userId}`, {
+      const selectResult = await fetch(`${process.env.REACT_APP_API_SERVER}/notification/newNotificationInfo/${diagnosisId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ query: selectQuery, params: [userId] }),
+        body: JSON.stringify({ query: selectQuery, params: [diagnosisId] }),
       });
       const selectedData = await selectResult.json();
       console.log("Selected data:", selectedData);
@@ -72,7 +73,7 @@ export function useNotificationMessages(userId: string) {
           diagnosis_id: diagnosis_id,
         };
   
-        const insertResult = await fetch(`${process.env.REACT_APP_API_SERVER}/notification/newNotificationInfo/${userId}`, {
+        const insertResult = await fetch(`${process.env.REACT_APP_API_SERVER}/notification/newNotificationInfo/${diagnosisId}`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
