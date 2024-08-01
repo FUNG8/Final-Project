@@ -37,33 +37,38 @@ export default function Notification() {
   const handleToggle = (value: number) => () => {
     const index = checked.indexOf(value);
     const newChecked = [...checked];
-
+  
     if (index === -1) {
       newChecked.push(value);
       startNotificationInterval(value);
-      setOpen(false); 
+      setOpen(false);
       setTimeout(() => {
-        setOpen(true); 
-      }, 4 * 60 * 60 * 1000); 
+        setOpen(true);
+        const updatedIndex = newChecked.indexOf(value);
+        if (updatedIndex !== -1) {
+          newChecked.splice(updatedIndex, 1);
+          setChecked(newChecked);
+        }
+      }, 5 * 1000);
     } else {
       newChecked.splice(index, 1);
       clearNotificationInterval(value);
     }
-
+  
     setChecked(newChecked);
   };
 
   const startNotificationInterval = (medicineId: number) => {
     const intervalId = setInterval(() => {
-      console.log(`Displaying notification for medicine ${medicineId} every 4 hours`);
+      console.log(`Displaying notification for medicine ${medicineId} every 5 seconds`);
       // Add your notification logic here
-    }, 4 * 60 * 60 * 1000); // 4 hours in milliseconds
+    }, 5 * 1000); // 5 seconds in milliseconds
     setIntervalIds((prevState) => ({
       ...prevState,
       [medicineId]: intervalId,
     }));
   };
-
+  
   const clearNotificationInterval = (medicineId: number) => {
     if (intervalIds[medicineId]) {
       clearInterval(intervalIds[medicineId]);

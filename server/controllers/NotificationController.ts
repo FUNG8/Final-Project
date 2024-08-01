@@ -15,9 +15,12 @@ export class NotificationController {
   ShowDrugInstruction = async (req: Request, res: Response) => {
     try {
       const diagnosisId = req.params.id;
-      const diagnosisResult = await pgClient.query('select * from drug_instruction join medicine on drug_instruction.medicine_id = medicine.id join diagnosis on drug_instruction.diagnosis_id = diagnosis.id WHERE diagnosis.id = $1;', [diagnosisId]);
-      const drugInstructions = diagnosisResult.rows;
-      console.log("Drug Instructions:", drugInstructions);
+      const diagnosisResult = await pgClient.query(
+        'select * from notification join drug_instruction on drug_instruction_id = drug_instruction.id join diagnosis on drug_instruction.diagnosis_id = diagnosis.id join medicine on drug_instruction.medicine_id = medicine.id where diagnosis.id = $1;',
+        [diagnosisId]
+      );
+      const drugInstructions = diagnosisResult.rows.filter(instruction => instruction.taken === false)
+      console.log("Drug Notification information:", drugInstructions);
       res.json(drugInstructions);
     } catch (e) {
       res.status(500).json({ error: "Error Getting drug Instruction History" });
