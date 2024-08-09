@@ -24,12 +24,12 @@ export function useNotificationMessages(userId: string) {
   }
 
 
-  export function UpdatingNotificationInfo(userId: string) {
-    console.log("User ID:", userId);
+  export function UpdatingNotificationInfo(userId: string, medId:any) {
+    console.log("User ID:", userId, medId);
     const { isLoading, error, data, isFetching } = useQuery({
       queryKey: ["updatingNotificationInfo", userId],
       queryFn: async () => {
-        const res = await fetch(`${process.env.REACT_APP_API_SERVER}/notification/updatedNotificationInfo/${userId}`, {
+        const res = await fetch(`${process.env.REACT_APP_API_SERVER}/notification/updatedNotificationInfo/${userId}/medicineId=${medId}`, {
           method: "PUT",
           headers: {
             "Authorization": `Bearer ${localStorage.getItem("patientToken")}`,

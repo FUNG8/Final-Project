@@ -14,7 +14,7 @@ import {
 import { jwtDecode } from "jwt-decode";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { Card, Grid, Typography } from "@mui/material";
+import { Button, Card, Grid, Typography } from "@mui/material";
 
 export default function Notification() {
   const [open, setOpen] = useState(true);
@@ -25,11 +25,12 @@ export default function Notification() {
   const userId = (jwtDecode(localStorage.getItem("patientToken")!) as any)
     .userId;
   const diagnosisMessage: any = useNotificationMessages(userId);
+  const [medId, setMedId] = useState()
 
   const queryClient = useQueryClient();
 
   const onTicked = useMutation({
-    mutationFn: async () => UpdatingNotificationInfo(userId),
+    mutationFn: async () => UpdatingNotificationInfo(userId,medId),
     onSuccess: async (message) => {
       console.log(message);
       await queryClient.invalidateQueries({
@@ -38,29 +39,10 @@ export default function Notification() {
     },
   });
 
-  const handleToggle = (value: number) => () => {
-    const index = checked.indexOf(value);
-    const newChecked = [...checked];
-  
-    if (index === -1) {
-      newChecked.push(value);
-      startNotificationInterval(value);
-      setOpen(false);
-      setTimeout(() => {
-        setOpen(true);
-        const updatedIndex = newChecked.indexOf(value);
-        if (updatedIndex !== -1) {
-          newChecked.splice(updatedIndex, 1);
-          setChecked(newChecked);
-        }
-      }, 5 * 1000);
-    } else {
-      newChecked.splice(index, 1);
-      clearNotificationInterval(value);
-    }
-  
-    setChecked(newChecked);
-    
+  const handleToggle = (value: any) => {
+   setMedId(value)
+   onTicked.mutate()
+
   };
 
   const startNotificationInterval = (medicineId: number) => {
@@ -124,12 +106,18 @@ export default function Notification() {
             <ListItem
               key={value.medicine_id}
               secondaryAction={
-                <Checkbox
-                  edge="end"
-                  onChange={handleToggle(value.medicine_id)}
-                  checked={checked.indexOf(value.medicine_id) !== -1}
-                  inputProps={{ "aria-labelledby": labelId }}
-                />
+                // <Button
+                  
+                //   onClick={handleToggle(value.medicine_id)}
+                //   checked={checked.indexOf(value.medicine_id) !== -1}
+                  
+                // />
+                <Button
+                onClick={() => handleToggle(value.medicine_id)}
+                // checked={checked.indexOf(value.medicine_id) !== -1}
+              >
+                hi
+              </Button>
               }
               disablePadding
               style={{
@@ -151,6 +139,7 @@ export default function Notification() {
                   primary={value.name}
                   secondary={
                     <>
+                    <div>{value.medicine_id}</div>
                       <div>Drug name: {value.generic_drug}</div>
                       <div>
                         Dosage: {value.dosage} {value.unit_measurement}

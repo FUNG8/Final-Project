@@ -92,6 +92,7 @@ export async function up(knex: Knex): Promise<void> {
     // table.dateTime('taken_at');
     table.integer('drug_instruction_id').notNullable();
     table.timestamps(true, true);
+    
     table.foreign('patient_id').references('id').inTable('patient');
     table.foreign('drug_instruction_id').references('id').inTable('drug_instruction');
   });
