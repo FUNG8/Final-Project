@@ -20,7 +20,7 @@ export async function up(knex: Knex): Promise<void> {
     table.string('name', 255).notNullable();
     table.string('generic_drug', 255).notNullable();
     table.text('description').notNullable();
-    table.integer('dosage').notNullable();
+    table.float('dosage').notNullable();
     table.string('unit_measurement').notNullable();
     table.string('type', 255).notNullable();
     table.bigInteger('drug_shape_id').notNullable();
@@ -75,6 +75,9 @@ export async function up(knex: Knex): Promise<void> {
     table.bigInteger('frequency_per_day')
     table.bigInteger('dosage_per_serving')
     table.text('remarks')
+    table.dateTime('send_at').notNullable();
+    table.boolean('taken').notNullable().defaultTo(false);
+    table.dateTime('taken_at');
 
     table.foreign('diagnosis_id').references('id').inTable('diagnosis');
     table.foreign('medicine_id').references('id').inTable('medicine');
@@ -84,9 +87,9 @@ export async function up(knex: Knex): Promise<void> {
   await knex.schema.createTable('notification', (table) => {
     table.increments('id')
     table.integer('patient_id').notNullable();
-    table.dateTime('send_at').notNullable();
-    table.boolean('taken').notNullable().defaultTo(false);
-    table.dateTime('taken_at');
+    // table.dateTime('send_at').notNullable();
+    // table.boolean('taken').notNullable().defaultTo(false);
+    // table.dateTime('taken_at');
     table.integer('drug_instruction_id').notNullable();
     table.timestamps(true, true);
     table.foreign('patient_id').references('id').inTable('patient');
