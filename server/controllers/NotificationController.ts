@@ -31,21 +31,42 @@ export class NotificationController {
 
   UpdatedNotificationInfo = async (req: Request, res: Response) => {
     try {
-      const diagnosisPatientId = req.params.id;
-      const send_at = new Date();
-      const taken_at = new Date();
-      const UpdatedNewNotification = await pgClient.query('UPDATE notification SET send_at = $1, taken = $2, taken_at = $3 WHERE patient_id = $4', [send_at, "true", taken_at, diagnosisPatientId]);
-      console.log("New notification", UpdatedNewNotification);
-      const TotalQuantity = (await pgClient.query('Select id,diagnosis_id,total_quantity,taken_count_today,taken_count,period_day,period_hr,frequency_per_day,dosage_per_serving from drug_instruction WHERE diagnosis_id = $1;', [diagnosisPatientId])).rows
+      const diagnosisId = req.params.id;
+      const periodHour = req.body.period_hr
+      const takenCountToday = req.body.taken_count_today + 1
+      const takenCount = req.body.taken_count + 1
+      const FrquencyPerDay = req.body.frequency_per_day
+      const TakenCountToday = req.body.taken_count_today
+      const lastTakenTimeSQL = (await pgClient.query('select * from notification join drug_instruction on notification.drug_instruction_id = drug_instruction.id where diagnosis_id = $1;',[diagnosisId])).rows
+      console.log("whatis thissssss",lastTakenTimeSQL)
+      // const lastTakenTime = new Date(lastTakenTimeSQL)
+      // Start a setInterval based on the periodHour
+      const intervalId = setInterval(async () => {
+        if (takenCountToday === FrquencyPerDay) {
+          await pgClient.query(
+            'UPDATE drug_instruction SET taken_count_today = $1, taken_count = $2, WHERE diagnosis_id = $3',
+            [0, takenCount, diagnosisId]
+          );
+          // Stop the interval
+          clearInterval(intervalId);
+        } else {
+          const updatedTakenNotification = await pgClient.query(
+            'UPDATE drug_instruction SET taken_count_today = $1, taken_count = $2 WHERE diagnosis_id = $3',
+            [TakenCountToday, takenCount, diagnosisId]
+          );
+          console.log("New notification", updatedTakenNotification);
+        }
+      },  5 * 1000); // Convert periodHour to millisecondsƒ
+
+      const TotalQuantity = (await pgClient.query('Select id,diagnosis_id,total_quantity,taken_count_today,taken_count,period_day,period_hr,frequency_per_day,dosage_per_serving from drug_instruction WHERE diagnosis_id = $1;', [diagnosisId])).rows
 
 
       for (let i = 0; i < TotalQuantity.length; i++) {
         const DrugInstructionId = TotalQuantity[i].id;
         const total_quantity = TotalQuantity[i].total_quantity;
-        const taken_count = TotalQuantity[i].taken_count;
-        let NewTotal_quantity = total_quantity - taken_count;
+        const dosagePerServing = TotalQuantity[i].dosage_per_serving;
+        let NewTotal_quantity = total_quantity - dosagePerServing;
         let UpdatedNewTotalQuantities = await pgClient.query('UPDATE drug_instruction SET total_quantity = $1 WHERE id = $2', [NewTotal_quantity, DrugInstructionId]);
-        console.log("New notification", UpdatedNewNotification);
         console.log("succeed bro!!!!!", UpdatedNewTotalQuantities)
       }
 

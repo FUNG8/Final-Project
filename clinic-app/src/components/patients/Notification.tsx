@@ -60,6 +60,7 @@ export default function Notification() {
     }
   
     setChecked(newChecked);
+    
   };
 
   const startNotificationInterval = (medicineId: number) => {
@@ -157,6 +158,8 @@ export default function Notification() {
                       <div>
                         Frequency: {value.frequency_per_day} times per day
                       </div>
+                      <div>taken_count_today: {value.taken_count_today}</div>
+                      <div>Total_Quantity: {value.total_quantity}</div>
                       <div>Method: {value.method}</div>
                     </>
                   }
